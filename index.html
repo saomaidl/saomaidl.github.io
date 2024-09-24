@@ -4,108 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sự kiện Đắk Lắk</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        nav {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            color: #4CAF50;
-        }
-
-        .hero {
-            background-image: url('https://yourimageurl.com');
-            background-size: cover;
-            background-position: center;
-            height: 400px;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        .content h2 {
-            text-align: center;
-            color: #4CAF50;
-        }
-
-        .content p {
-            text-align: justify;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com/2.2.19"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
 
-    <header>
-        <h1>Sự kiện Đắk Lắk</h1>
-        <p>Nơi hội tụ văn hóa và ẩm thực Tây Nguyên</p>
+    <!-- Header -->
+    <header class="bg-green-600 text-white py-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <h1 class="text-3xl font-bold">Sự kiện Đắk Lắk</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:text-gray-300">Trang chủ</a></li>
+                    <li><a href="#" class="hover:text-gray-300">Giới thiệu</a></li>
+                    <li><a href="#" class="hover:text-gray-300">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <nav>
-        <a href="#home">Trang Chủ</a>
-        <a href="#events">Sự Kiện</a>
-        <a href="#about">Giới Thiệu</a>
-        <a href="#contact">Liên Hệ</a>
-    </nav>
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 px-4">
+        <!-- Section: Giới thiệu -->
+        <section class="mb-12 text-center">
+            <h2 class="text-4xl font-bold text-green-600 mb-4">Chào mừng đến với Sự kiện Đắk Lắk</h2>
+            <p class="text-lg text-gray-700">Cung cấp thông tin về các sự kiện hấp dẫn diễn ra tại Đắk Lắk.</p>
+        </section>
 
-    <div class="hero">
-        <h1>Chào Mừng Đến Với Sự Kiện Đắk Lắk</h1>
-    </div>
+        <!-- Section: Sự kiện sắp tới -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-green-600 text-center">Sự kiện sắp tới</h2>
+            <div class="flex flex-wrap justify-center space-x-4">
+                <!-- Card 1 -->
+                <div class="bg-white shadow-lg rounded-lg p-6 w-80 mb-4">
+                    <h3 class="text-2xl font-bold mb-2">Sự kiện 1</h3>
+                    <p class="text-gray-600">Mô tả ngắn gọn về sự kiện 1. Thông tin chi tiết về thời gian và địa điểm.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white shadow-lg rounded-lg p-6 w-80 mb-4">
+                    <h3 class="text-2xl font-bold mb-2">Sự kiện 2</h3>
+                    <p class="text-gray-600">Mô tả ngắn gọn về sự kiện 2. Thông tin chi tiết về thời gian và địa điểm.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white shadow-lg rounded-lg p-6 w-80 mb-4">
+                    <h3 class="text-2xl font-bold mb-2">Sự kiện 3</h3>
+                    <p class="text-gray-600">Mô tả ngắn gọn về sự kiện 3. Thông tin chi tiết về thời gian và địa điểm.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <div class="content">
-        <h2>Về Sự Kiện Đắk Lắk</h2>
-        <p>
-            Sự kiện Đắk Lắk là một chương trình đặc biệt nhằm giới thiệu văn hóa, ẩm thực và các hoạt động truyền thống của người dân Tây Nguyên. 
-            Đây là cơ hội tuyệt vời để khám phá những nét đặc sắc của vùng đất Đắk Lắk, từ các món ăn đặc sản đến các điệu múa cồng chiêng huyền thoại.
-            Hãy cùng tham gia và trải nghiệm không gian văn hóa Tây Nguyên đặc biệt!
-        </p>
-    </div>
-
-    <footer>
+    <!-- Footer -->
+    <footer class="bg-green-600 text-white text-center py-4 mt-12">
         <p>&copy; 2024 Sự kiện Đắk Lắk. All rights reserved.</p>
     </footer>
 
