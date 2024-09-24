@@ -5,57 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sự kiện Đắk Lắk</title>
     <script src="https://cdn.tailwindcss.com/3.4.5"></script>
+    <style>
+        /* Custom styles for better design */
+        .hero-section {
+            background: url('https://example.com/your-background-image.jpg') no-repeat center center/cover;
+            min-height: 400px;
+        }
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            min-height: 100%;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50 text-gray-900">
 
     <!-- Header -->
-    <header class="bg-green-600 text-white py-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center px-4">
+    <header class="bg-green-700 text-white shadow-md py-4">
+        <div class="container mx-auto flex justify-between items-center px-6">
             <h1 class="text-3xl font-bold">Sự kiện Đắk Lắk</h1>
             <nav>
-                <ul class="flex space-x-4">
-                    <li><a href="#" class="hover:text-gray-300">Trang chủ</a></li>
-                    <li><a href="#" class="hover:text-gray-300">Giới thiệu</a></li>
-                    <li><a href="#" class="hover:text-gray-300">Liên hệ</a></li>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-gray-300 transition">Trang chủ</a></li>
+                    <li><a href="#" class="hover:text-gray-300 transition">Giới thiệu</a></li>
+                    <li><a href="#" class="hover:text-gray-300 transition">Liên hệ</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center justify-center text-white">
+        <div class="overlay w-full h-full flex flex-col justify-center items-center px-4">
+            <h2 class="text-4xl font-bold mb-4">Chào mừng đến với Sự kiện Đắk Lắk</h2>
+            <p class="text-lg text-center max-w-2xl">Nơi cập nhật những sự kiện thú vị nhất tại Đắk Lắk, giúp bạn kết nối và trải nghiệm những khoảnh khắc đáng nhớ.</p>
+        </div>
+    </section>
+
     <!-- Main Content -->
-    <main class="container mx-auto mt-8 px-4">
+    <main class="container mx-auto mt-12 px-6">
         <!-- Section: Giới thiệu -->
-        <section class="mb-12 text-center">
-            <h2 class="text-4xl font-bold text-green-600 mb-4">Chào mừng đến với Sự kiện Đắk Lắk</h2>
-            <p class="text-lg text-gray-700">Cung cấp thông tin về các sự kiện hấp dẫn diễn ra tại Đắk Lắk.</p>
+        <section class="mb-16 text-center">
+            <h2 class="text-3xl font-semibold text-green-700 mb-6">Sự kiện nổi bật</h2>
+            <p class="text-lg text-gray-700 max-w-xl mx-auto">Khám phá các sự kiện đang diễn ra và sắp tới tại Đắk Lắk. Đây là cơ hội để bạn tham gia những sự kiện văn hóa, âm nhạc và thể thao lớn nhất khu vực.</p>
         </section>
 
-        <!-- Section: Sự kiện sắp tới -->
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6 text-green-600 text-center">Sự kiện sắp tới</h2>
-            <div class="flex flex-wrap justify-center space-x-4">
-                <!-- Card 1 -->
-                <div class="bg-white shadow-lg rounded-lg p-6 w-80 mb-4">
-                    <h3 class="text-2xl font-bold mb-2">Sự kiện 1</h3>
-                    <p class="text-gray-600">Mô tả ngắn gọn về sự kiện 1. Thông tin chi tiết về thời gian và địa điểm.</p>
+        <!-- Section: Upcoming Events -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Event Card 1 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
+                    <img src="https://via.placeholder.com/300x200" alt="Sự kiện 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-green-600">Sự kiện 1</h3>
+                        <p class="text-gray-600 mb-4">Khám phá sự kiện 1 với những hoạt động thú vị và phong phú.</p>
+                        <a href="#" class="text-green-600 font-semibold hover:underline">Xem chi tiết</a>
+                    </div>
                 </div>
-                <!-- Card 2 -->
-                <div class="bg-white shadow-lg rounded-lg p-6 w-80 mb-4">
-                    <h3 class="text-2xl font-bold mb-2">Sự kiện 2</h3>
-                    <p class="text-gray-600">Mô tả ngắn gọn về sự kiện 2. Thông tin chi tiết về thời gian và địa điểm.</p>
+
+                <!-- Event Card 2 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
+                    <img src="https://via.placeholder.com/300x200" alt="Sự kiện 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-green-600">Sự kiện 2</h3>
+                        <p class="text-gray-600 mb-4">Hãy tham gia sự kiện 2 để trải nghiệm không khí sôi động và hấp dẫn.</p>
+                        <a href="#" class="text-green-600 font-semibold hover:underline">Xem chi tiết</a>
+                    </div>
                 </div>
-                <!-- Card 3 -->
-                <div class="bg-white shadow-lg rounded-lg p-6 w-80 mb-4">
-                    <h3 class="text-2xl font-bold mb-2">Sự kiện 3</h3>
-                    <p class="text-gray-600">Mô tả ngắn gọn về sự kiện 3. Thông tin chi tiết về thời gian và địa điểm.</p>
+
+                <!-- Event Card 3 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
+                    <img src="https://via.placeholder.com/300x200" alt="Sự kiện 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-green-600">Sự kiện 3</h3>
+                        <p class="text-gray-600 mb-4">Tham gia ngay sự kiện 3 để hòa mình vào những khoảnh khắc tuyệt vời.</p>
+                        <a href="#" class="text-green-600 font-semibold hover:underline">Xem chi tiết</a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-green-600 text-white text-center py-4 mt-12">
-        <p>&copy; 2024 Sự kiện Đắk Lắk. All rights reserved.</p>
+    <footer class="bg-green-700 text-white text-center py-6 mt-12">
+        <p class="text-sm">&copy; 2024 Sự kiện Đắk Lắk. All rights reserved.</p>
     </footer>
 
 </body>
