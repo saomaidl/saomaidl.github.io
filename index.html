@@ -5,106 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sự kiện Đắk Lắk</title>
     <script src="https://cdn.tailwindcss.com/3.4.5"></script>
-    <style>
-        /* Custom styles */
-        .hero-section {
-            background: url('https://your-background-image-url.com/image.jpg') no-repeat center center/cover;
-            min-height: 500px;
-        }
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            min-height: 100%;
-        }
-    </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-100 text-gray-900">
 
-    <!-- Hero Section: Background image -->
-    <section class="hero-section flex items-center justify-center text-white">
-        <div class="overlay w-full h-full flex flex-col justify-center items-center px-4 text-center">
-            <h1 class="text-5xl font-bold mb-6">Chúng Tôi Là?</h1>
-            <p class="text-lg max-w-2xl">
-                Chúng tôi là đơn vị tổ chức sự kiện hàng đầu tại Đắk Lắk, chuyên tổ chức các sự kiện quy mô từ văn hóa, giải trí đến kinh doanh. 
-            </p>
-        </div>
-    </section>
+    <!-- Header -->
+    <header class="bg-green-700 text-white py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="https://i5.walmartimages.com/dfw/63fd9f59-b055/k2-_ffe8b6f7-92bc-4b18-9f88-1fe1376ddcea.v1.svg" alt="Logo" class="h-10 w-10 mr-3">
+                <h1 class="text-2xl font-semibold">Sự kiện Đắk Lắk</h1>
+            </div>
 
-    <!-- Section: Sự kiện tiêu biểu -->
-    <section class="container mx-auto mt-16 px-6">
-        <h2 class="text-3xl font-semibold text-green-700 text-center mb-10">Sự kiện tiêu biểu</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Event 1 -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300x200" alt="Sự kiện 1" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-green-600">Sự kiện 1</h3>
-                    <p class="text-gray-600">Sự kiện văn hóa lớn nhất khu vực, với hàng nghìn người tham gia.</p>
-                </div>
-            </div>
-            <!-- Event 2 -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300x200" alt="Sự kiện 2" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-green-600">Sự kiện 2</h3>
-                    <p class="text-gray-600">Trải nghiệm lễ hội âm nhạc sôi động với sự góp mặt của các nghệ sĩ nổi tiếng.</p>
-                </div>
-            </div>
-            <!-- Event 3 -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300x200" alt="Sự kiện 3" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-green-600">Sự kiện 3</h3>
-                    <p class="text-gray-600">Hội chợ thương mại mang đến các sản phẩm đặc sản địa phương.</p>
-                </div>
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-white hover:text-gray-300">Trang Chủ</a>
+                <a href="#about" class="text-white hover:text-gray-300">Về Chúng Tôi</a>
+                <a href="#services" class="text-white hover:text-gray-300">Dịch Vụ</a>
+                <a href="#events" class="text-white hover:text-gray-300">Sự Kiện</a>
+                <a href="#contact" class="text-white hover:text-gray-300">Liên Hệ</a>
+            </nav>
+
+            <!-- Account Icons -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-gray-300">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.21 0-4.15-.89-5.6-2.34l10.26-10.26C19.11 7.85 20 9.79 20 12c0 5.52-4.48 10-10 10zm-6.95-6.94l10.26-10.26C16.11 4.89 14.21 4 12 4c-5.52 0-10 4.48-10 10 0 2.21.89 4.15 2.34 5.6l1.71-1.71zm15.4 2.34c.89-.89 1.71-1.97 2.34-3.2l-10.26 10.26C7.89 21.11 6.15 20.05 4.94 19.4l10.26-10.26c1.97 1.97 4.15 3.89 6.34 5.6z"/>
+                    </svg>
+                </a>
+                <a href="#" class="hover:text-gray-300">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15v-4H8v-2h5V7h2v4h4v2h-4v4h-2z"/>
+                    </svg>
+                </a>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- Section: Dịch vụ -->
-    <section class="container mx-auto mt-16 px-6 text-center">
-        <h2 class="text-3xl font-semibold text-green-700 mb-10">Dịch vụ</h2>
-        <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-10">
-            Chúng tôi cung cấp các dịch vụ tổ chức sự kiện chuyên nghiệp, bao gồm tổ chức lễ hội, hội thảo, sự kiện văn hóa và giải trí.
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Service 1 -->
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-semibold mb-4 text-green-600">Tổ chức hội nghị</h3>
-                <p class="text-gray-600">Cung cấp dịch vụ tổ chức hội nghị chuyên nghiệp với đầy đủ trang thiết bị.</p>
-            </div>
-            <!-- Service 2 -->
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-semibold mb-4 text-green-600">Tổ chức sự kiện âm nhạc</h3>
-                <p class="text-gray-600">Sự kiện âm nhạc ngoài trời và trong nhà với hệ thống âm thanh ánh sáng hiện đại.</p>
-            </div>
-            <!-- Service 3 -->
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-semibold mb-4 text-green-600">Tổ chức lễ hội văn hóa</h3>
-                <p class="text-gray-600">Quản lý và tổ chức các lễ hội văn hóa lớn tại Đắk Lắk với các hoạt động đặc sắc.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Tin tức -->
-    <section class="container mx-auto mt-16 px-6">
-        <h2 class="text-3xl font-semibold text-green-700 text-center mb-10">Tin tức</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- News 1 -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-green-600">Cập nhật sự kiện tháng 10</h3>
-                <p class="text-gray-600">Các sự kiện nổi bật diễn ra vào tháng 10 tại Đắk Lắk, từ hội chợ đến triển lãm nghệ thuật.</p>
-            </div>
-            <!-- News 2 -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-4 text-green-600">Thành công của sự kiện âm nhạc tháng 9</h3>
-                <p class="text-gray-600">Sự kiện âm nhạc lớn nhất của năm đã diễn ra thành công với hàng nghìn khán giả tham dự.</p>
-            </div>
-        </div>
-    </section>
+    <!-- Main content here -->
+    <main>
+        <!-- Nội dung chính của trang -->
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-green-700 text-white text-center py-6 mt-16">
-        <p class="text-sm">&copy; 2024 Sự kiện Đắk Lắk. All rights reserved.</p>
+    <footer class="bg-green-700 text-white py-8 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-start flex-wrap">
+                <!-- Company Info -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Sự kiện Đắk Lắk</h3>
+                    <p class="text-gray-300">Chúng tôi chuyên cung cấp dịch vụ tổ chức sự kiện tại Đắk Lắk, đảm bảo chất lượng và chuyên nghiệp.</p>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Liên hệ</h3>
+                    <p class="text-gray-300">Địa chỉ: 123 Đường Sự kiện, Buôn Ma Thuột, Đắk Lắk</p>
+                    <p class="text-gray-300">Điện thoại: (+84) 123 456 789</p>
+                    <p class="text-gray-300">Email: info@sukien-daklak.vn</p>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Theo dõi chúng tôi</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M10 20v-6h2l.001 6H10zm-4-8h3V8h2v4h2l-2 8H6l-2-8zm0-4h6l-2-8H4l2 8z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.91 6.62c.34.1.68.23 1.01.39a5.25 5.25 0 01-1.68 1.74 5.29 5.29 0 01-2.6.77c-.13 0-.26-.01-.39-.03a5.26 5.26 0 01-5.19-5.33c0-.24.02-.48.06-.71A5.28 5.28 0 013.69 8.6a5.26 5.26 0 01-2.25-.61A5.27 5.27 0 013.35 5.9a5.28 5.28 0 01-2.4.92c.74-2.09 2.69-3.61 4.97-3.73a5.28 5.28 0 011.59-.01 5.31 5.31 0 014.33 4.97c.74-.1 1.45-.31 2.12-.62a5.27 5.27 0 01-2.35 2.89z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center text-gray-300 mt-8">
+                <p>&copy; 2024 Sự kiện Đắk Lắk. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
 </body>
