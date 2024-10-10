@@ -40,6 +40,7 @@
 
   <!-- CSS and Scripts -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link nonce="" rel="preload" href="https://i5.walmartimages.com/dfw/63fd9f59-4ace/9e71e8b4-5a2d-4352-ae4e-344236278569/v2/en-US/_next/static/css/2d72cd8c76332d3e.css" as="style">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -49,17 +50,17 @@
       <span data-pcss-show="true" data-testid="global-header" class="sticky bg-secondary w-100 top-0 z-1" style="transition:top 0.65s">
         <a link-identifier="Generic Name" class="o-0 absolute" tabindex="-1"></a>
         <a link-identifier="Generic Name" class="slider skip-main bg-white-90" href="#maincontent">Skip to Main Content</a>
-        {% include header.html %}
-        {% include navigation.html %}
+        {% include header.html %}  <!-- Bao gồm tiêu đề -->
+        {% include navigation.html %}  <!-- Bao gồm điều hướng -->
       </span>
       <div class="flex flex-column flex-auto relative z-0" aria-hidden="false">
         <div class="flex-auto relative z-1" data-testid="main-content-container">
           <div class="main-content mw1280 center" id="maincontent" data-testid="maincontent">
-            {{ content }}
+            {{ content }}  <!-- Nơi chứa nội dung chính -->
           </div>
         </div>
         <span>
-          {% include footer.html %}
+          {% include footer.html %}  <!-- Bao gồm chân trang -->
         </span>
       </div>
     </div>
