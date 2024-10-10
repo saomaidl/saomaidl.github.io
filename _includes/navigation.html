@@ -46,8 +46,8 @@ $(document).ready(function() {
   ];
 
   buttons.forEach(button => {
-    const isActive = window.location.pathname === button.url ? 'text-white' : 'text-gray-400';
-    const icon = isActive && button.iconAlt ? button.iconAlt : button.icon; // Chọn biểu tượng phù hợp
+    const isActive = window.location.pathname === button.url ? 'text-black' : 'text-gray-400';
+    const icon = isActive && button.iconAlt ? button.iconAlt : button.icon;
     $('#navbar').append(`
       <button class="flex flex-col items-center ${isActive}" onclick="window.location.href='${button.url}';">
         ${icon}
