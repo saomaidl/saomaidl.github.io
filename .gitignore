@@ -1,0 +1,25 @@
+# Bỏ qua tất cả các tệp .log
+*.log
+
+# Bỏ qua thư mục node_modules
+node_modules/
+
+# Bỏ qua tệp cấu hình riêng tư
+config.yml
+
+# Bỏ qua tất cả các tệp .tmp trong bất kỳ thư mục nào
+*.tmp
+
+# Bỏ qua thư mục build và tất cả nội dung của nó
+build/
+
+# Bỏ qua tất cả các tệp và thư mục bắt đầu bằng dấu chấm
+.*
+
+# Các mục Jekyll cụ thể
+_site
+.sass-cache
+.jekyll-metadata
+
+# Các mục Ruby và Node.js cụ thể
+Gemfile.lock
