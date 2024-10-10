@@ -1,4 +1,4 @@
-<div class="fixed bottom-0 left-0 right-0 text-black flex justify-between p-4" id="navbar"></div>
+<div class="fixed bottom-0 left-0 right-0 text-black flex justify-between p-4" id="navbar" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
 <script>
 $(document).ready(function() {
   const buttons = [
@@ -34,7 +34,7 @@ $(document).ready(function() {
     $('#navbar').append(`
       <button class="flex flex-col items-center ${isActive}" onclick="window.location.href='${button.url}';">
         ${icon}
-        <span class="font-bold text-xs mt-1" style="font-size: 10px; line-height: 10px">${button.label}</span>
+        <span class="font-bold text-xs leading-3">${button.label}</span>
       </button>
     `);
   });
