@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'vi' }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Favicon Links -->
+  <link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/favicon/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png" />
+  
+  <!-- Apple Mobile Web App -->
+  <meta name="apple-mobile-web-app-title" content="Sao Mai" />
+  <link rel="manifest" href="{{ site.baseurl }}/assets/favicon/site.webmanifest" />
+  
+  <!-- SEO and Meta Info -->
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Canonical and Hreflang -->
+  <link rel="alternate" href="{{ page.url | prepend: site.baseurl }}" hreflang="{{ page.lang | default: 'vi' }}">
+  <link rel="canonical" href="{{ page.url | prepend: site.baseurl }}">
+  
+  <!-- Title and Description -->
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:locale" content="{{ site.locale | default: 'vi_VN' }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:url" content="{{ page.url | prepend: site.baseurl }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">  
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- CSS and Scripts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="{{ page.class | default: 'home' }}">
+  {{ content }}
+</body>
+
+</html>
