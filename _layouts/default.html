@@ -43,8 +43,12 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body class="{{ page.class | default: 'home' }}">
-  {{ content }}
+<body>
+  <div id="__next">
+    <div data-testid="layout-container" class="flex flex-col min-h-screen shadow-lg transition-transform duration-200" style="transform: none;">
+      {{ content }}
+    </div>
+  </div>
 </body>
 
 </html>
