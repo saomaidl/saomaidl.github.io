@@ -1,0 +1,78 @@
+# Site Configuration
+title: "Sao Mai Media" # Tên trang web
+description: "Sao Mai Media chuyên cung cấp giải pháp âm thanh, ánh sáng và màn hình LED, biến mọi sự kiện thành trải nghiệm đáng nhớ với dịch vụ chuyên nghiệp và thiết bị hiện đại." # Mô tả trang web
+logo: "assets/favicon/logo.png" # Đường dẫn đến logo của trang
+favicon: "assets/favicon/favicon.ico" # Favicon cho trang
+baseurl: "" # Để trống nếu chạy ở root
+url: "https://saomaidl.github.io" # URL của trang GitHub Pages
+disqus: "" # Nếu sử dụng Disqus, thêm shortname của trang Disqus, nếu không thì để trống
+email: "cumgar.dl47@gmail.com" # Email liên hệ
+mailchimp-list: "" # Mailchimp URL nếu có, hoặc để trống nếu không sử dụng
+
+# Navigation
+include: ["_pages"]
+permalink: /:title/ # Cấu trúc permalink cho các trang
+
+# Plugins - Các plugin Jekyll
+plugins:
+  - jekyll-feed # Tạo RSS feed
+  - jekyll-sitemap # Tạo sitemap cho trang
+  - jekyll-paginate # Phân trang
+  - jekyll-seo-tag # Tối ưu hóa SEO
+
+# Authors - Thông tin về tác giả (có thể bỏ qua nếu không cần)
+authors:
+  - name: "Sao Mai Media"
+    site: "https://saomaidl.github.io/"
+    avatar: "/assets/favicon/logo.png"
+    bio: "Chúng tôi là đội ngũ chuyên nghiệp tại Sao Mai Media, cam kết mang đến những trải nghiệm sự kiện ấn tượng và đáng nhớ."
+    email: "cumgar.dl47@gmail.com"
+
+# Defaults - Cấu hình mặc định cho bài viết và trang
+defaults:
+  # Mặc định cho tất cả bài viết
+  - scope:
+      path: "_posts"
+    values:
+      layout: post
+      author: "Sao Mai Media"
+      avatar: "/assets/favicon/logo.png"
+      
+  # Mặc định cho tất cả các trang
+  - scope:
+      path: "_pages"
+    values:
+      layout: page
+
+# Markdown & Syntax Highlighting - Cấu hình Markdown và highlighter cho mã code
+markdown: kramdown
+highlighter: rouge
+
+# Pagination - Phân trang
+paginate: 10
+
+# Exclude - Các tệp và thư mục không cần đưa vào trang build
+exclude: [README.md, package.json, node_modules, Gruntfile.js, grunt.js, Gruntfile.coffee]
+
+# SEO Tags
+seo_tag:
+  title: "{{ site.title }}"
+  description: "{{ site.description }}"
+  url: "{{ site.url }}"
+  logo: "{{ site.logo }}"
+
+# Analytics (cấu hình nếu sử dụng Google Analytics)
+google_analytics: "UA-XXXXXXXXX-X" # Thay đổi UA-XXXXXXXXX-X bằng mã Google Analytics của bạn
+
+# Sitemap
+sitemap:
+  url: "{{ site.url }}/sitemap.xml"
+
+# Robots.txt
+robots:
+  enabled: true
+  # Optional: You can also specify specific rules here
+
+# Cache Busting - Không nên sử dụng nếu không cần thiết
+# cache_busting:
+#   enabled: true
