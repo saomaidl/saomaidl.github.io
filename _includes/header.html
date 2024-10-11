@@ -18,12 +18,12 @@
               box-shadow: 0 1px 2px 0 rgba(48, 48, 48, .30), 0 1px 3px 1px rgba(48, 48, 48, .15);" 
        required 
        onkeydown="if(event.key === 'Enter') { 
-           event.preventDefault(); // Ngăn chặn hành vi mặc định
+           event.preventDefault();
            const query = $('#search').val().trim();
-           if (query) { // Kiểm tra nếu có nội dung
+           if (query) {
                searchVideos();
            } else {
-               alert('Vui lòng nhập từ khóa tìm kiếm.'); // Thông báo nếu không có nội dung
+               alert('Vui lòng nhập tên bài hát');
            }
        }">
       <button type="button" id="clearSearch" class="absolute inset-y-0 end-0 flex items-center pe-3" style="display: none;">
@@ -57,24 +57,19 @@
 
   function searchVideos() {
       const query = $('#search').val();
-      console.log("Searching for:", query); // Kiểm tra giá trị của query
       const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
   
       $.getJSON(url, function(data) {
-          console.log("Search results:", data); // Kiểm tra dữ liệu trả về từ API
           $('#videoList').empty();
           if (!data.items.length) {
-              console.log('No videos found.'); // Thông báo khi không tìm thấy video
               return alert('Không tìm thấy video nào.');
           }
   
           const videoIds = data.items.map(item => item.id.videoId).join(',');
-          console.log("Video IDs:", videoIds); // Kiểm tra video IDs
           const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
   
           $.getJSON(videoDetailsUrl, function(videoDetailsData) {
-              console.log("Video details:", videoDetailsData); // Kiểm tra dữ liệu chi tiết video
               data.items.forEach((item, index) => {
                   const { videoId } = item.id;
                   const title = item.snippet.title;
@@ -84,8 +79,6 @@
                   const publishedAt = item.snippet.publishedAt;
                   const viewCount = videoDetailsData.items[index].statistics.viewCount;
                   const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
-  
-                  console.log(`Video ${index + 1}:`, { videoId, title, channelTitle, viewCount, duration }); // Kiểm tra thông tin từng video
   
                   const videoItem = $(`
                       <div class="cursor-pointer flex w-full flex-col my-3" onclick="handleSongSelection('${videoId}', '${title}')">
@@ -104,7 +97,6 @@
                           </div>
                       </div>
                   `);
-  
                   $('#videoList').append(videoItem);
               });
           });
