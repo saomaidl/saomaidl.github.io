@@ -62,70 +62,88 @@
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            pink: "#EF7C8E",
-            'gray-text': '#181818',
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pink: "#EF7C8E",
+              'gray-text': '#181818',
+              'tap-highlight': 'transparent',
+              'black/12': 'rgba(0, 0, 0, 0.12)',
+            },
+            lineHeight: {
+              normal: 'normal',
+              1: '1',
+            },
+            minHeight: {
+              '48px': '48px',
+              8: '32px',
+            },
+            backgroundColor: {
+              'gray-top': '#181818',
+            },
+            padding: {
+              '12px': '12px',
+              '12-16': '12px 16px',
+              '0-16': '0 16px',
+            },
+            fontSize: {
+              marginal: '0.6875rem',
+            },
+            fontFamily: {
+              cursive: ['"Imperial Script", cursive'],
+            },
+            spacing: {
+              '70px': '70px',
+            },
+            letterSpacing: {
+              inherit: 'inherit',
+            },
+            overflowWrap: {
+              clip: 'break-word',
+            },
+            verticalAlign: {
+              middle: 'middle',
+            },
           },
-          lineHeight: {
-            'normal': 'normal',
-          },
-          minHeight: {
-            '48px': '48px',
-          },
-          backgroundColor: {
-            'gray-top': '#181818',
-          },
-          padding: {
-            '12px': '12px',
-            '12-16': '12px 16px',
-            '0-16': '0 16px',
-          },
-          fontSize: {
-            'marginal': '0.6875rem',
-          },
-          fontFamily: {
-            cursive: ['"Imperial Script", cursive'],
-          },
-          spacing: {
-            '70px': '70px',
-          }
         },
-      },
-      plugins: [
-        function ({ addUtilities }) {
-          addUtilities({
-            '.encore-text': {
-              '-webkit-box-sizing': 'border-box',
-              'box-sizing': 'border-box',
-              '-webkit-tap-highlight-color': 'transparent',
-              'color': 'inherit',
-              'margin-block': '0',
-            },
-            '.badge': {
-              'background': 'rgba(0, 0, 0, 0.9)',
-              'font-weight': '700',
-              'padding': '0 2px',
-              'color': '#ffffff',
-              'font-size': '14px',
-              'line-height': '1',
-            },
-            'body': {
-              'font-family': 'saomai',
-              'background-color': '#121212',
-              'margin': '0',
-              '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
-              'display': '-webkit-box',
-              'display': '-webkit-flex',
-              'display': '-ms-flexbox',
-              'display': 'flex',
-            },
-          });
-        },
-      ],
-    };
+        plugins: [
+          function ({ addUtilities }) {
+            addUtilities({
+              '.encore-text': {
+                '-webkit-box-sizing': 'border-box',
+                'box-sizing': 'border-box',
+                '-webkit-tap-highlight-color': 'transparent',
+                'color': 'inherit',
+                'margin-block': '0',
+              },
+              '.badge': {
+                'background': 'rgba(0, 0, 0, 0.9)',
+                'font-weight': '700',
+                'padding': '0 2px',
+                'color': '#ffffff',
+                'font-size': '14px',
+                'line-height': '1',
+              },
+              'body': {
+                'font-family': 'saomai',
+                'background-color': '#121212',
+                'margin': '0',
+                '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
+                'display': 'flex',
+              },
+              // Thêm lớp tùy chỉnh cho thanh cuộn
+              '.scrollbar-none': {
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+                '-ms-overflow-style': 'none',
+                'scrollbar-width': 'none',
+              },
+            }, ['responsive', 'hover']);
+          },
+        ],
+      };
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
