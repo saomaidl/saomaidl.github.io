@@ -43,3 +43,11 @@ html {
   min-height: 100%;
   margin: auto;
 }
+.badge {
+  font-size: 12px;
+  line-height: 18px;
+  border-radius: 4px;
+  padding: 1px 4px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+}
