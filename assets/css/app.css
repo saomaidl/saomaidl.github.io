@@ -153,3 +153,28 @@ c3-icon {
   width: 100%;
   height: 100%;
 }
+.media-item-info {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  margin-left: 12px;
+}
+
+.media-item-info,
+ytm-media-item .details {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  min-width: 0;
+}
+.cbox,
+.vbox,
+.center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
