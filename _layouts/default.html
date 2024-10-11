@@ -63,88 +63,112 @@
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              pink: "#EF7C8E",
-              'gray-text': '#181818',
-              'tap-highlight': 'transparent',
-              'black/12': 'hsla(0,0%,100%,.1)',
-            },
-            lineHeight: {
-              normal: 'normal',
-              1: '1',
-            },
-            minHeight: {
-              '48px': '48px',
-              8: '32px',
-            },
-            backgroundColor: {
-              'gray-top': '#181818',
-            },
-            padding: {
-              '12px': '12px',
-              '12-16': '12px 16px',
-              '0-16': '0 16px',
-            },
-            fontSize: {
-              marginal: '0.6875rem',
-            },
-            fontFamily: {
-              cursive: ['"Imperial Script", cursive'],
-            },
-            spacing: {
-              '70px': '70px',
-            },
-            letterSpacing: {
-              inherit: 'inherit',
-            },
-            overflowWrap: {
-              clip: 'break-word',
-            },
-            verticalAlign: {
-              middle: 'middle',
-            },
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pink: "#EF7C8E",
+            'gray-text': '#181818',
+            'tap-highlight': 'transparent',
+            'black/12': 'hsla(0,0%,100%,.1)',
+          },
+          lineHeight: {
+            normal: 'normal',
+            1: '1',
+          },
+          minHeight: {
+            '48px': '48px',
+            8: '32px',
+          },
+          backgroundColor: {
+            'gray-top': '#181818',
+          },
+          padding: {
+            '12px': '12px',
+            '12-16': '12px 16px',
+            '0-16': '0 16px',
+          },
+          fontSize: {
+            marginal: '0.6875rem',
+          },
+          fontFamily: {
+            cursive: ['"Imperial Script", cursive'],
+          },
+          spacing: {
+            '70px': '70px',
+          },
+          letterSpacing: {
+            inherit: 'inherit',
+          },
+          overflowWrap: {
+            clip: 'break-word',
+          },
+          verticalAlign: {
+            middle: 'middle',
+          },
+          minInlineSize: {
+            '0': '0px',
+          },
+          transitionDuration: {
+            '33': '33ms',
+          },
+          transform: {
+            'translate3d': 'translate3d(0, 0, 0)',
+          },
+          colors: {
+            'text-subdued': '#656565',
+            'black': '#000',
           },
         },
-        plugins: [
-          function ({ addUtilities }) {
-            addUtilities({
-              '.encore-text': {
-                '-webkit-box-sizing': 'border-box',
-                'box-sizing': 'border-box',
-                '-webkit-tap-highlight-color': 'transparent',
-                'color': 'inherit',
-                'margin-block': '0',
+      },
+      plugins: [
+        function ({ addUtilities }) {
+          addUtilities({
+            '.encore-text': {
+              '-webkit-box-sizing': 'border-box',
+              'box-sizing': 'border-box',
+              '-webkit-tap-highlight-color': 'transparent',
+              'color': 'inherit',
+              'margin-block': '0',
+            },
+            '.badge': {
+              'background': 'rgba(0, 0, 0, 0.9)',
+              'font-weight': '700',
+              'padding': '0 2px',
+              'color': '#ffffff',
+              'font-size': '14px',
+              'line-height': '1',
+            },
+            'body': {
+              'font-family': 'saomai',
+              'background-color': '#121212',
+              'margin': '0',
+              '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
+              'display': 'flex',
+            },
+            '.scrollbar-none': {
+              '&::-webkit-scrollbar': {
+                display: 'none',
               },
-              '.badge': {
-                'background': 'rgba(0, 0, 0, 0.9)',
-                'font-weight': '700',
-                'padding': '0 2px',
-                'color': '#ffffff',
-                'font-size': '14px',
-                'line-height': '1',
-              },
-              'body': {
-                'font-family': 'saomai',
-                'background-color': '#121212',
-                'margin': '0',
-                '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
-                'display': 'flex',
-              },
-              // Thêm lớp tùy chỉnh cho thanh cuộn
-              '.scrollbar-none': {
-                '&::-webkit-scrollbar': {
-                  display: 'none',
-                },
-                '-ms-overflow-style': 'none',
-                'scrollbar-width': 'none',
-              },
-            }, ['responsive', 'hover']);
-          },
-        ],
-      };
+              '-ms-overflow-style': 'none',
+              'scrollbar-width': 'none',
+            },
+            '.transition-duration-33': {
+              'transition-duration': '33ms',
+            },
+            '.overflow-wrap-anywhere': {
+              'overflow-wrap': 'anywhere',
+            },
+            '.vertical-align-middle': {
+              'vertical-align': 'middle',
+            },
+            '.transform-translate3d': {
+              'transform': 'translate3d(0, 0, 0)',
+            },
+          }, ['responsive', 'hover']);
+        },
+      ],
+    };
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
