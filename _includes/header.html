@@ -1,6 +1,8 @@
 <header class="flex items-center justify-center p-4 center-hdkp" data-testid="responsiveHeader" style="transition: top 0.65s;">
   <div class="flex items-center justify-center" style="transition:opacity .3s">
-    <button type="button" class="flex items-center b--none bg-transparent pa0 pointer h3 w3 no-underline white" aria-hidden="false" aria-label="Menu" aria-expanded="false" data-testid="Menu"><i class="ld ld-Menu" aria-hidden="true" style="font-size: 1.5rem; vertical-align: -0.25em; width: 24px; height: 24px; box-sizing: content-box;"></i></button>
+    <button type="button" class="flex items-center b--none bg-transparent pa0 pointer h3 w3 no-underline black" aria-hidden="false" aria-label="Menu" aria-expanded="false" data-testid="Menu">
+      <span aria-hidden="true" class="flex"><svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="w_JVsb" style="fill: currentcolor;"><path d="M13.414 3.5a.999.999 0 0 0-1.707-.707l-9.207 9.2 9.207 9.202a1 1 0 1 0 1.414-1.413L6.335 13H20.5a1 1 0 0 0 0-2H6.322l6.799-6.794a.999.999 0 0 0 .293-.707z"></path></svg></span>
+    </button>
   </div>
   <form action="/search" autocomplete="off" aria-label="Walmart Site-Wide" role="search" class="flex flex-auto items-center justify-center pl3 justify-start-hdkp pa0-hdkp ml4-hdkp  static" data-testid="search-form">
     <div class="flex flex-auto items-center relative">
@@ -10,4 +12,18 @@
     </div>
     <button aria-hidden="true" aria-label="Cancel" class="bn bg-transparent mh1 ph2 pv2 pointer sans-serif underline z-1 dn-hdkp clip o-0 white" style="transition:opacity .3s" tabindex="-1" type="button">Cancel</button>
   </form>
+  <nav aria-label="Cart">
+    <ul class="flex ma0 pa0 list" style="height:52px">
+      <li aria-hidden="false" class="undefined" style="transition:opacity .3s">
+        <div class="relative">
+          <div class="cart-button cart-button-wrapper-redesigned ml2 flex justify-center db-hdkp justify-start-hdkp h-auto-hdkp ml2-hdkp flex-column">
+            <button type="button" class="bn bg-transparent br2 flex flex-column items-center pa0 pointer relative sans-serif white hover-bg-dark-primary hover-bg-navy cart-button-redesigned" style="border-radius:32px;transition:all 100ms cubic-bezier(0.77, 0, 0.175, 1);height:52px;padding:2px 12px" id="cart-button-header" data-automation-id="cart-button-header" aria-label="Cart contains 0 items Total Amount $0.00">
+              <i class="ld ld-Cart mr1 white mb1" style="font-size:1.5rem;vertical-align:-0.25em;width:24px;height:24px;box-sizing:content-box"></i>
+              <span class="db nowrap cart-total redesigned-cart-total">Karaoke</span>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
 </header>
