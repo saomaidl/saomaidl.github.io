@@ -32,7 +32,7 @@ $(document).ready(function() {
   buttons.forEach(button => {
     const isActive = window.location.pathname === button.url;
     $('#navbar').append(`
-      <a href='${button.url}' class="flex flex-col items-center flex-1 h-full ${isActive ? 'text-blue-500' : 'text-gray-400'} gap-1">
+      <a href='${button.url}' class="flex flex-col items-center flex-1 h-full ${isActive ? 'text-white' : 'text-gray-400'} gap-1">
         ${isActive ? button.iconAlt : button.icon}
         <span class="encore-text text-marginal">${button.label}</span>
       </a>
