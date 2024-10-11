@@ -38,48 +38,59 @@
   const supabaseClient = supabase.createClient('https://wndajplczagmlxbvkmtk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA');
 
   function searchVideos() {
-    const query = $('#search').val();
-    const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
-
-    $.getJSON(url, function(data) {
-      $('#videoList').empty();
-      if (!data.items.length) return alert('Không tìm thấy video nào.');
-
-      const videoIds = data.items.map(item => item.id.videoId).join(',');
-      const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
-
-      $.getJSON(videoDetailsUrl, function(videoDetailsData) {
-        data.items.forEach((item, index) => {
-          const { videoId } = item.id;
-          const title = item.snippet.title;
-          const channelTitle = item.snippet.channelTitle;
-          const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
-          const channelThumbnailUrl = item.snippet.thumbnails.default.url;
-          const publishedAt = item.snippet.publishedAt;
-          const viewCount = videoDetailsData.items[index].statistics.viewCount;
-          const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
-
-          const videoItem = $(`
-            <div class="cursor-pointer flex w-full flex-col my-3" onclick="handleSongSelection('${videoId}', '${title}')">
-              <div class="relative">
-                <img src="${thumbnailUrl}" class="w-full h-60 object-cover" />
-                <div class="thumbnail-overlay-badge-shape absolute bottom-0 right-0 m-2"><div class="badge-shape-wiz__text">${duration}</div></div>
-              </div>
-              <div class="flex items-center" style="margin: 8px 0 0 16px;">
-                <img src="${channelThumbnailUrl}" class="rounded-full w-10 h-10 object-cover" />
-                <div class="ml-3 text-left">
-                  <p class="text-white font-bold text-xl line-clamp-2">${title}</p>
-                  <p class="text-gray-400 text-sm" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>
-                </div>
-              </div>
-            </div>
-          `);
-
-          $('#videoList').append(videoItem);
-        });
+      const query = $('#search').val();
+      console.log("Searching for:", query); // Kiểm tra giá trị của query
+      const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
+  
+      $.getJSON(url, function(data) {
+          console.log("Search results:", data); // Kiểm tra dữ liệu trả về từ API
+          $('#videoList').empty();
+          if (!data.items.length) {
+              console.log('No videos found.'); // Thông báo khi không tìm thấy video
+              return alert('Không tìm thấy video nào.');
+          }
+  
+          const videoIds = data.items.map(item => item.id.videoId).join(',');
+          console.log("Video IDs:", videoIds); // Kiểm tra video IDs
+          const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+  
+          $.getJSON(videoDetailsUrl, function(videoDetailsData) {
+              console.log("Video details:", videoDetailsData); // Kiểm tra dữ liệu chi tiết video
+              data.items.forEach((item, index) => {
+                  const { videoId } = item.id;
+                  const title = item.snippet.title;
+                  const channelTitle = item.snippet.channelTitle;
+                  const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
+                  const channelThumbnailUrl = item.snippet.thumbnails.default.url;
+                  const publishedAt = item.snippet.publishedAt;
+                  const viewCount = videoDetailsData.items[index].statistics.viewCount;
+                  const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
+  
+                  console.log(`Video ${index + 1}:`, { videoId, title, channelTitle, viewCount, duration }); // Kiểm tra thông tin từng video
+  
+                  const videoItem = $(`
+                      <div class="cursor-pointer flex w-full flex-col my-3" onclick="handleSongSelection('${videoId}', '${title}')">
+                          <div class="relative">
+                              <img src="${thumbnailUrl}" class="w-full h-60 object-cover" />
+                              <div class="thumbnail-overlay-badge-shape absolute bottom-0 right-0 m-2">
+                                  <div class="badge-shape-wiz__text">${duration}</div>
+                              </div>
+                          </div>
+                          <div class="flex items-center" style="margin: 8px 0 0 16px;">
+                              <img src="${channelThumbnailUrl}" class="rounded-full w-10 h-10 object-cover" />
+                              <div class="ml-3 text-left">
+                                  <p class="text-white font-bold text-xl line-clamp-2">${title}</p>
+                                  <p class="text-gray-400 text-sm" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>
+                              </div>
+                          </div>
+                      </div>
+                  `);
+  
+                  $('#videoList').append(videoItem);
+              });
+          });
       });
-    });
   }
 
   function handleSongSelection(videoId, title) {
