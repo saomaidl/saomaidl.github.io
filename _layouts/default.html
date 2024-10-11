@@ -61,7 +61,6 @@
     }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/app.css">
   <script>
     tailwind.config = {
       theme: {
@@ -133,8 +132,18 @@
 
 <body>
   <div id="__next" class="z-0 h-full w-full">
-    <div data-testid="layout-container" class="flex flex-col min-h-screen shadow-lg transition-transform duration-200" style="transform: none;">
-      {{ content }}
+    <div>
+      <div class="h-full">
+        <div data-main-scrollable-node="true" class="block h-full overflow-x-hidden overflow-y-auto relative w-full">
+          <div class="flex flex-col min-h-screen">
+            <div class="flex flex-col flex-1 overflow-y-auto pb-0" style="margin-bottom: 70px;">
+              <div class="flex flex-col min-h-full relative w-full flex-1 p-0">
+                {{ content }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
