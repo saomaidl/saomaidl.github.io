@@ -16,3 +16,17 @@
     </div>
   </form>
 </header>
+<script>
+  $(document).ready(function() {
+    $('#search').on('input', function() {
+      if ($(this).val().length > 0) {
+        $('#clearSearch').show();
+      } else {
+        $('#clearSearch').hide()
+      }
+    });
+    $('#clearSearch').on('click', function() {
+      $('#search').val('').trigger('input');
+    });
+  });
+</script>
