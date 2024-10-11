@@ -15,6 +15,7 @@
         placeholder="Bạn muốn hát bài nào?" 
         class="bg-white border-none rounded-md text-black px-10 py-2 w-full text-base leading-normal font-bold" 
         data-testid="search-input" 
+        id="search"
         value="" 
         onkeydown="if(event.key === 'Enter') { 
           event.preventDefault();
@@ -45,10 +46,6 @@
 
     $clearSearch.on('click', function() {
       $search.val('').trigger('input');
-    });
-
-    $search.on('focus', function() {
-      if ($(this).val() === '') $(this).val('KARAOKE ');
     });
   });
 
