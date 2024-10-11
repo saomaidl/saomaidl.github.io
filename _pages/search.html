@@ -4,14 +4,35 @@ title: "Tìm Bài Hát | Sao Mai Media"
 permalink: /search
 description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích của bạn. Dễ dàng truy cập vào kho nhạc phong phú."
 ---
-<div class="text-center">
-    <h1 class="text-4xl font-bold mb-6 dn">{{ page.title }}</h1>
-    <div id="videoList" class="flex justify-center items-center w-full h-full flex-col">
-        <div class="flex-grow flex justify-center items-center h-full" style="margin: 68px 0 70px 0;">
-            <video autoplay muted loop playsinline class="w-auto h-full object-cover">
-                <source src="https://homestaygiadinhnho.github.io/assets/videos/Green%20and%20White%20Simple%20Minimalist%20Simple%20Elegant%20Wedding%20Video%20Mobile.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+
+<span data-pcss-show="true" data-testid="global-header" class="sticky bg-secondary w-100 top-0 z-1" style="transition:top 0.65s;background-color: #fff;">
+    <a link-identifier="Generic Name" class="o-0 absolute" tabindex="-1"></a>
+    <a link-identifier="Generic Name" class="slider skip-main bg-white-90" href="#maincontent">Skip to Main Content</a>
+    {% include header.html %}
+    {% include navigation.html %}
+</span>
+
+<div class="flex flex-col flex-auto relative z-0" aria-hidden="false">
+    <div class="flex-auto relative z-1" data-testid="main-content-container">
+        <div class="main-content mw1280 center" id="maincontent" data-testid="maincontent">
+            <div class="relative h-screen overflow-hidden">
+                <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+                    <source src="https://homestaygiadinhnho.github.io/assets/videos/Green%20and%20White%20Simple%20Minimalist%20Simple%20Elegant%20Wedding%20Video%20Mobile.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="relative z-10 flex flex-col items-center justify-center h-full text-white">
+                    <h1 class="text-4xl font-bold mb-6">{{ page.title }}</h1>
+                    <div id="videoList" class="flex justify-center items-center w-full h-full flex-col">
+                        <div class="flex-grow flex justify-center items-center h-full" style="margin: 68px 0 70px 0;">
+                            <!-- Optional content can go here if needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <span>
+        {% include footer.html %}
+    </span>
 </div>
+
