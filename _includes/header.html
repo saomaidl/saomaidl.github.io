@@ -112,6 +112,7 @@
                   const videoItem = $(`
                       <div class="cursor-pointer flex w-full flex-col mb-6" onclick="handleSongSelection('${videoId}', '${title}')">
                           <div class="relative">
+                              <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
                               <img src="${thumbnailUrl}" class="w-full h-60 object-cover" />
                               <div class="absolute bottom-0 right-0 m-2">
                                   <div class="badge">${duration}</div>
