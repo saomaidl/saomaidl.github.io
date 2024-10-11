@@ -177,4 +177,20 @@ ytm-media-item .details {
   -webkit-align-items: center;
   align-items: center;
 }
-
+.details {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  margin-left: 12px;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  min-width: 0;
+}
+.media-channel {
+  margin-top: 8px;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+}
