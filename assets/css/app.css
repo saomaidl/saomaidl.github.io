@@ -16745,7 +16745,7 @@ button:focus-visible.outline-onfocus:-moz-focusring {
 @font-face {
   font-display: swap;
   font-family: ui-icons;
-  src: url(/wp-content/themes/blank-canvas/template/home/ui-icons.woff2)
+  src: url(/assets/fonts/ui-icons.woff2)
     format("woff2");
 }
 .ld {
