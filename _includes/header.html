@@ -7,7 +7,7 @@
           <path d="M10.533 1.27893C5.35215 1.27893 1.12598 5.41887 1.12598 10.5579C1.12598 15.697 5.35215 19.8369 10.533 19.8369C12.767 19.8369 14.8235 19.0671 16.4402 17.7794L20.7929 22.132C21.1834 22.5226 21.8166 22.5226 22.2071 22.132C22.5976 21.7415 22.5976 21.1083 22.2071 20.7178L17.8634 16.3741C19.1616 14.7849 19.94 12.7634 19.94 10.5579C19.94 5.41887 15.7138 1.27893 10.533 1.27893ZM3.12598 10.5579C3.12598 6.55226 6.42768 3.27893 10.533 3.27893C14.6383 3.27893 17.94 6.55226 17.94 10.5579C17.94 14.5636 14.6383 17.8369 10.533 17.8369C6.42768 17.8369 3.12598 14.5636 3.12598 10.5579Z"></path>
         </svg>
       </div>
-      <input id="search" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold" placeholder="Tìm bài hát" autocomplete="off" style="font-size: 16px; line-height: 24px; border: none; padding: 12px 48px; box-shadow: 0 1px 2px 0 rgba(48, 48, 48, .30), 0 1px 3px 1px rgba(48, 48, 48, .15); box-sizing: border-box; background: #fff; color: #000;" required onkeydown="if(event.key === 'Enter') searchVideos()">
+      <input id="search" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold" placeholder="Tìm bài hát" autocomplete="off" style="font-size: 16px; line-height: 24px; padding: 12px 48px; box-shadow: 0 1px 2px 0 rgba(48, 48, 48, .30), 0 1px 3px 1px rgba(48, 48, 48, .15);" required onkeydown="if(event.key === 'Enter') searchVideos()">
       <button type="button" id="clearSearch" class="absolute inset-y-0 end-0 flex items-center pe-3" style="display: none;">
         <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="fill: currentColor;">
           <path d="M3.293 3.293a1 1 0 0 1 1.414 0L12 10.586l7.293-7.293a1 1 0 1 1 1.414 1.414L13.414 12l7.293 7.293a1 1 0 0 1-1.414 1.414L12 13.414l-7.293 7.293a1 1 0 0 1-1.414-1.414L10.586 12 3.293 4.707a1 1 0 0 1 0-1.414z"></path>
@@ -16,100 +16,100 @@
     </div>
   </form>
 </header>
+
 <script>
   $(document).ready(function() {
-    $('#search').on('input', function() {
-      if ($(this).val().length > 0) {
-        $('#clearSearch').show();
-      } else {
-        $('#clearSearch').hide()
-      }
+    const $search = $('#search');
+    const $clearSearch = $('#clearSearch');
+
+    $search.on('input', function() {
+      $clearSearch.toggle($(this).val().length > 0);
     });
-    $('#clearSearch').on('click', function() {
-      $('#search').val('').trigger('input');
+
+    $clearSearch.on('click', function() {
+      $search.val('').trigger('input');
     });
-    $('#search').on('focus', function() {
-      if ($(this).val() === '') {
-        $(this).val('KARAOKE ');
-      }
+
+    $search.on('focus', function() {
+      if ($(this).val() === '') $(this).val('KARAOKE ');
     });
   });
-</script>
-<script>
-const supabaseUrl = 'https://wndajplczagmlxbvkmtk.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA';
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-function searchVideos() {
+  const supabaseClient = supabase.createClient('https://wndajplczagmlxbvkmtk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA');
+
+  function searchVideos() {
     const query = $('#search').val();
     const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
-    $.getJSON(url, function (data) {
-        $('#videoList').empty();
-        const videoIds = data.items.map(item => item.id.videoId).join(',');
-        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+    $.getJSON(url, function(data) {
+      $('#videoList').empty();
+      if (!data.items.length) return alert('Không tìm thấy video nào.');
 
-        $.getJSON(videoDetailsUrl, function (videoDetailsData) {
-            $.each(data.items, function (index, item) {
-                const videoId = item.id.videoId;
-                const title = item.snippet.title;
-                const channelTitle = item.snippet.channelTitle;
-                const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
-                const channelThumbnailUrl = item.snippet.thumbnails.default.url;
-                const publishedAt = item.snippet.publishedAt;
-                const viewCount = videoDetailsData.items[index].statistics.viewCount;
-                const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
+      const videoIds = data.items.map(item => item.id.videoId).join(',');
+      const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
 
-                const videoItem = $('<div>', { class: 'cursor-pointer flex w-full flex-col my-3' }).on('click', () => handleSongSelection(videoId, title, thumbnailUrl));
-                const thumbnailContainer = $('<div>', { class: 'relative' });
-                const thumbnail = $('<img>', { src: thumbnailUrl, class: 'w-full h-60', css: { objectFit: 'cover' } });
-                const durationOverlay = $('<div>', { class: 'thumbnail-overlay-badge-shape absolute bottom-0 right-0 m-2' }).append($('<div>', { class: 'badge-shape-wiz__text', text: duration }));
+      $.getJSON(videoDetailsUrl, function(videoDetailsData) {
+        data.items.forEach((item, index) => {
+          const { videoId } = item.id;
+          const title = item.snippet.title;
+          const channelTitle = item.snippet.channelTitle;
+          const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
+          const channelThumbnailUrl = item.snippet.thumbnails.default.url;
+          const publishedAt = item.snippet.publishedAt;
+          const viewCount = videoDetailsData.items[index].statistics.viewCount;
+          const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
 
-                thumbnailContainer.append(thumbnail).append(durationOverlay);
-                const avatarContainer = $('<div>', { class: 'flex items-center', css: { margin: '8px 0 0 16px' } });
-                const avatar = $('<img>', { src: channelThumbnailUrl, class: 'rounded-full w-10 h-10', css: { objectFit: 'cover' } });
-                const videoInfo = $('<div>', { class: 'ml-3 text-left' }).html(`<p class="text-white font-bold text-xl line-clamp-2">${title}</p><p class="text-gray-400 text-sm" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>`);
+          const videoItem = $(`
+            <div class="cursor-pointer flex w-full flex-col my-3" onclick="handleSongSelection('${videoId}', '${title}')">
+              <div class="relative">
+                <img src="${thumbnailUrl}" class="w-full h-60 object-cover" />
+                <div class="thumbnail-overlay-badge-shape absolute bottom-0 right-0 m-2"><div class="badge-shape-wiz__text">${duration}</div></div>
+              </div>
+              <div class="flex items-center" style="margin: 8px 0 0 16px;">
+                <img src="${channelThumbnailUrl}" class="rounded-full w-10 h-10 object-cover" />
+                <div class="ml-3 text-left">
+                  <p class="text-white font-bold text-xl line-clamp-2">${title}</p>
+                  <p class="text-gray-400 text-sm" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>
+                </div>
+              </div>
+            </div>
+          `);
 
-                avatarContainer.append(avatar).append(videoInfo);
-                videoItem.append(thumbnailContainer).append(avatarContainer);
-                $('#videoList').append(videoItem);
-                
-                if ($('#videoList').children().length === 1) $(videoItem).css('margin-top', '68px');
-                if ($('#videoList').children().length === data.items.length) $(videoItem).css('margin-bottom', '82px');
-            });
+          $('#videoList').append(videoItem);
         });
+      });
     });
-}
+  }
 
-function handleSongSelection(videoId, title) {
+  function handleSongSelection(videoId, title) {
     const name = prompt("Nhập tên của bạn:");
     if (name) {
-        saveSong(videoId, title, name).then(() => {
-            window.location.href = '/songs';
-        }).catch(() => {
-            alert("Đã xảy ra lỗi khi lưu thông tin. Vui lòng thử lại.");
-        });
+      saveSong(videoId, title, name).then(() => {
+        window.location.href = '/songs';
+      }).catch(() => {
+        alert("Đã xảy ra lỗi khi lưu thông tin. Vui lòng thử lại.");
+      });
     }
-}
+  }
 
-function saveSong(videoId, songName, name) {
+  function saveSong(videoId, songName, name) {
     return supabaseClient.from('karaoke_songs').insert([{ video_id: videoId, song_name: songName, name: name }]);
-}
+  }
 
-function formatDate(dateString) {
+  function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('vi-VN');
-}
+  }
 
-function formatViews(views) {
+  function formatViews(views) {
     return views > 1000000 ? (views / 1000000).toFixed(1) + ' Tr lượt xem' : views > 1000 ? (views / 1000).toFixed(1) + ' N lượt xem' : views + ' lượt xem';
-}
+  }
 
-function formatDuration(duration) {
+  function formatDuration(duration) {
     const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-    const hours = match[1] ? match[1].slice(0, -1).padStart(2, '0') : null;
-    const minutes = match[2] ? match[2].slice(0, -1).padStart(2, '0') : '00';
-    const seconds = match[3] ? match[3].slice(0, -1).padStart(2, '0') : '00';
-    return hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
-}
+    const hours = match[1] ? match[1].slice(0, -1) : '0';
+    const minutes = match[2] ? match[2].slice(0, -1) : '0';
+    const seconds = match[3] ? match[3].slice(0, -1) : '0';
+    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+  }
 </script>
