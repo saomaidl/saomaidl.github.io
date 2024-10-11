@@ -51,3 +51,9 @@ html {
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
 }
+.video-thumbnail-container-large::before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
