@@ -110,14 +110,14 @@
                   const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
   
                   const videoItem = $(`
-                      <div class="cursor-pointer flex w-full flex-col my-3" onclick="handleSongSelection('${videoId}', '${title}')">
+                      <div class="cursor-pointer flex w-full flex-col mb-6" onclick="handleSongSelection('${videoId}', '${title}')">
                           <div class="relative">
                               <img src="${thumbnailUrl}" class="w-full h-60 object-cover" />
                               <div class="absolute bottom-0 right-0 m-2">
                                   <div class="badge">${duration}</div>
                               </div>
                           </div>
-                          <div class="flex items-center" style="margin: 8px 0 0 16px;">
+                          <div class="flex items-center" style="margin: 4px 0 16px 12px;">
                               <img src="${channelThumbnailUrl}" class="rounded-full w-10 h-10 object-cover" />
                               <div class="ml-3 text-left">
                                   <p class="text-white font-bold text-xl line-clamp-1">${title}</p>
