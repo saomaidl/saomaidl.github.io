@@ -118,33 +118,40 @@
                                   <div class="badge">${duration}</div>
                               </div>
                           </div>
-                          <div class="media-item-info cbox">
-                            <div class="media-item-metadata">
-                              <div class="flex items-center" style="margin: 4px 0 16px 12px;">
-                                <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
-                                  <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
-                                </icon>
-                                <div class="ml-3 text-left">
-                                  <h3 class="mb-1"><span class="text-white font-bold line-clamp-2 leading-5">${title}</span></h3>
-                                  <span class="text-gray-400 text-xs" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
+                          <div class="details">
+                            <div class="media-channel">
+                              <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
+                                <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
+                              </icon>
+                            </div>
+                            <div class="media-item-info cbox">
+                              <div class="media-item-metadata">
+                                <div class="flex items-center">
+                                  <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
+                                    <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
+                                  </icon>
+                                  <div class="ml-3 text-left">
+                                    <h3 class="mb-1"><span class="text-white font-bold line-clamp-2 leading-5">${title}</span></h3>
+                                    <span class="text-gray-400 text-xs" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
+                                  </div>
                                 </div>
                               </div>
+                              <menu-renderer class="media-item-menu">
+                                <menu>
+                                  <button class="icon-button" aria-label="Menu tác vụ" aria-haspopup="true">
+                                    <c3-icon style="">
+                                      <span class="yt-icon-shape yt-spec-icon-shape">
+                                        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                          <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                            <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
+                                          </svg>
+                                        </div>
+                                      </span>
+                                    </c3-icon>
+                                  </button>
+                                </menu>
+                              </menu-renderer>
                             </div>
-                            <menu-renderer class="media-item-menu">
-                              <menu>
-                                <button class="icon-button" aria-label="Menu tác vụ" aria-haspopup="true">
-                                  <c3-icon style="">
-                                    <span class="yt-icon-shape yt-spec-icon-shape">
-                                      <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                                          <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
-                                        </svg>
-                                      </div>
-                                    </span>
-                                  </c3-icon>
-                                </button>
-                              </menu>
-                            </menu-renderer>
                           </div>
                       </div>
                   `);
