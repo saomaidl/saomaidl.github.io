@@ -1,6 +1,6 @@
 <header class="bg-gray-top sticky top-0 z-10 flex flex-col justify-center items-stretch gap-2 p-12-16">
   <div class="flex items-center p-0">
-    <button class="inline-flex items-center justify-center border-0 bg-transparent cursor-pointer text-base transition-all duration-33 user-select-none align-middle min-h-12 px-3 py-2 text-white hidden" aria-label="Go back">
+    <button class="inline-flex items-center justify-center border-0 bg-transparent cursor-pointer text-base transition-all duration-33 user-select-none align-middle min-h-12 px-3 py-2 text-white" aria-label="Go back">
       <span aria-hidden="true" class="flex">
         <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6">
           <path d="M13.414 3.5a.999.999 0 0 0-1.707-.707l-9.207 9.2 9.207 9.202a1 1 0 1 0 1.414-1.413L6.335 13H20.5a1 1 0 0 0 0-2H6.322l6.799-6.794a.999.999 0 0 0 .293-.707z"></path>
@@ -13,7 +13,7 @@
       </svg>
       <input 
         placeholder="Bạn muốn hát bài nào?" 
-        class="bg-white border-none rounded-md text-black px-10 py-2 w-full text-base leading-normal font-bold" 
+        class="bg-white border-none rounded-md text-black px-10 py-2 w-full text-base leading-normal font-normal" 
         data-testid="search-input" 
         id="search"
         autocomplete="off"
@@ -31,17 +31,15 @@
   </div>
   <div class="relative">
     <div class="overflow-x-scroll whitespace-nowrap scrollbar-none py-2" data-testid="filter-chips-container">
-      <button class="box-border tap-highlight-transparent bg-transparent border-0 text-inherit cursor-pointer leading-1 tracking-inherit p-0 rounded-md inline-flex align-middle max-w-full mr-2 overflow-clip relative flex-shrink-0 marginal font-normal" role="checkbox" aria-checked="false" data-encore-id="chip"><span class="box-border tap-highlight-transparent rounded-md text-white transition-all duration-200 inline-flex min-w-0 min-h-8 items-center py-1 px-3 bg-black/12 font-bold">Tất cả</span></button>
-      <button class="box-border tap-highlight-transparent bg-transparent border-0 text-inherit cursor-pointer leading-1 tracking-inherit p-0 rounded-md inline-flex align-middle max-w-full mr-2 overflow-clip relative flex-shrink-0 marginal font-normal" role="checkbox" aria-checked="false" data-encore-id="chip"><span class="box-border tap-highlight-transparent rounded-md text-white transition-all duration-200 inline-flex min-w-0 min-h-8 items-center py-1 px-3 bg-black/12 font-bold">Karaoke</span></button>
+      <button class="box-border tap-highlight-transparent bg-transparent border-0 text-inherit cursor-pointer leading-1 tracking-inherit p-0 rounded-md inline-flex align-middle max-w-full mr-2 overflow-clip relative flex-shrink-0 marginal font-normal" role="checkbox" aria-checked="false" data-encore-id="chip"><span class="box-border tap-highlight-transparent rounded-md text-white transition-all duration-200 inline-flex min-w-0 min-h-8 items-center py-1 px-3 bg-black/12 font-normal">Tất cả</span></button>
+      <button class="box-border tap-highlight-transparent bg-transparent border-0 text-inherit cursor-pointer leading-1 tracking-inherit p-0 rounded-md inline-flex align-middle max-w-full mr-2 overflow-clip relative flex-shrink-0 marginal font-normal" role="checkbox" aria-checked="false" data-encore-id="chip"><span class="box-border tap-highlight-transparent rounded-md text-white transition-all duration-200 inline-flex min-w-0 min-h-8 items-center py-1 px-3 bg-black/12 font-normal">Karaoke</span></button>
     </div>
   </div>
 </header>
 <script>
     $(document).ready(function() {
         $('#search').on('input', function() {
-            $('.clear-button').remove(); // Xóa nút clear trước đó
-
-            // Kiểm tra nếu ô tìm kiếm không rỗng
+            $('.clear-button').remove();
             if ($(this).val().trim() !== '') {
                 const clearButton = `
                     <button class="box-border tap-highlight-transparent bg-transparent border-0 rounded-full cursor-pointer absolute text-center no-underline text-normal touch-manipulation transition-duration-33 transition-all user-select-none vertical-align-middle  color-subdued min-inline-size-0 inline-flex items-center justify-center right-3 color-black top-1-2 -translate-y-1-2 overflow-wrap-anywhere clear-button" style="-webkit-transform: translateY(-50%);transform: translateY(-50%);"
@@ -55,14 +53,13 @@
                         </span>
                     </button>
                 `;
-                $(this).after(clearButton); // Thêm nút clear sau ô tìm kiếm
+                $(this).after(clearButton);
             }
         });
 
-        // Xóa nội dung ô tìm kiếm và nút clear khi nhấn nút clear
         $(document).on('click', '.clear-button', function() {
-            $('#search').val(''); // Xóa giá trị ô tìm kiếm
-            $(this).remove(); // Xóa nút clear
+            $('#search').val('');
+            $(this).remove();
         });
     });
 </script>
