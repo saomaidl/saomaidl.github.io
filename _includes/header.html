@@ -119,7 +119,34 @@
   }
 
   function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('vi-VN');
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    
+    const secondsInMinute = 60;
+    const secondsInHour = secondsInMinute * 60;
+    const secondsInDay = secondsInHour * 24;
+    const secondsInWeek = secondsInDay * 7;
+    const secondsInYear = secondsInDay * 365;
+  
+    if (diffInSeconds < secondsInMinute) {
+      return 'Vừa xong';
+    } else if (diffInSeconds < secondsInHour) {
+      const minutes = Math.floor(diffInSeconds / secondsInMinute);
+      return `${minutes} phút trước`;
+    } else if (diffInSeconds < secondsInDay) {
+      const hours = Math.floor(diffInSeconds / secondsInHour);
+      return `${hours} giờ trước`;
+    } else if (diffInSeconds < secondsInWeek) {
+      const days = Math.floor(diffInSeconds / secondsInDay);
+      return `${days} ngày trước`;
+    } else if (diffInSeconds < secondsInYear) {
+      const weeks = Math.floor(diffInSeconds / secondsInWeek);
+      return `${weeks} tuần trước`;
+    } else {
+      const years = Math.floor(diffInSeconds / secondsInYear);
+      return `${years} năm trước`;
+    }
   }
 
   function formatViews(views) {
@@ -131,6 +158,11 @@
     const hours = match[1] ? match[1].slice(0, -1) : '0';
     const minutes = match[2] ? match[2].slice(0, -1) : '0';
     const seconds = match[3] ? match[3].slice(0, -1) : '0';
-    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+  
+    if (hours === '0') {
+      return `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+    } else {
+      return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+    }
   }
 </script>
