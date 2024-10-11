@@ -113,7 +113,7 @@
                       <div class="cursor-pointer flex w-full flex-col mb-6" onclick="handleSongSelection('${videoId}', '${title}')">
                           <div class="relative">
                               <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
-                              <img src="${thumbnailUrl}" class="w-full h-60 object-cover" />
+                              <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
                               <div class="absolute bottom-0 right-0 m-2">
                                   <div class="badge">${duration}</div>
                               </div>
@@ -122,7 +122,7 @@
                               <img src="${channelThumbnailUrl}" class="rounded-full w-10 h-10 object-cover" />
                               <div class="ml-3 text-left">
                                   <p class="text-white font-bold text-xl line-clamp-1">${title}</p>
-                                  <p class="text-gray-400 text-sm" style="color:#606060">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>
+                                  <p class="text-gray-400 text-xs" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>
                               </div>
                           </div>
                       </div>
