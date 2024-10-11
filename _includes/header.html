@@ -1,4 +1,4 @@
-<header class="flex items-center justify-center p-4 center-hdkp" data-testid="responsiveHeader" style="transition: top 0.65s;">
+<header class="flex flex-col items-center justify-center p-4 center-hdkp" data-testid="responsiveHeader" style="transition: top 0.65s;">
   <form class="flex items-center mx-auto w-full">
     <label for="search" class="sr-only">Search</label>
     <div class="relative w-full">
@@ -7,7 +7,7 @@
           <path d="M10.533 1.27893C5.35215 1.27893 1.12598 5.41887 1.12598 10.5579C1.12598 15.697 5.35215 19.8369 10.533 19.8369C12.767 19.8369 14.8235 19.0671 16.4402 17.7794L20.7929 22.132C21.1834 22.5226 21.8166 22.5226 22.2071 22.132C22.5976 21.7415 22.5976 21.1083 22.2071 20.7178L17.8634 16.3741C19.1616 14.7849 19.94 12.7634 19.94 10.5579C19.94 5.41887 15.7138 1.27893 10.533 1.27893ZM3.12598 10.5579C3.12598 6.55226 6.42768 3.27893 10.533 3.27893C14.6383 3.27893 17.94 6.55226 17.94 10.5579C17.94 14.5636 14.6383 17.8369 10.533 17.8369C6.42768 17.8369 3.12598 14.5636 3.12598 10.5579Z"></path>
         </svg>
       </div>
-      <input id="search" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold" placeholder="Tìm kiếm bài hát của bạn" autocomplete="off" style="font-size: 16px;line-height: 24px;border: none;padding: 12px 48px 12px 48px;box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0), 0 1px 3px 1px rgba(0, 0, 0, .20);box-sizing: border-box;background: #fff;color: #000;" required>
+      <input id="search" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-bold" placeholder="Tìm kiếm bài hát của bạn" autocomplete="off" style="font-size: 1rem;" required>
       <button type="button" id="clearSearch" class="absolute inset-y-0 end-0 flex items-center pe-3" style="display: none;">
         <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="fill: currentColor;">
           <path d="M3.293 3.293a1 1 0 0 1 1.414 0L12 10.586l7.293-7.293a1 1 0 1 1 1.414 1.414L13.414 12l7.293 7.293a1 1 0 0 1-1.414 1.414L12 13.414l-7.293 7.293a1 1 0 0 1-1.414-1.414L10.586 12 3.293 4.707a1 1 0 0 1 0-1.414z"></path>
@@ -15,6 +15,14 @@
       </button>
     </div>
   </form>
+  <div class="flex w-full mt-4">
+    <button id="tabKaraoke" class="w-1/2 py-2 text-center font-semibold text-white bg-red-500 rounded-l-lg hover:bg-red-600">
+      KARAOKE
+    </button>
+    <button id="tabBaiHat" class="w-1/2 py-2 text-center font-semibold text-black bg-gray-200 rounded-r-lg hover:bg-gray-300">
+      BÀI HÁT (9)
+    </button>
+  </div>
 </header>
 <script>
   $(document).ready(function() {
