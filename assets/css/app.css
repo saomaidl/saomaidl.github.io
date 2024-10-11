@@ -30,3 +30,16 @@ html {
   background-image: linear-gradient(90deg, #181818, transparent);
   left: 0;
 }
+.video-thumbnail-bg {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  min-height: 100%;
+  margin: auto;
+}
