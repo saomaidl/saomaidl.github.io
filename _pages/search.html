@@ -5,12 +5,9 @@ permalink: /search
 description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích của bạn. Dễ dàng truy cập vào kho nhạc phong phú."
 ---
 
-<span data-pcss-show="true" data-testid="global-header" class="sticky bg-secondary w-100 top-0 z-1" style="transition:top 0.65s;background-color: #fff;">
-    <a link-identifier="Generic Name" class="o-0 absolute" tabindex="-1"></a>
-    <a link-identifier="Generic Name" class="slider skip-main bg-white-90" href="#maincontent">Skip to Main Content</a>
-    {% include header.html %}
-    {% include navigation.html %}
-</span>
+
+{% include header.html %}
+{% include navigation.html %}
 
 <div class="flex flex-col flex-auto relative z-0" aria-hidden="false">
     <div class="flex-auto relative z-1" data-testid="main-content-container">
@@ -30,8 +27,6 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             </div>
         </div>
     </div>
-    <span>
-        {% include footer.html %}
-    </span>
+    {% include footer.html %}
 </div>
 
