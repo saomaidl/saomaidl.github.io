@@ -89,6 +89,8 @@
   
       $.getJSON(url, function(data) {
           $('#videoList').empty();
+          const wrapper = $('<div id="list" class="w-full h-full"></div>');
+          $('#videoList').append(wrapper);
           if (!data.items.length) {
               return alert('Không tìm thấy video nào.');
           }
@@ -124,9 +126,7 @@
                           </div>
                       </div>
                   `);
-                const wrapper = $('<div class="w-full h-full"></div>');
-                wrapper.append(videoItem);
-                $('#videoList').append(wrapper);
+                $('#list').append(videoItem);
               });
           });
       });
