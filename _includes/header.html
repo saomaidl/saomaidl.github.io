@@ -35,3 +35,81 @@
     });
   });
 </script>
+<script>
+const supabaseUrl = 'https://wndajplczagmlxbvkmtk.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+function searchVideos() {
+    const query = $('#search').val();
+    const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
+
+    $.getJSON(url, function (data) {
+        $('#videoList').empty();
+        const videoIds = data.items.map(item => item.id.videoId).join(',');
+        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+
+        $.getJSON(videoDetailsUrl, function (videoDetailsData) {
+            $.each(data.items, function (index, item) {
+                const videoId = item.id.videoId;
+                const title = item.snippet.title;
+                const channelTitle = item.snippet.channelTitle;
+                const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
+                const channelThumbnailUrl = item.snippet.thumbnails.default.url;
+                const publishedAt = item.snippet.publishedAt;
+                const viewCount = videoDetailsData.items[index].statistics.viewCount;
+                const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
+
+                const videoItem = $('<div>', { class: 'cursor-pointer flex w-full flex-col my-3' }).on('click', () => handleSongSelection(videoId, title, thumbnailUrl));
+                const thumbnailContainer = $('<div>', { class: 'relative' });
+                const thumbnail = $('<img>', { src: thumbnailUrl, class: 'w-full h-60', css: { objectFit: 'cover' } });
+                const durationOverlay = $('<div>', { class: 'thumbnail-overlay-badge-shape absolute bottom-0 right-0 m-2' }).append($('<div>', { class: 'badge-shape-wiz__text', text: duration }));
+
+                thumbnailContainer.append(thumbnail).append(durationOverlay);
+                const avatarContainer = $('<div>', { class: 'flex items-center', css: { margin: '8px 0 0 16px' } });
+                const avatar = $('<img>', { src: channelThumbnailUrl, class: 'rounded-full w-10 h-10', css: { objectFit: 'cover' } });
+                const videoInfo = $('<div>', { class: 'ml-3 text-left' }).html(`<p class="text-white font-bold text-xl line-clamp-2">${title}</p><p class="text-gray-400 text-sm" style="color:#b3b3b3">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</p>`);
+
+                avatarContainer.append(avatar).append(videoInfo);
+                videoItem.append(thumbnailContainer).append(avatarContainer);
+                $('#videoList').append(videoItem);
+                
+                if ($('#videoList').children().length === 1) $(videoItem).css('margin-top', '68px');
+                if ($('#videoList').children().length === data.items.length) $(videoItem).css('margin-bottom', '82px');
+            });
+        });
+    });
+}
+
+function handleSongSelection(videoId, title) {
+    const name = prompt("Nhập tên của bạn:");
+    if (name) {
+        saveSong(videoId, title, name).then(() => {
+            window.location.href = '/songs';
+        }).catch(() => {
+            alert("Đã xảy ra lỗi khi lưu thông tin. Vui lòng thử lại.");
+        });
+    }
+}
+
+function saveSong(videoId, songName, name) {
+    return supabaseClient.from('karaoke_songs').insert([{ video_id: videoId, song_name: songName, name: name }]);
+}
+
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('vi-VN');
+}
+
+function formatViews(views) {
+    return views > 1000000 ? (views / 1000000).toFixed(1) + ' Tr lượt xem' : views > 1000 ? (views / 1000).toFixed(1) + ' N lượt xem' : views + ' lượt xem';
+}
+
+function formatDuration(duration) {
+    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+    const hours = match[1] ? match[1].slice(0, -1).padStart(2, '0') : null;
+    const minutes = match[2] ? match[2].slice(0, -1).padStart(2, '0') : '00';
+    const seconds = match[3] ? match[3].slice(0, -1).padStart(2, '0') : '00';
+    return hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
+}
+</script>
