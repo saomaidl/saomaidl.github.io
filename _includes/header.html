@@ -28,5 +28,10 @@
     $('#clearSearch').on('click', function() {
       $('#search').val('').trigger('input');
     });
+    $('#search').on('focus', function() {
+      if ($(this).val() === '') {
+        $(this).val('KARAOKE');
+      }
+    });
   });
 </script>
