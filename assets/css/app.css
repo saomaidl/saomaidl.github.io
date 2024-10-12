@@ -194,3 +194,115 @@ ytm-media-item .details {
   -webkit-flex-shrink: 0;
   flex-shrink: 0;
 }
+.rich-grid-sticky-header {
+  width: 100%;
+  margin-bottom: 50px;
+}
+.rich-grid-sticky-header ytm-feed-filter-chip-bar-renderer {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  width: 100%;
+}
+ytm-feed-filter-chip-bar-renderer.chip-bar {
+  display: flex;
+  background-color: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.chip-bar-contents {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 48px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.chip-bar-contents > * {
+  display: inline-block;
+  vertical-align: text-top;
+}
+ytm-chip-cloud-chip-renderer:first-of-type {
+  margin-left: 12px;
+}
+ytm-chip-cloud-chip-renderer {
+  margin-right: 12px;
+  padding: 8px 0;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  user-select: none;
+}
+[chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer .chip-container {
+  padding: 0;
+  min-width: 42px;
+}
+[chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"] .chip-container {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  border: 0;
+  padding: 0 12px 0 6px;
+}
+.chip-container {
+  height: 32px;
+  min-width: 48px;
+  text-align: center;
+  padding: 0 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 0;
+}
+[chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer .chip-container > c3-icon {
+  padding-right: 0;
+}
+[chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"] .chip-container > c3-icon {
+  padding-right: 4px;
+}
+c3-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+.yt-spec-icon-shape {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+c3-icon svg {
+  width: 100%;
+  height: 100%;
+}
+ytm-chip-divider-renderer {
+  margin: 8px 12px 0 0;
+  height: 32px;
+  width: 0;
+}
+[chip-style*="STYLE_"] .chip-container {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #0f0f0f;
+  transition: background-color 0.5s cubic-bezier(0.05, 0, 0, 1);
+}
+[chip-style*="STYLE_"].selected .chip-container {
+  background-color: #606060;
+  color: #fff;
+}
+.chip-text.modern {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.chip-text {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
