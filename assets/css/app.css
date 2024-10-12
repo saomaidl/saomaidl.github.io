@@ -307,12 +307,11 @@ ytm-chip-divider-renderer {
   text-overflow: ellipsis;
 }
 .mobile-topbar-header[data-mode="searching"] {
+  background-color: #fff;
+}
+.mobile-topbar-header[data-mode="searching"] {
   z-index: 4;
   background-color: #f1f1f1;
-}
-
-.mobile-topbar-header[data-mode="searching"] {
-  background-color: #fff;
 }
 .mobile-topbar-header {
   position: relative;
@@ -355,14 +354,6 @@ button {
 ytm-mobile-topbar-renderer c3-icon {
   display: block;
 }
-.YtSearchboxComponentMweb {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  height: 32px;
-}
 .YtSearchboxComponentHost {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -375,6 +366,14 @@ ytm-mobile-topbar-renderer c3-icon {
   padding: 0 4px;
   height: 40px;
   color: #0f0f0f;
+}
+.YtSearchboxComponentMweb {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 32px;
 }
 .YtSearchboxComponentMweb .YtSearchboxComponentInputBox {
   margin: 0;
