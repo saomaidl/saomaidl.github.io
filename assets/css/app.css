@@ -474,12 +474,14 @@ textarea {
   border: 0;
   background-color: rgba(0, 0, 0, 0.05);
   width: unset;
+  display: flex;
+  align-items: center;
   border-radius: 0 32px 32px 0;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
   cursor: pointer;
-  padding-right: 12px;
+  padding-right: 8px;
   margin-right: 8px;
 }
 ytm-mobile-topbar-renderer c3-icon {
