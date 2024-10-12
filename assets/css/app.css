@@ -327,6 +327,7 @@ header {
 .mobile-topbar-back-arrow {
   color: #606060;
   padding: 12px;
+  display: flex;
 }
 
 button,
@@ -456,18 +457,6 @@ textarea {
   font: inherit;
   color: #0f0f0f;
 }
-.YtSearchboxComponentMweb .YtSearchboxComponentSearchButton {
-  border: 0;
-  background-color: rgba(0, 0, 0, 0.05);
-  width: unset;
-  border-radius: 0 32px 32px 0;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  cursor: pointer;
-  padding-right: 12px;
-  margin-right: 8px;
-}
 .YtSearchboxComponentSearchButton {
   border: 1px solid #d3d3d3;
   background-color: #f8f8f8;
@@ -480,6 +469,18 @@ textarea {
   padding: 0;
   margin: 0;
   color: inherit;
+}
+.YtSearchboxComponentMweb .YtSearchboxComponentSearchButton {
+  border: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  width: unset;
+  border-radius: 0 32px 32px 0;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-right: 12px;
+  margin-right: 8px;
 }
 ytm-mobile-topbar-renderer c3-icon {
   display: block;
