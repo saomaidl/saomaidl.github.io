@@ -270,13 +270,6 @@ c3-icon {
   height: 24px;
   fill: currentColor;
 }
-.yt-spec-icon-shape {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
 c3-icon svg {
   width: 100%;
   height: 100%;
