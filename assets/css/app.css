@@ -420,7 +420,7 @@ form {
 .YtSearchboxComponentMweb .YtSearchboxComponentInput {
   margin: 0;
   padding: 0;
-  font-size: 1.5rem;
+  font-size: 16px;
   unicode-bidi: plaintext;
   -webkit-font-smoothing: auto;
 }
@@ -436,9 +436,8 @@ form {
   outline: none;
   -webkit-appearance: none;
   -webkit-font-smoothing: antialiased;
-  font-family: "Roboto", "Arial", sans-serif;
-  font-size: 1.6rem;
-  line-height: 2.2rem;
+  font-size: 16px;
+  line-height: 22px;
   font-weight: 400;
 }
 .title {
@@ -446,7 +445,7 @@ form {
   -webkit-flex-grow: 1;
   flex-grow: 1;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 16px;
   font-weight: normal;
 }
 input {
@@ -539,9 +538,8 @@ ytm-mobile-topbar-renderer c3-icon {
   white-space: nowrap;
   min-width: 0;
   text-transform: none;
-  font-family: "Roboto", "Arial", sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 18px;
   border: none;
   cursor: pointer;
