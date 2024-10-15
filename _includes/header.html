@@ -1,64 +1,65 @@
-<header class="mobile-topbar-header cbox" data-mode="searching" aria-modal="true" role="dialog">
-  <button class="mobile-topbar-back-arrow" aria-label="Đóng tìm kiếm">
-    <c3-icon>
-      <span class="yt-icon-shape yt-spec-icon-shape">
-        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-          <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-            <path d="M21 11v1H5.64l6.72 6.72-.71.71-7.93-7.93 7.92-7.92.71.71L5.64 11H21z"></path>
-          </svg>
-        </div>
-      </span>
-    </c3-icon>
-  </button>
-  <yt-searchbox role="search" client-ve-type="10349" class="YtSearchboxComponentHost YtSearchboxComponentMweb">
-    <div class="YtSearchboxComponentInputBox">
-    <form action="/results" class="YtSearchboxComponentSearchForm" onsubmit="event.preventDefault(); searchVideos();">
-      <input name="search_query" type="text" autocomplete="off" autocorrect="off" class="YtSearchboxComponentInput yt-searchbox-input title" 
-        placeholder="Tìm kiếm" id="search" 
-        value="" 
-        onkeydown="if(event.key === 'Enter') { 
-          event.preventDefault();
-          const query = document.getElementById('search').value.trim();
-          if (query) {
-            searchVideos();
-          } else {
-            alert('Vui lòng nhập tên bài hát');
-          }
-        }">
-    </form>
-    </div>
-    <button aria-label="Tìm kiếm" class="YtSearchboxComponentSearchButton" title="Tìm trên YouTube">
+<ytm-mobile-topbar-renderer id="header-bar" class="sticky-player">
+  <header class="mobile-topbar-header cbox" data-mode="searching" aria-modal="true" role="dialog">
+    <button class="mobile-topbar-back-arrow" aria-label="Đóng tìm kiếm">
       <c3-icon>
         <span class="yt-icon-shape yt-spec-icon-shape">
           <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-              <path clip-rule="evenodd" d="M10.533 1.27893C5.35215 1.27893 1.12598 5.41887 1.12598 10.5579C1.12598 15.697 5.35215 19.8369 10.533 19.8369C12.767 19.8369 14.8235 19.0671 16.4402 17.7794L20.7929 22.132C21.1834 22.5226 21.8166 22.5226 22.2071 22.132C22.5976 21.7415 22.5976 21.1083 22.2071 20.7178L17.8634 16.3741C19.1616 14.7849 19.94 12.7634 19.94 10.5579C19.94 5.41887 15.7138 1.27893 10.533 1.27893ZM3.12598 10.5579C3.12598 6.55226 6.42768 3.27893 10.533 3.27893C14.6383 3.27893 17.94 6.55226 17.94 10.5579C17.94 14.5636 14.6383 17.8369 10.533 17.8369C6.42768 17.8369 3.12598 14.5636 3.12598 10.5579Z" fill-rule="evenodd"></path>
+            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+              <path d="M21 11v1H5.64l6.72 6.72-.71.71-7.93-7.93 7.92-7.92.71.71L5.64 11H21z"></path>
             </svg>
           </div>
         </span>
       </c3-icon>
     </button>
-    <div class="YtSearchboxComponentVoiceSearchWrapper">
-      <ytm-button-renderer class="icon-microphone_on">
-        <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Tìm kiếm bằng giọng nói" title="" style="">
-          <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
-            <c3-icon>
-              <span class="yt-icon-shape yt-spec-icon-shape">
-                <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                    <path d="M12 3c-1.66 0-3 1.37-3 3.07v5.86c0 1.7 1.34 3.07 3 3.07s3-1.37 3-3.07V6.07C15 4.37 13.66 3 12 3zm6.5 9h-1c0 3.03-2.47 5.5-5.5 5.5S6.5 15.03 6.5 12h-1c0 3.24 2.39 5.93 5.5 6.41V21h2v-2.59c3.11-.48 5.5-3.17 5.5-6.41z"></path>
-                  </svg>
-                </div>
-              </span>
-            </c3-icon>
-          </div>
-        </button>
-      </ytm-button-renderer>
-    </div>
-  </yt-searchbox>
-  <div class="mobile-topbar-header-content non-search-mode cbox"></div>
-</header>
-
+    <yt-searchbox role="search" client-ve-type="10349" class="YtSearchboxComponentHost YtSearchboxComponentMweb">
+      <div class="YtSearchboxComponentInputBox">
+      <form action="/results" class="YtSearchboxComponentSearchForm" onsubmit="event.preventDefault(); searchVideos();">
+        <input name="search_query" type="text" autocomplete="off" autocorrect="off" class="YtSearchboxComponentInput yt-searchbox-input title" 
+          placeholder="Tìm kiếm" id="search" 
+          value="" 
+          onkeydown="if(event.key === 'Enter') { 
+            event.preventDefault();
+            const query = document.getElementById('search').value.trim();
+            if (query) {
+              searchVideos();
+            } else {
+              alert('Vui lòng nhập tên bài hát');
+            }
+          }">
+      </form>
+      </div>
+      <button aria-label="Tìm kiếm" class="YtSearchboxComponentSearchButton" title="Tìm trên YouTube">
+        <c3-icon>
+          <span class="yt-icon-shape yt-spec-icon-shape">
+            <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                <path clip-rule="evenodd" d="M10.533 1.27893C5.35215 1.27893 1.12598 5.41887 1.12598 10.5579C1.12598 15.697 5.35215 19.8369 10.533 19.8369C12.767 19.8369 14.8235 19.0671 16.4402 17.7794L20.7929 22.132C21.1834 22.5226 21.8166 22.5226 22.2071 22.132C22.5976 21.7415 22.5976 21.1083 22.2071 20.7178L17.8634 16.3741C19.1616 14.7849 19.94 12.7634 19.94 10.5579C19.94 5.41887 15.7138 1.27893 10.533 1.27893ZM3.12598 10.5579C3.12598 6.55226 6.42768 3.27893 10.533 3.27893C14.6383 3.27893 17.94 6.55226 17.94 10.5579C17.94 14.5636 14.6383 17.8369 10.533 17.8369C6.42768 17.8369 3.12598 14.5636 3.12598 10.5579Z" fill-rule="evenodd"></path>
+              </svg>
+            </div>
+          </span>
+        </c3-icon>
+      </button>
+      <div class="YtSearchboxComponentVoiceSearchWrapper">
+        <ytm-button-renderer class="icon-microphone_on">
+          <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Tìm kiếm bằng giọng nói" title="" style="">
+            <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
+              <c3-icon>
+                <span class="yt-icon-shape yt-spec-icon-shape">
+                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                      <path d="M12 3c-1.66 0-3 1.37-3 3.07v5.86c0 1.7 1.34 3.07 3 3.07s3-1.37 3-3.07V6.07C15 4.37 13.66 3 12 3zm6.5 9h-1c0 3.03-2.47 5.5-5.5 5.5S6.5 15.03 6.5 12h-1c0 3.24 2.39 5.93 5.5 6.41V21h2v-2.59c3.11-.48 5.5-3.17 5.5-6.41z"></path>
+                    </svg>
+                  </div>
+                </span>
+              </c3-icon>
+            </div>
+          </button>
+        </ytm-button-renderer>
+      </div>
+    </yt-searchbox>
+    <div class="mobile-topbar-header-content non-search-mode cbox"></div>
+  </header>
+</ytm-mobile-topbar-renderer>
 <script>
     $(document).ready(function() {
         $('#search').on('input', function() {
