@@ -236,11 +236,11 @@ ytm-chip-cloud-chip-renderer {
 }
 [chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer .chip-container {
   padding: 0;
-  min-width: 42px;
+  min-width: 32px;
 }
 [chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"] .chip-container {
   background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 2px;
+  border-radius: 9999px;
   border: 0;
   padding: 0 12px 0 6px;
 }
