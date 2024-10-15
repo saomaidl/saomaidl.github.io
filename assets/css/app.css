@@ -253,7 +253,7 @@ ytm-chip-cloud-chip-renderer {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 9999px;
   border: 0;
 }
 [chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer
