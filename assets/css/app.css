@@ -159,7 +159,6 @@ c3-icon {
   align-items: flex-start;
   margin-left: 12px;
 }
-
 .media-item-info,
 ytm-media-item .details {
   -webkit-box-flex: 1;
@@ -257,7 +256,9 @@ ytm-chip-cloud-chip-renderer {
   border-radius: 8px;
   border: 0;
 }
-[chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer .chip-container > c3-icon {
+[chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer
+  .chip-container
+  > c3-icon {
   padding-right: 0;
 }
 [chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"] .chip-container > c3-icon {
@@ -329,7 +330,6 @@ header {
   padding: 12px;
   display: flex;
 }
-
 button,
 select,
 [role="button"],
@@ -378,7 +378,6 @@ ytm-mobile-topbar-renderer c3-icon {
   padding: 0 0 0 12px;
   box-shadow: none;
 }
-
 .YtSearchboxComponentInputBox {
   position: relative;
   -webkit-box-align: center;
@@ -417,7 +416,6 @@ form {
   unicode-bidi: plaintext;
   -webkit-font-smoothing: auto;
 }
-
 .YtSearchboxComponentInput {
   padding: 1px 0;
   margin: 0;
@@ -586,7 +584,6 @@ ytm-button-renderer button {
   .yt-spec-touch-feedback-shape__stroke {
   border: 1px solid #000;
 }
-
 .yt-spec-touch-feedback-shape__stroke {
   will-change: opacity;
   opacity: 0;
@@ -601,7 +598,6 @@ ytm-button-renderer button {
   .yt-spec-touch-feedback-shape__fill {
   background-color: #000;
 }
-
 .yt-spec-touch-feedback-shape__fill {
   will-change: opacity;
   opacity: 0;
@@ -611,4 +607,22 @@ ytm-button-renderer button {
   right: 0;
   bottom: 0;
   left: 0;
+}
+ytm-mobile-topbar-renderer {
+  display: block;
+  padding: 0;
+}
+ytm-mobile-topbar-renderer.sticky-player,
+ytm-header.sticky-player,
+ytm-header-bar.sticky-player,
+ytm-mobile-topbar-renderer.shorts-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  padding: 0;
+}
+ytm-mobile-topbar-renderer:not([ambient-topbar]) {
+  background-color: #fff;
 }
