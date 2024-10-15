@@ -375,7 +375,7 @@ ytm-mobile-topbar-renderer c3-icon {
   border-right: 0;
   background-color: rgba(0, 0, 0, 0.05);
   border: 0;
-  padding: 0 80px 0 12px;
+  padding: 0 48px 0 12px;
   box-shadow: none;
 }
 .YtSearchboxComponentInputBox {
