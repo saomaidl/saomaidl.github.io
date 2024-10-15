@@ -41,7 +41,7 @@
       </button>
       <div class="YtSearchboxComponentVoiceSearchWrapper">
         <ytm-button-renderer class="icon-microphone_on">
-          <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Tìm kiếm bằng giọng nói" title="" style="">
+          <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Tìm kiếm bằng giọng nói" title="" id="voiceSearchBtn">
             <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
               <c3-icon>
                 <span class="yt-icon-shape yt-spec-icon-shape">
@@ -80,6 +80,38 @@
                 $(this).after(clearButton);
             }
         });
+// Kiểm tra xem trình duyệt hỗ trợ Web Speech API
+if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false; // Không cho phép nhận diện liên tục
+    recognition.interimResults = false; // Không hiển thị kết quả tạm thời
+
+    const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+    const searchInput = document.getElementById('search');
+
+    voiceSearchBtn.addEventListener('click', () => {
+        recognition.start(); // Bắt đầu nhận diện giọng nói
+        console.log('Kích hoạt tìm kiếm bằng giọng nói...'); // Ghi log để kiểm tra
+    });
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript; // Lấy kết quả nhận diện đầu tiên
+        searchInput.value = transcript; // Cập nhật vào ô tìm kiếm
+        console.log('Đã nhận diện:', transcript); // Ghi log kết quả
+        // Bạn có thể gọi hàm tìm kiếm của bạn ở đây nếu cần
+        searchVideos(); // Gọi hàm tìm kiếm video nếu cần
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Lỗi nhận diện:', event.error); // Ghi log lỗi
+    };
+
+    recognition.onend = () => {
+        console.log('Kết thúc nhận diện.'); // Ghi log kết thúc
+    };
+} else {
+    alert('Trình duyệt của bạn không hỗ trợ tìm kiếm bằng giọng nói.');
+}
 
         $(document).on('click', '.clear-button', function() {
             $('#search').val('');
