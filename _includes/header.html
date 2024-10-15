@@ -85,6 +85,11 @@
             $('#search').val('');
             $(this).remove();
         });
+
+        $('.chip-container').on('click', function() {
+            $('.ytm-chip-cloud-chip-renderer').removeClass('selected');
+            $(this).closest('.ytm-chip-cloud-chip-renderer').addClass('selected');
+        });
     });
 </script>
 <script>
