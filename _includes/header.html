@@ -12,7 +12,7 @@
       </c3-icon>
     </button>
     <yt-searchbox role="search" client-ve-type="10349" class="YtSearchboxComponentHost YtSearchboxComponentMweb">
-      <div class="YtSearchboxComponentInputBox">
+      <div class="YtSearchboxComponentInputBox" style="border-radius:32px;">
       <form action="/results" class="YtSearchboxComponentSearchForm" onsubmit="event.preventDefault(); searchVideos();">
         <input name="search_query" type="text" autocomplete="off" speech autofocus autocorrect="off" class="YtSearchboxComponentInput yt-searchbox-input title font-saomaiHeading uppercase" 
           placeholder="Tìm kiếm" id="search" 
@@ -28,17 +28,6 @@
           }">
       </form>
       </div>
-      <button aria-label="Tìm kiếm" class="YtSearchboxComponentSearchButton" title="Tìm trên YouTube">
-        <c3-icon>
-          <span class="yt-icon-shape yt-spec-icon-shape">
-            <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                <path clip-rule="evenodd" d="M10.533 1.27893C5.35215 1.27893 1.12598 5.41887 1.12598 10.5579C1.12598 15.697 5.35215 19.8369 10.533 19.8369C12.767 19.8369 14.8235 19.0671 16.4402 17.7794L20.7929 22.132C21.1834 22.5226 21.8166 22.5226 22.2071 22.132C22.5976 21.7415 22.5976 21.1083 22.2071 20.7178L17.8634 16.3741C19.1616 14.7849 19.94 12.7634 19.94 10.5579C19.94 5.41887 15.7138 1.27893 10.533 1.27893ZM3.12598 10.5579C3.12598 6.55226 6.42768 3.27893 10.533 3.27893C14.6383 3.27893 17.94 6.55226 17.94 10.5579C17.94 14.5636 14.6383 17.8369 10.533 17.8369C6.42768 17.8369 3.12598 14.5636 3.12598 10.5579Z" fill-rule="evenodd"></path>
-              </svg>
-            </div>
-          </span>
-        </c3-icon>
-      </button>
       <div class="YtSearchboxComponentVoiceSearchWrapper">
         <ytm-button-renderer class="icon-microphone_on">
           <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Tìm kiếm bằng giọng nói" title="" style="">
