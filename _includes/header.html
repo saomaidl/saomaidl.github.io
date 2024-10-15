@@ -87,8 +87,10 @@
         });
 
         $(document).on('click', '.chip-container', function() {
-            $('.ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
-            $(this).closest('.ytm-chip-cloud-chip-renderer').addClass('selected all-chip-renderer');
+            $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
+            $(this).closest('ytm-chip-cloud-chip-renderer').addClass('selected all-chip-renderer');
+            $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
+            $(this).closest('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'true');
         });
     });
 </script>
