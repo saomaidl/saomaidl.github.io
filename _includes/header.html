@@ -118,33 +118,43 @@
       }
   });
 
+$(document).ready(function() {
     if ('webkitSpeechRecognition' in window) {
         const recognition = new webkitSpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = false;
+        recognition.continuous = false; // Không cho phép nhận diện liên tục
+        recognition.interimResults = false; // Không hiển thị kết quả tạm thời
+        let isRecognizing = false; // Biến để theo dõi trạng thái nhận diện
 
         $('#voiceSearchBtn').on('click', function() {
-            recognition.start();
-            console.log('Kích hoạt tìm kiếm bằng giọng nói...');
+            if (!isRecognizing) { // Kiểm tra xem có đang nhận diện không
+                recognition.start(); // Bắt đầu nhận diện giọng nói
+                isRecognizing = true; // Đánh dấu là đang nhận diện
+                console.log('Kích hoạt tìm kiếm bằng giọng nói...');
+            } else {
+                console.log('Đang nhận diện, không thể bắt đầu lại.');
+            }
         });
 
         recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            $('#search').val(transcript);
+            const transcript = event.results[0][0].transcript; // Lấy kết quả nhận diện đầu tiên
+            $('#search').val(transcript); // Cập nhật vào ô tìm kiếm
             console.log('Đã nhận diện:', transcript);
-            searchVideos();
+            searchVideos(); // Gọi hàm tìm kiếm video nếu cần
         };
 
         recognition.onerror = function(event) {
             console.error('Lỗi nhận diện:', event.error);
+            isRecognizing = false; // Reset trạng thái khi có lỗi
         };
 
         recognition.onend = function() {
             console.log('Kết thúc nhận diện.');
+            isRecognizing = false; // Reset trạng thái khi kết thúc nhận diện
         };
     } else {
         alert('Trình duyệt của bạn không hỗ trợ tìm kiếm bằng giọng nói.');
     }
+});
 
   function searchVideos() {
       const baseQuery = $('#search').val();
