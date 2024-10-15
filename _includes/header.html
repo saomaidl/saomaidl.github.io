@@ -106,15 +106,18 @@
   let currentTab = 'Tất cả';
   
   $(document).on('click', '.chip-container', function() {
-    $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
-    $(this).closest('ytm-chip-cloud-chip-renderer').addClass('selected all-chip-renderer');
-    $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
-    $(this).closest('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'true');
-    const selectedTab = $(this).attr('aria-label');
-    currentTab = selectedTab;
-    searchVideos();
+      const parentChip = $(this).closest('ytm-chip-cloud-chip-renderer');
+      if (parentChip.attr('chip-style') === 'STYLE_HOME_FILTER') {
+          $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
+          parentChip.addClass('selected all-chip-renderer');
+          $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
+          parentChip.attr('aria-selected', 'true');
+          const selectedTab = $(this).attr('aria-label');
+          currentTab = selectedTab;
+          searchVideos();
+      }
   });
-  
+
   function searchVideos() {
       const baseQuery = $('#search').val();
       let query = baseQuery;
