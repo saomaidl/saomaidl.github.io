@@ -58,6 +58,16 @@
       font-weight: 700;
     }
     @font-face {
+      font-family: saomaiHeading;
+      font-style: normal;
+      font-display: swap;
+      src: url({{ site.baseurl }}/assets/fonts/SpotifyMixUITitleVariable.woff2) format("woff2");
+      font-weight: 700;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      @apply font-saomaiHeading font-bold;
+    }
+    @font-face {
       font-display: swap;
       font-family: ui-icons;
       src: url({{ site.baseurl }}/assets/fonts/ui-icons.woff2) format("woff2");
@@ -98,6 +108,7 @@
           },
           fontFamily: {
             cursive: ['"Imperial Script", cursive'],
+            saomaititle: ['saomaititle', 'sans-serif'],
           },
           translate: {
             '1-2': '50%',
