@@ -166,16 +166,6 @@ ytm-media-item .details {
   flex-grow: 1;
   min-width: 0;
 }
-.cbox,
-.vbox,
-.center {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
 .details {
   display: -webkit-box;
   display: -webkit-flex;
