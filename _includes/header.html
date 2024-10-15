@@ -85,13 +85,6 @@
             $('#search').val('');
             $(this).remove();
         });
-
-        $(document).on('click', '.chip-container', function() {
-            $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
-            $(this).closest('ytm-chip-cloud-chip-renderer').addClass('selected all-chip-renderer');
-            $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
-            $(this).closest('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'true');
-        });
     });
 </script>
 <script>
@@ -109,9 +102,25 @@
   });
 
   const supabaseClient = supabase.createClient('https://wndajplczagmlxbvkmtk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA');
-
+  
+  let currentTab = 'Tất cả';
+  
+  $(document).on('click', '.chip-container', function() {
+    $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
+    $(this).closest('ytm-chip-cloud-chip-renderer').addClass('selected all-chip-renderer');
+    $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
+    $(this).closest('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'true');
+    const selectedTab = $(this).find('.yt-core-attributed-string').text();
+    currentTab = selectedTab;
+    searchVideos();
+  });
+  
   function searchVideos() {
-      const query = $('#search').val();
+      const baseQuery = $('#search').val();
+      let query = baseQuery;
+      if (currentTab !== 'TẤT CẢ') {
+          query += ` ${currentTab.toLowerCase()}`;
+      }
       const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
   
