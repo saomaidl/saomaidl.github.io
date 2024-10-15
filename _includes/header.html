@@ -125,7 +125,11 @@
                   const title = item.snippet.title;
                   const channelTitle = item.snippet.channelTitle;
                   const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
-                  const channelThumbnailUrl = item.snippet.thumbnails.default.url;
+                  const channelId = item.snippet.channelId;
+                  const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
+                  $.getJSON(channelDetailsUrl, function(channelData) {
+                    const channelThumbnailUrl = channelData.items[0].snippet.thumbnails.default.url;
+                  });
                   const publishedAt = item.snippet.publishedAt;
                   const viewCount = videoDetailsData.items[index].statistics.viewCount;
                   const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
