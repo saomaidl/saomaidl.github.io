@@ -115,10 +115,8 @@
           if (!data.items.length) {
               return alert('Không tìm thấy video nào.');
           }
-  
           const videoIds = data.items.map(item => item.id.videoId).join(',');
           const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
-  
           $.getJSON(videoDetailsUrl, function (videoDetailsData) {
               data.items.forEach((item, index) => {
                   const { videoId } = item.id;
@@ -129,10 +127,10 @@
                   const publishedAt = item.snippet.publishedAt;
                   const viewCount = videoDetailsData.items[index].statistics.viewCount;
                   const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
-                  const mbClass = index === data.items.length - 1 ? '' : ' mb-6';
                   const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
                   $.getJSON(channelDetailsUrl, function (channelData) {
                       const channelThumbnailUrl = channelData.items[0].snippet.thumbnails.default.url;
+                      const mbClass = index === data.items.length - 1 ? '' : ' mb-6';
                       const videoItem = $(`
                           <div class="cursor-pointer flex w-full flex-col${mbClass}" onclick="handleSongSelection('${videoId}', '${title}')">
                               <div class="relative video-thumbnail-container-large center block m-0 p-0">
@@ -178,8 +176,7 @@
           });
       });
   }
-
-
+  
   function handleSongSelection(videoId, title) {
     const name = prompt("Nhập tên của bạn:");
     if (name) {
