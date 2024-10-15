@@ -33,6 +33,16 @@ html {
 .video-thumbnail-bg {
   background-color: rgba(0, 0, 0, 0.1);
 }
+.cbox,
+.vbox,
+.center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
 .cover {
   position: absolute;
   top: 0;
@@ -301,16 +311,6 @@ ytm-chip-divider-renderer {
   position: relative;
   z-index: 3;
   box-shadow: none;
-}
-.cbox,
-.vbox,
-.center {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
 }
 header {
   height: 48px;
