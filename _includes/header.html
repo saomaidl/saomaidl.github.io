@@ -281,7 +281,7 @@ function searchVideos() {
   const karaokeSaoMaiCookie = getCookie('karaokeSaoMai');
   if (karaokeSaoMaiCookie) {
     $('body').css('overflow', 'hidden');
-    $('#content').load('infor.html', function(response, status, xhr) {
+    $('#userInfo').load('infor.html', function(response, status, xhr) {
       if (status == "error") {
         console.log("Error loading infor.html: " + xhr.status + " " + xhr.statusText);
       }
