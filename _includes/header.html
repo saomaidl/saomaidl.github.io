@@ -91,7 +91,7 @@
 
   const supabaseClient = supabase.createClient('https://wndajplczagmlxbvkmtk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA');
   
-  let currentTab = 'Tất cả';
+  let currentTab = 'TẤT CẢ';
   
   $(document).on('click', '.chip-container', function() {
       const parentChip = $(this).closest('ytm-chip-cloud-chip-renderer');
@@ -113,7 +113,7 @@
       }
       let query = baseQuery;
       if (currentTab !== 'TẤT CẢ') {
-          query += ` ${currentTab.toLowerCase()}`;
+          query = `${currentTab.toLowerCase()} ${baseQuery}`;
       }
       const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
