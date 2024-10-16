@@ -1,78 +1,47 @@
-<script>
-  $(document).ready(function() {
-      function getCookie(name) {
-          const value = `; ${document.cookie}`;
-          const parts = value.split(`; ${name}=`);
-          return parts.length === 2 ? parts.pop().split(';').shift() : null;
-      }
-
-      function createUserInfo() {
-          return `
-            <div id="userInfo">
-              <div class="fixed inset-0 z-50">
-                <div class="fixed inset-0 overflow-y-auto">
-                  <div class="flex items-end justify-center h-full">
-                    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
-                      <h2 class="text-gray-800 text-lg text-center mb-4">Thông tin của Quý khách</h2>
-                      <form id="edit-full-name-form" novalidate="">
-                        <span class="text-xs pb-1 text-gray-500">*Trường bắt buộc</span>
-                        ${createInputField('title', 'Danh xưng*', 'honorific')}
-                        ${createInputField('fullName', 'Tên quý khách*', 'full-name')}
-                        ${createInputField('location', 'Địa chỉ', 'address')}
-                        <span class="pt-2 leading-5 text-sm text-[#515357]">Xin vui lòng nhập tên của bạn để đăng ký hát Karaoke. Chúng tôi sẽ gọi tên bạn khi đến lượt.</span>
-                        <button class="mt-4 w-full h-10 bg-blue-600 text-white font-bold rounded-full" type="submit">Lưu thông tin</button>
-                      </form>
-                    </div>
+<div class="fixed inset-0 z-50">
+  <div data-focus-guard="true" tabindex="0" style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"></div>
+  <div data-focus-lock-disabled="false" class="fixed inset-0 overflow-y-auto">
+    <div class="fixed inset-y-0 left-0 w-full h-full flex items-end justify-center box-border pt-4 z-10">
+      <div class="bg-white rounded-t-lg shadow-lg flex flex-col max-h-full max-w-4xl w-full" role="dialog" aria-labelledby="react-aria-fullName">
+        <div class="flex flex-none flex-row-reverse items-start justify-between p-2">
+          <h2 class="text-gray-800 flex-grow text-lg leading-6 m-2 pt-0 text-center" id="react-aria-fullName">Thông tin của Quý khách</h2>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          <div class="p-0 px-4 pb-4">
+            <form id="edit-full-name-form" novalidate="">
+              <span class="text-xs pb-1 text-gray-500">*Trường bắt buộc</span>
+              <div class="flex mb-2">
+                <div class="w-full mr-0" data-automation-id="title">
+                  <label class="box-border text-[#2e2f32] mb-1" for="title"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Danh xưng*</span></label>
+                  <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
+                    <input autocomplete="honorific" id="title" type="text" maxlength="50" name="title" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value="">
                   </div>
-                  <div class="fixed inset-0 bg-black bg-opacity-25"></div>
                 </div>
               </div>
-            </div>
-          `;
-      }
-
-      function createInputField(id, label, autocomplete) {
-          return `
-            <div class="flex mb-4">
-              <div class="w-full" data-automation-id="${id}">
-                <label class="block text-[#2e2f32] mb-1" for="${id}">
-                  <span class="font-bold text-sm leading-5 text-[#2e2f32]">${label}</span>
-                </label>
-                <div class="bg-white rounded-md flex relative w-full shadow-inner">
-                  <input autocomplete="${autocomplete}" id="${id}" type="text" maxlength="50" name="${id}" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 text-gray-800 flex-grow font-normal m-0" value="">
+              <div class="flex mb-2">
+                <div class="w-full mr-0" data-automation-id="fullName">
+                  <label class="box-border text-[#2e2f32] mb-1" for="fullName"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Tên quý khách*</span></label>
+                  <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
+                    <input autocomplete="full-name" id="fullName" type="text" maxlength="25" name="fullName" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value="">
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
-      }
-
-      if (!getCookie('karaokeSaoMai')) {
-          $('body').css('overflow', 'hidden');
-          $('body').append(createUserInfo());
-      }
-
-      $('#edit-full-name-form').on('submit', function(event) {
-          event.preventDefault();
-          const title = $('#title').val();
-          const fullName = $('#fullName').val();
-          const location = $('#location').val();
-          if (!fullName) {
-              alert('Vui lòng nhập tên quý khách.');
-              return;
-          }
-
-          const userInfo = { title, fullName, location };
-          const userInfoJson = JSON.stringify(userInfo);
-          setCookie('karaokeSaoMai', userInfoJson, 1);
-          $('#userInfo').remove();
-          $('body').removeAttr('style');
-      });
-
-      function setCookie(name, value, days) {
-          const d = new Date();
-          d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-          const expires = `expires=${d.toUTCString()}`;
-          document.cookie = `${name}=${value}; ${expires}; path=/`;
-      }
-  });
-</script>
+              <div class="flex mb-2">
+                <div class="w-full mr-0" data-automation-id="location">
+                  <label class="box-border text-[#2e2f32] mb-1" for="location"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Địa chỉ</span></label>
+                  <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
+                    <input autocomplete="address" id="location" type="text" maxlength="50" name="location" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value="">
+                  </div>
+                </div>
+              </div>
+              <span class="pt-2 leading-5 text-sm text-[#515357] items-center inline-flex font-normal">Xin vui lòng nhập tên của bạn để đăng ký hát Karaoke. Chúng tôi sẽ gọi tên bạn khi đến lượt.</span>
+              <button class="mt-4 appearance-none px-6 text-base h-10 w-full bg-blue-600 text-white font-bold items-center border-0 rounded-full cursor-pointer inline-flex justify-center transition-all duration-100 ease-[cubic-bezier(0.77,0,0.175,1)] whitespace-nowrap" type="submit" form="edit-full-name-form">Lưu thông tin</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fixed inset-0 bg-black bg-opacity-25"></div>
+  </div>
+  <div data-focus-guard="true" tabindex="0" style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"></div>
+</div>
