@@ -272,19 +272,4 @@ function searchVideos() {
       return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
     }
   }
-  
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    return parts.length === 2 ? parts.pop().split(';').shift() : null;
-  }
-  const karaokeSaoMaiCookie = getCookie('karaokeSaoMai');
-  if (karaokeSaoMaiCookie) {
-    $('body').css('overflow', 'hidden');
-    $('#userInfo').load('infor.html', function(response, status, xhr) {
-      if (status == "error") {
-        console.log("Error loading infor.html: " + xhr.status + " " + xhr.statusText);
-      }
-    });
-  }
 </script>
