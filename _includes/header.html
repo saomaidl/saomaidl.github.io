@@ -108,6 +108,9 @@
 
   function searchVideos() {
       const baseQuery = $('#search').val();
+      if (!baseQuery) {
+          return;
+      }
       let query = baseQuery;
       if (currentTab !== 'TẤT CẢ') {
           query += ` ${currentTab.toLowerCase()}`;
