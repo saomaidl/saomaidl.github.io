@@ -212,26 +212,25 @@
       </div>
     </div>
   </div>
-  <div id="userInfo"></div>
   <script>
-      $(document).ready(function() {
-          function getCookie(name) {
-              const value = `; ${document.cookie}`;
-              const parts = value.split(`; ${name}=`);
-              return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    $(document).ready(function() {
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        return parts.length === 2 ? parts.pop().split(';').shift() : null;
+      }
+      if (!getCookie('karaokeSaoMai')) {
+        $('#userInfo').load('_includes/infor.html', function(response, status, xhr) {
+          if (status == "success") {
+            $('body').css('overflow', 'hidden');
+          } else {
+            console.error("Error loading the file: " + xhr.status + " " + xhr.statusText);
           }
-          const karaokeCookie = getCookie('karaokeSaoMai');
-          if (karaokeCookie) {
-              $('#userInfo').load('https://raw.githubusercontent.com/saomaidl/saomaidl.github.io/refs/heads/main/_includes/infor.html', function(response, status, xhr) {
-                  if (status == "error") {
-                      console.log("Error: " + xhr.status + " " + xhr.statusText);
-                  } else {
-                      $('body').css('overflow', 'hidden');
-                  }
-              });
-          }
-      });
+        });
+      }
+    });
   </script>
+  <div id="userInfo"></div>
   <script>
     $(document).ready(function() {
       $('#edit-full-name-form').on('submit', function(event) {
