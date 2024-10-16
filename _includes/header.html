@@ -273,21 +273,3 @@ function searchVideos() {
     }
   }
 </script>
-<script>
-$(document).ready(function() {
-    // Hiện popup khi trang tải xong
-    $('#popup').removeClass('translate-y-full');
-
-    // Xử lý lưu tên và ẩn popup
-    $('#saveNameBtn').on('click', function() {
-        const name = $('#nameInput').val();
-        if (name) {
-            document.cookie = `username=${name}; path=/`;
-            $('#popup').addClass('translate-y-full'); // Ẩn popup
-            $('#overlay').hide(); // Ẩn overlay
-        } else {
-            alert('Vui lòng nhập tên của bạn!');
-        }
-    });
-});
-</script>
