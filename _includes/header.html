@@ -210,6 +210,8 @@
       $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
         if (status === "error") {
           console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
+        } else {
+          $('body').css('overflow', 'hidden');
         }
       });
     }
