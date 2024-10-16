@@ -15,7 +15,6 @@
           <div class="flex-1 overflow-y-auto">
             <div class="p-0 px-4 pb-4">
               <form id="edit-full-name-form" novalidate="">
-                <span class="text-xs pb-1 text-gray-500">*Trường bắt buộc</span>
                 <div class="pb-2 relative w-full" name="firstName">
                   <label class="block h-2 relative z-10" for="account_first_name"><span class="bg-white box-border text-gray-500 inline-block text-base left-3 leading-6 absolute top-0 transform scale-75 origin-top-left transition-transform duration-100 ease-[cubic-bezier(0.77,0,0.175,1)] px-1">First name*</span></label>
                   <div class="flex items-center bg-white rounded-md shadow-inner border border-gray-400"><input id="account_first_name" autocomplete="given-name" maxlength="25" name="firstName" class="appearance-none bg-transparent border-0 box-border text-black flex-1 text-base leading-6 m-0 min-w-0 p-4" value="Vietnam"></div>
@@ -25,16 +24,12 @@
                   <div class="flex items-center bg-white rounded-md shadow-inner border border-gray-400"><input id="account_last_name" autocomplete="family-name" maxlength="25" name="lastName" class="appearance-none bg-transparent border-0 box-border text-black flex-1 text-base leading-6 m-0 min-w-0 p-4" value="Anamart"></div>
                 </div>
                 <div class="relative w-full" name="displayName">
-                  <label class="block h-2 relative z-10" for="account_display_name"><span class="bg-white box-border text-gray-500 inline-block text-base left-3 leading-6 absolute top-0 transform scale-75 origin-top-left transition-transform duration-100 ease-[cubic-bezier(0.77,0,0.175,1)] px-1">Display name*</span></label>
+                  <label class="block h-2 relative z-10" for="account_display_name"><span class="bg-white box-border text-gray-500 inline-block text-base left-3 leading-6 absolute top-0 transform scale-75 origin-top-left transition-transform duration-100 ease-[cubic-bezier(0.77,0,0.175,1)] px-1">Tên của bạn*</span></label>
                   <div class="flex items-center bg-white rounded-md shadow-inner border border-gray-400"><input id="account_display_name" autocomplete="display-name" maxlength="25" name="displayName" class="appearance-none bg-transparent border-0 box-border text-black flex-1 text-base leading-6 m-0 min-w-0 p-4" value="Anamart"></div>
                 </div>
-                <input type="hidden" name="vtcTimestamp" value="2024-10-16T20:03:07.942+0700">
+                <span class="pt-2 leading-5 text-sm text-[#515357] items-center inline-flex font-normal">We’ll email you a code to verify your email address for security purposes.</span>
+                <button class="mt-4 appearance-none px-6 text-base h-10 w-full bg-blue-600 text-white font-bold items-center border-0 rounded-full cursor-pointer inline-flex justify-center transition-all duration-100 ease-[cubic-bezier(0.77,0,0.175,1)] whitespace-nowrap" type="submit" form="edit-full-name-form">Lưu thông tin</button>
               </form>
-            </div>
-          </div>
-          <div class="border-t border-gray-200 flex-none flex justify-end p-4">
-            <div class="text-center w-full flex flex-col">
-              <button class="appearance-none bg-blue-600 text-white font-bold py-2.5 px-6 inline-flex justify-center items-center w-full rounded-full cursor-pointer transition-all duration-100 ease-[cubic-bezier(0.77,0,0.175,1)] whitespace-nowrap text-base leading-6 m-0" type="submit" form="edit-full-name-form">Lưu thông tin</button>
             </div>
           </div>
         </div>
