@@ -107,7 +107,7 @@
   });
 
   function searchVideos() {
-      const baseQuery = $('#search').val();
+      const baseQuery = $('#search').val().trim();
       if (!baseQuery) {
           return;
       }
