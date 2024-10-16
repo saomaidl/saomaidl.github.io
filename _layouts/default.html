@@ -233,7 +233,7 @@
   <div id="userInfo"></div>
   <script>
     $(document).ready(function() {
-      $('#edit-full-name-form').on('submit', function(event) {
+      $(document).on('submit', '#edit-full-name-form', function(event) {
         event.preventDefault();
         var title = $('#title').val();
         var fullName = $('#fullName').val();
