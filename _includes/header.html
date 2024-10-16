@@ -200,20 +200,35 @@ function searchVideos() {
             });
         }).catch(error => {
             console.error("Error fetching video/channel details: ", error);
-            alert('Có lỗi xảy ra trong quá trình tải dữ liệu. Vui lòng thử lại sau.');
         });
     });
 }
   
   function handleSongSelection(videoId, title) {
-    const name = prompt("Nhập tên của bạn:");
+    const name = getCookieValue('karaokeSaoMai');
     if (name) {
       saveSong(videoId, title, name).then(() => {
         window.location.href = '/songs';
-      }).catch(() => {
-        alert("Đã xảy ra lỗi khi lưu thông tin. Vui lòng thử lại.");
+      }).catch((error) => {
+        console.error("Đã xảy ra lỗi khi lưu thông tin:", error);
       });
+    } else {
+      console.warn("Không tìm thấy cookie 'karaokeSaoMai'. Vui lòng kiểm tra lại.");
     }
+  }
+
+  function getCookieValue(cookieName) {
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i].trim();
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return null;
   }
 
   function saveSong(videoId, songName, name) {
