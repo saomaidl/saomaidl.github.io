@@ -203,20 +203,29 @@
           });
       });
   }
+
+  function loadSelectedFile() {
+    const songSelected = getCookieValue('songSelected');
+    if (songSelected === 'true') { 
+      $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
+        if (status === "error") {
+          console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
+        }
+      });
+    }
+  }
   
   function handleSongSelection(videoId, title) {
     const name = getCookieValue('karaokeSaoMai');
     const songSelected = getCookieValue('songSelected');
-  
     if (songSelected) {
-      console.warn("Bạn đã chọn bài rồi. Vui lòng đợi 6 tiếng để chọn lại.");
+      loadSelectedFile();
       return;
     }
-  
     if (name) {
       saveSong(videoId, title, name).then(() => {
         setCookie('songSelected', 'true', 6);
-        console.log("Đã lưu bài hát thành công.");
+        loadSelectedFile();
       }).catch((error) => {
         console.error("Đã xảy ra lỗi khi lưu thông tin:", error);
       });
@@ -227,7 +236,7 @@
 
   function setCookie(name, value, hours) {
     const date = new Date();
-    date.setTime(date.getTime() + (hours * 60 * 60 * 1000)); // thời gian tính bằng giờ
+    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
   }
