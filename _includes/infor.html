@@ -16,31 +16,27 @@
             <div class="p-0 px-4 pb-4">
               <form id="edit-full-name-form" novalidate="">
                 <div class="flex mb-2">
-                  <div class="w-full flex justify-between flex-row">
-                    <div class="flex w-full">
-                      <div class="w-full mr-0">
-                        <label class="box-border text-[#2e2f32] block mb-1" for="province"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Danh xưng*</span></label>
-                        <div class="bg-white rounded-md relative" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
-                          <select id="province" autocomplete="province" name="province" required="" aria-required="true" class="m-0 text-base font-normal text-gray-800 bg-transparent border-0 box-border w-full py-4 pl-4 pr-9 leading-6" style="text-transform:none;-webkit-appearance:none;">
-                            <option value="ÔNG">Ông</option>
-                            <option value="BÀ">Bà</option>
-                            <option value="ANH">Anh</option>
-                            <option value="CHỊ">Chị</option>
-                            <option value="CÔ">Cô</option>
-                            <option value="CHÚ">Chú</option>
-                          </select>
-                          <svg fill="currentColor" height="1em" viewBox="0 0 16 16" width="1em" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" class="absolute top-4 right-3.5 text-black pointer-events-none overflow-hidden" style="font-size: 1.5rem; vertical-align: -0.25em;">
-                            <path fill-rule="evenodd" d="m8 10 3.5-4h-7z"></path>
-                          </svg>
-                        </div>
-                      </div>
+                  <div class="w-full mr-0" data-automation-id="title">
+                    <label class="box-border text-[#2e2f32] mb-1" for="title"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Danh xưng*</span></label>
+                    <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
+                      <input autocomplete="honorific" id="title" type="text" maxlength="10" name="title" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value="">
                     </div>
                   </div>
                 </div>
                 <div class="flex mb-2">
                   <div class="w-full mr-0" data-automation-id="fullName">
                     <label class="box-border text-[#2e2f32] mb-1" for="fullName"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Tên quý khách*</span></label>
-                    <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;"><input autocomplete="full-name" id="fullName" type="text" maxlength="25" name="fullName" required="" aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value=""></div>
+                    <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
+                      <input autocomplete="full-name" id="fullName" type="text" maxlength="25" name="fullName" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value="">
+                    </div>
+                  </div>
+                </div>
+                <div class="flex mb-2">
+                  <div class="w-full mr-0" data-automation-id="location">
+                    <label class="box-border text-[#2e2f32] mb-1" for="location"><span class="font-bold text-sm leading-5 text-[#2e2f32] mb-0 mt-0">Đến từ*</span></label>
+                    <div class="bg-white rounded-md flex relative w-full" style="box-shadow: inset 0 0 0 0.0625rem #909196;">
+                      <input autocomplete="address" id="location" type="text" maxlength="50" name="location" required aria-required="true" class="text-base leading-6 p-4 appearance-none bg-transparent border-0 box-border text-gray-800 flex-grow font-normal m-0 min-w-0" value="">
+                    </div>
                   </div>
                 </div>
                 <span class="pt-2 leading-5 text-sm text-[#515357] items-center inline-flex font-normal">Xin vui lòng nhập tên của bạn để đăng ký hát Karaoke. Chúng tôi sẽ gọi tên bạn khi đến lượt.</span>
