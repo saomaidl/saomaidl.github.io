@@ -220,7 +220,7 @@
         return parts.length === 2 ? parts.pop().split(';').shift() : null;
       }
       if (!getCookie('karaokeSaoMai')) {
-        $('#userInfo').load('_includes/infor.html', function(response, status, xhr) {
+        $('#userInfo').load('/assets/html/infor.html', function(response, status, xhr) {
           if (status == "success") {
             $('body').css('overflow', 'hidden');
           } else {
