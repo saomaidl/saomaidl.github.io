@@ -106,115 +106,137 @@
       }
   });
 
-function searchVideos() {
-    const baseQuery = $('#search').val().trim();
-    if (!baseQuery) {
-        return;
-    }
-    let query = baseQuery;
-    if (currentTab !== 'TẤT CẢ') {
-        query = `${currentTab.toLowerCase()} ${baseQuery}`;
-    }
-    
-    const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
-
-    $.getJSON(url, function (data) {
-        $('#videoList').empty();
-        const wrapper = $('<div id="list" class="w-full h-full"></div>');
-        $('#videoList').append(wrapper);
-
-        if (!data.items.length) {
-            return alert('Không tìm thấy video nào.');
-        }
-
-        const videoIds = data.items.map(item => item.id.videoId).join(',');
-        const channelIds = [...new Set(data.items.map(item => item.snippet.channelId))].join(',');
-        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
-        const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKey}`;
-
-        Promise.all([
-            $.getJSON(videoDetailsUrl),
-            $.getJSON(channelDetailsUrl)
-        ]).then(([videoDetailsData, channelData]) => {
-            const channelThumbnails = {};
-
-            channelData.items.forEach(channel => {
-                channelThumbnails[channel.id] = channel.snippet.thumbnails.default.url;
-            });
-
-            data.items.forEach((item, index) => {
-                const { videoId } = item.id;
-                const title = item.snippet.title;
-                const channelTitle = item.snippet.channelTitle;
-                const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
-                const channelId = item.snippet.channelId;
-                const publishedAt = item.snippet.publishedAt;
-                const viewCount = videoDetailsData.items[index].statistics.viewCount;
-                const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
-                const channelThumbnailUrl = channelThumbnails[channelId];
-
-                const mbClass = index === data.items.length - 1 ? '' : ' mb-6';
-                const videoItem = $(`
-                    <div class="cursor-pointer flex w-full flex-col${mbClass}" onclick="handleSongSelection('${videoId}', '${title}')">
-                        <div class="relative video-thumbnail-container-large center block m-0 p-0">
-                            <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
-                            <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
-                            <div class="absolute bottom-0 right-0 m-2">
-                                <div class="badge">${duration}</div>
-                            </div>
-                        </div>
-                        <div class="details">
-                            <div class="media-channel">
-                                <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
-                                    <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
-                                </icon>
-                            </div>
-                            <div class="media-item-info cbox">
-                                <div class="media-item-metadata">
-                                    <h3 class="mb-1">
-                                        <span class="text-black font-bold line-clamp-2 leading-6 text-lg">${title}</span>
-                                    </h3>
-                                    <span class="text-gray-400 text-sm">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
-                                </div>
-                                <menu-renderer class="media-item-menu">
-                                    <menu>
-                                        <button class="icon-button text-black" aria-label="Menu" aria-haspopup="true">
-                                            <c3-icon>
-                                                <span class="yt-icon-shape yt-spec-icon-shape">
-                                                    <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
-                                                            <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
-                                                        </svg>
-                                                    </div>
-                                                </span>
-                                            </c3-icon>
-                                        </button>
-                                    </menu>
-                                </menu-renderer>
-                            </div>
-                        </div>
-                    </div>
-                `);
-                $('#list').append(videoItem);
-            });
-        }).catch(error => {
-            console.error("Error fetching video/channel details: ", error);
-        });
-    });
-}
+  function searchVideos() {
+      const baseQuery = $('#search').val().trim();
+      if (!baseQuery) {
+          return;
+      }
+      let query = baseQuery;
+      if (currentTab !== 'TẤT CẢ') {
+          query = `${currentTab.toLowerCase()} ${baseQuery}`;
+      }
+      
+      const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
+  
+      $.getJSON(url, function (data) {
+          $('#videoList').empty();
+          const wrapper = $('<div id="list" class="w-full h-full"></div>');
+          $('#videoList').append(wrapper);
+  
+          if (!data.items.length) {
+              return alert('Không tìm thấy video nào.');
+          }
+  
+          const videoIds = data.items.map(item => item.id.videoId).join(',');
+          const channelIds = [...new Set(data.items.map(item => item.snippet.channelId))].join(',');
+          const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+          const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKey}`;
+  
+          Promise.all([
+              $.getJSON(videoDetailsUrl),
+              $.getJSON(channelDetailsUrl)
+          ]).then(([videoDetailsData, channelData]) => {
+              const channelThumbnails = {};
+  
+              channelData.items.forEach(channel => {
+                  channelThumbnails[channel.id] = channel.snippet.thumbnails.default.url;
+              });
+  
+              data.items.forEach((item, index) => {
+                  const { videoId } = item.id;
+                  const title = item.snippet.title;
+                  const channelTitle = item.snippet.channelTitle;
+                  const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
+                  const channelId = item.snippet.channelId;
+                  const publishedAt = item.snippet.publishedAt;
+                  const viewCount = videoDetailsData.items[index].statistics.viewCount;
+                  const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
+                  const channelThumbnailUrl = channelThumbnails[channelId];
+  
+                  const mbClass = index === data.items.length - 1 ? '' : ' mb-6';
+                  const videoItem = $(`
+                      <div class="cursor-pointer flex w-full flex-col${mbClass}" onclick="handleSongSelection('${videoId}', '${title}')">
+                          <div class="relative video-thumbnail-container-large center block m-0 p-0">
+                              <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                              <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
+                              <div class="absolute bottom-0 right-0 m-2">
+                                  <div class="badge">${duration}</div>
+                              </div>
+                          </div>
+                          <div class="details">
+                              <div class="media-channel">
+                                  <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
+                                      <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
+                                  </icon>
+                              </div>
+                              <div class="media-item-info cbox">
+                                  <div class="media-item-metadata">
+                                      <h3 class="mb-1">
+                                          <span class="text-black font-bold line-clamp-2 leading-6 text-lg">${title}</span>
+                                      </h3>
+                                      <span class="text-gray-400 text-sm">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
+                                  </div>
+                                  <menu-renderer class="media-item-menu">
+                                      <menu>
+                                          <button class="icon-button text-black" aria-label="Menu" aria-haspopup="true">
+                                              <c3-icon>
+                                                  <span class="yt-icon-shape yt-spec-icon-shape">
+                                                      <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
+                                                              <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
+                                                          </svg>
+                                                      </div>
+                                                  </span>
+                                              </c3-icon>
+                                          </button>
+                                      </menu>
+                                  </menu-renderer>
+                              </div>
+                          </div>
+                      </div>
+                  `);
+                  $('#list').append(videoItem);
+              });
+          }).catch(error => {
+              console.error("Error fetching video/channel details: ", error);
+          });
+      });
+  }
   
   function handleSongSelection(videoId, title) {
     const name = getCookieValue('karaokeSaoMai');
+    const songSelected = getCookieValue('songSelected');
+  
+    if (songSelected) {
+      console.warn("Bạn đã chọn bài rồi. Vui lòng đợi 6 tiếng để chọn lại.");
+      return;
+    }
+  
     if (name) {
       saveSong(videoId, title, name).then(() => {
-        window.location.href = '/songs';
+        setCookie('songSelected', 'true', 6);
+        console.log("Đã lưu bài hát thành công.");
       }).catch((error) => {
         console.error("Đã xảy ra lỗi khi lưu thông tin:", error);
       });
     } else {
       console.warn("Không tìm thấy cookie 'karaokeSaoMai'. Vui lòng kiểm tra lại.");
     }
+  }
+
+  function setCookie(name, value, hours) {
+    const date = new Date();
+    date.setTime(date.getTime() + (hours * 60 * 60 * 1000)); // thời gian tính bằng giờ
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
+
+  function getCookieValue(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
   }
 
   function getCookieValue(cookieName) {
