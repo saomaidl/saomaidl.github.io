@@ -620,7 +620,6 @@ bottom-sheet-container {
   position: fixed;
   z-index: 5;
 }
-
 .YtWebScrimHost {
   position: fixed;
   top: 0;
@@ -631,7 +630,6 @@ bottom-sheet-container {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.8);
 }
-
 .YtWebScrimHostModernOverlay {
   background-color: rgba(0, 0, 0, 0.3);
 }
@@ -659,7 +657,6 @@ bottom-sheet-container {
   height: 1px;
   width: 1px;
 }
-
 .yt-spec-bottom-sheet-layout {
   display: -webkit-box;
   display: -webkit-flex;
@@ -729,7 +726,6 @@ bottom-sheet-container {
   flex-direction: column;
   color: #0f0f0f;
 }
-
 ytm-menu-item {
   display: block;
   padding: 3px 0;
@@ -744,7 +740,6 @@ ytm-menu-item {
   -webkit-align-items: center;
   align-items: center;
 }
-
 .menu-item-button {
   box-sizing: border-box;
   display: block;
@@ -754,10 +749,325 @@ ytm-menu-item {
   text-transform: unset;
   width: 100%;
 }
-
 .bottom-sheet-menu-item .menu-item-button {
   padding: 0;
   margin-left: 12px;
   font-size: 16px;
   line-height: 22px;
+}
+.w_Qz6x {
+  z-index: 500;
+}
+.w_Qz6x,
+.w_hPDp {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+.w_hPDp {
+  overflow-y: auto;
+}
+.w_32Rp,
+.w_NOPS {
+  left: 0;
+  position: fixed;
+  top: 0;
+}
+.w_32Rp {
+  align-items: flex-end;
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  padding: 1rem 0 0;
+  width: 100%;
+  z-index: 1;
+}
+.mobile-modal div[data-focus-lock-disabled="false"] > div {
+  padding-top: 145px;
+}
+.w_m4hJ {
+  background: #fff;
+  border-radius: 0.5rem 0.5rem 0 0;
+  box-shadow: 0 0.3125rem 0.625rem 0.1875rem #00000026,
+    0 -0.0625rem 0.25rem 0 #0000001a;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  max-width: 48rem;
+  width: 100%;
+}
+.mobile-modal div[role="dialog"] {
+  background-color: #041e42;
+  border-radius: 1rem 1rem 0 0;
+}
+.w_iMLF {
+  align-items: flex-start;
+  display: flex;
+  flex: none;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+.w_Rfk5 {
+  background: #0000;
+  border: 0;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  height: 2.5rem;
+  margin: 0;
+  width: 2.5rem;
+}
+.mobile-modal .customClose {
+  background-color: #fff;
+  border-radius: 50%;
+  height: 36px;
+  margin: 8px;
+  width: 36px;
+  position: relative;
+}
+.mobile-modal .customClose:after,
+.mobile-modal .customClose:before {
+  position: absolute;
+  left: 17px;
+  content: " ";
+  height: 20px;
+  width: 1.5px;
+  background-color: #000;
+  top: 9px;
+}
+.mobile-modal .customClose:before {
+  transform: rotate(45deg);
+}
+.mobile-modal .customClose svg {
+  display: none;
+}
+html svg:not(:root) {
+  overflow: hidden;
+}
+.mobile-modal .customClose:after {
+  transform: rotate(-45deg);
+}
+.mobile-modal h2 {
+  display: none;
+}
+.w_d_KY {
+  color: #2e2f32;
+  flex-grow: 1;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  margin: 0.5rem 0 0;
+  padding-left: 2.5rem;
+  text-align: center;
+}
+.w_iu_y {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+.w_tGqM {
+  padding: 0 1rem 1rem;
+}
+.mobile-modal div[role="dialog"] > div:nth-child(2) > div:first-child {
+  padding: 0;
+}
+.mobile-modal .overlayDiv {
+  position: absolute;
+  top: 0;
+  height: 145px;
+  width: 100%;
+  z-index: 100;
+  left: 0;
+}
+.mobile-modal div[data-focus-lock-disabled="false"] > div {
+  padding-top: 145px;
+}
+.w_32Rp,
+.w_NOPS {
+  left: 0;
+  position: fixed;
+  top: 0;
+}
+.w_NOPS {
+  background: #0006;
+  bottom: 0;
+  right: 0;
+}
+html .mt0 {
+  margin-top: 0;
+}
+html .static {
+  position: static;
+}
+html .w-100 {
+  width: 100%;
+}
+html .border-box,
+html a,
+html article,
+html body,
+html code,
+html dd,
+html div,
+html dl,
+html dt,
+html fieldset,
+html footer,
+html form,
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6,
+html header,
+html html,
+html input[type="email"],
+html input[type="number"],
+html input[type="password"],
+html input[type="tel"],
+html input[type="text"],
+html input[type="url"],
+html legend,
+html li,
+html main,
+html ol,
+html p,
+html pre,
+html section,
+html table,
+html td,
+html textarea,
+html th,
+html tr,
+html ul {
+  box-sizing: border-box;
+}
+html .tc {
+  text-align: center;
+}
+html .mt1 {
+  margin-top: 0.25rem;
+}
+html .f3 {
+  font-size: 1.25rem;
+}
+html .mt0 {
+  margin-top: 0;
+}
+html .mb1 {
+  margin-bottom: 0.25rem;
+}
+html .mb0 {
+  margin-bottom: 0;
+}
+html .white {
+  color: #fff;
+}
+html .normal {
+  font-weight: 400;
+}
+html .mt2 {
+  margin-top: 0.5rem;
+}
+html img {
+  max-width: 100%;
+}
+html img {
+  border-style: none;
+}
+html .f2 {
+  font-size: 1.5rem;
+}
+html .mt4 {
+  margin-top: 1.5rem;
+}
+html .mb3 {
+  margin-bottom: 1rem;
+}
+html .mt5 {
+  margin-top: 1.75rem;
+}
+html .w-100 {
+  width: 100%;
+}
+.w_4QgR,
+.w_nXvk {
+  padding: 0 1.5rem;
+}
+.w_4QgR {
+  font-size: 1rem;
+  height: 2.5rem;
+}
+.w_OoNT {
+  background: #0071dc;
+  color: #fff;
+  font-weight: 700;
+}
+.w_eEg0 {
+  align-items: center;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  border-radius: 62.5rem;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.1s cubic-bezier(0.77, 0, 0.175, 1);
+  white-space: nowrap;
+}
+html [type="reset"],
+html [type="submit"],
+html button,
+html html [type="button"] {
+  -webkit-appearance: button;
+}
+html button,
+html select {
+  text-transform: none;
+}
+html button,
+html input {
+  overflow: visible;
+}
+html button,
+html input,
+html optgroup,
+html select,
+html textarea {
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+button,
+html,
+input,
+select,
+textarea {
+  color: #444;
+}
+.mobile-modal .overlayDiv {
+  position: absolute;
+  top: 0;
+  height: 145px;
+  width: 100%;
+  z-index: 100;
+  left: 0;
+}
+.mobile-modal div[data-focus-lock-disabled="false"] > div {
+  padding-top: 145px;
+}
+.w_32Rp,
+.w_NOPS {
+  left: 0;
+  position: fixed;
+  top: 0;
+}
+.w_NOPS {
+  background: #0006;
+  bottom: 0;
+  right: 0;
 }
