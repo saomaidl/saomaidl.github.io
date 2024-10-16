@@ -212,49 +212,68 @@
       </div>
     </div>
   </div>
+  <div id="content"></div>
   <script>
     $(document).ready(function() {
+      function loadSelectedFile() {
+        const songSelected = getCookieValue('songSelected');
+        if (songSelected === 'true') { 
+          $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
+            if (status === "error") {
+              console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
+            } else {
+              console.log("Tệp selected.html đã được tải thành công.");
+            }
+          });
+        }
+      }
+    
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         return parts.length === 2 ? parts.pop().split(';').shift() : null;
       }
+    
+      function setCookie(name, value, days) {
+        var d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      }
+    
+      $(document).on('submit', '#edit-full-name-form', function(event) {
+        event.preventDefault();
+        var title = $('#title').val().trim();
+        var fullName = $('#fullName').val().trim();
+        var location = $('#location').val().trim();
+    
+        if (!title || !fullName) {
+          console.warn("Title và Full Name là bắt buộc!");
+          return;
+        }
+    
+        var userInfo = {
+          title: title,
+          fullName: fullName,
+          location: location
+        };
+        
+        var userInfoJson = JSON.stringify(userInfo);
+        setCookie('karaokeSaoMai', userInfoJson, 1);
+        $('#content').empty();
+        $('body').removeAttr('style');
+      });
+    
       if (!getCookie('karaokeSaoMai')) {
-        $('#user').load('/assets/html/infor.html', function(response, status, xhr) {
+        $('#content').load('/assets/html/infor.html', function(response, status, xhr) {
           if (status == "success") {
             $('body').css('overflow', 'hidden');
           } else {
             console.error("Error loading the file: " + xhr.status + " " + xhr.statusText);
           }
         });
-      }
-    });
-  </script>
-  <div id="user"></div>
-  <div id="selected"></div>
-  <script>
-    $(document).ready(function() {
-      $(document).on('submit', '#edit-full-name-form', function(event) {
-        event.preventDefault();
-        var title = $('#title').val();
-        var fullName = $('#fullName').val();
-        var location = $('#location').val();
-        var userInfo = {
-          title: title,
-          fullName: fullName,
-          location: location
-        };
-        var userInfoJson = JSON.stringify(userInfo);
-        setCookie('karaokeSaoMai', userInfoJson, 1);
-        $('#user').remove();
-        $('body').removeAttr('style');
-      });
-  
-      function setCookie(name, value, days) {
-        var d = new Date();
-        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      } else {
+        loadSelectedFile();
       }
     });
   </script>
