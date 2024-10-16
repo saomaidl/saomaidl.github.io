@@ -76,3 +76,6 @@ robots:
 # Cache Busting - Không nên sử dụng nếu không cần thiết
 # cache_busting:
 #   enabled: true
+# Cookie Configuration
+cookie:
+  karaokeSaoMai: true # Đặt biến cookie karaokeSaoMai
