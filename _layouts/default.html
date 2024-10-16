@@ -222,7 +222,7 @@
           }
           const karaokeCookie = getCookie('karaokeSaoMai');
           if (karaokeCookie) {
-              $('#userInfo').load('_includes/infor.html', function(response, status, xhr) {
+              $('#userInfo').load('/_includes/infor.html', function(response, status, xhr) {
                   if (status == "error") {
                       console.log("Error: " + xhr.status + " " + xhr.statusText);
                   } else {
