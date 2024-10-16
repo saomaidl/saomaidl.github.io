@@ -220,7 +220,7 @@
         return parts.length === 2 ? parts.pop().split(';').shift() : null;
       }
       if (!getCookie('karaokeSaoMai')) {
-        $('#userInfo').load('/assets/html/infor.html', function(response, status, xhr) {
+        $('#user').load('/assets/html/infor.html', function(response, status, xhr) {
           if (status == "success") {
             $('body').css('overflow', 'hidden');
           } else {
@@ -230,7 +230,8 @@
       }
     });
   </script>
-  <div id="userInfo"></div>
+  <div id="user"></div>
+  <div id="selected"></div>
   <script>
     $(document).ready(function() {
       $(document).on('submit', '#edit-full-name-form', function(event) {
@@ -245,7 +246,7 @@
         };
         var userInfoJson = JSON.stringify(userInfo);
         setCookie('karaokeSaoMai', userInfoJson, 1);
-        $('#userInfo').remove();
+        $('#user').remove();
         $('body').removeAttr('style');
       });
   
