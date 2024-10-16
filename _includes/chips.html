@@ -1,35 +1,53 @@
 <div class="m-0">
   <div class="rich-grid-renderer-header rich-grid-sticky-header">
     <ytm-feed-filter-chip-bar-renderer id="filter-chip-bar" class="chip-bar">
-      <div class="chip-bar-contents" role="tablist">
-        <ytm-chip-cloud-chip-renderer class="selected all-chip-renderer" aria-selected="true" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="TẤT CẢ"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">TẤT CẢ</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">KARAOKE</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE TONE NAME"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">TONE NAME</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE TONE NỮ"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">TONE NỮ</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE SONG CA"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">SONG CA</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE REMIX"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">REMIX</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE EDM"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">EDM</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="KARAOKE BALLAD"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">BALLAD</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-        <ytm-chip-cloud-chip-renderer aria-selected="false" chip-style="STYLE_HOME_FILTER" role="tab">
-          <div class="chip-container" tabindex="1" aria-label="LIÊN KHÚC"><span class="chip-text modern"><span class="yt-core-attributed-string font-saomaiHeading" role="text">LIÊN KHÚC</span></span></div>
-        </ytm-chip-cloud-chip-renderer>
-      </div>
+      <div class="chip-bar-contents" role="tablist"></div>
     </ytm-feed-filter-chip-bar-renderer>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    const chips = [
+      { label: "TẤT CẢ", selected: true },
+      { label: "KARAOKE", selected: false },
+      { label: "TONE NAME", selected: false },
+      { label: "TONE NỮ", selected: false },
+      { label: "SONG CA", selected: false },
+      { label: "REMIX", selected: false },
+      { label: "EDM", selected: false },
+      { label: "BALLAD", selected: false },
+      { label: "LIÊN KHÚC", selected: false }
+    ];
+
+    const $chipBarContents = $('.chip-bar-contents');
+
+    $.each(chips, function(index, chip) {
+      const $chipRenderer = $('<ytm-chip-cloud-chip-renderer>', {
+        'aria-selected': chip.selected,
+        'chip-style': 'STYLE_HOME_FILTER',
+        role: 'tab'
+      });
+
+      const $chipContainer = $('<div>', {
+        'class': 'chip-container',
+        tabindex: '1',
+        'aria-label': chip.label
+      });
+
+      const $chipText = $('<span>', {
+        'class': 'chip-text modern'
+      });
+
+      const $textNode = $('<span>', {
+        'class': 'yt-core-attributed-string font-saomaiHeading',
+        role: 'text',
+        text: chip.label
+      });
+
+      $chipText.append($textNode);
+      $chipContainer.append($chipText);
+      $chipRenderer.append($chipContainer);
+      $chipBarContents.append($chipRenderer);
+    });
+  });
+</script>
