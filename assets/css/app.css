@@ -785,9 +785,6 @@ ytm-menu-item {
   width: 100%;
   z-index: 1;
 }
-.mobile-modal div[data-focus-lock-disabled="false"] > div {
-  padding-top: 145px;
-}
 .w_m4hJ {
   background: #fff;
   border-radius: 0.5rem 0.5rem 0 0;
@@ -880,9 +877,6 @@ html svg:not(:root) {
   width: 100%;
   z-index: 100;
   left: 0;
-}
-.mobile-modal div[data-focus-lock-disabled="false"] > div {
-  padding-top: 145px;
 }
 .w_32Rp,
 .w_NOPS {
