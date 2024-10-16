@@ -212,7 +212,11 @@
       </div>
     </div>
   </div>
-  <div id="userInfo"></div>
+  {% if site.cookies.karaokeSaoMai %}
+    <div id="userInfo">
+      {% include infor.html %}
+    </div>
+  {% endif %}
 </body>
 
 </html>
