@@ -274,49 +274,20 @@ function searchVideos() {
   }
 </script>
 <script>
-    // Kiểm tra nếu tên đã được lưu trong cookies thì ẩn popup
-    $(document).ready(function () {
-        if (!getCookie("username")) {
-            // Hiển thị popup sau khi tải trang
-            $('#namePopup').addClass('active');
-            $('#namePopup').css('bottom', '0'); // Trượt popup lên từ dưới
-        }
-    });
+$(document).ready(function() {
+    // Hiện popup khi trang tải xong
+    $('#popup').removeClass('translate-y-full');
 
-    // Xử lý khi nhấn nút "Lưu tên"
-    $('#saveNameBtn').click(function () {
-        const name = $('#nameInput').val().trim();
+    // Xử lý lưu tên và ẩn popup
+    $('#saveNameBtn').on('click', function() {
+        const name = $('#nameInput').val();
         if (name) {
-            setCookie("username", name, 30); // Lưu tên trong cookies với thời hạn 30 ngày
-            alert('Tên của bạn đã được lưu: ' + name);
-            $('#namePopup').css('bottom', '-100%'); // Ẩn popup sau khi lưu tên
+            document.cookie = `username=${name}; path=/`;
+            $('#popup').addClass('translate-y-full'); // Ẩn popup
+            $('#overlay').hide(); // Ẩn overlay
         } else {
-            alert('Vui lòng nhập tên.');
+            alert('Vui lòng nhập tên của bạn!');
         }
     });
-
-    // Hàm lưu cookies
-    function setCookie(cname, cvalue, exdays) {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
-
-    // Hàm lấy giá trị từ cookies
-    function getCookie(cname) {
-        const name = cname + "=";
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
+});
 </script>
