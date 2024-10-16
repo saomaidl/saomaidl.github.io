@@ -115,7 +115,7 @@
       if (currentTab !== 'TẤT CẢ') {
           query += ` ${currentTab.toLowerCase()}`;
       }
-      const apiKey = 'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4';
+      const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
   
       $.getJSON(url, function (data) {
