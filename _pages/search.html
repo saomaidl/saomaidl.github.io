@@ -22,27 +22,38 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
 {% include navigation.html %}
 {% include footer.html %}
-<bottom-sheet-container>
-  <ytw-scrim class="YtWebScrimHost YtWebScrimHostBottomSheet YtWebScrimHostModernOverlay" style=""><button class="YtWebScrimHiddenButton" aria-label="close"></button></ytw-scrim>
-  <bottom-sheet-layout>
-    <div class="yt-spec-bottom-sheet-layout yt-spec-bottom-sheet-layout__bottom-sheet-renderer-container yt-spec-bottom-sheet-layout--modern">
-      <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-header-wrapper" id="header-wrapper">
-        <div class="yt-spec-bottom-sheet-layout__bottom-sheet-drag-line"></div>
-        <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-header">
-          <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-header-title-wrapper"></div>
-        </div>
+<div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg relative">
+    <!-- Close button -->
+    <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" onclick="togglePopup()">×</button>
+    
+    <!-- Heading -->
+    <h2 class="text-2xl font-semibold text-center mb-6">Cách bạn sẽ xuất hiện</h2>
+    
+    <!-- Avatar and button -->
+    <div class="flex flex-col items-center mb-6">
+      <div class="w-24 h-24 rounded-full bg-gray-200 mb-3 flex items-center justify-center">
+        <img src="https://via.placeholder.com/100" alt="Avatar" class="rounded-full">
       </div>
-      <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-content-wrapper" id="content-wrapper" style="max-height: 240px;">
-        <div class="yt-spec-bottom-sheet-layout__bottom-sheet-content">
-          <div class="bottom-sheet-content-without-icon">
-            <div class="bottom-sheet-menu-item">
-              <ytm-menu-item><button class="menu-item-button">Mở ứng dụng</button></ytm-menu-item>
-              <ytm-menu-item><button class="menu-item-button">Phản hồi</button></ytm-menu-item>
-            </div>
-          </div>
-        </div>
-      </div>
+      <button class="text-blue-500 text-sm font-medium hover:underline">Chọn ảnh</button>
     </div>
-  </bottom-sheet-layout>
-  <button class="hidden-button" aria-label="Đóng"></button>
-</bottom-sheet-container>
+    
+    <!-- Input field for username -->
+    <div class="relative border border-gray-300 rounded-lg p-3 focus-within:border-blue-500 mb-6">
+      <input id="username" type="text" value="Daklak" class="peer w-full h-10 bg-transparent placeholder-transparent border-none outline-none focus:ring-0 text-black pt-4" placeholder="Tên người dùng">
+      <label for="username" class="absolute left-3 top-1 text-gray-500 text-sm bg-white px-1 transition-colors duration-200 peer-focus:text-blue-500">Tên người dùng</label>
+    </div>
+    
+    <!-- Input field for name -->
+    <div class="relative border border-gray-300 rounded-lg p-3 focus-within:border-blue-500 mb-6">
+      <input id="name" type="text" value="47 Daklak" class="peer w-full h-10 bg-transparent placeholder-transparent border-none outline-none focus:ring-0 text-black pt-4" placeholder="Tên">
+      <label for="name" class="absolute left-3 top-1 text-gray-500 text-sm bg-white px-1 transition-colors duration-200 peer-focus:text-blue-500">Tên</label>
+    </div>
+    
+    <!-- Footer buttons -->
+    <div class="flex justify-between items-center">
+      <button class="text-gray-500 hover:text-gray-700" onclick="togglePopup()">Hủy</button>
+      <button class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Tạo kênh</button>
+    </div>
+  </div>
+</div>
