@@ -222,7 +222,7 @@
             if (status === "error") {
               console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
             } else {
-              console.log("Tệp selected.html đã được tải thành công.");
+              $('body').css('overflow', 'hidden');
             }
           });
         }
