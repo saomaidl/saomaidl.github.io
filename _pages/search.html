@@ -22,10 +22,9 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
 {% include navigation.html %}
 {% include footer.html %}
-<div id="namePopup" class="fixed bottom-[-100%] left-0 w-full bg-white shadow-lg p-6 transition-all duration-500 ease-in-out z-50">
-    <h3 class="mb-4 text-xl font-bold text-gray-700">Nhập tên của bạn:</h3>
-    <div class="flex items-center space-x-2">
-        <input type="text" id="nameInput" class="w-3/4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Nhập tên...">
-        <button id="saveNameBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Lưu tên</button>
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full relative z-10">
+        <input id="nameInput" type="text" placeholder="Tên của bạn" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6" />
+        <button id="saveNameBtn" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all duration-300">Lưu</button>
     </div>
 </div>
