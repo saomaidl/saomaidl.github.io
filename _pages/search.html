@@ -22,8 +22,27 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
 {% include navigation.html %}
 {% include footer.html %}
-<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
-<div id="popup" class="fixed bottom-0 left-0 right-0 bg-white rounded-t-lg p-6 shadow-lg transform translate-y-full transition-transform duration-300 ease-in-out z-50">
-    <input id="nameInput" type="text" placeholder="Vui lòng nhập tên của bạn" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6" />
-    <button id="saveNameBtn" class="w-full bg-blue-500 text-white px-2 rounded-md hover:bg-blue-600 transition-all duration-300 flex items-center justify-center h-10 bg-black text-white text-base">Lưu</button>
-</div>
+<bottom-sheet-container>
+  <ytw-scrim class="YtWebScrimHost YtWebScrimHostBottomSheet YtWebScrimHostModernOverlay" style=""><button class="YtWebScrimHiddenButton" aria-label="close"></button></ytw-scrim>
+  <bottom-sheet-layout>
+    <div class="yt-spec-bottom-sheet-layout yt-spec-bottom-sheet-layout__bottom-sheet-renderer-container yt-spec-bottom-sheet-layout--modern">
+      <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-header-wrapper" id="header-wrapper">
+        <div class="yt-spec-bottom-sheet-layout__bottom-sheet-drag-line"></div>
+        <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-header">
+          <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-header-title-wrapper"></div>
+        </div>
+      </div>
+      <div class="yt-spec-bottom-sheet-layout__bottom-sheet-layout-content-wrapper" id="content-wrapper" style="max-height: 240px;">
+        <div class="yt-spec-bottom-sheet-layout__bottom-sheet-content">
+          <div class="bottom-sheet-content-without-icon">
+            <div class="bottom-sheet-menu-item">
+              <ytm-menu-item><button class="menu-item-button">Mở ứng dụng</button></ytm-menu-item>
+              <ytm-menu-item><button class="menu-item-button">Phản hồi</button></ytm-menu-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </bottom-sheet-layout>
+  <button class="hidden-button" aria-label="Đóng"></button>
+</bottom-sheet-container>
