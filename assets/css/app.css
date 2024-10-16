@@ -878,12 +878,6 @@ html svg:not(:root) {
   z-index: 100;
   left: 0;
 }
-.w_32Rp,
-.w_NOPS {
-  left: 0;
-  position: fixed;
-  top: 0;
-}
 .w_NOPS {
   background: #0006;
   bottom: 0;
@@ -1053,12 +1047,6 @@ textarea {
 }
 .mobile-modal div[data-focus-lock-disabled="false"] > div {
   padding-top: 145px;
-}
-.w_32Rp,
-.w_NOPS {
-  left: 0;
-  position: fixed;
-  top: 0;
 }
 .w_NOPS {
   background: #0006;
