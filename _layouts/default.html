@@ -105,7 +105,6 @@
             marginal: '0.6875rem',
           },
           fontFamily: {
-            cursive: ['"Imperial Script", cursive'],
             saomaiHeading: ['saomaiHeading', 'sans-serif'],
           },
           translate: {
@@ -139,13 +138,14 @@
             },
           });
         },
-        plugin(function({ addBase }) {
+        // Import Tailwind plugin function
+        function ({ addBase }) {
           addBase({
             'audio, canvas, embed, iframe, img, object, svg, video': {
               display: 'inline-block',
             },
-          })
-        }),
+          });
+        },
         function ({ addUtilities }) {
           addUtilities({
             '.encore-text': {
