@@ -256,11 +256,7 @@
       }
     });
   </script>
-  <script>
-      const supabaseUrl = 'https://wndajplczagmlxbvkmtk.supabase.co';
-      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA';
-      const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-  
+  <script> 
       function getKaraokeSaoMaiCookie() {
           const cookieString = document.cookie.split('; ').find(row => row.startsWith('karaokeSaoMai='));
           return cookieString ? JSON.parse(cookieString.split('=')[1]) : null;
