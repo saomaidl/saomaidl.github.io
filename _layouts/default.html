@@ -288,8 +288,16 @@
         }
     
         const userSongIndex = songs.findIndex(song => {
-            const name = JSON.parse(song.name);
-            return name.fullName === cookie.fullName && name.title === cookie.title;
+            if (song.name) {
+                try {
+                    const name = JSON.parse(song.name);
+                    return name.fullName === cookie.fullName && name.title === cookie.title;
+                } catch (error) {
+                    console.error('Có lỗi khi phân tích cú pháp JSON:', error);
+                    return false;
+                }
+            }
+            return false;
         });
     
         if (userSongIndex === -1) {
