@@ -256,7 +256,7 @@
       }
     });
   </script>
-  <script>  
+  <script>
       function getKaraokeSaoMaiCookie() {
           const cookieString = document.cookie.split('; ').find(row => row.startsWith('karaokeSaoMai='));
           return cookieString ? JSON.parse(cookieString.split('=')[1]) : null;
@@ -271,7 +271,6 @@
               .order('id', { ascending: true });
   
           if (error) {
-              console.error('Có lỗi xảy ra khi lấy video_ids:', error);
               return [];
           }
   
@@ -305,21 +304,24 @@
           }
       }
   
+      function subscribeToSongChanges() {
+          const channel = supabaseClient
+              .channel('public:karaoke_songs')
+              .on(
+                  'postgres_changes',
+                  { event: '*', schema: 'public', table: 'karaoke_songs' },
+                  (payload) => {
+                      console.log('Real-time update:', payload);
+                      getUnplayedVideoIds().then(updateSongStatus);
+                  }
+              )
+              .subscribe();
+      }
+  
       async function getRealtimeSongPosition() {
           const songs = await getUnplayedVideoIds();
           updateSongStatus(songs);
-  
-          if (songs.length > 0) {
-              const song = songs[0];
-  
-              supabaseClient
-                  .from('karaoke_songs')
-                  .on('UPDATE', payload => {
-                      console.log('Dữ liệu đã cập nhật:', payload.new);
-                      getRealtimeSongPosition();
-                  })
-                  .subscribe();
-          }
+          subscribeToSongChanges();
       }
   
       getRealtimeSongPosition();
