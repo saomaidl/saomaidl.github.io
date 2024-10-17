@@ -139,6 +139,13 @@
             },
           });
         },
+        plugin(function({ addBase }) {
+          addBase({
+            'audio, canvas, embed, iframe, img, object, svg, video': {
+              display: 'inline-block',
+            },
+          })
+        }),
         function ({ addUtilities }) {
           addUtilities({
             '.encore-text': {
