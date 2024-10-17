@@ -256,76 +256,80 @@
       }
     });
   </script>
-  <script>   
-    function getKaraokeSaoMaiCookie() {
-        const cookieString = document.cookie.split('; ').find(row => row.startsWith('karaokeSaoMai='));
-        return cookieString ? JSON.parse(cookieString.split('=')[1]) : null;
-    }
-    
-    async function getUnplayedVideoIds() {
-        const { data, error } = await supabaseClient
-            .from('karaoke_songs')
-            .select('*')
-            .eq('played', false)
-            .order('priority', { ascending: false })
-            .order('id', { ascending: true });
-    
-        if (error) {
-            console.error('Có lỗi xảy ra khi lấy video_ids:', error);
-            return [];
-        }
-    
-        return data;
-    }
-    
-    function updateSongStatus(songs) {
-        const songStatusDiv = document.getElementById('song_status');
-        const cookie = getKaraokeSaoMaiCookie();
-    
-        if (!cookie) {
-            songStatusDiv.textContent = 'Không tìm thấy thông tin từ cookie.';
-            return;
-        }
-    
-        const userSongIndex = songs.findIndex(song => {
-            if (song.name) {
-                try {
-                    const name = JSON.parse(song.name);
-                    return name.fullName === cookie.fullName && name.title === cookie.title;
-                } catch (error) {
-                    console.error('Có lỗi khi phân tích cú pháp JSON:', error);
-                    return false;
-                }
-            }
-            return false;
-        });
-    
-        if (userSongIndex === -1) {
-            return;
-        } else {
-            const numRemaining = userSongIndex;
-            songStatusDiv.textContent = `sau ${numRemaining} bài nữa`;
-        }
-    }
-    
-    async function getRealtimeSongPosition() {
-        const songs = await getUnplayedVideoIds();
-        updateSongStatus(songs);
-    
-        if (songs.length > 0) {
-            const song = songs[0];
-    
-            supabaseClient
-                .from(`karaoke_songs:id=eq.${song.id}`)
-                .on('UPDATE', payload => {
-                    console.log('Dữ liệu đã cập nhật:', payload.new);
-                    getRealtimeSongPosition();
-                })
-                .subscribe();
-        }
-    }
-    
-    getRealtimeSongPosition();
+  <script>
+      const supabaseUrl = 'https://wndajplczagmlxbvkmtk.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA';
+      const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  
+      function getKaraokeSaoMaiCookie() {
+          const cookieString = document.cookie.split('; ').find(row => row.startsWith('karaokeSaoMai='));
+          return cookieString ? JSON.parse(cookieString.split('=')[1]) : null;
+      }
+  
+      async function getUnplayedVideoIds() {
+          const { data, error } = await supabaseClient
+              .from('karaoke_songs')
+              .select('*')
+              .eq('played', false)
+              .order('priority', { ascending: false })
+              .order('id', { ascending: true });
+  
+          if (error) {
+              console.error('Có lỗi xảy ra khi lấy video_ids:', error);
+              return [];
+          }
+  
+          return data;
+      }
+  
+      function updateSongStatus(songs) {
+          const songStatusDiv = document.getElementById('song_status');
+          const cookie = getKaraokeSaoMaiCookie();
+  
+          if (!cookie) {
+              songStatusDiv.textContent = 'Không tìm thấy thông tin từ cookie.';
+              return;
+          }
+  
+          const userSongIndex = songs.findIndex(song => {
+              if (song.name) {
+                  try {
+                      const name = JSON.parse(song.name);
+                      return name.fullName === cookie.fullName && name.title === cookie.title;
+                  } catch (error) {
+                      console.error('Có lỗi khi phân tích cú pháp JSON:', error);
+                      return false;
+                  }
+              }
+              return false;
+          });
+  
+          if (userSongIndex === -1) {
+              return;
+          } else {
+              const numRemaining = userSongIndex;
+              songStatusDiv.textContent = `sau ${numRemaining} bài nữa`;
+          }
+      }
+  
+      async function getRealtimeSongPosition() {
+          const songs = await getUnplayedVideoIds();
+          updateSongStatus(songs);
+  
+          if (songs.length > 0) {
+              const song = songs[0];
+  
+              supabaseClient
+                  .from('karaoke_songs')
+                  .on('UPDATE', payload => {
+                      console.log('Dữ liệu đã cập nhật:', payload.new);
+                      getRealtimeSongPosition();
+                  })
+                  .subscribe();
+          }
+      }
+  
+      getRealtimeSongPosition();
   </script>
 </body>
 
