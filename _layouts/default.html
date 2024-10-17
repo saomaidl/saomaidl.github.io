@@ -301,7 +301,7 @@
         });
     
         if (userSongIndex === -1) {
-            songStatusDiv.textContent = 'Thông tin của bạn không có trong danh sách chờ.';
+            return;
         } else {
             const numRemaining = userSongIndex;
             songStatusDiv.textContent = `sau ${numRemaining} bài nữa`;
