@@ -1053,3 +1053,6 @@ textarea {
   bottom: 0;
   right: 0;
 }
+html .dark-gray {
+  color: #2e2f32;
+}
