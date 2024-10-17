@@ -214,10 +214,13 @@
       }
     
       function setCookie(name, value, days) {
-        var d = new Date();
-        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+          var expires = "";
+          if (days) {
+              var date = new Date();
+              date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+              expires = "; expires=" + date.toUTCString();
+          }
+          document.cookie = name + "=" + (value || "")  + expires + "; path=/";
       }
     
       $(document).on('submit', '#edit-full-name-form', function(event) {
@@ -238,6 +241,7 @@
         
         var userInfoJson = JSON.stringify(userInfo);
         setCookie('karaokeSaoMai', userInfoJson, 1);
+        alert(userInfoJson);
         $('#content').empty();
         $('body').removeAttr('style');
       });
