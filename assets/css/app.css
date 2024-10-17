@@ -1056,3 +1056,16 @@ textarea {
 html .dark-gray {
   color: #2e2f32;
 }
+html .gold {
+  color: #ffc220;
+}
+.ld {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font: normal normal normal 16px / 1 ui-icons;
+  font-size: inherit;
+}
+.ld.ld-Spark:before {
+  content: "\f1c0";
+}
