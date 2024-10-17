@@ -21,7 +21,7 @@
   font-style: normal;
 }
 @font-face {
-  font-display: swap;
   font-family: ui-icons;
   src: url({{ site.baseurl }}/assets/fonts/ui-icons.woff2) format("woff2");
+  font-display: swap;
 }
