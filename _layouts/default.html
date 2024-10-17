@@ -256,7 +256,7 @@
       }
     });
   </script>
-  <script> 
+  <script>  
       function getKaraokeSaoMaiCookie() {
           const cookieString = document.cookie.split('; ').find(row => row.startsWith('karaokeSaoMai='));
           return cookieString ? JSON.parse(cookieString.split('=')[1]) : null;
@@ -281,9 +281,7 @@
       function updateSongStatus(songs) {
           const songStatusDiv = document.getElementById('song_status');
           const cookie = getKaraokeSaoMaiCookie();
-  
           if (!cookie) {
-              songStatusDiv.textContent = 'Không tìm thấy thông tin từ cookie.';
               return;
           }
   
@@ -293,7 +291,6 @@
                       const name = JSON.parse(song.name);
                       return name.fullName === cookie.fullName && name.title === cookie.title;
                   } catch (error) {
-                      console.error('Có lỗi khi phân tích cú pháp JSON:', error);
                       return false;
                   }
               }
