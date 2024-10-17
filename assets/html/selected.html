@@ -41,3 +41,79 @@
   </div>
   <div data-focus-guard="true" tabindex="0" style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"></div>
 </div>
+<script>
+const supabaseUrl = 'https://wndajplczagmlxbvkmtk.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+// Hàm lấy cookie karaokeSaoMai
+function getKaraokeSaoMaiCookie() {
+    const cookieString = document.cookie.split('; ').find(row => row.startsWith('karaokeSaoMai='));
+    return cookieString ? JSON.parse(cookieString.split('=')[1]) : null;
+}
+
+// Hàm lấy danh sách video chưa phát từ Supabase
+async function getUnplayedVideoIds() {
+    const { data, error } = await supabaseClient
+        .from('karaoke_songs')
+        .select('*') // lấy tất cả các cột để dễ theo dõi
+        .eq('played', false) // chỉ lấy những bài chưa phát
+        .order('priority', { ascending: false }) // sắp xếp theo priority, true trước
+        .order('id', { ascending: true }); // nếu priority giống nhau thì sắp xếp theo id tăng dần
+
+    if (error) {
+        console.error('Có lỗi xảy ra khi lấy video_ids:', error);
+        return [];
+    }
+
+    return data; // trả về toàn bộ dữ liệu để xử lý theo nhu cầu
+}
+
+// Hàm để kiểm tra và hiển thị thứ tự của người dùng theo cookie
+function updateSongStatus(songs) {
+    const songStatusDiv = document.getElementById('song_status');
+    const cookie = getKaraokeSaoMaiCookie();
+
+    if (!cookie) {
+        songStatusDiv.textContent = 'Không tìm thấy thông tin từ cookie.';
+        return;
+    }
+
+    const userSongIndex = songs.findIndex(song => {
+        const name = JSON.parse(song.name);
+        return name.fullName === cookie.fullName && name.title === cookie.title;
+    });
+
+    if (userSongIndex === -1) {
+        songStatusDiv.textContent = 'Thông tin của bạn không có trong danh sách chờ.';
+    } else {
+        const numRemaining = userSongIndex;
+        songStatusDiv.textContent = `Còn ${numRemaining} bài nữa trước khi đến lượt bạn.`;
+    }
+}
+
+// Hàm lấy danh sách video chưa phát và cập nhật nội dung
+async function getRealtimeSongPosition() {
+    const songs = await getUnplayedVideoIds();
+    
+    // Cập nhật thứ tự dựa trên thông tin cookie
+    updateSongStatus(songs);
+
+    if (songs.length > 0) {
+        const song = songs[0];
+
+        // Theo dõi realtime thay đổi của bài hát đầu tiên
+        supabaseClient
+            .from(`karaoke_songs:id=eq.${song.id}`)
+            .on('UPDATE', payload => {
+                console.log('Dữ liệu đã cập nhật:', payload.new);
+                // Cập nhật lại danh sách và nội dung sau khi có thay đổi
+                getRealtimeSongPosition();
+            })
+            .subscribe();
+    }
+}
+
+// Gọi hàm để lấy vị trí realtime của bản ghi dựa trên thứ tự sắp xếp
+getRealtimeSongPosition();
+</script>
