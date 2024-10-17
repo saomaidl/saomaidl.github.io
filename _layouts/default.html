@@ -227,7 +227,6 @@
         var location = $('#location').val().trim();
     
         if (!title || !fullName) {
-          console.warn("Title và Full Name là bắt buộc!");
           return;
         }
     
@@ -248,7 +247,7 @@
           if (status == "success") {
             $('body').css('overflow', 'hidden');
           } else {
-            console.error("Error loading the file: " + xhr.status + " " + xhr.statusText);
+            return;
           }
         });
       } else {
