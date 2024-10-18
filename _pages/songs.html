@@ -1,6 +1,157 @@
 ---
-layout: default
-title: "Bài hát đã chọn | Sao Mai Media"
+layout: 
+title: "DNH SÁCH BÀI HÁT"
 permalink: /songs
 description: "Hiển thị các bài hát karaoke đã được chọn để hát. Dễ dàng truy cập và quản lý các lựa chọn yêu thích của bạn."
 ---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karaoke Sync</title>
+  <style>
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.karaoke-container {
+  text-align: center;
+}
+
+.video-wrapper {
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.controls button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.controls button:hover {
+  background-color: #45a049;
+}
+
+  </style>
+</head>
+<body>
+  <div class="karaoke-container">
+    <div class="video-wrapper">
+      <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID?enablejsapi=1" frameborder="0"></iframe>
+    </div>
+
+    <div class="controls">
+      <button id="playBtn">Phát</button>
+      <button id="pauseBtn">Tạm dừng</button>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+const supabase = supabase.createClient('https://wndajplczagmlxbvkmtk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA');
+
+const videoPlayer = document.getElementById('videoPlayer');
+const playBtn = document.getElementById('playBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const songId = 1; // Id của bài hát
+
+// Cập nhật trạng thái phát nhạc và thời gian bắt đầu phát
+const playSong = async () => {
+  const startTime = new Date().toISOString(); // Lấy thời gian hiện tại
+
+  // Cập nhật start_time và is_playing trong bảng karaoke_songs
+  const { error } = await supabase
+    .from('karaoke_songs')
+    .update({ start_time: startTime, is_playing: true })
+    .eq('id', songId);
+
+  if (error) {
+    console.error('Error updating song state:', error);
+  } else {
+    console.log('Song is now playing.');
+    // Phát video YouTube
+    videoPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+  }
+};
+
+// Dừng phát nhạc
+const pauseSong = async () => {
+  const { error } = await supabase
+    .from('karaoke_songs')
+    .update({ is_playing: false })
+    .eq('id', songId);
+
+  if (error) {
+    console.error('Error pausing song:', error);
+  } else {
+    console.log('Song is paused.');
+    // Dừng phát video YouTube
+    videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+  }
+};
+
+// Đồng bộ thời gian phát nhạc
+const syncPlaybackTime = async () => {
+  const { data: song, error } = await supabase
+    .from('karaoke_songs')
+    .select('start_time')
+    .eq('id', songId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching start time:', error);
+    return;
+  }
+
+  const startTime = new Date(song.start_time).getTime();
+  const currentTime = Date.now();
+  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+
+  // Chuyển đến thời gian tương ứng trong video
+  videoPlayer.contentWindow.postMessage(`{"event":"command","func":"seekTo","args":[${elapsedTime}, true]}`, '*');
+};
+
+// Lắng nghe sự kiện Realtime để cập nhật trạng thái phát nhạc
+const subscribeToSongStatus = () => {
+  supabase
+    .from(`karaoke_songs:id=eq.${songId}`)
+    .on('UPDATE', payload => {
+      const { is_playing } = payload.new;
+
+      if (is_playing) {
+        // Nếu bài hát đang phát, đồng bộ thời gian phát nhạc
+        syncPlaybackTime();
+      } else {
+        // Nếu bài hát tạm dừng, dừng phát video
+        videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      }
+    })
+    .subscribe();
+};
+
+// Sự kiện nút Phát và Tạm dừng
+playBtn.addEventListener('click', playSong);
+pauseBtn.addEventListener('click', pauseSong);
+
+// Đăng ký lắng nghe sự kiện Realtime khi tải trang
+window.addEventListener('load', subscribeToSongStatus);
+
+  </script>
+</body>
+</html>
