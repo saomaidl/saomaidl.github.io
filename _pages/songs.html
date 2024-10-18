@@ -10,31 +10,30 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke Player with Video.js</title>
-    <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Karaoke Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube/dist/Youtube.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube/dist/Youtube.min.js"></script>
 </head>
-<body class="bg-gray-100 text-center">
-    <h1 class="text-3xl font-bold mt-4">Karaoke Player</h1>
-    <div class="my-4">
-        <video id="karaokePlayer" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup='{"controls": true}'>
-            <source src="https://www.youtube.com/watch?v=-XfX_F8kyiw" type="video/youtube">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-    <div class="space-x-4">
-        <button id="playBtn" class="px-4 py-2 bg-green-500 text-white rounded">Play</button>
-        <button id="pauseBtn" class="px-4 py-2 bg-yellow-500 text-white rounded">Pause</button>
-        <button id="volumeUpBtn" class="px-4 py-2 bg-blue-500 text-white rounded">Volume Up</button>
-        <button id="volumeDownBtn" class="px-4 py-2 bg-blue-500 text-white rounded">Volume Down</button>
-        <button id="muteBtn" class="px-4 py-2 bg-red-500 text-white rounded">Mute</button>
-        <button id="replayBtn" class="px-4 py-2 bg-purple-500 text-white rounded">Replay</button>
-    </div>
+<body>
+    <h1 class="text-center">Karaoke Player</h1>
+    <video
+        id="my-video"
+        class="video-js vjs-default-skin"
+        controls
+        preload="auto"
+        width="640"
+        height="360"
+        data-setup='{}'>
+    </video>
+    <button id="playBtn">Play</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="volumeUpBtn">Volume Up</button>
+    <button id="volumeDownBtn">Volume Down</button>
+    <button id="replayBtn">Replay</button>
 
     <script>
         const firebaseConfig = {
@@ -47,69 +46,39 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
             measurementId: "G-MNBY4YPT3N"
         };
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        const player = videojs('karaokePlayer');
-        player.src({ src: 'https://www.youtube.com/watch?v=-XfX_F8kyiw', type: 'video/youtube' });
-
-        // Update Firebase with current video state
-        function updateFirebase() {
-            const videoState = {
-                currentTime: player.currentTime(),
-                isPlaying: !player.paused()
-            };
-            database.ref('videoState').set(videoState);
-        }
-
-        // Sync video state from Firebase
-        database.ref('videoState').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                player.currentTime(data.currentTime);
-                if (data.isPlaying) {
-                    player.play();
-                } else {
-                    player.pause();
-                }
-            }
+        const player = videojs('my-video', {
+            techOrder: ["youtube"],
+            sources: [{
+                src: 'https://www.youtube.com/watch?v=-XfX_F8kyiw', // Thay VIDEO_ID bằng ID video thật
+                type: 'video/youtube'
+            }]
         });
 
-        $('#playBtn').click(function() {
+        $('#playBtn').click(() => {
             player.play();
-            updateFirebase();
         });
 
-        $('#pauseBtn').click(function() {
+        $('#pauseBtn').click(() => {
             player.pause();
-            updateFirebase();
         });
 
-        $('#volumeUpBtn').click(function() {
-            const volume = Math.min(player.volume() + 0.1, 1);
-            player.volume(volume);
-            updateFirebase();
+        $('#volumeUpBtn').click(() => {
+            player.volume(Math.min(player.volume() + 0.1, 1)); // Tăng âm lượng
         });
 
-        $('#volumeDownBtn').click(function() {
-            const volume = Math.max(player.volume() - 0.1, 0);
-            player.volume(volume);
-            updateFirebase();
+        $('#volumeDownBtn').click(() => {
+            player.volume(Math.max(player.volume() - 0.1, 0)); // Giảm âm lượng
         });
 
-        $('#muteBtn').click(function() {
-            player.muted(!player.muted());
-            updateFirebase();
+        $('#replayBtn').click(() => {
+            player.currentTime(0); // Phát lại từ đầu
+            player.play();
         });
-
-        $('#replayBtn').click(function() {
-            player.currentTime(0);
-            updateFirebase();
-        });
-
-        player.on('pause', updateFirebase);
-        player.on('play', updateFirebase);
-        player.on('timeupdate', updateFirebase);
     </script>
 </body>
 </html>
+
