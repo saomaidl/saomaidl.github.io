@@ -13,6 +13,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <title>Karaoke Player</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/videojs-theme-forest/dist/videojs-theme-forest.min.css" rel="stylesheet">
     <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube/dist/Youtube.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -25,10 +26,10 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <div class="relative w-full"> <!-- Tạo tỷ lệ 16:9 cho video -->
         <video
             id="my-video"
-            class="video-js vjs-default-skin absolute top-0 left-0 w-full h-full"
+            class="video-js vjs-default-skin vjs-theme-forest absolute top-0 left-0 w-full h-full"
             controls
             preload="auto"
-            data-setup='{"controls": true, "fluid": true}'> <!-- Thiết lập ở đây -->
+            data-setup='{"controls": true, "fluid": true, "controlBar": {"pipToggle": false}}'>
         </video>
     </div>
     <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-x-4 mt-4">
