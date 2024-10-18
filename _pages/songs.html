@@ -12,19 +12,19 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karaoke Player</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
+    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube/dist/Youtube.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js"></script>
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-center text-2xl font-bold mb-4">Karaoke Player</h1>
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl text-center mb-4">Karaoke Player</h1>
         <video
             id="my-video"
-            class="video-js vjs-default-skin mx-auto"
+            class="video-js vjs-default-skin"
             controls
             preload="auto"
             width="640"
@@ -32,135 +32,95 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             data-setup='{}'>
         </video>
         <div class="flex justify-center space-x-4 mt-4">
-            <button id="playBtn" class="bg-blue-500 text-white py-2 px-4 rounded">Play</button>
-            <button id="pauseBtn" class="bg-red-500 text-white py-2 px-4 rounded">Pause</button>
-            <button id="volumeUpBtn" class="bg-green-500 text-white py-2 px-4 rounded">Volume Up</button>
-            <button id="volumeDownBtn" class="bg-yellow-500 text-white py-2 px-4 rounded">Volume Down</button>
-            <button id="replayBtn" class="bg-purple-500 text-white py-2 px-4 rounded">Replay</button>
+            <button id="playBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Play</button>
+            <button id="pauseBtn" class="bg-red-500 text-white px-4 py-2 rounded">Pause</button>
+            <button id="volumeUpBtn" class="bg-green-500 text-white px-4 py-2 rounded">Volume Up</button>
+            <button id="volumeDownBtn" class="bg-yellow-500 text-white px-4 py-2 rounded">Volume Down</button>
+            <button id="replayBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Replay</button>
         </div>
     </div>
 
     <script>
-// Firebase Configuration and Initialization (không thay đổi)
-const firebaseConfig = {
-    apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
-    authDomain: "karaoke-3aa8f.firebaseapp.com",
-    databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "karaoke-3aa8f",
-    storageBucket: "karaoke-3aa8f.appspot.com",
-    messagingSenderId: "652741363415",
-    appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
-    measurementId: "G-MNBY4YPT3N"
-};
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
+            authDomain: "karaoke-3aa8f.firebaseapp.com",
+            databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "karaoke-3aa8f",
+            storageBucket: "karaoke-3aa8f.appspot.com",
+            messagingSenderId: "652741363415",
+            appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
+            measurementId: "G-MNBY4YPT3N"
+        };
 
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-// Initialize Video.js
-const player = videojs('my-video', {
-    techOrder: ["youtube"],
-    sources: [{
-        src: 'https://www.youtube.com/watch?v=SSQ8jfIxDkM', // Thay VIDEO_ID bằng ID video thật
-        type: 'video/youtube'
-    }]
-});
+        // Video.js Initialization
+        const player = videojs('my-video', {
+            techOrder: ["youtube"],
+            sources: [{
+                src: 'https://www.youtube.com/watch?v=SSQ8jfIxDkM', // Thay VIDEO_ID bằng ID video thật
+                type: 'video/youtube'
+            }]
+        });
 
-// WebRTC Setup
-const yourId = Math.floor(Math.random() * 1000000000);
-const servers = {
-    iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' }
-    ]
-};
-const pc = new RTCPeerConnection(servers);
-
-pc.onicecandidate = event => {
-    if (event.candidate) {
-        sendMessage(yourId, JSON.stringify({ 'ice': event.candidate }));
-    }
-};
-
-pc.ontrack = event => {
-    // Phát video nhận được từ kết nối WebRTC
-    player.src({ src: event.streams[0], type: 'application/x-mpegURL' });
-    player.play();
-};
-
-// Sending messages via Firebase
-function sendMessage(senderId, data) {
-    const msg = database.ref('messages').push({
-        sender: senderId,
-        message: data
-    });
-    msg.remove();
-}
-
-// Receiving messages from Firebase
-database.ref('messages').on('child_added', data => {
-    const msg = JSON.parse(data.val().message);
-    const sender = data.val().sender;
-
-    if (sender !== yourId) {
-        if (msg.ice) {
-            pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-        } else if (msg.sdp) {
-            if (msg.sdp.type === 'offer') {
-                pc.setRemoteDescription(new RTCSessionDescription(msg.sdp)).then(() => {
-                    return pc.createAnswer();
-                }).then(answer => {
-                    return pc.setLocalDescription(answer);
-                }).then(() => {
-                    sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
+        // Tự động phát video khi trang đã tải
+        document.addEventListener('DOMContentLoaded', () => {
+            player.ready(() => {
+                player.play().catch(error => {
+                    console.error('Error attempting to play', error);
                 });
-            } else if (msg.sdp.type === 'answer') {
-                pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+            });
+        });
+
+        // Xử lý nút Play
+        $('#playBtn').click(() => {
+            player.play();
+            // Gửi trạng thái Play tới Firebase
+            database.ref('videoStatus').set({ playing: true, currentTime: player.currentTime() });
+        });
+
+        // Xử lý nút Pause
+        $('#pauseBtn').click(() => {
+            player.pause();
+            // Gửi trạng thái Pause tới Firebase
+            database.ref('videoStatus').set({ playing: false, currentTime: player.currentTime() });
+        });
+
+        // Xử lý tăng âm lượng
+        $('#volumeUpBtn').click(() => {
+            player.volume(Math.min(player.volume() + 0.1, 1));
+            database.ref('videoStatus').set({ volume: player.volume(), currentTime: player.currentTime() });
+        });
+
+        // Xử lý giảm âm lượng
+        $('#volumeDownBtn').click(() => {
+            player.volume(Math.max(player.volume() - 0.1, 0));
+            database.ref('videoStatus').set({ volume: player.volume(), currentTime: player.currentTime() });
+        });
+
+        // Xử lý nút Replay
+        $('#replayBtn').click(() => {
+            player.currentTime(0);
+            player.play();
+            database.ref('videoStatus').set({ playing: true, currentTime: 0 });
+        });
+
+        // Đồng bộ hóa trạng thái video từ Firebase
+        database.ref('videoStatus').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                player.currentTime(data.currentTime || 0);
+                if (data.playing) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+                player.volume(data.volume || 1);
             }
-        }
-    }
-});
-
-// UI Buttons
-$('#playBtn').click(() => {
-    player.play();
-    sendMessage(yourId, JSON.stringify({ action: 'play' }));
-});
-
-$('#pauseBtn').click(() => {
-    player.pause();
-    sendMessage(yourId, JSON.stringify({ action: 'pause' }));
-});
-
-$('#volumeUpBtn').click(() => {
-    const newVolume = Math.min(player.volume() + 0.1, 1);
-    player.volume(newVolume);
-    sendMessage(yourId, JSON.stringify({ volume: newVolume }));
-});
-
-$('#volumeDownBtn').click(() => {
-    const newVolume = Math.max(player.volume() - 0.1, 0);
-    player.volume(newVolume);
-    sendMessage(yourId, JSON.stringify({ volume: newVolume }));
-});
-
-$('#replayBtn').click(() => {
-    player.currentTime(0);
-    player.play();
-    sendMessage(yourId, JSON.stringify({ action: 'replay' }));
-});
-
-// Start the call
-function startCall() {
-    pc.createOffer().then(offer => {
-        return pc.setLocalDescription(offer);
-    }).then(() => {
-        sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription }));
-    });
-}
-
-startCall(); // Initiate the call
-
+        });
     </script>
 </body>
 </html>
-
-
