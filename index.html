@@ -38,6 +38,7 @@
 
     <script>
         const videoId = 'SSQ8jfIxDkM';
+        const playlistId = 'PLedluKK14DP02usz6k6fILudTIK3Ggtvt';
         const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -56,6 +57,7 @@
             player = new YT.Player('player', {
                 videoId: videoId,
                 playerVars: {
+                    'list': playlistId,
                     'autoplay': 1,
                     'controls': 0
                 },
