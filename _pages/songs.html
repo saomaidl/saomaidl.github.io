@@ -8,155 +8,68 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karaoke Sync</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke App</title>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
 
-    .karaoke-container {
-      text-align: center;
-    }
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
+            authDomain: "karaoke-3aa8f.firebaseapp.com",
+            projectId: "karaoke-3aa8f",
+            storageBucket: "karaoke-3aa8f.appspot.com",
+            messagingSenderId: "652741363415",
+            appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
+            measurementId: "G-MNBY4YPT3N"
+        };
 
-    .video-wrapper {
-      margin-bottom: 20px;
-    }
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
 
-    .controls {
-      display: flex;
-      justify-content: center;
-    }
+        // Function to write user data to Realtime Database
+        function writeUserData(userId, name, email) {
+            set(ref(database, 'users/' + userId), {
+                username: name,
+                email: email
+            })
+            .then(() => {
+                console.log('User data written successfully!');
+            })
+            .catch((error) => {
+                console.error('Error writing user data: ', error);
+            });
+        }
 
-    .controls button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 0 5px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+        // Function to read user data from Realtime Database
+        function readUserData(userId) {
+            const dbRef = ref(database);
+            get(child(dbRef, 'users/' + userId)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log('User data: ', snapshot.val());
+                } else {
+                    console.log('No data available');
+                }
+            }).catch((error) => {
+                console.error('Error reading user data: ', error);
+            });
+        }
 
-    .controls button:hover {
-      background-color: #45a049;
-    }
-  </style>
+        // Example usage
+        writeUserData('1', 'John Doe', 'john.doe@example.com'); // Ghi dữ liệu người dùng
+        readUserData('1'); // Đọc dữ liệu người dùng
+    </script>
 </head>
 <body>
-  <div class="karaoke-container">
-    <div class="video-wrapper">
-      <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/embed/rM5iazNj9mw?enablejsapi=1" frameborder="0"></iframe>
-    </div>
-
-    <div class="controls">
-      <button id="playBtn">Phát</button>
-      <button id="pauseBtn">Tạm dừng</button>
-    </div>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    $(document).ready(function () {
-      // Khởi tạo Supabase Client
-      const supabaseClient = supabase.createClient(
-        'https://wndajplczagmlxbvkmtk.supabase.co', 
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9zZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA'
-      );
-
-      const videoPlayer = document.getElementById('videoPlayer');
-      const playBtn = document.getElementById('playBtn');
-      const pauseBtn = document.getElementById('pauseBtn');
-      const trackId = 1; // Id của bài hát trong bảng karaoke_tracks
-
-      // Cập nhật trạng thái phát nhạc và thời gian bắt đầu phát
-      const playTrack = async () => {
-        const startTime = new Date().toISOString(); // Lấy thời gian hiện tại
-
-        const { error } = await supabaseClient
-          .from('karaoke_tracks')
-          .update({ start_time: startTime, is_playing: true })
-          .eq('id', trackId);
-
-        if (error) {
-          console.error('Error updating track state:', error);
-        } else {
-          console.log('Track is now playing.');
-          videoPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        }
-      };
-
-      // Dừng phát nhạc
-      const pauseTrack = async () => {
-        const { error } = await supabaseClient
-          .from('karaoke_tracks')
-          .update({ is_playing: false })
-          .eq('id', trackId);
-
-        if (error) {
-          console.error('Error pausing track:', error);
-        } else {
-          console.log('Track is paused.');
-          videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        }
-      };
-
-      // Đồng bộ thời gian phát nhạc
-      const syncPlaybackTime = async () => {
-        const { data: track, error } = await supabaseClient
-          .from('karaoke_tracks')
-          .select('start_time')
-          .eq('id', trackId)
-          .single();
-
-        if (error) {
-          console.error('Error fetching start time:', error);
-          return;
-        }
-
-        const startTime = new Date(track.start_time).getTime();
-        const currentTime = Date.now();
-        const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-
-        videoPlayer.contentWindow.postMessage(`{"event":"command","func":"seekTo","args":[${elapsedTime}, true]}`, '*');
-      };
-
-      // Lắng nghe sự kiện Realtime để cập nhật trạng thái phát nhạc
-      const subscribeToTrackStatus = () => {
-        const subscription = supabaseClient
-          .from('karaoke_tracks:id=eq.' + trackId)
-          .on('UPDATE', payload => {
-            const { is_playing } = payload.new;
-
-            if (is_playing) {
-              syncPlaybackTime();
-            } else {
-              videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            }
-          })
-          .subscribe();
-
-        // Hủy đăng ký nếu không cần thiết nữa
-        return () => {
-          supabaseClient.removeSubscription(subscription);
-        };
-      };
-
-      // Sự kiện nút Phát và Tạm dừng
-      playBtn.addEventListener('click', playTrack);
-      pauseBtn.addEventListener('click', pauseTrack);
-
-      // Đăng ký lắng nghe sự kiện Realtime khi tải trang
-      const unsubscribe = subscribeToTrackStatus();
-    });
-  </script>
+    <h1>Chào mừng đến với ứng dụng Karaoke</h1>
+    <p>Kiểm tra console để thấy dữ liệu người dùng được ghi và đọc từ Firebase.</p>
 </body>
 </html>
+
 
