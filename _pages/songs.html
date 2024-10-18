@@ -10,7 +10,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke Player</title>
+    <title>Karaoke Player with YouTube Streaming</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
@@ -59,27 +59,67 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             }]
         });
 
+        function syncVideoWithFirebase() {
+            const videoRef = database.ref('videoState');
+            videoRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    player.currentTime(data.currentTime);
+                    if (data.isPlaying) {
+                        player.play();
+                    } else {
+                        player.pause();
+                    }
+                }
+            });
+        }
+
+        // Hàm debounce để hạn chế tần suất gửi trạng thái video
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        const updateFirebase = debounce(() => {
+            database.ref('videoState').set({
+                currentTime: player.currentTime(),
+                isPlaying: !player.paused()
+            });
+        }, 3000); // Gửi trạng thái video mỗi 3 giây
+
         $('#playBtn').click(() => {
             player.play();
+            updateFirebase();
         });
 
         $('#pauseBtn').click(() => {
             player.pause();
+            updateFirebase();
         });
 
         $('#volumeUpBtn').click(() => {
-            player.volume(Math.min(player.volume() + 0.1, 1)); // Tăng âm lượng
+            player.volume(Math.min(player.volume() + 0.1, 1));
+            updateFirebase();
         });
 
         $('#volumeDownBtn').click(() => {
-            player.volume(Math.max(player.volume() - 0.1, 0)); // Giảm âm lượng
+            player.volume(Math.max(player.volume() - 0.1, 0));
+            updateFirebase();
         });
 
         $('#replayBtn').click(() => {
-            player.currentTime(0); // Phát lại từ đầu
+            player.currentTime(0);
             player.play();
+            updateFirebase();
         });
+
+        // Bắt đầu đồng bộ trạng thái video khi người dùng truy cập
+        syncVideoWithFirebase();
     </script>
 </body>
 </html>
+
 
