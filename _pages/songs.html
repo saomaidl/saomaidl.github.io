@@ -52,7 +52,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 <body>
   <div class="karaoke-container">
     <div class="video-wrapper">
-      <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/embed/rM5iazNj9mw?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+      <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/embed/rM5iazNj9mw?enablejsapi=1" frameborder="0"></iframe>
     </div>
 
     <div class="controls">
@@ -67,8 +67,8 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     $(document).ready(function () {
       // Khởi tạo Supabase Client
       const supabaseClient = supabase.createClient(
-        'https://wndajplczagmlxbvkmtk.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA'
+        'https://wndajplczagmlxbvkmtk.supabase.co', 
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9zZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA'
       );
 
       const videoPlayer = document.getElementById('videoPlayer');
@@ -129,35 +129,34 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       };
 
       // Lắng nghe sự kiện Realtime để cập nhật trạng thái phát nhạc
-    const subscribeToTrackStatus = () => {
-      const subscription = supabaseClient
-        .from(`karaoke_tracks:id=eq.${trackId}`)
-        .on('UPDATE', payload => {
-          const { is_playing } = payload.new;
+      const subscribeToTrackStatus = () => {
+        const subscription = supabaseClient
+          .from('karaoke_tracks:id=eq.' + trackId)
+          .on('UPDATE', payload => {
+            const { is_playing } = payload.new;
 
-          if (is_playing) {
-            syncPlaybackTime();
-          } else {
-            videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-          }
-        })
-        .subscribe();
+            if (is_playing) {
+              syncPlaybackTime();
+            } else {
+              videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            }
+          })
+          .subscribe();
 
-      // Hủy đăng ký nếu không cần thiết nữa
-      return () => {
-        supabaseClient.removeSubscription(subscription);
+        // Hủy đăng ký nếu không cần thiết nữa
+        return () => {
+          supabaseClient.removeSubscription(subscription);
+        };
       };
-    };
 
       // Sự kiện nút Phát và Tạm dừng
       playBtn.addEventListener('click', playTrack);
       pauseBtn.addEventListener('click', pauseTrack);
 
       // Đăng ký lắng nghe sự kiện Realtime khi tải trang
-      subscribeToTrackStatus();
+      const unsubscribe = subscribeToTrackStatus();
     });
   </script>
-
 </body>
 </html>
 
