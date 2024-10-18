@@ -27,7 +27,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <button id="volumeDownBtn" class="px-4 py-2 bg-blue-500 text-white">Volume Down</button>
     <button id="replayBtn" class="px-4 py-2 bg-purple-500 text-white">Replay</button>
   </div>
-  <script type="text/javascript">
+<script type="text/javascript">
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -43,6 +43,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 
     let player;
     let isSyncing = false;
+
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         height: '390',
@@ -54,6 +55,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
         }
       });
     }
+
     function syncVideoWithFirebase() {
       const videoRef = database.ref('videoState');
       videoRef.on('value', (snapshot) => {
@@ -70,6 +72,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
         }
       });
     }
+
     function updateFirebase() {
       if (!isSyncing) {
         database.ref('videoState').set({
@@ -78,14 +81,17 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
         });
       }
     }
+
     function onPlayerReady(event) {
       syncVideoWithFirebase();
     }
+
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
         updateFirebase();
       }
     }
+
     $('#playBtn').click(function() {
       player.playVideo();
       updateFirebase();
@@ -108,7 +114,29 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       player.seekTo(0);
       updateFirebase();
     });
+
     const peerConnection = new RTCPeerConnection();
+    
+    // Thiết lập kênh dữ liệu
+    const dataChannel = peerConnection.createDataChannel('sync');
+    
+    dataChannel.onopen = () => {
+      console.log('DataChannel is open');
+      setInterval(() => {
+        const videoState = {
+          currentTime: player.getCurrentTime(),
+          isPlaying: player.getPlayerState() === YT.PlayerState.PLAYING
+        };
+        if (dataChannel.readyState === 'open') {
+          dataChannel.send(JSON.stringify(videoState));
+        }
+      }, 1000);
+    };
+
+    dataChannel.onclose = () => {
+      console.log('DataChannel is closed');
+    };
+
     peerConnection.ondatachannel = (event) => {
       const channel = event.channel;
       channel.onmessage = (event) => {
@@ -121,14 +149,6 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
         }
       };
     };
-    const dataChannel = peerConnection.createDataChannel('sync');
-    setInterval(() => {
-      const videoState = {
-        currentTime: player.getCurrentTime(),
-        isPlaying: player.getPlayerState() === YT.PlayerState.PLAYING
-      };
-      dataChannel.send(JSON.stringify(videoState));
-    }, 1000);
-  </script>
+</script>
 </body>
 </html>
