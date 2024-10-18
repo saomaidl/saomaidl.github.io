@@ -19,16 +19,16 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
-<body class="bg-gray-100">
-<div class="container mx-auto py-8">
+<body>
+<div class="mx-auto w-full">
     <h1 class="text-3xl text-center mb-4 hidden">Karaoke Player</h1>
-    <div class="relative w-full" style="padding-top: 56.25%;"> <!-- Tạo tỷ lệ 16:9 cho video -->
+    <div class="relative w-full"> <!-- Tạo tỷ lệ 16:9 cho video -->
         <video
             id="my-video"
             class="video-js vjs-default-skin absolute top-0 left-0 w-full h-full"
             controls
             preload="auto"
-            data-setup='{}'>
+            data-setup='{"controls": true, "fluid": true}'> <!-- Thiết lập ở đây -->
         </video>
     </div>
     <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-x-4 mt-4">
