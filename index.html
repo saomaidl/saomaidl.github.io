@@ -37,10 +37,7 @@
     </div>
 
     <script>
-        // Khai báo videoId một lần để dùng lại
         const videoId = 'UblSt882eFE';
-
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -51,18 +48,13 @@
             appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
             measurementId: "G-MNBY4YPT3N"
         };
-
-        // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Tạo YouTube player
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '360',
-                width: '640',
-                videoId: videoId, // Sử dụng videoId từ biến
+                videoId: videoId,
                 playerVars: {
                     'autoplay': 1,
                     'controls': 1
@@ -74,43 +66,35 @@
             });
         }
 
-        // Khi video sẵn sàng phát
         function onPlayerReady(event) {
             event.target.playVideo();
-
-            // Gửi trạng thái ban đầu lên Firebase
             const currentTime = player.getCurrentTime();
             const volume = player.getVolume();
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
             database.ref('videoStatus').set({
-                video_id: videoId, // Sử dụng videoId từ biến
+                video_id: videoId,
                 currentTime: currentTime,
                 playing: isPlaying,
-                volume: volume / 100, // Chuyển volume từ 0-100 thành 0-1
-                loop: false // Điều khiển lặp lại nếu cần
+                volume: volume / 100,
+                loop: false
             });
         }
 
-        // Khi trạng thái video thay đổi (play/pause)
         function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) {
                 const currentTime = player.getCurrentTime();
                 const volume = player.getVolume();
                 const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-
-                // Gửi cập nhật trạng thái lên Firebase
                 database.ref('videoStatus').set({
-                    video_id: videoId, // Sử dụng videoId từ biến
+                    video_id: videoId,
                     currentTime: currentTime,
                     playing: isPlaying,
-                    volume: volume / 100, // Chuyển volume từ 0-100 thành 0-1
+                    volume: volume / 100,
                     loop: false
                 });
             }
         }
-
-        // Cập nhật dữ liệu mỗi giây
         setInterval(() => {
             if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
                 const currentTime = player.getCurrentTime();
@@ -118,7 +102,7 @@
 
                 database.ref('videoStatus').update({
                     currentTime: currentTime,
-                    volume: volume / 100 // Chuyển volume từ 0-100 thành 0-1
+                    volume: volume / 100
                 });
             }
         }, 1000);
