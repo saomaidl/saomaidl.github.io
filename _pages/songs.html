@@ -139,7 +139,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
         if (dataChannel.readyState === 'open') {
           dataChannel.send(JSON.stringify(videoState));
         }
-      }, 1000);
+      }, 3000);
     };
 
     dataChannel.onclose = () => {
