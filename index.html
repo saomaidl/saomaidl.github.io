@@ -34,7 +34,7 @@
             player = new YT.Player('player', {
                 height: '360',
                 width: '640',
-                videoId: 'VIDEO_ID_HERE', // Thay VIDEO_ID bằng ID video thực tế
+                videoId: 'UblSt882eFE',
                 playerVars: {
                     'autoplay': 1,
                     'controls': 1
@@ -47,7 +47,6 @@
         }
 
         function onPlayerReady(event) {
-            // Tự động phát video khi đã sẵn sàng
             event.target.playVideo();
 
             // Gửi trạng thái ban đầu lên Firebase
@@ -56,7 +55,7 @@
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
             database.ref('videoStatus').set({
-                video_id: 'VIDEO_ID_HERE', // Thay thế bằng ID video thực tế
+                video_id: 'UblSt882eFE', // Thay thế bằng ID video thực tế
                 currentTime: currentTime,
                 playing: isPlaying,
                 volume: volume / 100, // YouTube API trả volume từ 0-100
@@ -72,7 +71,7 @@
 
                 // Gửi trạng thái hiện tại lên Firebase
                 database.ref('videoStatus').set({
-                    video_id: 'VIDEO_ID_HERE', // Thay thế bằng ID video thực tế
+                    video_id: 'UblSt882eFE', // Thay thế bằng ID video thực tế
                     currentTime: currentTime,
                     playing: isPlaying,
                     volume: volume / 100, // YouTube API trả volume từ 0-100
