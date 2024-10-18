@@ -4,14 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chính - YouTube API</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        /* Đảm bảo tỷ lệ 16:9 và responsive */
+        #player-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
-<body>
-    <div id="player"></div>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold text-center mb-6">Trang Chính - YouTube API</h1>
+        
+        <!-- Khung video -->
+        <div id="player-container" class="max-w-4xl mx-auto">
+            <div id="player"></div>
+        </div>
+    </div>
 
     <script>
+        // Khai báo videoId một lần để dùng lại
+        const videoId = 'UblSt882eFE';
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
@@ -28,13 +57,13 @@
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Create YouTube player
+        // Tạo YouTube player
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '360',
                 width: '640',
-                videoId: 'UblSt882eFE',
+                videoId: videoId, // Sử dụng videoId từ biến
                 playerVars: {
                     'autoplay': 1,
                     'controls': 1
@@ -46,6 +75,7 @@
             });
         }
 
+        // Khi video sẵn sàng phát
         function onPlayerReady(event) {
             event.target.playVideo();
 
@@ -55,32 +85,33 @@
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
             database.ref('videoStatus').set({
-                video_id: 'UblSt882eFE', // Thay thế bằng ID video thực tế
+                video_id: videoId, // Sử dụng videoId từ biến
                 currentTime: currentTime,
                 playing: isPlaying,
-                volume: volume / 100, // YouTube API trả volume từ 0-100
-                loop: false // Thêm nếu bạn muốn điều khiển lặp lại
+                volume: volume / 100, // Chuyển volume từ 0-100 thành 0-1
+                loop: false // Điều khiển lặp lại nếu cần
             });
         }
 
+        // Khi trạng thái video thay đổi (play/pause)
         function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) {
                 const currentTime = player.getCurrentTime();
                 const volume = player.getVolume();
                 const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
-                // Gửi trạng thái hiện tại lên Firebase
+                // Gửi cập nhật trạng thái lên Firebase
                 database.ref('videoStatus').set({
-                    video_id: 'UblSt882eFE', // Thay thế bằng ID video thực tế
+                    video_id: videoId, // Sử dụng videoId từ biến
                     currentTime: currentTime,
                     playing: isPlaying,
-                    volume: volume / 100, // YouTube API trả volume từ 0-100
-                    loop: false // Thêm nếu bạn muốn điều khiển lặp lại
+                    volume: volume / 100, // Chuyển volume từ 0-100 thành 0-1
+                    loop: false
                 });
             }
         }
 
-        // Để kiểm tra hoặc gửi dữ liệu mỗi giây, bạn có thể sử dụng setInterval
+        // Cập nhật dữ liệu mỗi giây
         setInterval(() => {
             if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
                 const currentTime = player.getCurrentTime();
@@ -88,10 +119,10 @@
 
                 database.ref('videoStatus').update({
                     currentTime: currentTime,
-                    volume: volume / 100
+                    volume: volume / 100 // Chuyển volume từ 0-100 thành 0-1
                 });
             }
-        }, 1000); // Gửi dữ liệu lên Firebase mỗi giây
+        }, 1000);
     </script>
 </body>
 </html>
