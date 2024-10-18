@@ -62,106 +62,126 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
   </div>
 
   <!-- Ensure Supabase JS is loaded before usage -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="https://www.youtube.com/iframe_api"></script>
-  
-  <script>
-    // Wait until the DOM is fully loaded
-    window.addEventListener('DOMContentLoaded', function () {
-      // Initialize Supabase Client after DOM load
-      const supabaseClient = supabase.createClient(
-        'https://wndajplczagmlxbvkmtk.supabase.co', 
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA'
-      );
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  $(document).ready(function () {
+    // Khởi tạo Supabase Client
+    const supabaseClient = supabase.createClient(
+      'https://wndajplczagmlxbvkmtk.supabase.co', 
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduZGFqcGxjemFnbWx4YnZrbXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgwMTUzNDcsImV4cCI6MjA0MzU5MTM0N30.1ffeOEC-jOQtar3tgD8OPBUeyK79itCPYmBe3_k08MA'
+    );
 
-      const videoPlayer = document.getElementById('videoPlayer');
-      const playBtn = document.getElementById('playBtn');
-      const pauseBtn = document.getElementById('pauseBtn');
-      const songId = 1; // Id của bài hát
+    const videoPlayer = document.getElementById('videoPlayer');
+    const playBtn = $('#playBtn');
+    const pauseBtn = $('#pauseBtn');
+    const songId = 1; // Id của bài hát
 
-      // Cập nhật trạng thái phát nhạc và thời gian bắt đầu phát
-      const playSong = async () => {
-        const startTime = new Date().toISOString(); // Lấy thời gian hiện tại
+    // Khởi tạo player
+    let player;
 
-        // Cập nhật start_time và is_playing trong bảng karaoke_songs
-        const { error } = await supabaseClient
-          .from('karaoke_songs')
-          .update({ start_time: startTime, is_playing: true })
-          .eq('id', songId);
-
-        if (error) {
-          console.error('Error updating song state:', error);
-        } else {
-          console.log('Song is now playing.');
-          // Phát video YouTube
-          videoPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    // Hàm này sẽ được gọi khi API được tải
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('videoPlayer', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
         }
-      };
+      });
+    }
 
-      // Dừng phát nhạc
-      const pauseSong = async () => {
-        const { error } = await supabaseClient
-          .from('karaoke_songs')
-          .update({ is_playing: false })
-          .eq('id', songId);
+    function onPlayerReady(event) {
+      // Video sẵn sàng để phát
+    }
 
-        if (error) {
-          console.error('Error pausing song:', error);
-        } else {
-          console.log('Song is paused.');
-          // Dừng phát video YouTube
-          videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        }
-      };
+    function onPlayerStateChange(event) {
+      // Xử lý các trạng thái của video nếu cần
+    }
 
-      // Đồng bộ thời gian phát nhạc
-      const syncPlaybackTime = async () => {
-        const { data: song, error } = await supabaseClient
-          .from('karaoke_songs')
-          .select('start_time')
-          .eq('id', songId)
-          .single();
+    // Cập nhật trạng thái phát nhạc và thời gian bắt đầu phát
+    const playSong = async () => {
+      const startTime = new Date().toISOString(); // Lấy thời gian hiện tại
 
-        if (error) {
-          console.error('Error fetching start time:', error);
-          return;
-        }
+      // Cập nhật start_time và is_playing trong bảng karaoke_songs
+      const { error } = await supabaseClient
+        .from('karaoke_songs')
+        .update({ start_time: startTime, is_playing: true })
+        .eq('id', songId);
 
-        const startTime = new Date(song.start_time).getTime();
-        const currentTime = Date.now();
-        const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-
-        // Chuyển đến thời gian tương ứng trong video
-        videoPlayer.contentWindow.postMessage(`{"event":"command","func":"seekTo","args":[${elapsedTime}, true]}`, '*');
-      };
-
-      // Lắng nghe sự kiện Realtime để cập nhật trạng thái phát nhạc
-const subscribeToSongStatus = () => {
-  const channel = supabaseClient
-    .channel('realtime:karaoke_songs')
-    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'karaoke_songs', filter: `id=eq.${songId}` }, payload => {
-      const { is_playing } = payload.new;
-
-      if (is_playing) {
-        // Nếu bài hát đang phát, đồng bộ thời gian phát nhạc
-        syncPlaybackTime();
+      if (error) {
+        console.error('Error updating song state:', error);
       } else {
-        // Nếu bài hát tạm dừng, dừng phát video
-        videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        console.log('Song is now playing.');
+        // Phát video YouTube
+        player.playVideo();
       }
-    })
-    .subscribe();
-};
+    };
 
+    // Dừng phát nhạc
+    const pauseSong = async () => {
+      const { error } = await supabaseClient
+        .from('karaoke_songs')
+        .update({ is_playing: false })
+        .eq('id', songId);
 
-      // Sự kiện nút Phát và Tạm dừng
-      playBtn.addEventListener('click', playSong);
-      pauseBtn.addEventListener('click', pauseSong);
+      if (error) {
+        console.error('Error pausing song:', error);
+      } else {
+        console.log('Song is paused.');
+        // Dừng phát video YouTube
+        player.pauseVideo();
+      }
+    };
 
-      // Đăng ký lắng nghe sự kiện Realtime khi tải trang
-      subscribeToSongStatus();
-    });
-  </script>
+    // Đồng bộ thời gian phát nhạc
+    const syncPlaybackTime = async () => {
+      const { data: song, error } = await supabaseClient
+        .from('karaoke_songs')
+        .select('start_time')
+        .eq('id', songId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching start time:', error);
+        return;
+      }
+
+      const startTime = new Date(song.start_time).getTime();
+      const currentTime = Date.now();
+      const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+
+      // Chuyển đến thời gian tương ứng trong video
+      player.seekTo(elapsedTime, true);
+    };
+
+    // Lắng nghe sự kiện Realtime để cập nhật trạng thái phát nhạc
+    const subscribeToSongStatus = () => {
+      const channel = supabaseClient
+        .channel('realtime:karaoke_songs')
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'karaoke_songs', filter: `id=eq.${songId}` }, payload => {
+          const { is_playing } = payload.new;
+
+          if (is_playing) {
+            // Nếu bài hát đang phát, đồng bộ thời gian phát nhạc
+            syncPlaybackTime();
+          } else {
+            // Nếu bài hát tạm dừng, dừng phát video
+            player.pauseVideo();
+          }
+        })
+        .subscribe();
+    };
+
+    // Sự kiện nút Phát và Tạm dừng
+    playBtn.on('click', playSong);
+    pauseBtn.on('click', pauseSong);
+
+    // Đăng ký lắng nghe sự kiện Realtime khi tải trang
+    subscribeToSongStatus();
+  });
+</script>
+
 </body>
 </html>
 
