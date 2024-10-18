@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chính - YouTube API</title>
+    <title>SAO MAI PLAYING</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <style>
-        /* Đảm bảo tỷ lệ 16:9 và responsive */
         #player-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
         }
@@ -29,7 +28,7 @@
 <body class="bg-gray-100">
 
     <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold text-center mb-6">Trang Chính - YouTube API</h1>
+        <h1 class="text-3xl font-bold text-center mb-6 hidden">SAO MAI PLAYING</h1>
         
         <!-- Khung video -->
         <div id="player-container" class="max-w-4xl mx-auto">
