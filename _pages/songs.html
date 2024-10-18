@@ -1,6 +1,6 @@
 ---
 layout: 
-title: "DNH SÁCH BÀI HÁT"
+title: "Danh sách bài hát"
 permalink: /songs
 description: "Hiển thị các bài hát karaoke đã được chọn để hát. Dễ dàng truy cập và quản lý các lựa chọn yêu thích của bạn."
 ---
@@ -13,6 +13,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
   <title>YouTube Player with Firebase Sync</title>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
@@ -71,7 +72,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       const videoRef = database.ref('videoState');
 
       // Listen for changes in Firebase to sync all clients
-      videoRef.on('value', (snapshot) => {
+      videoRef.on('value', function(snapshot) {
         const data = snapshot.val();
         if (data && !isSyncing) {
           isSyncing = true;
@@ -113,27 +114,33 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       }
     }
 
-    // Video controls
-    document.getElementById('playBtn').addEventListener('click', () => {
-      player.playVideo();
-      updateFirebase();
-    });
-    document.getElementById('pauseBtn').addEventListener('click', () => {
-      player.pauseVideo();
-      updateFirebase();
-    });
-    document.getElementById('volumeUpBtn').addEventListener('click', () => player.setVolume(player.getVolume() + 10));
-    document.getElementById('volumeDownBtn').addEventListener('click', () => player.setVolume(player.getVolume() - 10));
-    document.getElementById('nextBtn').addEventListener('click', () => alert('Next button not implemented yet'));
-    document.getElementById('priorityBtn').addEventListener('click', () => alert('Priority button not implemented yet'));
-    document.getElementById('replayBtn').addEventListener('click', () => {
-      player.seekTo(0);
-      updateFirebase();
+    // Video controls using jQuery
+    $(document).ready(function() {
+      $('#playBtn').click(function() {
+        player.playVideo();
+        updateFirebase();
+      });
+      $('#pauseBtn').click(function() {
+        player.pauseVideo();
+        updateFirebase();
+      });
+      $('#volumeUpBtn').click(function() {
+        player.setVolume(player.getVolume() + 10);
+      });
+      $('#volumeDownBtn').click(function() {
+        player.setVolume(player.getVolume() - 10);
+      });
+      $('#nextBtn').click(function() {
+        alert('Next button not implemented yet');
+      });
+      $('#priorityBtn').click(function() {
+        alert('Priority button not implemented yet');
+      });
+      $('#replayBtn').click(function() {
+        player.seekTo(0);
+        updateFirebase();
+      });
     });
   </script>
 </body>
 </html>
-
-
-
-
