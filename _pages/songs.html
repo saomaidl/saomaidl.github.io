@@ -10,7 +10,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke Player with YouTube Streaming</title>
+    <title>Karaoke Player</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
@@ -19,22 +19,26 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
-<body>
-    <h1 class="text-center">Karaoke Player</h1>
-    <video
-        id="my-video"
-        class="video-js vjs-default-skin"
-        controls
-        preload="auto"
-        width="640"
-        height="360"
-        data-setup='{}'>
-    </video>
-    <button id="playBtn">Play</button>
-    <button id="pauseBtn">Pause</button>
-    <button id="volumeUpBtn">Volume Up</button>
-    <button id="volumeDownBtn">Volume Down</button>
-    <button id="replayBtn">Replay</button>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-center text-2xl font-bold mb-4">Karaoke Player</h1>
+        <video
+            id="my-video"
+            class="video-js vjs-default-skin mx-auto"
+            controls
+            preload="auto"
+            width="640"
+            height="360"
+            data-setup='{}'>
+        </video>
+        <div class="flex justify-center space-x-4 mt-4">
+            <button id="playBtn" class="bg-blue-500 text-white py-2 px-4 rounded">Play</button>
+            <button id="pauseBtn" class="bg-red-500 text-white py-2 px-4 rounded">Pause</button>
+            <button id="volumeUpBtn" class="bg-green-500 text-white py-2 px-4 rounded">Volume Up</button>
+            <button id="volumeDownBtn" class="bg-yellow-500 text-white py-2 px-4 rounded">Volume Down</button>
+            <button id="replayBtn" class="bg-purple-500 text-white py-2 px-4 rounded">Replay</button>
+        </div>
+    </div>
 
     <script>
         // Firebase Configuration
@@ -49,9 +53,11 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             measurementId: "G-MNBY4YPT3N"
         };
 
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        // Initialize Video.js
         const player = videojs('my-video', {
             techOrder: ["youtube"],
             sources: [{
@@ -76,6 +82,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
         };
 
         pc.ontrack = event => {
+            // Phát video nhận được từ kết nối WebRTC
             player.src({ src: event.streams[0], type: 'application/x-mpegURL' });
             player.play();
         };
@@ -110,27 +117,33 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             }
         });
 
+        // UI Buttons
         $('#playBtn').click(() => {
             player.play();
-            sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription, isPlaying: true }));
+            sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription, action: 'play' }));
         });
 
         $('#pauseBtn').click(() => {
             player.pause();
-            sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription, isPlaying: false }));
+            sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription, action: 'pause' }));
         });
 
         $('#volumeUpBtn').click(() => {
-            player.volume(Math.min(player.volume() + 0.1, 1));
+            const newVolume = Math.min(player.volume() + 0.1, 1);
+            player.volume(newVolume);
+            sendMessage(yourId, JSON.stringify({ volume: newVolume }));
         });
 
         $('#volumeDownBtn').click(() => {
-            player.volume(Math.max(player.volume() - 0.1, 0));
+            const newVolume = Math.max(player.volume() - 0.1, 0);
+            player.volume(newVolume);
+            sendMessage(yourId, JSON.stringify({ volume: newVolume }));
         });
 
         $('#replayBtn').click(() => {
             player.currentTime(0);
             player.play();
+            sendMessage(yourId, JSON.stringify({ action: 'replay' }));
         });
 
         // Start the call
