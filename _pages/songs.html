@@ -10,31 +10,24 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Player with Firebase Sync</title>
+  <title>Karaoke Player with WebRTC & Firebase Sync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </head>
-<body>
-  <h1>Karaoke Player with Real-time Sync</h1>
-
-  <!-- YouTube Video IFrame -->
-  <div id="player"></div>
-
-  <!-- Video control buttons -->
-  <div>
-    <button id="playBtn">Play</button>
-    <button id="pauseBtn">Pause</button>
-    <button id="volumeUpBtn">Volume Up</button>
-    <button id="volumeDownBtn">Volume Down</button>
-    <button id="nextBtn">Next</button>
-    <button id="priorityBtn">Priority</button>
-    <button id="replayBtn">Replay</button>
+<body class="bg-gray-100 text-center">
+  <h1 class="text-2xl font-bold">Karaoke Player with Real-time Sync</h1>
+  <div id="player" class="my-4 mx-auto"></div>
+  <div class="space-x-4">
+    <button id="playBtn" class="px-4 py-2 bg-green-500 text-white">Play</button>
+    <button id="pauseBtn" class="px-4 py-2 bg-yellow-500 text-white">Pause</button>
+    <button id="volumeUpBtn" class="px-4 py-2 bg-blue-500 text-white">Volume Up</button>
+    <button id="volumeDownBtn" class="px-4 py-2 bg-blue-500 text-white">Volume Down</button>
+    <button id="replayBtn" class="px-4 py-2 bg-purple-500 text-white">Replay</button>
   </div>
-
   <script>
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -45,102 +38,97 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
       measurementId: "G-MNBY4YPT3N"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
     let player;
     let isSyncing = false;
-
-    // Initialize YouTube IFrame API
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         height: '390',
         width: '640',
-        videoId: 'rM5iazNj9mw',  // Default video ID
-        playerVars: { start: 0 },
+        videoId: 'rM5iazNj9mw',
         events: {
           'onReady': onPlayerReady,
           'onStateChange': onPlayerStateChange
         }
       });
     }
-
-    // Sync video state with Firebase
     function syncVideoWithFirebase() {
       const videoRef = database.ref('videoState');
-
-      // Listen for changes in Firebase to sync all clients
-      videoRef.on('value', function(snapshot) {
+      videoRef.on('value', (snapshot) => {
         const data = snapshot.val();
         if (data && !isSyncing) {
           isSyncing = true;
-          if (data.currentVideoId && data.currentVideoId !== player.getVideoData().video_id) {
-            player.loadVideoById(data.currentVideoId, data.currentTime);
+          player.seekTo(data.currentTime, true);
+          if (data.isPlaying) {
+            player.playVideo();
           } else {
-            player.seekTo(data.currentTime, true);
-            if (data.isPlaying) {
-              player.playVideo();
-            } else {
-              player.pauseVideo();
-            }
+            player.pauseVideo();
           }
           isSyncing = false;
         }
       });
     }
-
-    // Update Firebase with current video state
     function updateFirebase() {
       if (!isSyncing) {
         database.ref('videoState').set({
-          currentVideoId: player.getVideoData().video_id,
           currentTime: player.getCurrentTime(),
           isPlaying: player.getPlayerState() === YT.PlayerState.PLAYING
         });
       }
     }
-
-    // Player ready handler
     function onPlayerReady(event) {
       syncVideoWithFirebase();
     }
-
-    // Player state change handler
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
         updateFirebase();
       }
     }
-
-    // Video controls using jQuery
-    $(document).ready(function() {
-      $('#playBtn').click(function() {
-        player.playVideo();
-        updateFirebase();
-      });
-      $('#pauseBtn').click(function() {
-        player.pauseVideo();
-        updateFirebase();
-      });
-      $('#volumeUpBtn').click(function() {
-        player.setVolume(player.getVolume() + 10);
-      });
-      $('#volumeDownBtn').click(function() {
-        player.setVolume(player.getVolume() - 10);
-      });
-      $('#nextBtn').click(function() {
-        alert('Next button not implemented yet');
-      });
-      $('#priorityBtn').click(function() {
-        alert('Priority button not implemented yet');
-      });
-      $('#replayBtn').click(function() {
-        player.seekTo(0);
-        updateFirebase();
-      });
+    $('#playBtn').click(function() {
+      player.playVideo();
+      updateFirebase();
     });
+
+    $('#pauseBtn').click(function() {
+      player.pauseVideo();
+      updateFirebase();
+    });
+
+    $('#volumeUpBtn').click(function() {
+      player.setVolume(player.getVolume() + 10);
+    });
+
+    $('#volumeDownBtn').click(function() {
+      player.setVolume(player.getVolume() - 10);
+    });
+
+    $('#replayBtn').click(function() {
+      player.seekTo(0);
+      updateFirebase();
+    });
+    const peerConnection = new RTCPeerConnection();
+    peerConnection.ondatachannel = (event) => {
+      const channel = event.channel;
+      channel.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        player.seekTo(data.currentTime, true);
+        if (data.isPlaying) {
+          player.playVideo();
+        } else {
+          player.pauseVideo();
+        }
+      };
+    };
+    const dataChannel = peerConnection.createDataChannel('sync');
+    setInterval(() => {
+      const videoState = {
+        currentTime: player.getCurrentTime(),
+        isPlaying: player.getPlayerState() === YT.PlayerState.PLAYING
+      };
+      dataChannel.send(JSON.stringify(videoState));
+    }, 1000);
   </script>
 </body>
 </html>
