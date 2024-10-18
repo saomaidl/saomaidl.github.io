@@ -74,14 +74,23 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       });
     }
 
-    function updateFirebase() {
+    // Hàm debounce để hạn chế tần suất gửi trạng thái video
+    function debounce(func, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+
+    const updateFirebase = debounce(() => {
       if (!isSyncing) {
         database.ref('videoState').set({
           currentTime: player.getCurrentTime(),
           isPlaying: player.getPlayerState() === YT.PlayerState.PLAYING
         });
       }
-    }
+    }, 1000); // Gửi trạng thái video mỗi giây
 
     function onPlayerReady(event) {
       syncVideoWithFirebase();
@@ -152,5 +161,3 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
 </script>
 </body>
 </html>
-
-
