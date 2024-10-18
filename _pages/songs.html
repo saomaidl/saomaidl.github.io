@@ -90,7 +90,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
           isPlaying: player.getPlayerState() === YT.PlayerState.PLAYING
         });
       }
-    }, 1000); // Gửi trạng thái video mỗi giây
+    }, 3000); // Gửi trạng thái video mỗi giây
 
     function onPlayerReady(event) {
       syncVideoWithFirebase();
