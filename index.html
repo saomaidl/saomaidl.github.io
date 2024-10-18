@@ -35,10 +35,8 @@
             <div id="player"></div>
         </div>
     </div>
-
     <script>
-        const videoId = 'SSQ8jfIxDkM';
-        const playlistId = 'PLedluKK14DP02usz6k6fILudTIK3Ggtvt';
+        const playlistId = 'PLedluKK14DP02usz6k6fILudTIK3Ggtvt'; // ID của playlist
         const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -49,15 +47,15 @@
             appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
             measurementId: "G-MNBY4YPT3N"
         };
+    
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
+    
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                videoId: videoId,
                 playerVars: {
-                    'list': playlistId,
+                    'list': playlistId, // Sử dụng playlist ID
                     'autoplay': 1,
                     'controls': 0,
                     'rel': 0,
@@ -69,41 +67,38 @@
                 }
             });
         }
-
+    
         function onPlayerReady(event) {
-            event.target.playVideo();
+            event.target.playVideo(); // Tự động phát video
+    
+            // Lưu trạng thái ban đầu lên Firebase
+            updateFirebase();
+        }
+    
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
+                updateFirebase(); // Cập nhật trạng thái khi video đang phát hoặc tạm dừng
+            }
+        }
+    
+        function updateFirebase() {
             const currentTime = player.getCurrentTime();
             const volume = player.getVolume();
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-
+    
             database.ref('videoStatus').set({
-                video_id: videoId,
                 currentTime: currentTime,
                 playing: isPlaying,
                 volume: volume / 100,
                 loop: false
             });
         }
-
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) {
-                const currentTime = player.getCurrentTime();
-                const volume = player.getVolume();
-                const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-                database.ref('videoStatus').set({
-                    video_id: videoId,
-                    currentTime: currentTime,
-                    playing: isPlaying,
-                    volume: volume / 100,
-                    loop: false
-                });
-            }
-        }
+    
         setInterval(() => {
             if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
                 const currentTime = player.getCurrentTime();
                 const volume = player.getVolume();
-
+    
                 database.ref('videoStatus').update({
                     currentTime: currentTime,
                     volume: volume / 100
