@@ -37,6 +37,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <button id="replayBtn">Replay</button>
 
     <script>
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -59,65 +60,88 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             }]
         });
 
-        function syncVideoWithFirebase() {
-            const videoRef = database.ref('videoState');
-            videoRef.on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    player.currentTime(data.currentTime);
-                    if (data.isPlaying) {
-                        player.play();
-                    } else {
-                        player.pause();
-                    }
+        // WebRTC Setup
+        const yourId = Math.floor(Math.random() * 1000000000);
+        const servers = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' }
+            ]
+        };
+        const pc = new RTCPeerConnection(servers);
+
+        pc.onicecandidate = event => {
+            if (event.candidate) {
+                sendMessage(yourId, JSON.stringify({ 'ice': event.candidate }));
+            }
+        };
+
+        pc.ontrack = event => {
+            player.src({ src: event.streams[0], type: 'application/x-mpegURL' });
+            player.play();
+        };
+
+        // Sending messages via Firebase
+        function sendMessage(senderId, data) {
+            const msg = database.ref('messages').push({
+                sender: senderId,
+                message: data
+            });
+            msg.remove();
+        }
+
+        // Receiving messages from Firebase
+        database.ref('messages').on('child_added', data => {
+            const msg = JSON.parse(data.val().message);
+            const sender = data.val().sender;
+
+            if (sender !== yourId) {
+                if (msg.ice) {
+                    pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+                } else if (msg.sdp) {
+                    pc.setRemoteDescription(new RTCSessionDescription(msg.sdp)).then(() => {
+                        if (msg.sdp.type === 'offer') {
+                            pc.createAnswer().then(answer => {
+                                pc.setLocalDescription(answer);
+                                sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
+                            });
+                        }
+                    });
                 }
-            });
-        }
-
-        // Hàm debounce để hạn chế tần suất gửi trạng thái video
-        function debounce(func, delay) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), delay);
-            };
-        }
-
-        const updateFirebase = debounce(() => {
-            database.ref('videoState').set({
-                currentTime: player.currentTime(),
-                isPlaying: !player.paused()
-            });
-        }, 3000); // Gửi trạng thái video mỗi 3 giây
+            }
+        });
 
         $('#playBtn').click(() => {
             player.play();
-            updateFirebase();
+            sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription, isPlaying: true }));
         });
 
         $('#pauseBtn').click(() => {
             player.pause();
-            updateFirebase();
+            sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription, isPlaying: false }));
         });
 
         $('#volumeUpBtn').click(() => {
             player.volume(Math.min(player.volume() + 0.1, 1));
-            updateFirebase();
         });
 
         $('#volumeDownBtn').click(() => {
             player.volume(Math.max(player.volume() - 0.1, 0));
-            updateFirebase();
         });
 
         $('#replayBtn').click(() => {
             player.currentTime(0);
             player.play();
-            updateFirebase();
         });
 
-        // Bắt đầu đồng bộ trạng thái video khi người dùng truy cập
-        syncVideoWithFirebase();
+        // Start the call
+        function startCall() {
+            pc.createOffer().then(offer => {
+                pc.setLocalDescription(offer);
+                sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription }));
+            });
+        }
+
+        startCall(); // Initiate the call
     </script>
 </body>
 </html>
