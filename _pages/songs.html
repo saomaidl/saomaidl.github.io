@@ -135,22 +135,23 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
       };
 
       // Lắng nghe sự kiện Realtime để cập nhật trạng thái phát nhạc
-      const subscribeToSongStatus = () => {
-        supabaseClient
-          .from(`karaoke_songs:id=eq.${songId}`)
-          .on('UPDATE', payload => {
-            const { is_playing } = payload.new;
+const subscribeToSongStatus = () => {
+  const channel = supabaseClient
+    .channel('realtime:karaoke_songs')
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'karaoke_songs', filter: `id=eq.${songId}` }, payload => {
+      const { is_playing } = payload.new;
 
-            if (is_playing) {
-              // Nếu bài hát đang phát, đồng bộ thời gian phát nhạc
-              syncPlaybackTime();
-            } else {
-              // Nếu bài hát tạm dừng, dừng phát video
-              videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            }
-          })
-          .subscribe();
-      };
+      if (is_playing) {
+        // Nếu bài hát đang phát, đồng bộ thời gian phát nhạc
+        syncPlaybackTime();
+      } else {
+        // Nếu bài hát tạm dừng, dừng phát video
+        videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      }
+    })
+    .subscribe();
+};
+
 
       // Sự kiện nút Phát và Tạm dừng
       playBtn.addEventListener('click', playSong);
