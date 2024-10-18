@@ -13,6 +13,8 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
   <title>Karaoke Player with WebRTC & Firebase Sync</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body class="bg-gray-100 text-center">
@@ -25,9 +27,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <button id="volumeDownBtn" class="px-4 py-2 bg-blue-500 text-white">Volume Down</button>
     <button id="replayBtn" class="px-4 py-2 bg-purple-500 text-white">Replay</button>
   </div>
-  <script type="module">
-    import firebase from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-    import 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+  <script type="text/javascript">
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
