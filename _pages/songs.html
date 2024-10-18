@@ -13,11 +13,18 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
     <title>Karaoke Player</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>+
+    <script src="https://cdn.jsdelivr.net/npm/videojs-http-source-selector/dist/videojs-http-source-selector.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-youtube/dist/Youtube.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+            .video-js {
+        max-height: 100vh; /* Giới hạn chiều cao video */
+        width: 100%; /* Chiều rộng đầy đủ */
+    }
+    </style>
 </head>
 <body>
 <div class="mx-auto w-full">
@@ -28,7 +35,7 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             class="video-js vjs-default-skin absolute top-0 left-0 w-full h-full"
             controls
             preload="auto"
-            data-setup='{"controls": true, "fluid": true, "controlBar": {"pipToggle": false}}'>
+            data-setup='{}'>
         </video>
     </div>
     <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-x-4 mt-4">
@@ -62,7 +69,12 @@ description: "Hiển thị các bài hát karaoke đã được chọn để há
             sources: [{
                 src: 'https://www.youtube.com/watch?v=SSQ8jfIxDkM', // Thay VIDEO_ID bằng ID video thật
                 type: 'video/youtube'
-            }]
+            }],
+            controls: true,
+            autoplay: true,
+            preload: 'auto',
+            responsive: true,
+            fluid: true, // Đảm bảo video phản hồi theo kích thước của màn hình
         });
 
         // Tự động phát video khi trang đã tải
