@@ -1,88 +1,98 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sự kiện Đắk Lắk</title>
-    <script src="https://cdn.tailwindcss.com/3.4.5"></script>
-    <style>
-        .hover-underline:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Trang Chính - YouTube API</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body>
+    <div id="player"></div>
 
-    <!-- Header -->
-    <header class="bg-gray-800 shadow-md">
-        <div class="container mx-auto flex justify-between items-center py-4 px-6">
-            <!-- Logo và Tên -->
-            <div class="flex items-center space-x-4">
-                <img src="https://i5.walmartimages.com/dfw/63fd9f59-b055/k2-_ffe8b6f7-92bc-4b18-9f88-1fe1376ddcea.v1.svg" alt="Logo" class="h-12 w-12">
-                <span class="text-3xl font-bold text-white tracking-wider uppercase">Sự kiện Đắk Lắk</span>
-            </div>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
+            authDomain: "karaoke-3aa8f.firebaseapp.com",
+            databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "karaoke-3aa8f",
+            storageBucket: "karaoke-3aa8f.appspot.com",
+            messagingSenderId: "652741363415",
+            appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
+            measurementId: "G-MNBY4YPT3N"
+        };
 
-            <!-- Navigation -->
-            <nav class="hidden md:flex space-x-10">
-                <a href="#" class="text-white hover-underline hover:text-green-400 text-lg transition">Trang Chủ</a>
-                <a href="#about" class="text-white hover-underline hover:text-green-400 text-lg transition">Chúng Tôi Là Ai?</a>
-                <a href="#services" class="text-white hover-underline hover:text-green-400 text-lg transition">Dịch Vụ</a>
-                <a href="#events" class="text-white hover-underline hover:text-green-400 text-lg transition">Sự Kiện</a>
-                <a href="#news" class="text-white hover-underline hover:text-green-400 text-lg transition">Tin Tức</a>
-            </nav>
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-            <!-- Icons: Thông báo, trợ giúp, cài đặt -->
-            <div class="flex items-center space-x-6">
-                <a href="#" class="text-white hover:text-green-400 transition">
-                    <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.243 17.657a6 6 0 11-8.486 0"></path><path d="M12 9V3"></path><path d="M12 9h6"></path><path d="M12 9H6"></path></svg>
-                </a>
-                <a href="#" class="text-white hover:text-green-400 transition">
-                    <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 6.05A11 11 0 0012 2C8.25 2 5.2 4.58 3.82 8.22"></path><path d="M21 12c0-5.25-4.75-9-10-9S1 6.75 1 12c0 4.65 3.39 8.47 7.91 9.5"></path></svg>
-                </a>
-            </div>
-        </div>
-    </header>
+        // Create YouTube player
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: 'VIDEO_ID_HERE', // Thay VIDEO_ID bằng ID video thực tế
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
 
-    <!-- Main Content Placeholder -->
-    <main class="mt-12 container mx-auto text-center">
-        <h1 class="text-5xl font-bold text-green-600 uppercase tracking-wide">Chào mừng đến với Sự kiện Đắk Lắk</h1>
-        <p class="mt-4 text-gray-700 text-lg max-w-2xl mx-auto">Chúng tôi tổ chức các sự kiện đẳng cấp, mang đến trải nghiệm tuyệt vời nhất cho khách hàng.</p>
-    </main>
+        function onPlayerReady(event) {
+            // Tự động phát video khi đã sẵn sàng
+            event.target.playVideo();
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12 mt-20">
-        <div class="container mx-auto flex flex-wrap justify-between px-6">
-            <!-- Logo và mô tả công ty -->
-            <div class="w-full md:w-1/3 mb-8">
-                <h3 class="text-2xl font-bold text-green-400 mb-4 uppercase">Sự kiện Đắk Lắk</h3>
-                <p class="text-gray-400">Chuyên tổ chức sự kiện, hội nghị, và các dịch vụ giải trí hàng đầu tại Đắk Lắk.</p>
-            </div>
+            // Gửi trạng thái ban đầu lên Firebase
+            const currentTime = player.getCurrentTime();
+            const volume = player.getVolume();
+            const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
-            <!-- Liên kết nhanh -->
-            <div class="w-full md:w-1/3 mb-8">
-                <h3 class="text-2xl font-bold text-green-400 mb-4 uppercase">Liên kết nhanh</h3>
-                <ul>
-                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition">Trang chủ</a></li>
-                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition">Dịch vụ</a></li>
-                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition">Sự kiện</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition">Liên hệ</a></li>
-                </ul>
-            </div>
+            database.ref('videoStatus').set({
+                video_id: 'VIDEO_ID_HERE', // Thay thế bằng ID video thực tế
+                currentTime: currentTime,
+                playing: isPlaying,
+                volume: volume / 100, // YouTube API trả volume từ 0-100
+                loop: false // Thêm nếu bạn muốn điều khiển lặp lại
+            });
+        }
 
-            <!-- Thông tin liên hệ -->
-            <div class="w-full md:w-1/3">
-                <h3 class="text-2xl font-bold text-green-400 mb-4 uppercase">Liên hệ</h3>
-                <p class="text-gray-400 mb-2">123 Đường ABC, TP Buôn Ma Thuột, Đắk Lắk</p>
-                <p class="text-gray-400 mb-2">Số điện thoại: (+84) 123 456 789</p>
-                <p class="text-gray-400">Email: info@sukiendaklak.vn</p>
-            </div>
-        </div>
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) {
+                const currentTime = player.getCurrentTime();
+                const volume = player.getVolume();
+                const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
-        <!-- Dòng bản quyền -->
-        <div class="text-center text-gray-500 mt-8">
-            <p>&copy; 2024 Sự kiện Đắk Lắk. All Rights Reserved.</p>
-        </div>
-    </footer>
+                // Gửi trạng thái hiện tại lên Firebase
+                database.ref('videoStatus').set({
+                    video_id: 'VIDEO_ID_HERE', // Thay thế bằng ID video thực tế
+                    currentTime: currentTime,
+                    playing: isPlaying,
+                    volume: volume / 100, // YouTube API trả volume từ 0-100
+                    loop: false // Thêm nếu bạn muốn điều khiển lặp lại
+                });
+            }
+        }
 
+        // Để kiểm tra hoặc gửi dữ liệu mỗi giây, bạn có thể sử dụng setInterval
+        setInterval(() => {
+            if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+                const currentTime = player.getCurrentTime();
+                const volume = player.getVolume();
+
+                database.ref('videoStatus').update({
+                    currentTime: currentTime,
+                    volume: volume / 100
+                });
+            }
+        }, 1000); // Gửi dữ liệu lên Firebase mỗi giây
+    </script>
 </body>
 </html>
