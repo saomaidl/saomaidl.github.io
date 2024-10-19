@@ -82,7 +82,7 @@
         }
     
         function updateFirebase() {
-            const currentTime = player.getCurrentTime();
+            const currentTime = Math.round(player.getCurrentTime());
             const volume = player.getVolume();
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
     
@@ -96,7 +96,7 @@
     
         setInterval(() => {
             if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-                const currentTime = player.getCurrentTime();
+                const currentTime = Math.round(player.getCurrentTime());
                 const volume = player.getVolume();
     
                 database.ref('videoStatus').update({
