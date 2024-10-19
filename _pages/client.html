@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Video</title>
+    <style>
+        #player {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+    <h1>Client Video</h1>
+    <div id="player"></div>
+
+    <script>
+        let player;
+        let dataChannel;
+
+        // Cấu hình Firebase
+        const firebaseConfig = {
+            apiKey: "API_KEY",
+            authDomain: "karaoke-3aa8f.firebaseapp.com",
+            databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "karaoke-3aa8f",
+            storageBucket: "karaoke-3aa8f.appspot.com",
+            messagingSenderId: "652741363415",
+            appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
+            measurementId: "G-MNBY4YPT3N"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Setup YouTube API
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: 'SSQ8jfIxDkM',
+                playerVars: {
+                    autoplay: 1,
+                    controls: 1
+                }
+            });
+        }
+
+        // Nhận offer từ host và kết nối WebRTC
+        async function setupWebRTC() {
+            const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+            const peerConnection = new RTCPeerConnection(configuration);
+
+            // Nhận các ICE candidates từ Firebase
+            database.ref('webrtc/hostCandidates').on('child_added', (snapshot) => {
+                const candidate = new RTCIceCandidate(snapshot.val());
+                peerConnection.addIceCandidate(candidate);
+            });
+
+            // Nhận offer từ host và tạo answer
+            const offerSnapshot = await database.ref('webrtc/offer').once('value');
+            const offer = offerSnapshot.val();
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            database.ref('webrtc/answer').set(answer);
+
+            // Kết nối DataChannel và xử lý thông điệp nhận được
+            peerConnection.ondatachannel = (event) => {
+                dataChannel = event.channel;
+                dataChannel.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+
+                    // Đồng bộ video
+                    if (data.state === YT.PlayerState.PLAYING) {
+                        player.seekTo(data.currentTime, true);
+                        player.playVideo();
+                    } else if (data.state === YT.PlayerState.PAUSED) {
+                        player.seekTo(data.currentTime, true);
+                        player.pauseVideo();
+                    }
+
+                    // Điều chỉnh âm lượng
+                    player.setVolume(data.volume);
+                };
+            };
+        }
+
+        setupWebRTC();
+    </script>
+</body>
+</html>
