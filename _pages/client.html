@@ -56,47 +56,66 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
 
         // Nhận offer từ host và kết nối WebRTC
-        async function setupWebRTC() {
-            const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-            const peerConnection = new RTCPeerConnection(configuration);
+async function setupWebRTC() {
+    const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+    const peerConnection = new RTCPeerConnection(configuration);
 
-            // Nhận các ICE candidates từ Firebase
-            database.ref('webrtc/hostCandidates').on('child_added', (snapshot) => {
-                const candidate = new RTCIceCandidate(snapshot.val());
-                peerConnection.addIceCandidate(candidate);
+    let iceCandidates = []; // Tạm lưu trữ các ICE Candidates
+
+    // Nhận các ICE candidates từ Firebase
+    database.ref('webrtc/hostCandidates').on('child_added', (snapshot) => {
+        const candidate = new RTCIceCandidate(snapshot.val());
+        
+        // Nếu RemoteDescription đã được thiết lập, thêm ICE Candidate vào PeerConnection
+        if (peerConnection.remoteDescription) {
+            peerConnection.addIceCandidate(candidate).catch((error) => {
+                console.error('Error adding received ICE candidate', error);
             });
-
-            // Nhận offer từ host và tạo answer
-            const offerSnapshot = await database.ref('webrtc/offer').once('value');
-            const offer = offerSnapshot.val();
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            database.ref('webrtc/answer').set(answer);
-
-            // Kết nối DataChannel và xử lý thông điệp nhận được
-            peerConnection.ondatachannel = (event) => {
-                dataChannel = event.channel;
-                dataChannel.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
-
-                    // Đồng bộ video
-                    if (data.state === YT.PlayerState.PLAYING) {
-                        player.seekTo(data.currentTime, true);
-                        player.playVideo();
-                    } else if (data.state === YT.PlayerState.PAUSED) {
-                        player.seekTo(data.currentTime, true);
-                        player.pauseVideo();
-                    }
-
-                    // Điều chỉnh âm lượng
-                    player.setVolume(data.volume);
-                };
-            };
+        } else {
+            // Nếu chưa, lưu vào danh sách đợi
+            iceCandidates.push(candidate);
         }
+    });
 
-        setupWebRTC();
+    // Nhận offer từ host và tạo answer
+    const offerSnapshot = await database.ref('webrtc/offer').once('value');
+    const offer = offerSnapshot.val();
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    database.ref('webrtc/answer').set(answer);
+
+    // Sau khi RemoteDescription được thiết lập, thêm các ICE Candidates đã lưu
+    iceCandidates.forEach(candidate => {
+        peerConnection.addIceCandidate(candidate).catch((error) => {
+            console.error('Error adding saved ICE candidate', error);
+        });
+    });
+
+    // Kết nối DataChannel và xử lý thông điệp nhận được
+    peerConnection.ondatachannel = (event) => {
+        dataChannel = event.channel;
+        dataChannel.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            // Đồng bộ video
+            if (data.state === YT.PlayerState.PLAYING) {
+                player.seekTo(data.currentTime, true);
+                player.playVideo();
+            } else if (data.state === YT.PlayerState.PAUSED) {
+                player.seekTo(data.currentTime, true);
+                player.pauseVideo();
+            }
+
+            // Điều chỉnh âm lượng
+            player.setVolume(data.volume);
+        };
+    };
+}
+
+setupWebRTC();
+
     </script>
 </body>
 </html>
