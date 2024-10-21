@@ -69,27 +69,32 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
 
         // Khi video sẵn sàng
-        function onPlayerReady(event) {
-            // Nhận trạng thái từ Firebase khi trang chính mở lên
-            database.ref('videoStatus').once('value', (snapshot) => {
-                const status = snapshot.val();
-                if (status) {
-                    player.seekTo(Math.round(status.currentTime));  // Đặt thời gian hiện tại
-                    player.setVolume(status.volume * 100); // Đặt âm lượng
-                    if (status.playing) {
-                        player.playVideo();
-                    } else {
-                        player.pauseVideo();
-                    }
-                } else {
-                    // Nếu không có trạng thái lưu, tự động phát video
-                    player.playVideo();
-                }
-            });
+// Khi video sẵn sàng
+function onPlayerReady(event) {
+    // Tắt âm thanh để trình duyệt cho phép tự động phát
+    player.setVolume(0);
+    event.target.playVideo();  // Phát video
 
-            // Gửi trạng thái hiện tại lên Firebase
-            sendVideoStatus();
+    // Nhận trạng thái từ Firebase khi trang chính mở lên
+    database.ref('videoStatus').once('value', (snapshot) => {
+        const status = snapshot.val();
+        if (status) {
+            player.seekTo(Math.round(status.currentTime));  // Đặt thời gian hiện tại
+            player.setVolume(status.volume * 100); // Đặt âm lượng từ Firebase (người dùng có thể tự bật âm thanh)
+            if (status.playing) {
+                player.playVideo();
+            } else {
+                player.pauseVideo();
+            }
+        } else {
+            player.playVideo();  // Tự động phát video nếu không có trạng thái
         }
+    });
+
+    // Gửi trạng thái hiện tại lên Firebase
+    sendVideoStatus();
+}
+
 
         // Khi trạng thái của video thay đổi
         function onPlayerStateChange(event) {
