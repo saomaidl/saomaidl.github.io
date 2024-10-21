@@ -10,35 +10,18 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke - Main</title>
-    <style>
-        #player-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-        }
-        #player {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+    <title>Trang Chính</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-    <h1>Karaoke - Main Page</h1>
-    <div id="player-container">
-        <div id="player"></div>
-    </div>
+    <div id="player"></div>
 
     <script>
-        let player;
+        const videoId = 'LtQ2uO10MzU'; // Video YouTube ID
+
+        // Cấu hình Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -49,17 +32,21 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
             measurementId: "G-MNBY4YPT3N"
         };
-
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Setup YouTube API
+        let player;
+
+        // Khởi tạo YouTube Player
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                videoId: 'cJTFLSe_Bew', // YouTube Video ID cố định
+                height: '360',
+                width: '640',
+                videoId: videoId,
                 playerVars: {
-                    autoplay: 1,
-                    controls: 1
+                    autoplay: 1,  // Tự động phát khi video sẵn sàng
+                    controls: 1,  // Hiển thị điều khiển video
+                    mute: 1       // Tắt tiếng khi bắt đầu để đảm bảo video tự động phát
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -69,67 +56,68 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
 
         // Khi video sẵn sàng
-// Khi video sẵn sàng
-function onPlayerReady(event) {
-    // Tắt âm thanh để trình duyệt cho phép tự động phát
-    player.setVolume(0);
-    event.target.playVideo();  // Phát video
+        function onPlayerReady(event) {
+            event.target.playVideo(); // Tự động phát video
 
-    // Nhận trạng thái từ Firebase khi trang chính mở lên
-    database.ref('videoStatus').once('value', (snapshot) => {
-        const status = snapshot.val();
-        if (status) {
-            player.seekTo(Math.round(status.currentTime));  // Đặt thời gian hiện tại
-            player.setVolume(status.volume * 100); // Đặt âm lượng từ Firebase (người dùng có thể tự bật âm thanh)
-            if (status.playing) {
-                player.playVideo();
-            } else {
-                player.pauseVideo();
-            }
-        } else {
-            player.playVideo();  // Tự động phát video nếu không có trạng thái
+            // Sau 1 giây, bật âm lượng lên 100%
+            setTimeout(() => {
+                player.unMute();  // Bật tiếng
+                player.setVolume(100);  // Đặt âm lượng là 100%
+            }, 1000);
+
+            // Gửi trạng thái video hiện tại lên Firebase
+            sendVideoStatus();
+
+            // Nhận các trạng thái từ Firebase
+            listenForUpdates();
         }
-    });
 
-    // Gửi trạng thái hiện tại lên Firebase
-    sendVideoStatus();
-}
-
-
-        // Khi trạng thái của video thay đổi
+        // Khi trạng thái video thay đổi (play, pause)
         function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) {
-                sendVideoStatus();
-            }
+            sendVideoStatus(); // Gửi trạng thái mới lên Firebase khi video thay đổi
         }
 
-        // Gửi trạng thái hiện tại của video lên Firebase
+        // Hàm gửi trạng thái video lên Firebase
         function sendVideoStatus() {
-            const currentTime = Math.round(player.getCurrentTime()); // Làm tròn currentTime
-            const volume = player.getVolume() / 100;
-            const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
+            const currentTime = player.getCurrentTime();
+            const playing = player.getPlayerState() === YT.PlayerState.PLAYING;
+            const volume = player.getVolume();
 
             database.ref('videoStatus').set({
                 currentTime: currentTime,
-                playing: isPlaying,
-                volume: volume
+                playing: playing,
+                volume: volume / 100
             });
         }
 
-        // Cập nhật trạng thái của video mỗi giây
+        // Hàm nhận trạng thái từ Firebase và điều chỉnh video
+        function listenForUpdates() {
+            database.ref('videoStatus').on('value', (snapshot) => {
+                const status = snapshot.val();
+
+                if (status) {
+                    // Nếu trạng thái chơi/dừng khác nhau, điều chỉnh
+                    if (status.playing && player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        player.playVideo();
+                    } else if (!status.playing && player.getPlayerState() === YT.PlayerState.PLAYING) {
+                        player.pauseVideo();
+                    }
+
+                    // Cập nhật âm lượng nếu khác
+                    const currentVolume = player.getVolume() / 100;
+                    if (currentVolume !== status.volume) {
+                        player.setVolume(status.volume * 100);
+                    }
+                }
+            });
+        }
+
+        // Cập nhật trạng thái video mỗi giây
         setInterval(() => {
             if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-                const currentTime = Math.round(player.getCurrentTime());
-                const volume = player.getVolume() / 100;
-
-                database.ref('videoStatus').update({
-                    currentTime: currentTime,
-                    volume: volume
-                });
+                sendVideoStatus(); // Gửi trạng thái hiện tại lên Firebase
             }
         }, 1000);
     </script>
 </body>
 </html>
-
-
