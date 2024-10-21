@@ -10,97 +10,39 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chính với JWPlayer</title>
-    <script src="https://cdn.jsdelivr.net/npm/firebase@8.10.0/firebase-app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/firebase@8.10.0/firebase-database.js"></script>
-    <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+    <title>Plyr YouTube Player</title>
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
 <body>
-    <div id="player"></div>
+
+    <!-- Plyr YouTube Player Container -->
+    <div class="plyr__video-embed" id="player">
+        <iframe
+            src="https://www.youtube.com/embed/LtQ2uO10MzU?autoplay=1&mute=1&controls=0&enablejsapi=1"
+            allowfullscreen
+            allow="autoplay; encrypted-media"
+            title="YouTube video player"></iframe>
+    </div>
+
+    <!-- Plyr JS -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
     <script>
-        // Cấu hình Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
-            authDomain: "karaoke-3aa8f.firebaseapp.com",
-            databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "karaoke-3aa8f",
-            storageBucket: "karaoke-3aa8f.appspot.com",
-            messagingSenderId: "652741363415",
-            appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
-            measurementId: "G-MNBY4YPT3N"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // Khởi tạo JWPlayer
-        const playerInstance = jwplayer('player').setup({
-            file: 'https://www.youtube.com/watch?v=LtQ2uO10MzU',
-            width: '640',
-            height: '360',
-            autostart: true,  // Tự động phát
-            mute: true        // Bắt đầu với âm lượng tắt để tự động phát
+        // Initialize Plyr
+        const player = new Plyr('#player', {
+            controls: ['play', 'pause', 'volume', 'fullscreen'],
+            autoplay: true,
+            muted: true
         });
 
-        // Khi video sẵn sàng
-        playerInstance.on('ready', function() {
-            setTimeout(() => {
-                playerInstance.setMute(false); // Bật tiếng sau khi phát xong
-                playerInstance.setVolume(100); // Đặt âm lượng 100%
-            }, 1000);
-
-            // Gửi trạng thái video lên Firebase
-            sendVideoStatus();
-            listenForUpdates();
-        });
-
-        // Khi video thay đổi trạng thái (play, pause, seek)
-        playerInstance.on('play pause seek', function() {
-            sendVideoStatus();  // Gửi trạng thái hiện tại khi có thay đổi
-        });
-
-        // Gửi trạng thái video lên Firebase
-        function sendVideoStatus() {
-            const currentTime = playerInstance.getPosition();
-            const playing = playerInstance.getState() === 'playing';
-            const volume = playerInstance.getVolume();
-
-            database.ref('videoStatus').set({
-                currentTime: currentTime,
-                playing: playing,
-                volume: volume / 100
-            });
-        }
-
-        // Nhận trạng thái từ Firebase và điều chỉnh video
-        function listenForUpdates() {
-            database.ref('videoStatus').on('value', (snapshot) => {
-                const status = snapshot.val();
-
-                if (status) {
-                    // Nếu trạng thái chơi/dừng khác nhau, điều chỉnh
-                    if (status.playing && playerInstance.getState() !== 'playing') {
-                        playerInstance.play();
-                    } else if (!status.playing && playerInstance.getState() === 'playing') {
-                        playerInstance.pause();
-                    }
-
-                    // Cập nhật âm lượng nếu khác
-                    const currentVolume = playerInstance.getVolume() / 100;
-                    if (currentVolume !== status.volume) {
-                        playerInstance.setVolume(status.volume * 100);
-                    }
-                }
-            });
-        }
-
-        // Cập nhật trạng thái video mỗi giây
-        setInterval(() => {
-            if (playerInstance.getState() === 'playing') {
-                sendVideoStatus(); // Gửi trạng thái hiện tại lên Firebase
-            }
+        // Set volume to 100% after 1 second (unmute)
+        setTimeout(() => {
+            player.muted = false;
+            player.volume = 1;  // 1 means 100% volume
         }, 1000);
     </script>
+
 </body>
 </html>
 
