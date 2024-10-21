@@ -63,6 +63,41 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         <div class="overlay"></div>
     </div>
 
+
+<div class="bg-white fixed bottom-0 left-0 right-0 w-full flex flex-col border-t border-black border-opacity-10"><div class="z-max"><div class="flex h-[70px] items-center" id="navbar"></div></div></div>
+
+    <script>
+      $(document).ready(function() {
+        const buttons = [
+          {
+            label: 'Play',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"></path></svg>`,
+          },
+          {
+            label: 'Pause',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7H5.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7h-2.6z"></path></svg>`,
+          },
+          {
+            label: 'Replay',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M6 2a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h1v-2H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4.798l1.298-1.298a1 1 0 1 0-1.414-1.414L9.373 19l3.713 3.712a1 1 0 0 0 1.414-1.414L13.202 20H18a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5H6z"></path></svg>`,
+          },
+          {
+            label: 'Next',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M17.7 3a.7.7 0 0 0-.7.7v6.805L5.05 3.606A.7.7 0 0 0 4 4.212v15.576a.7.7 0 0 0 1.05.606L17 13.495V20.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7h-1.6z"></path></svg>`,
+          },
+        ];
+
+        buttons.forEach(button => {
+          $('#navbar').append(`
+            <button class="flex flex-col items-center justify-center text-center flex-1 h-full gap-1">
+              ${button.icon}
+              <span class="encore-text text-sm leading-normal uppercase font-bold">${button.label}</span>
+            </button>
+          `);
+        });
+      });
+    </script>
+
     <div class="controls">
         <!-- Nút Replay -->
         <button id="replayBtn" class="bg-white text-black rounded-full p-4 focus:outline-none">
