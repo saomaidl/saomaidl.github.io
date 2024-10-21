@@ -20,13 +20,14 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
         .controls {
             position: absolute;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
-                padding: 0 24px;
+            width: 80%;
+            z-index: 20; /* Đặt z-index cho các nút */
         }
         .overlay {
             position: absolute;
@@ -35,11 +36,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.7);
-            z-index: 10;
-            pointer-events: none; /* Không chặn tương tác */
-        }
-        .controls > * {
-            pointer-events: auto; /* Đảm bảo các nút có thể tương tác */
+            z-index: 10; /* Đặt z-index thấp hơn để các nút hiển thị trên lớp phủ */
         }
         .volume-button-knob {
             position: relative;
@@ -164,5 +161,3 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
-
-
