@@ -10,11 +10,21 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Host Video</title>
+    <title>Karaoke - Main</title>
     <style>
+        #player-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
         #player {
-            width: 100vw;
-            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -22,16 +32,15 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-    <h1>Host Video</h1>
-    <div id="player"></div>
+    <h1>Karaoke - Main Page</h1>
+    <div id="player-container">
+        <div id="player"></div>
+    </div>
 
     <script>
-        let player;
-        let dataChannel;
         const videoId = 'SSQ8jfIxDkM'; // YouTube Video ID
-
-        // Firebase config
-        const firebaseConfig = {
+        let player;
+        let firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
             databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -41,14 +50,13 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
             measurementId: "G-MNBY4YPT3N"
         };
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
-        // YouTube API setup
+        
+        // Setup YouTube API
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '360',
-                width: '640',
                 videoId: videoId,
                 playerVars: {
                     autoplay: 1,
@@ -61,50 +69,62 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             });
         }
 
+        // Khi video sẵn sàng
         function onPlayerReady(event) {
-            event.target.playVideo();
-            setupWebRTC();
-        }
+            // Nhận trạng thái từ Firebase khi trang chính mở lên
+            database.ref('videoStatus').once('value', (snapshot) => {
+                const status = snapshot.val();
+                if (status) {
+                    player.seekTo(status.currentTime);  // Đặt thời gian hiện tại
+                    player.setVolume(status.volume * 100); // Đặt âm lượng
+                    if (status.playing) {
+                        player.playVideo();
+                    } else {
+                        player.pauseVideo();
+                    }
+                } else {
+                    // Nếu không có trạng thái lưu, tự động phát video
+                    player.playVideo();
+                }
+            });
 
-        function onPlayerStateChange(event) {
+            // Gửi trạng thái hiện tại lên Firebase
             sendVideoStatus();
         }
 
-        // Gửi thông tin trạng thái video qua WebRTC
-        function sendVideoStatus() {
-            const currentTime = player.getCurrentTime();
-            const state = player.getPlayerState();
-            const volume = player.getVolume();
-
-            if (dataChannel && dataChannel.readyState === "open") {
-                dataChannel.send(JSON.stringify({
-                    currentTime: currentTime,
-                    state: state,
-                    volume: volume
-                }));
+        // Khi trạng thái của video thay đổi
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) {
+                sendVideoStatus();
             }
         }
 
-        // Setup WebRTC
-        async function setupWebRTC() {
-            const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-            const peerConnection = new RTCPeerConnection(configuration);
+        // Gửi trạng thái hiện tại của video lên Firebase
+        function sendVideoStatus() {
+            const currentTime = player.getCurrentTime();
+            const volume = player.getVolume() / 100;
+            const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
-            // Tạo DataChannel
-            dataChannel = peerConnection.createDataChannel("videoSync");
-
-            // Đưa các ICE candidates lên Firebase
-            peerConnection.onicecandidate = (event) => {
-                if (event.candidate) {
-                    database.ref('webrtc/hostCandidates').push(event.candidate.toJSON());
-                }
-            };
-
-            // Tạo offer và đưa lên Firebase
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-            database.ref('webrtc/offer').set(offer);
+            database.ref('videoStatus').set({
+                videoId: videoId,
+                currentTime: currentTime,
+                playing: isPlaying,
+                volume: volume
+            });
         }
+
+        // Cập nhật trạng thái của video mỗi giây
+        setInterval(() => {
+            if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+                const currentTime = player.getCurrentTime();
+                const volume = player.getVolume() / 100;
+
+                database.ref('videoStatus').update({
+                    currentTime: currentTime,
+                    volume: volume
+                });
+            }
+        }, 1000);
     </script>
 </body>
 </html>
