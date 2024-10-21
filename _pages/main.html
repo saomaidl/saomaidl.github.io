@@ -10,52 +10,88 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player with Plyr</title>
+    <title>Video Player</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
     <style>
-        /* Đảm bảo video responsive */
-        .plyr__video-embed {
-            position: relative;
-            padding-top: 56.25%;
-        }
-        .plyr__video-embed iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        /* Đảm bảo video chiếm toàn bộ màn hình */
+        #player {
             width: 100%;
             height: 100%;
         }
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 h-screen flex items-center justify-center relative">
 
-    <div class="container mx-auto py-10">
-        <h1 class="text-3xl font-bold text-center mb-6">Video Player with Plyr</h1>
-        <div class="plyr__video-embed" id="player">
-            <iframe
-                src="https://www.youtube.com/embed/LtQ2uO10MzU?autoplay=1&muted=1"
-                allowfullscreen
-                allow="autoplay"
-                loading="lazy"
-                title="YouTube Video">
-            </iframe>
-        </div>
+    <div class="absolute inset-0">
+        <div id="player"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="playBtn" class="bg-blue-500 text-white p-2 rounded">Play</button>
+        <button id="pauseBtn" class="bg-red-500 text-white p-2 rounded">Pause</button>
+        <button id="replayBtn" class="bg-green-500 text-white p-2 rounded">Replay</button>
+        <button id="volumeBtn" class="bg-yellow-500 text-white p-2 rounded">Volume</button>
     </div>
 
-    <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        // Khởi tạo Plyr
-        const player = new Plyr('#player iframe', {
-            // Thêm cấu hình tùy chỉnh nếu cần
+        const videoId = 'LtQ2uO10MzU'; // YouTube Video ID
+        let player;
+
+        // Tạo và khởi tạo YouTube Player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,  // Tự động phát video
+                    controls: 0,  // Ẩn tất cả các điều khiển
+                    rel: 0,       // Không hiện video liên quan
+                    iv_load_policy: 3, // Ẩn chú thích video
+                    mute: 1       // Bắt đầu với âm thanh tắt
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        // Khi player đã sẵn sàng
+        function onPlayerReady(event) {
+            setTimeout(() => {
+                player.unMute(); // Bật tiếng sau 1 giây
+            }, 1000);
+        }
+
+        // Gán các nút chức năng
+        document.getElementById('playBtn').addEventListener('click', () => {
+            player.playVideo();
         });
 
-        // Tự động bật tiếng sau 1 giây
-        setTimeout(() => {
-            player.volume = 1; // Đặt âm lượng 100%
-            player.muted = false; // Bật tiếng
-        }, 1000);
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            player.pauseVideo();
+        });
+
+        document.getElementById('replayBtn').addEventListener('click', () => {
+            player.seekTo(0); // Quay lại đầu video
+            player.playVideo(); // Phát lại video
+        });
+
+        document.getElementById('volumeBtn').addEventListener('click', () => {
+            const currentVolume = player.getVolume();
+            player.setVolume(currentVolume === 100 ? 0 : 100); // Chuyển đổi giữa tắt/mở âm thanh
+        });
     </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
 
