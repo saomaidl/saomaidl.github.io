@@ -24,8 +24,84 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             width: 80%;
+        }
+        #frame {
+            position: relative;
+            display: inline-block;
+            height: 100px;
+            width: 100px;
+            text-align: center;
+            border: 1px solid #dbdbdb;
+            background: #f2f2f2;
+            border-radius: 50%;
+            box-shadow: inset 0 3px 10px rgba(100, 100, 100, 0.1);
+        }
+        /* Start and finish */
+        #frame:before, #frame:after {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 8px;
+            height: 8px;
+            content: "";
+            background: transparent;
+            border: 4px solid rgba(124, 124, 124, 0.9);
+            border-radius: 50%;
+        }
+        /* Finish */
+        #frame:after {
+            left: auto;
+            right: 10px;
+            background: rgba(124, 124, 124, 0.9);
+        }
+        /* Outer circle */
+        #frame a.button {    
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            margin-top: 15px;
+            text-align: center;
+            border: 1px solid #e6e6e6;
+            border-radius: 50%;
+            background: linear-gradient(#fff, #f5f5f5);
+            box-shadow: 0 5px 10px #CCC;
+        }
+        /* Inner circle */
+        #frame a.button:before {    
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: block;
+            width: 70%;
+            height: 70%;
+            content: "";
+            border: 1px solid #ececec;
+            border-radius: 50%;
+            background: linear-gradient(#f5f5f5, #fff);
+        }
+        /* Play/Pause Icon */
+        #frame a.button:after {    
+            position: absolute;
+            top: 25%;
+            left: 35%;
+            display: block;
+            width: 30%;
+            height: 50%;
+            content: "";
+            background: rgba(100, 100, 100, 0.9);
+            border-radius: 2px;
+            transform: rotate(0deg);
+        }
+        /* Keyframes for volume button animation */
+        @keyframes adjustVolume {
+            from { }
+            to { 
+                transform: rotateZ(270deg); 
+                box-shadow: 0 0 10px #CCC;
+            }
         }
     </style>
 </head>
@@ -34,12 +110,11 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <div class="absolute inset-0">
         <div id="player"></div>
     </div>
-    
+
     <div class="controls">
-        <button id="playBtn" class="bg-blue-500 text-white p-2 rounded">Play</button>
-        <button id="pauseBtn" class="bg-red-500 text-white p-2 rounded">Pause</button>
-        <button id="replayBtn" class="bg-green-500 text-white p-2 rounded">Replay</button>
-        <button id="volumeBtn" class="bg-yellow-500 text-white p-2 rounded">Volume</button>
+        <div id="frame">
+            <a class="button" id="playPauseBtn"></a>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -47,6 +122,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <script>
         const videoId = 'LtQ2uO10MzU'; // YouTube Video ID
         let player;
+        let isPlaying = false;
 
         // Tạo và khởi tạo YouTube Player
         function onYouTubeIframeAPIReady() {
@@ -72,27 +148,20 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             }, 1000);
         }
 
-        // Gán các nút chức năng
-        document.getElementById('playBtn').addEventListener('click', () => {
-            player.playVideo();
-        });
-
-        document.getElementById('pauseBtn').addEventListener('click', () => {
-            player.pauseVideo();
-        });
-
-        document.getElementById('replayBtn').addEventListener('click', () => {
-            player.seekTo(0); // Quay lại đầu video
-            player.playVideo(); // Phát lại video
-        });
-
-        document.getElementById('volumeBtn').addEventListener('click', () => {
-            const currentVolume = player.getVolume();
-            player.setVolume(currentVolume === 100 ? 0 : 100); // Chuyển đổi giữa tắt/mở âm thanh
+        // Gán sự kiện cho nút Play/Pause
+        document.getElementById('playPauseBtn').addEventListener('click', () => {
+            if (isPlaying) {
+                player.pauseVideo();
+                isPlaying = false;
+                document.getElementById('playPauseBtn').style.transform = "rotate(0deg)";
+            } else {
+                player.playVideo();
+                isPlaying = true;
+                document.getElementById('playPauseBtn').style.transform = "rotate(90deg)";
+            }
         });
     </script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
-
 
