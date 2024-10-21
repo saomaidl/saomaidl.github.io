@@ -32,6 +32,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
+    <h1>Karaoke - Main Page</h1>
     <div id="player-container">
         <div id="player"></div>
     </div>
@@ -73,7 +74,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             database.ref('videoStatus').once('value', (snapshot) => {
                 const status = snapshot.val();
                 if (status) {
-                    player.seekTo(status.currentTime);  // Đặt thời gian hiện tại
+                    player.seekTo(Math.round(status.currentTime));  // Đặt thời gian hiện tại
                     player.setVolume(status.volume * 100); // Đặt âm lượng
                     if (status.playing) {
                         player.playVideo();
@@ -99,7 +100,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
         // Gửi trạng thái hiện tại của video lên Firebase
         function sendVideoStatus() {
-            const currentTime = player.getCurrentTime();
+            const currentTime = Math.round(player.getCurrentTime()); // Làm tròn currentTime
             const volume = player.getVolume() / 100;
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
@@ -113,7 +114,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         // Cập nhật trạng thái của video mỗi giây
         setInterval(() => {
             if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-                const currentTime = player.getCurrentTime();
+                const currentTime = Math.round(player.getCurrentTime());
                 const volume = player.getVolume() / 100;
 
                 database.ref('videoStatus').update({
@@ -125,4 +126,5 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     </script>
 </body>
 </html>
+
 
