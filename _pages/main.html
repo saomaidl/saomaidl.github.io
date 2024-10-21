@@ -71,19 +71,27 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
       $(document).ready(function() {
         const buttons = [
           {
-            label: 'Play',
-            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"></path></svg>`,
-          },
-          {
-            label: 'Pause',
-            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7H5.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7h-2.6z"></path></svg>`,
-          },
-          {
-            label: 'Replay',
+            label: 'Phát lại',
             icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M6 2a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h1v-2H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4.798l1.298-1.298a1 1 0 1 0-1.414-1.414L9.373 19l3.713 3.712a1 1 0 0 0 1.414-1.414L13.202 20H18a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5H6z"></path></svg>`,
           },
           {
-            label: 'Next',
+            label: 'Giảm âm',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M14.5 1.134A1 1 0 0 1 15 2v20a1 1 0 0 1-1.5.866L2.846 16.712a5.445 5.445 0 0 1 0-9.424L13.5 1.135a1 1 0 0 1 1 0zM3.847 9.02a3.444 3.444 0 0 0 0 5.96L13 20.268V3.732L3.847 9.02zM17 16.032V7.968a4.5 4.5 0 0 1 0 8.064z"></path></svg>`,
+          },
+          {
+            label: 'Phát nhạc',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"></path></svg>`,
+          },
+          {
+            label: 'Dừng phát',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7H5.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7h-2.6z"></path></svg>`,
+          },
+          {
+            label: 'Tăng âm',
+            icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M14.5 1.134A1 1 0 0 1 15 2v20a1 1 0 0 1-1.5.866L2.846 16.712a5.445 5.445 0 0 1 0-9.424L13.5 1.135a1 1 0 0 1 1 0zM3.847 9.02a3.444 3.444 0 0 0 0 5.96L13 20.268V3.732L3.847 9.02zM17 20.127a8.504 8.504 0 0 0 0-16.253v2.125a6.502 6.502 0 0 1 0 12.003v2.125z"></path><path d="M17 16.032V7.968a4.5 4.5 0 0 1 0 8.064z"></path></svg>`,
+          },
+          {
+            label: 'Bài tiếp',
             icon: `<svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" class="fill-current w-6 h-6"><path d="M17.7 3a.7.7 0 0 0-.7.7v6.805L5.05 3.606A.7.7 0 0 0 4 4.212v15.576a.7.7 0 0 0 1.05.606L17 13.495V20.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7h-1.6z"></path></svg>`,
           },
         ];
