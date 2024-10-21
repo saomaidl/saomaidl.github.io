@@ -65,7 +65,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     </div>
 
 
-<div class="z-[100] bg-[rgba(0,0,0,0.1)] fixed bottom-0 left-0 right-0 w-full flex flex-col border-t border-black border-opacity-10"><div class="z-max"><div class="flex h-[70px] items-center" id="navbar"></div></div></div>
+<div class="z-[100] bg-[rgba(0,0,0,0.1)] fixed bottom-0 left-0 right-0 w-full flex flex-col border-none"><div class="z-max"><div class="flex h-[70px] items-center" id="navbar"></div></div></div>
 
     <script>
       $(document).ready(function() {
@@ -90,7 +90,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
         buttons.forEach(button => {
           $('#navbar').append(`
-            <button class="flex flex-col items-center justify-center text-center flex-1 h-full gap-1">
+            <button class="flex flex-col items-center justify-center text-center flex-1 h-full gap-1 color-white">
               ${button.icon}
               <span class="encore-text text-sm leading-normal uppercase font-bold">${button.label}</span>
             </button>
