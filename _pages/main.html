@@ -46,7 +46,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
                 playerVars: {
                     autoplay: 1,  // Tự động phát khi video sẵn sàng
                     controls: 1,  // Hiển thị điều khiển video
-                    mute: 1       // Tắt tiếng khi bắt đầu để đảm bảo video tự động phát
+                    volume: 10    // Đặt âm lượng ở mức 10% ban đầu thay vì mute
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -59,11 +59,10 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         function onPlayerReady(event) {
             event.target.playVideo(); // Tự động phát video
 
-            // Sau 1 giây, bật âm lượng lên 100%
+            // Sau 2 giây, bật âm lượng lên 100% để tránh xung đột khi bắt đầu phát
             setTimeout(() => {
-                player.unMute();  // Bật tiếng
                 player.setVolume(100);  // Đặt âm lượng là 100%
-            }, 1000);
+            }, 2000);
 
             // Gửi trạng thái video hiện tại lên Firebase
             sendVideoStatus();
@@ -121,3 +120,4 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     </script>
 </body>
 </html>
+
