@@ -37,9 +37,8 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     </div>
 
     <script>
-        const videoId = 'h6RONxjPBf4'; // YouTube Video ID
         let player;
-        let firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
             authDomain: "karaoke-3aa8f.firebaseapp.com",
             databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -52,11 +51,11 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        
+
         // Setup YouTube API
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                videoId: videoId,
+                videoId: 'SSQ8jfIxDkM', // YouTube Video ID cố định
                 playerVars: {
                     autoplay: 1,
                     controls: 1
@@ -105,7 +104,6 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             const isPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
 
             database.ref('videoStatus').set({
-                videoId: videoId,
                 currentTime: currentTime,
                 playing: isPlaying,
                 volume: volume
