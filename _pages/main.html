@@ -43,7 +43,8 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
                     controls: 1,  // Ẩn tất cả các điều khiển
                     rel: 0,       // Không hiện video liên quan
                     iv_load_policy: 3, // Ẩn chú thích video
-                    mute: 1       // Bắt đầu với âm thanh tắt
+                    mute: 1,
+                    playsinline: 1
                 },
                 events: {
                     'onReady': onPlayerReady
@@ -52,11 +53,9 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
 
         // Khi player đã sẵn sàng
-        function onPlayerReady(event) {
-            setTimeout(() => {
-                player.unMute(); // Bật tiếng sau 1 giây
-            }, 1000);
-        }
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
 
         // Gán sự kiện cho nút Play/Pause
         document.getElementById('playPauseBtn').addEventListener('click', () => {
