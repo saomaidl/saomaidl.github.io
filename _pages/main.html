@@ -28,6 +28,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             width: 100%;
             height: 100%;
         }
+
         .video-list {
             display: flex;
             flex-direction: column;
@@ -95,10 +96,35 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
     </style>
 </head>
-<body>
-    <div class="video-container">
-        <div id="player"></div>
+<body class="bg-gray-100">
+    <div class="max-w-screen-lg mx-auto p-4">
+        <!-- Video container -->
+        <div class="video-container">
+            <div id="player"></div>
+        </div>
+        
+        <!-- Danh sách video -->
+        <div class="video-list">
+            <div class="video-item">
+                <img class="thumbnail" src="https://i.ytimg.com/vi/LtQ2uO10MzU/hqdefault.jpg" alt="Thumbnail">
+                <div class="video-info">
+                    <div class="video-title">Chiếc Khăn Gió Ấm, Yêu Người Có Ước Mơ Lofi - Nhạc Chill N</div>
+                    <div class="video-channel">meChill</div>
+                    <div class="video-stats">88 N lượt xem • 1 năm trước</div>
+                </div>
+            </div>
+
+            <div class="video-item">
+                <img class="thumbnail" src="https://i.ytimg.com/vi/abcd/hqdefault.jpg" alt="Thumbnail">
+                <div class="video-info">
+                    <div class="video-title">Tên Video Khác</div>
+                    <div class="video-channel">Channel khác</div>
+                    <div class="video-stats">50 N lượt xem • 2 năm trước</div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
         const videoId = 'LtQ2uO10MzU'; // YouTube Video ID
         let player;
@@ -128,30 +154,5 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     </script>
     <script src="https://www.youtube.com/iframe_api"></script>
 
-    
-    <div class="video-list">
-        <div class="video-item">
-            <img class="thumbnail" src="https://i.ytimg.com/vi/LtQ2uO10MzU/hqdefault.jpg" alt="Thumbnail">
-            <div class="video-info">
-                <div class="video-title">Chiếc Khăn Gió Ấm, Yêu Người Có Ước Mơ Lofi - Nhạc Chill N</div>
-                <div class="video-channel">meChill</div>
-                <div class="video-stats">88 N lượt xem • 1 năm trước</div>
-            </div>
-        </div>
-
-        <div class="video-item">
-            <img class="thumbnail" src="https://i.ytimg.com/vi/abcd/hqdefault.jpg" alt="Thumbnail">
-            <div class="video-info">
-                <div class="video-title">Tên Video Khác</div>
-                <div class="video-channel">Channel khác</div>
-                <div class="video-stats">50 N lượt xem • 2 năm trước</div>
-            </div>
-        </div>
-    </div>
-
-    
-
 </body>
 </html>
-
-
