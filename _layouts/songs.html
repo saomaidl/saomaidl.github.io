@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'vi' }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Favicon Links -->
+  <link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/favicon/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png" />
+  
+  <!-- Apple Mobile Web App -->
+  <meta name="apple-mobile-web-app-title" content="Sao Mai" />
+  <link rel="manifest" href="{{ site.baseurl }}/assets/favicon/site.webmanifest" />
+  
+  <!-- SEO and Meta Info -->
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Canonical and Hreflang -->
+  <link rel="alternate" href="{{ page.url | prepend: site.baseurl }}" hreflang="{{ page.lang | default: 'vi' }}">
+  <link rel="canonical" href="{{ page.url | prepend: site.baseurl }}">
+  
+  <!-- Title and Description -->
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:locale" content="{{ site.locale | default: 'vi_VN' }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:url" content="{{ page.url | prepend: site.baseurl }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">  
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- CSS and Scripts -->
+  <link rel="stylesheet" href="/assets/css/app.css">
+  <link rel="stylesheet" href="/assets/css/font.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pink: "#EF7C8E",
+            'gray-text': '#181818',
+            'tap-highlight': 'transparent',
+            'black/12': 'hsla(0,0%,100%,.1)',
+            'text-subdued': '#656565',
+            'black': '#000',
+            'icon': '#0f0f0f',
+          },
+          lineHeight: {
+            normal: 'normal',
+            1: '1',
+          },
+          minHeight: {
+            '48px': '48px',
+            8: '32px',
+          },
+          backgroundColor: {
+            'gray-top': '#181818',
+          },
+          padding: {
+            '12px': '12px',
+            '12-16': '12px 16px',
+            '0-16': '0 16px',
+          },
+          fontSize: {
+            marginal: '0.6875rem',
+          },
+          fontFamily: {
+            saomaiHeading: ['saomaiHeading', 'sans-serif'],
+          },
+          translate: {
+            '1-2': '50%',
+          },
+          spacing: {
+            '70px': '70px',
+          },
+          letterSpacing: {
+            inherit: 'inherit',
+          },
+          overflowWrap: {
+            clip: 'break-word',
+          },
+          verticalAlign: {
+            middle: 'middle',
+          },
+          minInlineSize: {
+            '0': '0px',
+          },
+          transitionDuration: {
+            '33': '33ms',
+          },
+        },
+      },
+      plugins: [
+        function ({ addComponents }) {
+          addComponents({
+            'h1, h2, h3, h4, h5, h6': {
+              '@apply font-saomaiHeading font-bold': {},
+            },
+          });
+        },
+        // Import Tailwind plugin function
+        function ({ addBase }) {
+          addBase({
+            'audio, canvas, embed, iframe, img, object, svg, video': {
+              display: 'inline-block',
+            },
+          });
+        },
+        function ({ addUtilities }) {
+          addUtilities({
+            '.encore-text': {
+              '-webkit-box-sizing': 'border-box',
+              'box-sizing': 'border-box',
+              '-webkit-tap-highlight-color': 'transparent',
+              'color': 'inherit',
+              'margin-block': '0',
+            },
+            'body': {
+              'font-family': 'saomai, sans-serif',
+              'background-color': '#fff',
+              'margin': '0',
+              '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
+              'display': 'flex',
+            },
+            '.scrollbar-none': {
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+              '-ms-overflow-style': 'none',
+              'scrollbar-width': 'none',
+            },
+            '.transition-duration-33': {
+              'transition-duration': '33ms',
+            },
+            '.top-1-2': {
+              top: '50%',
+            },
+            '.right-3': {
+              right: '12px',
+            },
+            '.line-clamp-2': {
+              display: '-webkit-box',
+              '-webkit-box-orient': 'vertical',
+              '-webkit-line-clamp': '2',
+              overflow: 'hidden',
+              'min-height': '1.5rem',
+              'max-height': '3rem',
+              'white-space': 'pre-wrap',
+            },
+            '.overflow-wrap-anywhere': {
+              'overflow-wrap': 'anywhere',
+            },
+            '.vertical-align-middle': {
+              'vertical-align': 'middle',
+            },
+          }, ['responsive', 'hover']);
+        },
+      ],
+    };
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+
+<body>
+  <div id="__next" class="z-0 h-full w-full">
+    <div>
+      <div class="h-full">
+        <div data-main-scrollable-node="true" class="block h-full overflow-x-hidden overflow-y-auto relative w-full">
+          <div class="flex flex-col min-h-screen">
+            <div class="flex flex-col flex-1 overflow-y-auto pb-0" style="margin-bottom: 70px;">
+              <div class="flex flex-col min-h-full relative w-full flex-1 p-0">
+                {{ content }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="content"></div>
+</body>
+
+</html>
