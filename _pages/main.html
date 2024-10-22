@@ -10,103 +10,100 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Video Player</title>
+    <title>Responsive Video List</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Đảm bảo video giữ tỷ lệ 16:9 và không có margin/padding */
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* Tỷ lệ 16:9 */
-            margin: 0;
-            height: 0;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
         /* Danh sách video */
         .video-list {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 1rem;
             margin-top: 1rem;
         }
 
         .video-item {
-            flex: 1 1 calc(33.333% - 1rem);
-            background-color: #f3f4f6;
+            display: flex;
+            background-color: #f9fafb;
             padding: 0.5rem;
             border-radius: 0.5rem;
-            text-align: center;
-            cursor: pointer;
             transition: transform 0.3s;
+            cursor: pointer;
         }
 
         .video-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: auto;
+            margin-right: 1rem;
+        }
+
+        .video-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .video-title {
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 1.25rem;
+            color: #1f2937;
+        }
+
+        .video-channel {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .video-stats {
+            font-size: 0.75rem;
+            color: #9ca3af;
         }
 
         /* Responsive cho mobile */
         @media (max-width: 640px) {
+            .thumbnail {
+                width: 100px;
+            }
+
             .video-item {
-                flex: 1 1 calc(100% - 1rem);
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .video-info {
+                align-items: center;
             }
         }
     </style>
 </head>
-<body class="bg-gray-100">
-
-    <!-- Video Player Container -->
-    <div class="video-container">
-        <div id="player"></div>
-    </div>
+<body class="bg-gray-100 p-4">
 
     <!-- Danh sách video -->
     <div class="video-list">
-        <div class="video-item">Video 1</div>
-        <div class="video-item">Video 2</div>
-        <div class="video-item">Video 3</div>
-        <div class="video-item">Video 4</div>
-        <div class="video-item">Video 5</div>
+        <div class="video-item">
+            <img class="thumbnail" src="https://i.ytimg.com/vi/LtQ2uO10MzU/hqdefault.jpg" alt="Thumbnail">
+            <div class="video-info">
+                <div class="video-title">Chiếc Khăn Gió Ấm, Yêu Người Có Ước Mơ Lofi - Nhạc Chill N</div>
+                <div class="video-channel">meChill</div>
+                <div class="video-stats">88 N lượt xem • 1 năm trước</div>
+            </div>
+        </div>
+
+        <div class="video-item">
+            <img class="thumbnail" src="https://i.ytimg.com/vi/abcd/hqdefault.jpg" alt="Thumbnail">
+            <div class="video-info">
+                <div class="video-title">Tên Video Khác</div>
+                <div class="video-channel">Channel khác</div>
+                <div class="video-stats">50 N lượt xem • 2 năm trước</div>
+            </div>
+        </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script>
-        const videoId = 'LtQ2uO10MzU'; // YouTube Video ID
-        let player;
-        let isPlaying = false;
-
-        // Tạo và khởi tạo YouTube Player
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                videoId: videoId,
-                playerVars: {
-                    autoplay: 1,
-                    controls: 1,
-                    rel: 0,
-                    iv_load_policy: 3,
-                    mute: 0,
-                    playsinline: 1
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-    </script>
-    <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
 
