@@ -14,11 +14,13 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Đảm bảo video giữ tỷ lệ 16:9 */
+        /* Đảm bảo video giữ tỷ lệ 16:9 và không có margin/padding */
         .video-container {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; /* Tỷ lệ 16:9 */
+            margin: 0;
+            padding: 0;
             height: 0;
         }
 
@@ -60,7 +62,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
     </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center p-4">
+<body class="bg-gray-100">
 
     <!-- Video Player Container -->
     <div class="video-container">
