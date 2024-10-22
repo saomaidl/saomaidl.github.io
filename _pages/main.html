@@ -16,7 +16,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     overflow: hidden;
   }
 
-  .video-container iframe {
+  #player iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -26,13 +26,13 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
   }
 
   @media (max-width: 1024px) {
-    .video-container iframe {
+    #player iframe {
       border-radius: 0;
     }
   }
 </style>
-<div class="max-w-screen-lg mx-auto">
-  <div class="video-container">
+<div class="w-full max-w-screen-lg mx-auto">
+  <div class="relative w-full m-0 pb-[56.25%] h-0 overflow-hidden">
     <div id="player"></div>
   </div>
 <div class="video-list">
