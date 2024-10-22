@@ -13,7 +13,21 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <title>Responsive Video List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Danh sách video */
+        .video-container {
+            position: relative;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
         .video-list {
             display: flex;
             flex-direction: column;
@@ -81,9 +95,40 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
         }
     </style>
 </head>
-<body class="bg-gray-100 p-4">
+<body>
+    <div class="video-container">
+        <div id="player"></div>
+    </div>
+    <script>
+        const videoId = 'LtQ2uO10MzU'; // YouTube Video ID
+        let player;
+        let isPlaying = false;
 
-    <!-- Danh sách video -->
+        // Tạo và khởi tạo YouTube Player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 1,
+                    rel: 0,
+                    iv_load_policy: 3,
+                    mute: 0,
+                    playsinline: 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    
     <div class="video-list">
         <div class="video-item">
             <img class="thumbnail" src="https://i.ytimg.com/vi/LtQ2uO10MzU/hqdefault.jpg" alt="Thumbnail">
@@ -103,6 +148,8 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             </div>
         </div>
     </div>
+
+    
 
 </body>
 </html>
