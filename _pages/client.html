@@ -21,8 +21,102 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-    <h1>Client Video</h1>
-    <div id="player"></div>
+<div class="max-w-xl mx-auto p-4">
+  <!-- Video Container -->
+  <div class="relative w-full h-64 bg-black rounded-md overflow-hidden">
+    <video id="videoPlayer" class="w-full h-full">
+      <source src="your-video-url.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Controls Overlay -->
+    <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+      
+      <!-- Progress Bar -->
+      <input id="progressBar" type="range" min="0" max="100" value="0" class="w-full h-1 bg-gray-400 cursor-pointer appearance-none rounded-lg mb-2">
+      
+      <!-- Controls -->
+      <div class="flex items-center justify-between p-2 bg-gray-800 bg-opacity-50">
+        <!-- Play/Pause Button -->
+        <button id="playPauseBtn" class="text-white">
+          <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-5.486-3.18A1 1 0 008 9.243v5.514a1 1 0 001.266.966l5.486-1.83a1 1 0 00.752-.972V11.14a1 1 0 00-.752-.972z" />
+          </svg>
+          <svg id="pauseIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />
+          </svg>
+        </button>
+
+        <!-- Next Button -->
+        <button class="text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-5.486-3.18A1 1 0 008 9.243v5.514a1 1 0 001.266.966l5.486-1.83a1 1 0 00.752-.972V11.14a1 1 0 00-.752-.972zM14.752 16.822L19 13.846v-3.692a1 1 0 00-1.266-.966l-5.486 1.83a1 1 0 00-.752.972v1.506a1 1 0 00.752.972l5.486 1.83A1 1 0 0019 17.015v-3.692l-4.248 2.615z" />
+          </svg>
+        </button>
+
+        <!-- Volume Control -->
+        <input id="volumeControl" type="range" min="0" max="1" step="0.01" class="w-20 h-1 bg-gray-400 cursor-pointer appearance-none rounded-lg">
+
+        <!-- Fullscreen Button -->
+        <button id="fullscreenBtn" class="text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6H5a2 2 0 00-2 2v3m0 4v3a2 2 0 002 2h3m6 0h3a2 2 0 002-2v-3m0-6V8a2 2 0 00-2-2h-3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const video = document.getElementById('videoPlayer');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const progressBar = document.getElementById('progressBar');
+  const volumeControl = document.getElementById('volumeControl');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+  // Play/Pause functionality
+  playPauseBtn.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+      playIcon.classList.add('hidden');
+      pauseIcon.classList.remove('hidden');
+    } else {
+      video.pause();
+      playIcon.classList.remove('hidden');
+      pauseIcon.classList.add('hidden');
+    }
+  });
+
+  // Update progress bar as video plays
+  video.addEventListener('timeupdate', () => {
+    const percent = (video.currentTime / video.duration) * 100;
+    progressBar.value = percent;
+  });
+
+  // Seek video by changing progress bar
+  progressBar.addEventListener('input', () => {
+    const time = (progressBar.value / 100) * video.duration;
+    video.currentTime = time;
+  });
+
+  // Adjust volume
+  volumeControl.addEventListener('input', () => {
+    video.volume = volumeControl.value;
+  });
+
+  // Fullscreen toggle
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      video.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  });
+</script>
+
 
     <script>
         let player;
