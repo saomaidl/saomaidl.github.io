@@ -23,17 +23,18 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     }
   }
 </style>
-<div class="w-full max-w-screen-lg mx-auto">
+<div class="fixed top-0 left-0 w-full max-w-screen-lg z-20"> <!-- Sử dụng fixed cho khung chứa -->
   <div class="relative w-full m-0 pb-[56.25%] h-0 overflow-hidden">
     <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
   </div>
-  <div class="video-list">
-    <div class="video-item">
-      <!-- Nội dung video item ở đây -->
-    </div>
-    <div class="video-item">
-      <!-- Nội dung video item ở đây -->
-    </div>
+</div>
+
+<div class="video-list mt-[56.25%]"> <!-- Thêm margin-top để không bị che khuất bởi video -->
+  <div class="video-item">
+    <!-- Nội dung video item ở đây -->
+  </div>
+  <div class="video-item">
+    <!-- Nội dung video item ở đây -->
   </div>
 </div>
 
