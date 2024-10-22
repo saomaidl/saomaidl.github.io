@@ -7,14 +7,25 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
 
 <style>
+  .video-container {
+    position: fixed; /* Đặt video ở vị trí cố định */
+    top: 0;
+    left: 50%; /* Căn giữa theo chiều ngang */
+    transform: translateX(-50%); /* Dịch chuyển sang trái một nửa chiều rộng */
+    width: 100%; /* Đảm bảo chiều rộng 100% */
+    max-width: 800px; /* Giới hạn chiều rộng tối đa (có thể thay đổi) */
+    padding-bottom: 56.25%; /* Tạo không gian cho tỷ lệ 16:9 */
+    height: 0; /* Chiều cao mặc định là 0 */
+    z-index: 10; /* Đảm bảo nằm trên cùng */
+  }
+
   iframe#player {
-    position: absolute;
+    position: absolute; /* Giữ position là absolute để iframe phủ toàn bộ khung chứa */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border-radius: 12px;
-    z-index: 10;
   }
 
   @media (max-width: 1024px) {
@@ -23,30 +34,18 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     }
   }
 </style>
-<div class="fixed top-0 left-0 w-full z-20 flex justify-center"> <!-- Thay đổi để sử dụng flex -->
-  <div class="relative w-full max-w-screen-lg m-0 pb-[56.25%] h-0 overflow-hidden">
-    <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-  </div>
+
+<div class="video-container"> <!-- Thay đổi div chứa video -->
+  <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
 </div>
 
 <div class="video-list mt-[56.25%]"> <!-- Thêm margin-top để không bị che khuất bởi video -->
-    <div class="video-item">
-      <img class="thumbnail" src="https://i.ytimg.com/vi/LtQ2uO10MzU/hqdefault.jpg" alt="Thumbnail">
-      <div class="video-info">
-        <div class="video-title">Chiếc Khăn Gió Ấm, Yêu Người Có Ước Mơ Lofi - Nhạc Chill N</div>
-        <div class="video-channel">meChill</div>
-        <div class="video-stats">88 N lượt xem • 1 năm trước</div>
-      </div>
-    </div>
-
-    <div class="video-item">
-      <img class="thumbnail" src="https://i.ytimg.com/vi/abcd/hqdefault.jpg" alt="Thumbnail">
-      <div class="video-info">
-        <div class="video-title">Tên Video Khác</div>
-        <div class="video-channel">Channel khác</div>
-        <div class="video-stats">50 N lượt xem • 2 năm trước</div>
-      </div>
-    </div>
+  <div class="video-item">
+    <!-- Nội dung video item ở đây -->
+  </div>
+  <div class="video-item">
+    <!-- Nội dung video item ở đây -->
+  </div>
 </div>
 
 <script>
