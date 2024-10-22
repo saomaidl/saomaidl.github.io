@@ -25,25 +25,25 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 </style>
 <div class="w-full max-w-screen-lg mx-auto">
   <div class="relative w-full m-0 pb-[56.25%] h-0 overflow-hidden">
-    <iframe id="player" src="" frameborder="0" allowfullscreen></iframe>
+    <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
   </div>
-<div class="video-list">
-            <div class="video-item">
-            </div>
-
-            <div class="video-item">
-            </div>
-        </div>
+  <div class="video-list">
+    <div class="video-item">
+      <!-- Nội dung video item ở đây -->
+    </div>
+    <div class="video-item">
+      <!-- Nội dung video item ở đây -->
+    </div>
+  </div>
 </div>
 
 <script>
-  const videoId = 'LtQ2uO10MzU';
   let player;
   let isPlaying = false;
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      videoId: videoId,
+      videoId: 'LtQ2uO10MzU',
       playerVars: {
         autoplay: 1,
         controls: 1,
@@ -62,4 +62,5 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
     event.target.playVideo();
   }
 </script>
+
 {% include navigation.html %}
