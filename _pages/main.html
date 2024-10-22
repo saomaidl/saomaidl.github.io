@@ -7,18 +7,6 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 
 
 <style>
-  .video-container {
-    position: fixed; /* Đặt video ở vị trí cố định */
-    top: 0;
-    left: 50%; /* Căn giữa theo chiều ngang */
-    transform: translateX(-50%); /* Dịch chuyển sang trái một nửa chiều rộng */
-    width: 100%; /* Đảm bảo chiều rộng 100% */
-    max-width: 800px; /* Giới hạn chiều rộng tối đa (có thể thay đổi) */
-    padding-bottom: 56.25%; /* Tạo không gian cho tỷ lệ 16:9 */
-    height: 0; /* Chiều cao mặc định là 0 */
-    z-index: 10; /* Đảm bảo nằm trên cùng */
-  }
-
   iframe#player {
     position: absolute; /* Giữ position là absolute để iframe phủ toàn bộ khung chứa */
     top: 0;
@@ -35,16 +23,17 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
   }
 </style>
 
-<div class="video-container"> <!-- Thay đổi div chứa video -->
-  <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-</div>
-
-<div class="video-list mt-[56.25%]"> <!-- Thêm margin-top để không bị che khuất bởi video -->
-  <div class="video-item">
-    <!-- Nội dung video item ở đây -->
+<div class="w-full max-w-screen-lg mx-auto">
+  <div class="relative w-full m-0 pb-[56.25%] h-0 overflow-hidden">
+    <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
   </div>
-  <div class="video-item">
-    <!-- Nội dung video item ở đây -->
+  <div class="video-list">
+    <div class="video-item">
+      <!-- Nội dung video item ở đây -->
+    </div>
+    <div class="video-item">
+      <!-- Nội dung video item ở đây -->
+    </div>
   </div>
 </div>
 
