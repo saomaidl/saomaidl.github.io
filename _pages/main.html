@@ -9,7 +9,7 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
   <div id="player-cinematics-container" class="absolute inset-0 pointer-events-none bg-black"></div>
   <div id="movie_player" class="relative w-full bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out" style="transform: scale(1); transition: 0.2s;">
     <div class="absolute top-0 left-0 right-0 bottom-0">
-      <iframe tabindex="-1" id="player" class="block w-full h-full absolute" src="https://www.youtube.com/embed/lKCi8pYBlTQ?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+      <div tabindex="-1" id="player" class="block w-full h-full absolute"></div>
     </div>
   </div>
 </div>
@@ -56,17 +56,15 @@ $(document).ready(function() {
 });
 </script>
   
-
 <script>
   let player;
-  let isPlaying = false;
-
-  function onYouTubeIframeAPIReady() {
+  function createYouTubePlayer(videoId) {
+    const showControls = $(window).width() >= 768;
     player = new YT.Player('player', {
-      videoId: 'lKCi8pYBlTQ',
+      videoId: videoId,
       playerVars: {
         autoplay: 1,
-        controls: 1,
+        controls: showControls ? 1 : 0,
         rel: 0,
         iv_load_policy: 3,
         mute: 0,
@@ -81,6 +79,10 @@ $(document).ready(function() {
   function onPlayerReady(event) {
     event.target.playVideo();
   }
-</script>
+
+  $(document).ready(function() {
+    const videoId = 'lKCi8pYBlTQ';
+    createYouTubePlayer(videoId);
+  });
 
 {% include navigation.html %}
