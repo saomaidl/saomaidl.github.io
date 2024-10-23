@@ -419,10 +419,6 @@ ytm-thumbnail-overlay-time-status-renderer {
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
 }
-.badge-shape-wiz--thumbnail-badge {
-  border-radius: 4px;
-  padding: 1px 4px;
-}
 .badge-shape-wiz {
   display: flex;
   -webkit-box-orient: horizontal;
@@ -437,6 +433,10 @@ ytm-thumbnail-overlay-time-status-renderer {
   font-size: 12px;
   line-height: 18px;
   font-weight: 700;
+}
+.badge-shape-wiz--thumbnail-badge {
+  border-radius: 4px;
+  padding: 1px 4px;
 }
 .badge-shape-wiz__text {
   display: block;
