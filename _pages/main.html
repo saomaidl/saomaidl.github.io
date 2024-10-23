@@ -5,11 +5,11 @@ permalink: /main
 description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích của bạn. Dễ dàng truy cập vào kho nhạc phong phú."
 ---
 
-<div id="player-container-id" class="sticky top-0 right-0 left-0 overflow-hidden z-2 ltr max-h-[576px]">
+<div id="player-container-id" class="sticky top-0 right-0 left-0 overflow-hidden z-2 ltr">
   <div id="player-cinematics-container" class="absolute inset-0 pointer-events-none bg-black"></div>
   <div id="movie_player" class="relative w-full bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out mx-auto max-w-[1024px] max-h-[576px]" style="transform: scale(1); transition: 0.2s;">
     <div class="absolute top-0 left-0 right-0 bottom-0">
-      <iframe tabindex="-1" id="player" class="block w-full h-full absolute max-w-[1024px] max-h-[576px]" src="https://www.youtube.com/embed/lKCi8pYBlTQ?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+      <iframe tabindex="-1" id="player" class="block w-full h-full absolute" src="https://www.youtube.com/embed/lKCi8pYBlTQ?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
 </div>
@@ -23,14 +23,29 @@ $(document).ready(function() {
       }
     }
     function resizeVideo() {
-        var containerWidth = $("#player-container-id").width();
-        var videoHeight = (containerWidth * 9) / 16;
-        $("#player").css({
-            "width": containerWidth + "px",
-            "height": videoHeight + "px",
-            "left": "0px",
-            "top": "0px"
-        });
+        var screenWidth = $(window).width();
+    
+        if (screenWidth >= 1024) {
+            var containerWidth = 1024;
+            var videoHeight = 576;
+            var leftOffset = (screenWidth - 1024) / 2;
+    
+            $("#player").css({
+                "width": containerWidth + "px",
+                "height": videoHeight + "px",
+                "left": leftOffset + "px",
+                "top": "0px"
+            });
+        } else {
+            var containerWidth = $("#player-container-id").width();
+            var videoHeight = (containerWidth * 9) / 16;
+            $("#player").css({
+                "width": containerWidth + "px",
+                "height": videoHeight + "px",
+                "left": "0px",
+                "top": "0px"
+            });
+        }
     }
     adjustPadding();
     resizeVideo();
