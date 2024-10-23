@@ -166,6 +166,15 @@ $(document).ready(function() {
         $('#movie_player').removeClass('pb-[576px]').addClass('pb-[56.25%]');
       }
     }
+    function adjustEngagementPanelPosition() {
+      const $engagementPanel = $('ytm-engagement-panel');
+  
+      if ($(window).width() >= 1024) {
+        $engagementPanel.css('top', '576px');
+      } else {
+        $engagementPanel.css('top', '56.25vw');
+      }
+    }
     function resizeVideo() {
         var screenWidth = $(window).width();
     
@@ -193,9 +202,11 @@ $(document).ready(function() {
     }
     adjustPadding();
     resizeVideo();
+    adjustEngagementPanelPosition();
     $(window).resize(function() {
         resizeVideo();
         adjustPadding();
+        adjustEngagementPanelPosition();
     });
 });
 </script>
