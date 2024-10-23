@@ -15,6 +15,13 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
 </div>
 <script>
 $(document).ready(function() {
+    function adjustPadding() {
+      if ($(window).width() >= 1024) {
+        $('#movie_player').removeClass('pb-[56.25%]').addClass('pb-[576px]');
+      } else {
+        $('#movie_player').removeClass('pb-[576px]').addClass('pb-[56.25%]');
+      }
+    }
     function resizeVideo() {
         var containerWidth = $("#player-container-id").width();
         var videoHeight = (containerWidth * 9) / 16;
@@ -25,9 +32,11 @@ $(document).ready(function() {
             "top": "0px"
         });
     }
+    adjustPadding();
     resizeVideo();
     $(window).resize(function() {
         resizeVideo();
+        adjustPadding();
     });
 });
 </script>
