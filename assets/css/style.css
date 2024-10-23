@@ -6,8 +6,8 @@ ytm-engagement-panel {
   left: 0;
   position: fixed;
   right: 0;
-  top: calc(56.25vw + 48px);
   z-index: 4;
+  margin-bottom: 71px;
 }
 ytm-engagement-panel-section-list-renderer {
   overflow-y: auto;
