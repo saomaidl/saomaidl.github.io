@@ -5,119 +5,300 @@ permalink: /songs
 description: "Hiển thị các bài hát karaoke đã được chọn để hát. Dễ dàng truy cập và quản lý các lựa chọn yêu thích của bạn."
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke Player</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-http-source-selector/dist/videojs-http-source-selector.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-youtube/dist/Youtube.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <style>
-        .video-js {
-            max-height: 100vh;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-<div class="mx-auto w-full">
-    <h1 class="text-3xl text-center mb-4 hidden">Karaoke Player</h1>
-    <div class="relative w-full">
-        <video
-            id="my-video"
-            class="video-js vjs-default-skin"
-            controls
-            preload="auto"
-            data-setup='{"controls": true, "fluid": true, "controlBar": {"pipToggle": false}}'>
-        </video>
+---
+layout: songs
+title: "KARAOKE SAO MAI"
+permalink: /main
+description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích của bạn. Dễ dàng truy cập vào kho nhạc phong phú."
+---
+
+<div id="player-container-id" class="sticky top-0 right-0 left-0 overflow-hidden z-2 ltr">
+  <div id="player-cinematics-container" class="absolute inset-0 pointer-events-none bg-black"></div>
+  <div id="movie_player" class="relative w-full bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out" style="transform: scale(1); transition: 0.2s;">
+    <div class="absolute top-0 left-0 right-0 bottom-0">
+      <div tabindex="-1" id="player" class="block w-full h-full absolute"></div>
     </div>
+  </div>
 </div>
 
+<panel-container>
+  <ytm-engagement-panel class="engagement-panel-use-visibility">
+    <ytm-engagement-panel-section-list-renderer class="engagement-panel-playlist modern-typography">
+      <ytw-scrim class="YtWebScrimHost YtWebScrimHostEngagementPanel YtWebScrimHostModernOverlay" style="background: rgba(0, 0, 0, 0);">
+        <button class="YtWebScrimHiddenButton" aria-label="Đóng"></button>
+      </ytw-scrim>
+      <div class="engagement-panel-section-list-background draggable" style="background: rgba(0, 0, 0, 0.5);">
+        <div class="engagement-panel-container" style="transform: translateY(0px);">
+          <div class="engagement-panel-section-list-header-wrapper">
+            <div class="engagement-panel-drag-line"></div>
+            <div class="engagement-panel-section-list-header">
+              <ytm-playlist-engagement-panel-header>
+                <h2 class="playlist-engagement-panel-header">
+                  <span class="playlist-engagement-panel-subhead">
+                    <span class="playlist-engagement-panel-mix-subhead">
+                      <c3-icon style="">
+                        <span class="yt-icon-shape yt-spec-icon-shape">
+                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                              <path d="M10.5 14.41V9.6l4.17 2.4-4.17 2.41zM8.48 8.45l-.71-.7C6.68 8.83 6 10.34 6 12s.68 3.17 1.77 4.25l.71-.71C7.57 14.64 7 13.39 7 12s.57-2.64 1.48-3.55zm7.75-.7-.71.71c.91.9 1.48 2.15 1.48 3.54s-.57 2.64-1.48 3.55l.71.71C17.32 15.17 18 13.66 18 12s-.68-3.17-1.77-4.25zM5.65 5.63l-.7-.71C3.13 6.73 2 9.24 2 12s1.13 5.27 2.95 7.08l.71-.71C4.02 16.74 3 14.49 3 12s1.02-4.74 2.65-6.37zm13.4-.71-.71.71C19.98 7.26 21 9.51 21 12s-1.02 4.74-2.65 6.37l.71.71C20.87 17.27 22 14.76 22 12s-1.13-5.27-2.95-7.08z"></path>
+                            </svg>
+                          </div>
+                        </span>
+                      </c3-icon>
+                      <span class="playlist-engagement-panel-mix-title">Danh sách kết hợp – SAOMAI KARAOKE</span>
+                    </span>
+                  </span>
+                  <span class="playlist-engagement-panel-subtitle">
+                    <span class="playlist-engagement-panel-list-owner-name">SAOMAI tạo danh sách phát này cho riêng bạn</span>
+                    <span class="playlist-engagement-panel-list-badge"></span>
+                  </span>
+                </h2>
+              </ytm-playlist-engagement-panel-header>
+              <div class="engagement-panel-section-list-header-button">
+                <ytm-button-renderer class="icon-close">
+                  <button class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Ẩn video trong danh sách phát" title="">
+                    <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
+                      <c3-icon>
+                        <span class="yt-icon-shape yt-spec-icon-shape">
+                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                              <path d="m12.71 12 8.15 8.15-.71.71L12 12.71l-8.15 8.15-.71-.71L11.29 12 3.15 3.85l.71-.71L12 11.29l8.15-8.15.71.71L12.71 12z"></path>
+                            </svg>
+                          </div>
+                        </span>
+                      </c3-icon>
+                    </div>
+                    <yt-touch-feedback-shape style="border-radius: inherit;">
+                      <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response">
+                        <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                        <div class="yt-spec-touch-feedback-shape__fill"></div>
+                      </div>
+                    </yt-touch-feedback-shape>
+                  </button>
+                </ytm-button-renderer>
+              </div>
+            </div>
+          </div>
+          <div class="engagement-panel-content-wrapper">
+            <ytm-section-list-renderer>
+              <lazy-list>
+                <ytm-playlist-panel-renderer>
+                  <div class="ytm-playlist-panel-renderer-v2">
+                    <lazy-list>
+                      <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ytm-playlist-panel-video-renderer-v2--selected" aria-selected="true" data-has-overflow-menu="false" style="background-color: rgb(235, 222, 221);">
+                        <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="true">
+                          <a href="/watch?v=WQZi-q1Y13Q&amp;list=RDWQZi-q1Y13Q&amp;index=1&amp;pp=8AUB" class="compact-media-item-image" aria-hidden="true">
+                            <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
+                              <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                              <img alt="" class="yt-core-image cover video-thumbnail-img yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-aspect-fill yt-core-image--loaded" src="https://i.ytimg.com/vi/WQZi-q1Y13Q/mqdefault.jpg?sqp=-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGH8gNyg1MA8=&amp;rs=AOn4CLDen9_4HqfUZDxY5IRQngujHNRyjg">
+                              <div class="video-preview-shim"></div>
+                              <div class="video-thumbnail-overlay-bottom-group">
+                                <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
+                                  <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
+                                    <div class="badge-shape-wiz__text">4:31</div>
+                                  </badge-shape>
+                                </ytm-thumbnail-overlay-time-status-renderer>
+                              </div>
+                            </ytm-compact-thumbnail>
+                          </a>
+                          <div class="compact-media-item-metadata" data-has-badges="false"><a href="/watch?v=WQZi-q1Y13Q&amp;list=RDWQZi-q1Y13Q&amp;index=1&amp;pp=8AUB" class="compact-media-item-metadata-content">
+                              <h4 class="compact-media-item-headline" style="color: rgb(25, 16, 16);">
+                                <span class="yt-core-attributed-string yt-core-attributed-string--link-inherit-color" aria-label="Mai Mai Karaoke lam truong của promise the 4 phút, 31 giây" role="text">Mai Mai Karaoke lam truong</span>
+                              </h4>
+                              <div class="subhead" aria-hidden="true" style="color: rgb(127, 83, 82);">
+                                <div class="compact-media-item-byline small-text">
+                                  <span class="yt-core-attributed-string">promise the</span>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </ytm-playlist-panel-video-renderer>
+                      <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false" style="">
+                        <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
+                          <a href="/watch?v=GovN36HCpNg&amp;list=RDWQZi-q1Y13Q&amp;index=2&amp;pp=8AUB" class="compact-media-item-image" aria-hidden="true">
+                            <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
+                              <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                              <img alt="" class="yt-core-image cover video-thumbnail-img yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-aspect-fill yt-core-image--loaded" src="https://i.ytimg.com/vi/GovN36HCpNg/mqdefault.jpg?sqp=-oaymwEmCMACELQB8quKqQMa8AEB-AH-BIAC4AOKAgwIABABGDcgNCh_MA8=&amp;rs=AOn4CLCGjH0T9Gy76HFgMP087_Aizy7kjA">
+                              <div class="video-preview-shim"></div>
+                              <div class="video-thumbnail-overlay-bottom-group">
+                                <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
+                                  <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
+                                    <div class="badge-shape-wiz__text">4:20</div>
+                                  </badge-shape>
+                                </ytm-thumbnail-overlay-time-status-renderer>
+                              </div>
+                            </ytm-compact-thumbnail>
+                          </a>
+                          <div class="compact-media-item-metadata" data-has-badges="false">
+                            <a href="/watch?v=GovN36HCpNg&amp;list=RDWQZi-q1Y13Q&amp;index=2&amp;pp=8AUB" class="compact-media-item-metadata-content">
+                              <h4 class="compact-media-item-headline" style="">
+                                <span class="yt-core-attributed-string yt-core-attributed-string--link-inherit-color" aria-label="Tiếng gọi (Trần Lập) - KARAOKE của RAINBOW MUSIC 4 phút, 20 giây" role="text">Tiếng gọi (Trần Lập) - KARAOKE</span>
+                              </h4>
+                              <div class="subhead" aria-hidden="true" style="">
+                                <div class="compact-media-item-byline small-text">
+                                  <span class="yt-core-attributed-string">RAINBOW MUSIC</span>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </ytm-playlist-panel-video-renderer>
+                      <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false" style="">
+                        <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
+                          <a href="/watch?v=n1wGSIAWZoc&amp;list=RDWQZi-q1Y13Q&amp;index=3&amp;pp=8AUB" class="compact-media-item-image" aria-hidden="true">
+                            <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
+                              <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                              <img alt="" class="yt-core-image cover video-thumbnail-img yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-aspect-fill yt-core-image--loaded" src="https://i.ytimg.com/vi/n1wGSIAWZoc/mqdefault.jpg">
+                              <div class="video-preview-shim"></div>
+                              <div class="video-thumbnail-overlay-bottom-group">
+                                <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
+                                  <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
+                                    <div class="badge-shape-wiz__text">4:28</div>
+                                  </badge-shape>
+                                </ytm-thumbnail-overlay-time-status-renderer>
+                              </div>
+                            </ytm-compact-thumbnail>
+                          </a>
+                          <div class="compact-media-item-metadata" data-has-badges="false">
+                            <a href="/watch?v=n1wGSIAWZoc&amp;list=RDWQZi-q1Y13Q&amp;index=3&amp;pp=8AUB" class="compact-media-item-metadata-content">
+                              <h4 class="compact-media-item-headline" style="">
+                                <span class="yt-core-attributed-string yt-core-attributed-string--link-inherit-color" aria-label="Nơi Tình Yêu Bắt Đầu Karaoke Tone Nam | Karaoke Hiền Phương của Karaoke Hiền Phương 4 phút, 28 giây" role="text">Nơi Tình Yêu Bắt Đầu Karaoke Tone Nam | Karaoke Hiền Phương</span>
+                              </h4>
+                              <div class="subhead" aria-hidden="true" style="">
+                                <div class="compact-media-item-byline small-text">
+                                  <span class="yt-core-attributed-string">Karaoke Hiền Phương</span>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </ytm-playlist-panel-video-renderer>
+                      <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false" style="">
+                        <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
+                          <a href="/watch?v=IpcRfouoWnQ&amp;list=RDWQZi-q1Y13Q&amp;index=4&amp;pp=8AUB" class="compact-media-item-image" aria-hidden="true">
+                            <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
+                              <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                              <img alt="" class="yt-core-image cover video-thumbnail-img yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-aspect-fill yt-core-image--loaded" src="https://i.ytimg.com/vi/IpcRfouoWnQ/mqdefault.jpg?sqp=-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgXyhSMA8=&amp;rs=AOn4CLBLUTMCm2ROQX7o30AYb4UhP9NWuw">
+                              <div class="video-preview-shim"></div>
+                              <div class="video-thumbnail-overlay-bottom-group">
+                                <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
+                                  <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
+                                    <div class="badge-shape-wiz__text">4:30</div>
+                                  </badge-shape>
+                                </ytm-thumbnail-overlay-time-status-renderer>
+                              </div>
+                            </ytm-compact-thumbnail>
+                          </a>
+                          <div class="compact-media-item-metadata" data-has-badges="false">
+                            <a href="/watch?v=IpcRfouoWnQ&amp;list=RDWQZi-q1Y13Q&amp;index=4&amp;pp=8AUB" class="compact-media-item-metadata-content">
+                              <h4 class="compact-media-item-headline" style="">
+                                <span class="yt-core-attributed-string yt-core-attributed-string--link-inherit-color" aria-label="gió vẫn hát - karaoke full HD của Giáo Xứ Kon Trang 4 phút, 30 giây" role="text">gió vẫn hát - karaoke full HD</span>
+                              </h4>
+                              <div class="subhead" aria-hidden="true" style="">
+                                <div class="compact-media-item-byline small-text">
+                                  <span class="yt-core-attributed-string">Giáo Xứ Kon Trang</span>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </ytm-playlist-panel-video-renderer>
+                    </lazy-list>
+                  </div>
+                </ytm-playlist-panel-renderer>
+              </lazy-list>
+            </ytm-section-list-renderer>
+          </div>
+        </div>
+      </div>
+    </ytm-engagement-panel-section-list-renderer>
+  </ytm-engagement-panel>
+</panel-container>
+
 <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
-        authDomain: "karaoke-3aa8f.firebaseapp.com",
-        databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "karaoke-3aa8f",
-        storageBucket: "karaoke-3aa8f.appspot.com",
-        messagingSenderId: "652741363415",
-        appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
-        measurementId: "G-MNBY4YPT3N"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    const player = videojs('my-video', {
-        techOrder: ["youtube"],
-        sources: [{
-            src: 'https://www.youtube.com/watch?v=SSQ8jfIxDkM', // Thay VIDEO_ID bằng ID video thật
-            type: 'video/youtube'
-        }],
-        controls: true,
-        autoplay: true,
-        preload: 'auto',
-        responsive: true,
-        fluid: true,
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        player.ready(() => {
-            player.play().catch(error => {
-                console.error('Error attempting to play', error);
+$(document).ready(function() {
+    function adjustPadding() {
+      if ($(window).width() >= 1024) {
+        $('#movie_player').removeClass('pb-[56.25%]').addClass('pb-[576px]');
+      } else {
+        $('#movie_player').removeClass('pb-[576px]').addClass('pb-[56.25%]');
+      }
+    }
+    function adjustEngagementPanelPosition() {
+      const $engagementPanel = $('ytm-engagement-panel');
+      const $scrim = $('ytw-scrim');
+      if ($(window).width() >= 1024) {
+        $engagementPanel.css('top', '576px');
+        $scrim.css('top', '576px');
+      } else {
+        $engagementPanel.css('top', '56.25vw');
+        $scrim.css('top', '56.25vw');
+      }
+    }
+    function resizeVideo() {
+        var screenWidth = $(window).width();
+    
+        if (screenWidth >= 1024) {
+            var containerWidth = 1024;
+            var videoHeight = 576;
+            var leftOffset = (screenWidth - 1024) / 2;
+    
+            $("#player").css({
+                "width": containerWidth + "px",
+                "height": videoHeight + "px",
+                "left": leftOffset + "px",
+                "top": "0px"
             });
-        });
-    });
-
-    database.ref('videoStatus').on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            player.currentTime(data.currentTime || 0);
-            if (data.playing) {
-                player.play();
-            } else {
-                player.pause();
-            }
-            player.volume(data.volume || 1);
+        } else {
+            var containerWidth = $("#player-container-id").width();
+            var videoHeight = (containerWidth * 9) / 16;
+            $("#player").css({
+                "width": containerWidth + "px",
+                "height": videoHeight + "px",
+                "left": "0px",
+                "top": "0px"
+            });
         }
+    }
+    adjustPadding();
+    resizeVideo();
+    adjustEngagementPanelPosition();
+    $(window).resize(function() {
+        resizeVideo();
+        adjustPadding();
+        adjustEngagementPanelPosition();
     });
-
-    player.on('play', () => {
-        database.ref('videoStatus').set({
-            playing: true,
-            currentTime: player.currentTime(),
-            volume: player.volume(),
-        });
-    });
-
-    player.on('pause', () => {
-        database.ref('videoStatus').set({
-            playing: false,
-            currentTime: player.currentTime(),
-            volume: player.volume(),
-        });
-    });
-
-    player.on('volumechange', () => {
-        database.ref('videoStatus').set({
-            playing: player.paused() ? false : true,
-            currentTime: player.currentTime(),
-            volume: player.volume(),
-        });
-    });
-
-    player.on('ended', () => {
-        player.currentTime(0);
-        player.play();
-        database.ref('videoStatus').set({ playing: true, currentTime: 0 });
-    });
+});
 </script>
-</body>
-</html>
+<script>
+  let player;
+  function createYouTubePlayer(videoId) {
+    const showControls = $(window).width() >= 768;
+    player = new YT.Player('player', {
+      videoId: videoId,
+      playerVars: {
+        autoplay: 1,
+        controls: showControls ? 0 : 0,
+        rel: 0,
+        iv_load_policy: 3,
+        mute: 0,
+        playsinline: 1
+      },
+      events: {
+        'onReady': onPlayerReady
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  $(document).ready(function() {
+    const videoId = 'lKCi8pYBlTQ';
+    createYouTubePlayer(videoId);
+  });
+</script>
+
+{% include navigation.html %}
