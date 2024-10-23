@@ -497,3 +497,13 @@ h4 {
 .subhead {
   opacity: 0.6;
 }
+.compact-media-item-byline {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.small-text {
+    font-size: 12px;
+}
