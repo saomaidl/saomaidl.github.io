@@ -220,11 +220,13 @@ $(document).ready(function() {
     }
     function adjustEngagementPanelPosition() {
       const $engagementPanel = $('ytm-engagement-panel');
-  
+      const $scrim = $('ytw-scrim');
       if ($(window).width() >= 1024) {
         $engagementPanel.css('top', '576px');
+        $scrim.css('top', '576px');
       } else {
         $engagementPanel.css('top', '56.25vw');
+        $scrim.css('top', '56.25vw');
       }
     }
     function resizeVideo() {
