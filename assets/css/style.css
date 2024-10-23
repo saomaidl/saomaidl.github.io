@@ -127,8 +127,8 @@ ytm-playlist-engagement-panel-header {
   -webkit-flex-grow: 1;
   flex-grow: 1;
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 2rem;
+  font-size: 18px;
+  line-height: 20px;
   white-space: nowrap;
 }
 .playlist-engagement-panel-subhead {
@@ -484,7 +484,7 @@ h3,
 h4 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  max-height: 2.5em;
+  max-height: 25px;
   -webkit-line-clamp: 2;
   overflow: hidden;
   line-height: 1.25;
