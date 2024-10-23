@@ -177,11 +177,13 @@ c3-icon {
 .playlist-engagement-panel-list-owner-name {
   color: #606060;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 16px;
   display: inline;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  font-family: 'saomai' !important;
+  font-weight: 400;
 }
 .playlist-engagement-panel-list-badge {
   margin-left: 4px;
