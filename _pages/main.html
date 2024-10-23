@@ -5,25 +5,7 @@ permalink: /main
 description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích của bạn. Dễ dàng truy cập vào kho nhạc phong phú."
 ---
 
-
-<style>
-  iframe#player {
-    position: absolute; /* Giữ position là absolute để iframe phủ toàn bộ khung chứa */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-  }
-
-  @media (max-width: 1024px) {
-    iframe#player {
-      border-radius: 0;
-    }
-  }
-</style>
-
-<div id="player-container-id" class="sticky top-12 right-0 left-0 overflow-hidden z-2 ltr">
+<div id="player-container-id" class="sticky top-0 right-0 left-0 overflow-hidden z-2 ltr">
   <div id="player-cinematics-container" class="absolute inset-0 pointer-events-none bg-black"></div>
   <div id="player-relative" class="relative w-full pb-[56.25%] bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out">
     <div class="absolute top-0 left-0 right-0 bottom-0">
