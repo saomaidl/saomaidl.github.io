@@ -23,20 +23,33 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
   }
 </style>
 
-<div class="fixed top-0 left-0 w-full max-w-screen-lg z-20 m-0 mx-auto flex justify-center items-center" style="inset-area: center;"> 
-  <div class="relative w-full m-0 pb-[56.25%] h-0 overflow-hidden">
-    <iframe id="player" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+<div id="player-container-id" class="sticky top-12 right-0 left-0 overflow-hidden z-2 ltr">
+  <div id="player-cinematics-container" class="absolute inset-0 pointer-events-none bg-black"></div>
+  <div id="player-relative" class="relative w-full pb-[56.25%] bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out">
+    <div class="absolute top-0 left-0 right-0 bottom-0">
+      <iframe tabindex="-1" id="player" class="block w-full h-full absolute" src="https://www.youtube.com/embed/LtQ2uO10MzU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+    </div>
   </div>
 </div>
-
-<div class="video-list mt-[56.25%]"> <!-- Thêm margin-top để không bị che khuất bởi video -->
-  <div class="video-item">
-    <!-- Nội dung video item ở đây -->
-  </div>
-  <div class="video-item">
-    <!-- Nội dung video item ở đây -->
-  </div>
-</div>
+<script>
+$(document).ready(function() {
+    function resizeVideo() {
+        var containerWidth = $("#player-container-id").width();
+        var videoHeight = (containerWidth * 9) / 16;
+        $("#player").css({
+            "width": containerWidth + "px",
+            "height": videoHeight + "px",
+            "left": "0px",
+            "top": "0px"
+        });
+    }
+    resizeVideo();
+    $(window).resize(function() {
+        resizeVideo();
+    });
+});
+</script>
+  
 
 <script>
   let player;
