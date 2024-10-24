@@ -1,18 +1,24 @@
-import { auth, db } from './firebase-config.js';
-import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+import { auth } from './firebase-config.js';
 import { getDatabase, ref, set, push } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+
 async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
     const user = auth.currentUser;
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
 
-    if (userDoc.exists() && userDoc.data().songSelected) {
+    // Tạo tham chiếu đến nhánh người dùng trong Realtime Database
+    const db = getDatabase();
+    const userRef = ref(db, `users/${user.uid}`);
+
+    // Lấy thông tin người dùng hiện tại
+    const snapshot = await get(userRef);
+    
+    if (snapshot.exists() && snapshot.val().songSelected) {
         loadSelectedFile();
         return;
     }
 
     try {
         // Đặt thông tin bài hát được chọn
-        await setDoc(doc(db, 'users', user.uid), {
+        await set(userRef, {
             songSelected: true,
             videoId: videoId,
             songName: title,
@@ -23,14 +29,14 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
             channelTitle: channelTitle,
             publishedAt: publishedAt,
             channelId: channelId,
-        }, { merge: true });
+            timestamp: Date.now() // Thêm timestamp
+        });
 
-        // Tạo tham chiếu đến nhánh người dùng
-        const db = getDatabase();
+        // Tạo tham chiếu đến nhánh users
         const usersRef = ref(db, 'users'); // Tham chiếu đến nhánh users
         const newUserRef = push(usersRef); // Tạo một key mới tự động
 
-        // Lưu thông tin với timestamp, id tự động, played, và priority
+        // Lưu thông tin với id tự động, played, và priority
         await set(newUserRef, {
             timestamp: Date.now(),
             id: newUserRef.key, // Thêm trường id với giá trị là key tự động
@@ -46,9 +52,10 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
 
 async function loadSelectedFile() {
     const user = auth.currentUser;
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    const userRef = ref(getDatabase(), `users/${user.uid}`);
+    const snapshot = await get(userRef);
 
-    if (userDoc.exists() && userDoc.data().songSelected) {
+    if (snapshot.exists() && snapshot.val().songSelected) {
         $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
             if (status === "error") {
                 console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
@@ -58,6 +65,7 @@ async function loadSelectedFile() {
         });
     }
 }
+
 $(document).on('click', '#playlist', function() {
     const videoId = $(this).data('video-id');
     const title = $(this).data('video-title');
