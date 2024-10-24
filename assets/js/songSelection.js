@@ -27,6 +27,7 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
         const dbRef = ref(getDatabase(), `users/${user.uid}`);
         await set(dbRef, {
             timestamp: Date.now(),
+            played: false,
             priority: false
         });
 
