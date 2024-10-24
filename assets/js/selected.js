@@ -10,7 +10,7 @@ async function getUserIndexById() {
             return -1; // Người dùng chưa đăng nhập
         }
 
-        const userId = user.uid; // Lấy id của người dùng hiện tại
+        const userId = user.uid;
 
         // Lấy dữ liệu từ Realtime Database
         const usersRef = ref(realTimeDb, 'users');
