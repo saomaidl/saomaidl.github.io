@@ -70,6 +70,7 @@ $(document).ready(function() {
         const baseQuery = $search.val().trim();
         if (!baseQuery) return;
         $search.val(baseQuery);
+        $search.attr('value', baseQuery);
         const query = currentTab !== 'TẤT CẢ' ? `${currentTab.toLowerCase()} ${baseQuery}` : baseQuery;
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
