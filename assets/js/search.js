@@ -117,7 +117,7 @@ $(document).ready(function() {
 
             const mbClass = index === items.length - 1 ? '' : ' mb-6';
             const videoItem = $(`
-                <div id="playlist" class="cursor-pointer flex w-full flex-col${mbClass}" data-video-id="${videoIdItem}" data-video-title="${title}" data-thumbnail="${thumbnailUrl}" data-view-count="${formatViews(viewCount)}" data-duration="${duration}" data-channel-thumbnail-url="${channelThumbnailUrl}" data-channel-title="${channelTitle}" data-published-at="${publishedAt}" data-channel-id="${channelId}">
+                <div id="playlist" class="cursor-pointer flex w-full flex-col${mbClass}" data-video-id="${videoIdItem}" data-video-title="${title}" data-thumbnail="${thumbnailUrl}" data-view-count="${formatViews(viewCount)}" data-duration="${duration}" data-channel-thumbnail-url="${channelThumbnailUrl}" data-channel-title="${channelTitle}" data-published-at="${formatDate(publishedAt)}" data-channel-id="${channelId}">
                     <div class="relative video-thumbnail-container-large center block m-0 p-0">
                         <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
                         <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
