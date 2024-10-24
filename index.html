@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Firebase Google Sign-In</title>
+  <title>Firebase Authentication</title>
 </head>
 <body>
-  <button id="google-sign-in-btn">Đăng nhập bằng Google</button>
+  <div id="recaptcha-container"></div>
 
+  <input type="text" id="phone-number" placeholder="Nhập số điện thoại" />
+  <button id="send-code-btn">Gửi mã</button>
+
+  <input type="text" id="verification-code" placeholder="Nhập mã xác minh" />
+  <button id="verify-code-btn">Xác thực mã</button>
+
+  <!-- Firebase App (SDK không phải module) -->
   <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
 
   <script>
-    // Firebase configuration
+    // Cấu hình Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -21,23 +28,56 @@
       appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
     };
 
-    // Initialize Firebase
+    // Khởi tạo Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Google Provider
-    const provider = new firebase.auth.GoogleAuthProvider();
+    // Recaptcha Setup
+    const setUpRecaptcha = () => {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'normal',
+        'callback': (response) => {
+          console.log("reCAPTCHA verified");
+        },
+        'expired-callback': () => {
+          console.log("reCAPTCHA expired");
+        }
+      });
+      recaptchaVerifier.render();
+    };
 
-    // Đăng nhập bằng Google
-    document.getElementById('google-sign-in-btn').addEventListener('click', () => {
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          alert("Đăng nhập thành công với Google!");
+    // Gửi mã xác minh
+    const sendVerificationCode = () => {
+      const phoneNumber = document.getElementById('phone-number').value;
+      setUpRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("Mã xác minh đã được gửi!");
         })
         .catch((error) => {
-          console.error("Lỗi đăng nhập Google:", error);
+          console.error("Gửi mã xác minh thất bại:", error);
         });
-    });
+    };
+
+    // Xác thực mã
+    const verifyCode = () => {
+      const code = document.getElementById('verification-code').value;
+      window.confirmationResult.confirm(code)
+        .then((result) => {
+          const user = result.user;
+          alert("Đăng nhập thành công!");
+        })
+        .catch((error) => {
+          console.error("Xác thực mã thất bại:", error);
+        });
+    };
+
+    // Event listeners for buttons
+    document.getElementById('send-code-btn').addEventListener('click', sendVerificationCode);
+    document.getElementById('verify-code-btn').addEventListener('click', verifyCode);
   </script>
 </body>
 </html>
