@@ -234,18 +234,20 @@
         $('#content').empty();
         $('body').removeAttr('style');
       });
-  
       checkUser();
+      $('#search').on('keydown', function(event) {
+        if (event.key === 'Enter') {
+          searchVideos();
+        }
+      });
     });
   
     $(document).ready(function() {
       const $search = $('#search');
       const $clearSearch = $('#clearSearch');
-  
       $search.on('input', function() {
         $clearSearch.toggle($(this).val().length > 0);
       });
-  
       $clearSearch.on('click', function() {
         $search.val('').trigger('input');
       });
