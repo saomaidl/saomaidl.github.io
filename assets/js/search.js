@@ -66,7 +66,8 @@ $(document).ready(function() {
         $(this).remove();
     }
 
-    function searchVideos() {
+    function searchVideos(e) {
+        e.preventDefault();
         const baseQuery = $search.val().trim();
         if (!baseQuery) return;
         $search.val(baseQuery);
