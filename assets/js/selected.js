@@ -62,17 +62,14 @@ async function getUserIndexById() {
 function updateSongStatus(index) {
     const songStatusElement = document.getElementById('song_status');
     if (index === 0) {
-        songStatusElement.innerHTML = `<span>BÀI CỦA QUÝ KHÁCH HIỆN ĐANG PHÁT</span>`;
+        songStatusElement.innerHTML = `<div><span>BÀI CỦA QUÝ KHÁCH HIỆN ĐANG PHÁT</span></div><div>KÍNH CHÚC QUÝ KHÁCH VUI VẺ</div>`;
     } else if (index === null || index === -1) {
-        songStatusElement.innerHTML = `<span>QUÝ KHÁCH ĐÃ HÁT XONG</span>`;
+        songStatusElement.innerHTML = `<div><span>QUÝ KHÁCH ĐÃ HÁT XONG</span></div><div>QUÝ KHÁCH HÁT RẤT HAY ĐÓ Ạ!</div>`;
         songStatusElement.style.color = "red";
     } else if (index === 1) {
-        songStatusElement.innerHTML = `<span>MỜI QUÝ KHÁCH CHUẨN BỊ</span>`;
+        songStatusElement.innerHTML = `<div><span>MỜI QUÝ KHÁCH CHUẨN BỊ</span></div><div>SAO MAI LUÔN BÊN QUÝ KHÁCH</div>`;
     } else {
-        songStatusElement.innerHTML = `
-            <span>CÒN</span>
-            <span style="color: rgb(128, 184, 238);">${index}</span>
-            <span>BÀI</span>`;
+        songStatusElement.innerHTML = `<div><span>CÒN</span><span style="color: rgb(128, 184, 238);">${index}</span><span>BÀI</span></div><div>QUÝ KHÁCH LUÔN SẴN SÀNG NHÉ</div>`;
     }
 }
 getUserIndexById();
