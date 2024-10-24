@@ -2,8 +2,8 @@ $(document).ready(function() {
     const $search = $('#search');
     const $clearSearch = $('#clearSearch');
     let currentTab = 'TẤT CẢ';
+    const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
 
-    // Initialize event listeners
     initEventListeners();
 
     function initEventListeners() {
@@ -71,7 +71,6 @@ $(document).ready(function() {
         if (!baseQuery) return;
 
         const query = currentTab !== 'TẤT CẢ' ? `${currentTab.toLowerCase()} ${baseQuery}` : baseQuery;
-        const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
         $.getJSON(url, handleSearchResponse);
