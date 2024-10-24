@@ -165,8 +165,8 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
     import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
-    import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
     import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+  
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -176,14 +176,16 @@
       messagingSenderId: "652741363415",
       appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
     };
+  
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+  
     $(document).ready(function() {
       async function loadSelectedFile() {
         const user = auth.currentUser;
         const userDoc = await getDoc(doc(db, 'users', user.uid));
-  
+    
         if (userDoc.exists() && userDoc.data().songSelected) { 
           $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
             if (status === "error") {
@@ -194,6 +196,7 @@
           });
         }
       }
+  
       async function checkUser() {
         const user = auth.currentUser;
         if (!user) {
@@ -212,6 +215,7 @@
           }
         }
       }
+  
       $(document).on('submit', '#edit-full-name-form', async function(event) {
         event.preventDefault();
         var title = $('#title').val().trim().toUpperCase();
@@ -230,8 +234,203 @@
         $('#content').empty();
         $('body').removeAttr('style');
       });
+  
       checkUser();
     });
+  
+    $(document).ready(function() {
+      const $search = $('#search');
+      const $clearSearch = $('#clearSearch');
+  
+      $search.on('input', function() {
+        $clearSearch.toggle($(this).val().length > 0);
+      });
+  
+      $clearSearch.on('click', function() {
+        $search.val('').trigger('input');
+      });
+    });
+  
+    let currentTab = 'TẤT CẢ';
+    $(document).on('click', '.chip-container', function() {
+      const parentChip = $(this).closest('ytm-chip-cloud-chip-renderer');
+      if (parentChip.attr('chip-style') === 'STYLE_HOME_FILTER') {
+        $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
+        parentChip.addClass('selected all-chip-renderer');
+        $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
+        parentChip.attr('aria-selected', 'true');
+        const selectedTab = $(this).attr('aria-label');
+        currentTab = selectedTab;
+        searchVideos();
+      }
+    });
+  
+    function searchVideos() {
+      const baseQuery = $('#search').val().trim();
+      if (!baseQuery) {
+        return;
+      }
+      let query = baseQuery;
+      if (currentTab !== 'TẤT CẢ') {
+        query = `${currentTab.toLowerCase()} ${baseQuery}`;
+      }
+  
+      const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
+  
+      $.getJSON(url, function (data) {
+        $('#videoList').empty();
+        const wrapper = $('<div id="list" class="w-full h-full"></div>');
+        $('#videoList').append(wrapper);
+  
+        if (!data.items.length) {
+          return alert('Không tìm thấy video nào.');
+        }
+  
+        const videoIds = data.items.map(item => item.id.videoId).join(',');
+        const channelIds = [...new Set(data.items.map(item => item.snippet.channelId))].join(',');
+        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+        const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKey}`;
+  
+        Promise.all([
+          $.getJSON(videoDetailsUrl),
+          $.getJSON(channelDetailsUrl)
+        ]).then(([videoDetailsData, channelData]) => {
+          const channelThumbnails = {};
+  
+          channelData.items.forEach(channel => {
+            channelThumbnails[channel.id] = channel.snippet.thumbnails.default.url;
+          });
+  
+          data.items.forEach((item, index) => {
+            const { videoId } = item.id;
+            const title = item.snippet.title;
+            const channelTitle = item.snippet.channelTitle;
+            const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
+            const channelId = item.snippet.channelId;
+            const publishedAt = item.snippet.publishedAt;
+            const viewCount = videoDetailsData.items[index].statistics.viewCount;
+            const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
+            const channelThumbnailUrl = channelThumbnails[channelId];
+  
+            const mbClass = index === data.items.length - 1 ? '' : ' mb-6';
+            const videoItem = $(`
+                <div class="cursor-pointer flex w-full flex-col${mbClass}" onclick="handleSongSelection('${videoId}', '${title}')">
+                    <div class="relative video-thumbnail-container-large center block m-0 p-0">
+                        <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                        <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
+                        <div class="absolute bottom-0 right-0 m-2">
+                            <div class="badge">${duration}</div>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="media-channel">
+                            <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
+                                <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
+                            </icon>
+                        </div>
+                        <div class="media-item-info cbox">
+                            <div class="media-item-metadata">
+                                <h3 class="mb-1">
+                                    <span class="text-black font-bold line-clamp-2 leading-6 text-lg">${title}</span>
+                                </h3>
+                                <span class="text-gray-400 text-sm">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
+                            </div>
+                            <menu-renderer class="media-item-menu">
+                                <menu>
+                                    <button class="icon-button text-black" aria-label="Menu" aria-haspopup="true">
+                                        <c3-icon>
+                                            <span class="yt-icon-shape yt-spec-icon-shape">
+                                                <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
+                                                        <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
+                                                    </svg>
+                                                </div>
+                                            </span>
+                                        </c3-icon>
+                                    </button>
+                                </menu>
+                            </menu-renderer>
+                        </div>
+                    </div>
+                </div>
+            `);
+            $('#list').append(videoItem);
+          });
+        }).catch(error => {
+          console.error("Error fetching video/channel details: ", error);
+        });
+      });
+    }
+  
+    async function handleSongSelection(videoId, title) {
+      const user = auth.currentUser;
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+  
+      if (userDoc.exists() && userDoc.data().songSelected) {
+        loadSelectedFile();
+        return;
+      }
+  
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          songSelected: true,
+          videoId: videoId,
+          songName: title,
+        }, { merge: true });
+  
+        loadSelectedFile();
+      } catch (error) {
+        console.error("Error saving song: ", error);
+      }
+    }
+  
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+      const secondsInMinute = 60;
+      const secondsInHour = secondsInMinute * 60;
+      const secondsInDay = secondsInHour * 24;
+      const secondsInWeek = secondsInDay * 7;
+      const secondsInYear = secondsInDay * 365;
+  
+      if (diffInSeconds < secondsInMinute) {
+        return 'Vừa xong';
+      } else if (diffInSeconds < secondsInHour) {
+        const minutes = Math.floor(diffInSeconds / secondsInMinute);
+        return `${minutes} phút trước`;
+      } else if (diffInSeconds < secondsInDay) {
+        const hours = Math.floor(diffInSeconds / secondsInHour);
+        return `${hours} giờ trước`;
+      } else if (diffInSeconds < secondsInWeek) {
+        const days = Math.floor(diffInSeconds / secondsInDay);
+        return `${days} ngày trước`;
+      } else if (diffInSeconds < secondsInYear) {
+        const weeks = Math.floor(diffInSeconds / secondsInWeek);
+        return `${weeks} tuần trước`;
+      } else {
+        const years = Math.floor(diffInSeconds / secondsInYear);
+        return `${years} năm trước`;
+      }
+    }
+  
+    function formatViews(views) {
+      return views > 1000000 ? (views / 1000000).toFixed(1) + ' Tr lượt xem' : views > 1000 ? (views / 1000).toFixed(1) + ' N lượt xem' : views + ' lượt xem';
+    }
+  
+    function formatDuration(duration) {
+      const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+      if (!match) {
+        return '00:00';
+      }
+  
+      const hours = match[1] ? match[1].slice(0, -1) : '0';
+      const minutes = match[2] ? match[2].slice(0, -1) : '0';
+      const seconds = match[3] ? match[3].slice(0, -1) : '0';
+  
+      return hours === '0' ? `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}` : `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+    }
   </script>
 
 </head>
