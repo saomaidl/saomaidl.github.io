@@ -107,84 +107,82 @@
         }, 1000);
     </script>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  <div id="recaptcha-container"></div>
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
-    authDomain: "karaoke-3aa8f.firebaseapp.com",
-    databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "karaoke-3aa8f",
-    storageBucket: "karaoke-3aa8f.appspot.com",
-    messagingSenderId: "652741363415",
-    appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
-    measurementId: "G-MNBY4YPT3N"
-  };
+  <input type="text" id="phone-number" placeholder="Nhập số điện thoại" />
+  <button id="send-code-btn">Gửi mã</button>
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const auth = getAuth(app);
-</script>
-<script type="module">
-  // Recaptcha Setup
-  const setUpRecaptcha = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-      'size': 'normal',
-      'callback': (response) => {
-        // reCAPTCHA verified successfully
-        console.log("reCAPTCHA verified");
-      },
-      'expired-callback': () => {
-        // Handle expired reCAPTCHA
-      }
-    }, auth);
-  };
-</script>
-<script type="module">
-  const sendVerificationCode = (phoneNumber) => {
-    setUpRecaptcha();
-    const appVerifier = window.recaptchaVerifier;
+  <input type="text" id="verification-code" placeholder="Nhập mã xác minh" />
+  <button id="verify-code-btn">Xác thực mã</button>
 
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        // Mã xác minh đã được gửi đến số điện thoại của người dùng
-        window.confirmationResult = confirmationResult;
-        alert("Mã xác minh đã được gửi!");
-      })
-      .catch((error) => {
-        console.error("Gửi mã xác minh thất bại:", error);
-      });
-  };
-</script>
-<script type="module">
-  const verifyCode = (code) => {
-    window.confirmationResult.confirm(code).then((result) => {
-      // Đăng nhập thành công
-      const user = result.user;
-      alert("Đăng nhập thành công!");
-    }).catch((error) => {
-      // Mã xác minh sai hoặc thất bại
-      console.error("Xác thực mã thất bại:", error);
-    });
-  };
-</script>
-<div id="recaptcha-container"></div>
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-<input type="text" id="phone-number" placeholder="Nhập số điện thoại">
-<button onclick="sendVerificationCode(document.getElementById('phone-number').value)">
-  Gửi mã
-</button>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
+      authDomain: "karaoke-3aa8f.firebaseapp.com",
+      databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "karaoke-3aa8f",
+      storageBucket: "karaoke-3aa8f.appspot.com",
+      messagingSenderId: "652741363415",
+      appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
+    };
 
-<input type="text" id="verification-code" placeholder="Nhập mã xác minh">
-<button onclick="verifyCode(document.getElementById('verification-code').value)">
-  Xác thực mã
-</button>
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
+    // Recaptcha Setup
+    const setUpRecaptcha = () => {
+      window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+        'size': 'normal',
+        'callback': (response) => {
+          console.log("reCAPTCHA verified");
+        },
+        'expired-callback': () => {
+          console.log("reCAPTCHA expired");
+        }
+      }, auth);
+      recaptchaVerifier.render();
+    };
+
+    // Send verification code
+    const sendVerificationCode = () => {
+      const phoneNumber = document.getElementById('phone-number').value;
+      setUpRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("Mã xác minh đã được gửi!");
+        })
+        .catch((error) => {
+          console.error("Gửi mã xác minh thất bại:", error);
+        });
+    };
+
+    // Verify code
+    const verifyCode = () => {
+      const code = document.getElementById('verification-code').value;
+      window.confirmationResult.confirm(code)
+        .then((result) => {
+          const user = result.user;
+          alert("Đăng nhập thành công!");
+        })
+        .catch((error) => {
+          console.error("Xác thực mã thất bại:", error);
+        });
+    };
+
+    // Event listeners for buttons
+    document.getElementById('send-code-btn').addEventListener('click', sendVerificationCode);
+    document.getElementById('verify-code-btn').addEventListener('click', verifyCode);
+
+  </script>
 
     
 </body>
