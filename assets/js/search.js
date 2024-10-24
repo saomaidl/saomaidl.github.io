@@ -108,7 +108,6 @@ $(document).ready(function() {
 
     function renderVideos(items, videoDetailsData, channelThumbnails) {
         items.forEach((item, index) => {
-            console.log(item);
             const { videoId, title, channelTitle, publishedAt, channelId } = item.snippet;
             const videoItem = item.id.videoId;
             const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
