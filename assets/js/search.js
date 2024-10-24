@@ -45,6 +45,7 @@ $(document).ready(function() {
 
     function handleKeyDown(event) {
         if (event.key === 'Enter') {
+            event.preventDefault();
             searchVideos();
         }
     }
