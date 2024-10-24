@@ -5,32 +5,20 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-  <!-- Favicon Links -->
   <link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/favicon/favicon-48x48.png" sizes="48x48" />
   <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg" />
   <link rel="shortcut icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png" />
-  
-  <!-- Apple Mobile Web App -->
   <meta name="apple-mobile-web-app-title" content="Sao Mai" />
   <link rel="manifest" href="{{ site.baseurl }}/assets/favicon/site.webmanifest" />
-  
-  <!-- SEO and Meta Info -->
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  
-  <!-- Canonical and Hreflang -->
   <link rel="alternate" href="{{ page.url | prepend: site.baseurl }}" hreflang="{{ page.lang | default: 'vi' }}">
   <link rel="canonical" href="{{ page.url | prepend: site.baseurl }}">
-  
-  <!-- Title and Description -->
   <title>{{ page.title | default: site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
-
-  <!-- Open Graph / Social Meta -->
   <meta property="og:locale" content="{{ site.locale | default: 'vi_VN' }}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ page.title | default: site.title }}">
@@ -39,8 +27,6 @@
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">  
   <meta name="twitter:card" content="summary_large_image">
-
-  <!-- CSS and Scripts -->
   <link rel="stylesheet" href="/assets/css/app.css">
   <link rel="stylesheet" href="/assets/css/font.css">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -110,7 +96,6 @@
             },
           });
         },
-        // Import Tailwind plugin function
         function ({ addBase }) {
           addBase({
             'audio, canvas, embed, iframe, img, object, svg, video': {
@@ -171,13 +156,11 @@
     };
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
     import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
     import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
-  
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -187,11 +170,9 @@
       messagingSenderId: "652741363415",
       appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
     };
-  
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-  
     $(document).ready(function() {
       async function loadSelectedFile() {
         const user = auth.currentUser;
@@ -207,16 +188,13 @@
           });
         }
       }
-  
       async function checkUser() {
         const user = auth.currentUser;
-  
         if (!user) {
           await signInAnonymously(auth);
           return checkUser();
         } else {
           const userDoc = await getDoc(doc(db, 'users', user.uid));
-  
           if (!userDoc.exists() || !userDoc.data().fullName) {
             $('#content').load('/assets/html/infor.html', function(response, status, xhr) {
               if (status == "success") {
@@ -228,31 +206,24 @@
           }
         }
       }
-  
       $(document).on('submit', '#edit-full-name-form', async function(event) {
         event.preventDefault();
         const title = $('#title').val().trim();
         const fullName = $('#fullName').val().trim();
         const location = $('#location').val().trim();
-  
         if (!title || !fullName) {
           return;
         }
-  
         const user = auth.currentUser;
-
         await setDoc(doc(db, 'users', user.uid), {
           title: title,
           fullName: fullName,
           location: location,
           songSelected: false
         });
-  
         $('#content').empty();
         $('body').removeAttr('style');
-        alert("Thông tin đã được lưu!");
       });
-  
       checkUser();
     });
   </script>
