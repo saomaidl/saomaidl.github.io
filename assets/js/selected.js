@@ -1,4 +1,4 @@
-import { ref, get } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { ref, onValue } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 import { auth, realTimeDb } from './firebase-config.js';
 
 async function getUserIndexById() {
@@ -12,67 +12,67 @@ async function getUserIndexById() {
 
         const userId = user.uid;
 
-        // Lấy dữ liệu từ Realtime Database
+        // Tạo tham chiếu đến nhánh 'users' trong Realtime Database
         const usersRef = ref(realTimeDb, 'users');
-        const snapshot = await get(usersRef);
 
-        if (snapshot.exists()) {
-            const usersData = snapshot.val();
-            
-            // Chuyển dữ liệu từ object thành mảng để dễ thao tác
-            const usersArray = Object.keys(usersData).map(key => ({
-                uid: key,
-                ...usersData[key]
-            }));
+        // Lắng nghe sự thay đổi của dữ liệu trong nhánh 'users'
+        onValue(usersRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const usersData = snapshot.val();
+                
+                // Chuyển dữ liệu từ object thành mảng để dễ thao tác
+                const usersArray = Object.keys(usersData).map(key => ({
+                    uid: key,
+                    ...usersData[key]
+                }));
 
-            // Lọc những người có played là false
-            const filteredUsers = usersArray.filter(user => !user.played);
+                // Lọc những người có played là false
+                const filteredUsers = usersArray.filter(user => !user.played);
 
-            // Sắp xếp theo priority và timestamp
-            filteredUsers.sort((a, b) => {
-                // Sắp xếp theo priority (true trước)
-                if (a.priority !== b.priority) {
-                    return b.priority - a.priority; // true (1) đứng trước false (0)
-                }
-                // Nếu priority giống nhau thì sắp xếp theo timestamp
-                return a.timestamp - b.timestamp;
-            });
+                // Sắp xếp theo priority và timestamp
+                filteredUsers.sort((a, b) => {
+                    // Sắp xếp theo priority (true trước)
+                    if (a.priority !== b.priority) {
+                        return b.priority - a.priority; // true (1) đứng trước false (0)
+                    }
+                    // Nếu priority giống nhau thì sắp xếp theo timestamp
+                    return a.timestamp - b.timestamp;
+                });
 
-            // Tìm index của người dùng với id cụ thể
-            const userIndex = filteredUsers.findIndex(user => user.uid === userId);
+                // Tìm index của người dùng với id cụ thể
+                const userIndex = filteredUsers.findIndex(user => user.uid === userId);
 
-            // Trả về index (vị trí) của người dùng
-            return userIndex;
-        } else {
-            console.error("No users found in the database.");
-            return -1; // Không tìm thấy người dùng
-        }
+                // Cập nhật giao diện người dùng với vị trí hiện tại
+                updateSongStatus(userIndex);
+            } else {
+                console.error("No users found in the database.");
+                updateSongStatus(-1); // Không tìm thấy người dùng
+            }
+        }, (error) => {
+            console.error("Error reading user data:", error);
+            updateSongStatus(-1); // Xảy ra lỗi
+        });
     } catch (error) {
         console.error("Error getting user data:", error);
-        return -1; // Xảy ra lỗi
+        updateSongStatus(-1); // Xảy ra lỗi
     }
 }
 
-// Gọi hàm để lấy index của người dùng hiện tại
-getUserIndexById().then(index => {
-    const songStatusElement = document.getElementById('song_status'); // Lấy thẻ span có id là "song_status"
-    songStatusElement.style.color = "rgb(128, 184, 238)"; // Đặt màu mặc định
-    
+// Hàm cập nhật giao diện người dùng với index
+function updateSongStatus(index) {
+    const songStatusElement = document.getElementById('song_status');
     if (index === 0) {
-        // Nếu còn 0 bài thì hiển thị "BÀI CỦA BẠN ĐANG PHÁT" và "ĐANG PHÁT"
-        songStatusElement.innerHTML = `<span>ĐANG PHÁT</span>`;
+        songStatusElement.innerHTML = `<span>BÀI CỦA QUÝ KHÁCH HIỆN ĐANG PHÁT</span>`;
     } else if (index === null || index === -1) {
-        // Nếu không tìm thấy hoặc lỗi, hiển thị "ĐÃ HÁT"
-        songStatusElement.innerHTML = `<span>ĐÃ HÁT</span>`;
-        songStatusElement.style.color = "red"; // Đổi màu chữ sang đỏ khi có lỗi
+        songStatusElement.innerHTML = `<span>QUÝ KHÁCH ĐÃ HÁT XONG</span>`;
+        songStatusElement.style.color = "red";
     } else if (index === 1) {
-        // Nếu còn 1 bài thì hiển thị "ĐANG CÒN", số lượng bài và "BÀI"
         songStatusElement.innerHTML = `<span>MỜI QUÝ KHÁCH CHUẨN BỊ</span>`;
     } else {
-        // Nếu còn nhiều hơn 1 bài, hiển thị số lượng bài còn lại
         songStatusElement.innerHTML = `
             <span>CÒN</span>
             <span style="color: rgb(128, 184, 238);">${index}</span>
             <span>BÀI</span>`;
     }
-});
+}
+getUserIndexById();
