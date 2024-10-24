@@ -45,7 +45,7 @@ $(document).ready(function() {
 
     function handleKeyDown(event) {
         if (event.key === 'Enter') {
-            searchVideos(e);
+            searchVideos();
         }
     }
 
@@ -57,7 +57,7 @@ $(document).ready(function() {
             $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
             parentChip.attr('aria-selected', 'true');
             currentTab = $(this).attr('aria-label');
-            searchVideos(e);
+            searchVideos();
         }
     }
 
@@ -66,8 +66,7 @@ $(document).ready(function() {
         $(this).remove();
     }
 
-    function searchVideos(e) {
-        e.preventDefault();
+    function searchVideos() {
         const baseQuery = $search.val().trim();
         if (!baseQuery) return;
         $search.val(baseQuery);
