@@ -1,7 +1,15 @@
 $(document).ready(function() {
     const $search = $('#search');
     const $clearSearch = $('#clearSearch');
-    const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
+
+    // Danh sách API keys
+    const apiKeys = [
+        'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE',
+        'AIzaSyDXo9tP0rycwrE4tpXokP1AggTRP7Zt2B4',
+        // Thêm các API key khác ở đây nếu cần
+    ];
+
+    let currentApiKeyIndex = 0; // Chỉ số của API key hiện tại
     let currentTab = 'TẤT CẢ';
 
     initEventListeners();
@@ -70,12 +78,13 @@ $(document).ready(function() {
     function searchVideos() {
         const baseQuery = $search.val().trim();
         if (!baseQuery) return;
-        $search.val(baseQuery);
-        $search.attr('value', baseQuery);
-        const query = currentTab !== 'TẤT CẢ' ? `${currentTab.toLowerCase()} ${baseQuery}` : baseQuery;
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
-        $.getJSON(url, handleSearchResponse);
+        const query = currentTab !== 'TẤT CẢ' ? `${currentTab.toLowerCase()} ${baseQuery}` : baseQuery;
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKeys[currentApiKeyIndex]}`;
+
+        $.getJSON(url)
+            .done(handleSearchResponse)
+            .fail(handleApiError); // Xử lý lỗi nếu gọi API không thành công
     }
 
     function handleSearchResponse(data) {
@@ -85,8 +94,8 @@ $(document).ready(function() {
 
         const videoIds = data.items.map(item => item.id.videoId).join(',');
         const channelIds = [...new Set(data.items.map(item => item.snippet.channelId))].join(',');
-        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
-        const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKey}`;
+        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKeys[currentApiKeyIndex]}`;
+        const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKeys[currentApiKeyIndex]}`;
 
         Promise.all([
             $.getJSON(videoDetailsUrl),
@@ -97,6 +106,18 @@ $(document).ready(function() {
         }).catch(error => {
             console.error("Error fetching video/channel details: ", error);
         });
+    }
+
+    function handleApiError() {
+        // Tăng chỉ số API key hiện tại và thử lại
+        currentApiKeyIndex++;
+
+        // Nếu vẫn còn key hợp lệ thì thử lại
+        if (currentApiKeyIndex < apiKeys.length) {
+            searchVideos();
+        } else {
+            alert('Tất cả các API key đã bị lỗi. Vui lòng thử lại sau.');
+        }
     }
 
     function getChannelThumbnails(channelData) {
