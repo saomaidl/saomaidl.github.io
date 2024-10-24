@@ -1,12 +1,11 @@
-import { auth } from './firebase-config.js';
-import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { auth, realTimeDb } from './firebase-config.js';
+import { ref, set, push, get } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 
 async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
     const user = auth.currentUser;
 
     // Tạo tham chiếu đến Realtime Database
-    const db = getDatabase(); // Khởi tạo db tại đây
-    const userRef = ref(db, `users/${user.uid}`);
+    const userRef = ref(realTimeDb, `users/${user.uid}`);
 
     // Lấy thông tin người dùng hiện tại
     const snapshot = await get(userRef);
@@ -33,7 +32,7 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
         });
 
         // Tạo tham chiếu đến nhánh users
-        const usersRef = ref(db, 'users'); // Tham chiếu đến nhánh users
+        const usersRef = ref(realTimeDb, 'users'); // Tham chiếu đến nhánh users
         const newUserRef = push(usersRef); // Tạo một key mới tự động
 
         // Lưu thông tin với id tự động, played, và priority
@@ -52,8 +51,7 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
 
 async function loadSelectedFile() {
     const user = auth.currentUser;
-    const db = getDatabase(); // Khởi tạo db tại đây
-    const userRef = ref(db, `users/${user.uid}`);
+    const userRef = ref(realTimeDb, `users/${user.uid}`);
     const snapshot = await get(userRef);
 
     if (snapshot.exists() && snapshot.val().songSelected) {
