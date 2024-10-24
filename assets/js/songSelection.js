@@ -1,7 +1,6 @@
 import { auth, db } from './firebase-config.js';
 import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
-
 async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
     const user = auth.currentUser;
     const userDoc = await getDoc(doc(db, 'users', user.uid));
@@ -50,7 +49,6 @@ async function loadSelectedFile() {
         });
     }
 }
-
 $(document).on('click', '#playlist', function() {
     const videoId = $(this).data('video-id');
     const title = $(this).data('video-title');
