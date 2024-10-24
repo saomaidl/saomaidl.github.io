@@ -1,21 +1,55 @@
 $(document).ready(function() {
     const $search = $('#search');
     const $clearSearch = $('#clearSearch');
-
-    // Hiện/ẩn nút xóa tìm kiếm
-    $search.on('input', function() {
-        $clearSearch.toggle($(this).val().length > 0);
-    });
-
-    // Xóa nội dung tìm kiếm khi nút xóa được nhấn
-    $clearSearch.on('click', function() {
-        $search.val('').trigger('input');
-    });
-
     let currentTab = 'TẤT CẢ';
 
-    // Chọn tab tìm kiếm
-    $(document).on('click', '.chip-container', function() {
+    // Initialize event listeners
+    initEventListeners();
+
+    function initEventListeners() {
+        $search.on('input', handleSearchInput);
+        $clearSearch.on('click', clearSearch);
+        $('#search').on('keydown', handleKeyDown);
+        $(document).on('click', '.chip-container', handleChipClick);
+        $(document).on('click', '.clear-button', clearSearchInput);
+    }
+
+    function handleSearchInput() {
+        toggleClearButton();
+        showClearButton();
+    }
+
+    function toggleClearButton() {
+        $clearSearch.toggle($search.val().length > 0);
+    }
+
+    function showClearButton() {
+        $('.clear-button').remove();
+        if ($search.val().trim() !== '') {
+            const clearButton = `
+                <button class="clear-button absolute right-3 top-1-2 -translate-y-1-2" aria-label="Clear search field">
+                    <span aria-hidden="true">
+                        <svg viewBox="0 0 16 16" class="w-5 h-5 fill-current">
+                            <path d="M2.47 2.47a.75.75 0 0 1 1.06 0L8 6.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L9.06 8l4.47 4.47a.75.75 0 1 1-1.06 1.06L8 9.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L6.94 8 2.47 3.53a.75.75 0 0 1 0-1.06Z"></path>
+                        </svg>
+                    </span>
+                </button>
+            `;
+            $search.after(clearButton);
+        }
+    }
+
+    function clearSearch() {
+        $search.val('').trigger('input');
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            searchVideos();
+        }
+    }
+
+    function handleChipClick() {
         const parentChip = $(this).closest('ytm-chip-cloud-chip-renderer');
         if (parentChip.attr('chip-style') === 'STYLE_HOME_FILTER') {
             $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
@@ -25,98 +59,103 @@ $(document).ready(function() {
             currentTab = $(this).attr('aria-label');
             searchVideos();
         }
-    });
+    }
 
-    // Gọi hàm tìm kiếm khi nhấn Enter
-    $('#search').on('keydown', function(event) {
-        if (event.key === 'Enter') {
-            searchVideos();
-        }
-    });
+    function clearSearchInput() {
+        $search.val('');
+        $(this).remove();
+    }
 
     function searchVideos() {
         const baseQuery = $search.val().trim();
         if (!baseQuery) return;
 
-        // Tạo query tìm kiếm
         const query = currentTab !== 'TẤT CẢ' ? `${currentTab.toLowerCase()} ${baseQuery}` : baseQuery;
-
         const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
-        $.getJSON(url, function(data) {
-            $('#videoList').empty().append('<div id="list" class="w-full h-full"></div>');
+        $.getJSON(url, handleSearchResponse);
+    }
 
-            if (!data.items.length) return alert('Không tìm thấy video nào.');
+    function handleSearchResponse(data) {
+        $('#videoList').empty().append('<div id="list" class="w-full h-full"></div>');
 
-            const videoIds = data.items.map(item => item.id.videoId).join(',');
-            const channelIds = [...new Set(data.items.map(item => item.snippet.channelId))].join(',');
-            const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
-            const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKey}`;
+        if (!data.items.length) return alert('Không tìm thấy video nào.');
 
-            Promise.all([
-                $.getJSON(videoDetailsUrl),
-                $.getJSON(channelDetailsUrl)
-            ]).then(([videoDetailsData, channelData]) => {
-                const channelThumbnails = {};
-                channelData.items.forEach(channel => {
-                    channelThumbnails[channel.id] = channel.snippet.thumbnails.default.url;
-                });
+        const videoIds = data.items.map(item => item.id.videoId).join(',');
+        const channelIds = [...new Set(data.items.map(item => item.snippet.channelId))].join(',');
+        const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${apiKey}`;
+        const channelDetailsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds}&key=${apiKey}`;
 
-                data.items.forEach((item, index) => {
-                    const { videoId, title, channelTitle, publishedAt, channelId } = item.snippet;
-                    const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
-                    const viewCount = videoDetailsData.items[index].statistics.viewCount;
-                    const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
-                    const channelThumbnailUrl = channelThumbnails[channelId];
+        Promise.all([
+            $.getJSON(videoDetailsUrl),
+            $.getJSON(channelDetailsUrl)
+        ]).then(([videoDetailsData, channelData]) => {
+            const channelThumbnails = getChannelThumbnails(channelData);
+            renderVideos(data.items, videoDetailsData, channelThumbnails);
+        }).catch(error => {
+            console.error("Error fetching video/channel details: ", error);
+        });
+    }
 
-                    const mbClass = index === data.items.length - 1 ? '' : ' mb-6';
-                    const videoItem = $(`
-                        <div class="cursor-pointer flex w-full flex-col${mbClass}">
-                            <div class="relative video-thumbnail-container-large center block m-0 p-0">
-                                <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
-                                <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
-                                <div class="absolute bottom-0 right-0 m-2">
-                                    <div class="badge">${duration}</div>
-                                </div>
-                            </div>
-                            <div class="details">
-                                <div class="media-channel">
-                                    <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
-                                        <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
-                                    </icon>
-                                </div>
-                                <div class="media-item-info cbox">
-                                    <div class="media-item-metadata">
-                                        <h3 class="mb-1">
-                                            <span class="text-black font-bold line-clamp-2 leading-6 text-lg">${title}</span>
-                                        </h3>
-                                        <span class="text-gray-400 text-sm">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
-                                    </div>
-                                    <menu-renderer class="media-item-menu">
-                                        <menu>
-                                            <button class="icon-button text-black" aria-label="Menu" aria-haspopup="true">
-                                                <c3-icon>
-                                                    <span class="yt-icon-shape yt-spec-icon-shape">
-                                                        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24">
-                                                                <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
-                                                            </svg>
-                                                        </div>
-                                                    </span>
-                                                </c3-icon>
-                                            </button>
-                                        </menu>
-                                    </menu-renderer>
-                                </div>
-                            </div>
+    function getChannelThumbnails(channelData) {
+        return channelData.items.reduce((acc, channel) => {
+            acc[channel.id] = channel.snippet.thumbnails.default.url;
+            return acc;
+        }, {});
+    }
+
+    function renderVideos(items, videoDetailsData, channelThumbnails) {
+        items.forEach((item, index) => {
+            const { videoId, title, channelTitle, publishedAt, channelId } = item.snippet;
+            const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
+            const viewCount = videoDetailsData.items[index].statistics.viewCount;
+            const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
+            const channelThumbnailUrl = channelThumbnails[channelId];
+
+            const mbClass = index === items.length - 1 ? '' : ' mb-6';
+            const videoItem = $(`
+                <div class="cursor-pointer flex w-full flex-col${mbClass}">
+                    <div class="relative video-thumbnail-container-large center block m-0 p-0">
+                        <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                        <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
+                        <div class="absolute bottom-0 right-0 m-2">
+                            <div class="badge">${duration}</div>
                         </div>
-                    `);
-                    $('#list').append(videoItem);
-                });
-            }).catch(error => {
-                console.error("Error fetching video/channel details: ", error);
-            });
+                    </div>
+                    <div class="details">
+                        <div class="media-channel">
+                            <icon class="channel-thumbnail-icon YtProfileIconHost" aria-hidden="false">
+                                <img alt="Truy cập kênh" class="YtProfileIconImage" src="${channelThumbnailUrl}">
+                            </icon>
+                        </div>
+                        <div class="media-item-info cbox">
+                            <div class="media-item-metadata">
+                                <h3 class="mb-1">
+                                    <span class="text-black font-bold line-clamp-2 leading-6 text-lg">${title}</span>
+                                </h3>
+                                <span class="text-gray-400 text-sm">${channelTitle} • ${formatViews(viewCount)} • ${formatDate(publishedAt)}</span>
+                            </div>
+                            <menu-renderer class="media-item-menu">
+                                <menu>
+                                    <button class="icon-button text-black" aria-label="Menu" aria-haspopup="true">
+                                        <c3-icon>
+                                            <span class="yt-icon-shape yt-spec-icon-shape">
+                                                <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                                        <path d="M10.5 4.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0 15a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm0-7.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
+                                                    </svg>
+                                                </div>
+                                            </span>
+                                        </c3-icon>
+                                    </button>
+                                </menu>
+                            </menu-renderer>
+                        </div>
+                    </div>
+                </div>
+            `);
+            $('#list').append(videoItem);
         });
     }
 
