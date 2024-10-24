@@ -1,6 +1,6 @@
 import { auth, db } from './firebase-config.js';
 import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
-import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { getDatabase, ref, set, push } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
     const user = auth.currentUser;
     const userDoc = await getDoc(doc(db, 'users', user.uid));
@@ -11,6 +11,7 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
     }
 
     try {
+        // Đặt thông tin bài hát được chọn
         await setDoc(doc(db, 'users', user.uid), {
             songSelected: true,
             videoId: videoId,
@@ -24,9 +25,15 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
             channelId: channelId,
         }, { merge: true });
 
-        const dbRef = ref(getDatabase(), `users/${user.uid}`);
-        await set(dbRef, {
+        // Tạo tham chiếu đến nhánh người dùng
+        const db = getDatabase();
+        const usersRef = ref(db, 'users'); // Tham chiếu đến nhánh users
+        const newUserRef = push(usersRef); // Tạo một key mới tự động
+
+        // Lưu thông tin với timestamp, id tự động, played, và priority
+        await set(newUserRef, {
             timestamp: Date.now(),
+            id: newUserRef.key, // Thêm trường id với giá trị là key tự động
             played: false,
             priority: false
         });
