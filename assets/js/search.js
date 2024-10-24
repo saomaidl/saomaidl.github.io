@@ -110,7 +110,7 @@ $(document).ready(function() {
         items.forEach((item, index) => {
             console.log(item);
             const { videoId, title, channelTitle, publishedAt, channelId } = item.snippet;
-            const videoItem = item.snippet?.resourceId?.videoId;
+            const videoItem = item.id.videoId;
             const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
             const viewCount = videoDetailsData.items[index].statistics.viewCount;
             const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
