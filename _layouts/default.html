@@ -213,9 +213,9 @@
       }
       $(document).on('submit', '#edit-full-name-form', async function(event) {
         event.preventDefault();
-        const title = $('#title').val().trim();
-        const fullName = $('#fullName').val().trim();
-        const location = $('#location').val().trim();
+        var title = $('#title').val().trim().toUpperCase();
+        var fullName = $('#fullName').val().trim().toUpperCase();
+        var location = $('#location').val().trim().toUpperCase();
         if (!title || !fullName) {
           return;
         }
