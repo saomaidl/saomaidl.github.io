@@ -45,7 +45,7 @@ $(document).ready(function() {
 
     function handleKeyDown(event) {
         if (event.key === 'Enter') {
-            searchVideos();
+            searchVideos(e);
         }
     }
 
@@ -57,7 +57,7 @@ $(document).ready(function() {
             $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
             parentChip.attr('aria-selected', 'true');
             currentTab = $(this).attr('aria-label');
-            searchVideos();
+            searchVideos(e);
         }
     }
 
