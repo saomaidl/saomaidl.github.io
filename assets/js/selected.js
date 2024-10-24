@@ -55,9 +55,24 @@ async function getUserIndexById() {
 
 // Gọi hàm để lấy index của người dùng hiện tại
 getUserIndexById().then(index => {
-    if (index !== -1) {
-        console.log(`User index: ${index}`);
+    const songStatusElement = document.getElementById('song_status'); // Lấy thẻ span có id là "song_status"
+    songStatusElement.style.color = "rgb(128, 184, 238)"; // Đặt màu mặc định
+    
+    if (index === 0) {
+        // Nếu còn 0 bài thì hiển thị "BÀI CỦA BẠN ĐANG PHÁT" và "ĐANG PHÁT"
+        songStatusElement.innerHTML = `<span>ĐANG PHÁT</span>`;
+    } else if (index === null || index === -1) {
+        // Nếu không tìm thấy hoặc lỗi, hiển thị "ĐÃ HÁT"
+        songStatusElement.innerHTML = `<span>ĐÃ HÁT</span>`;
+        songStatusElement.style.color = "red"; // Đổi màu chữ sang đỏ khi có lỗi
+    } else if (index === 1) {
+        // Nếu còn 1 bài thì hiển thị "ĐANG CÒN", số lượng bài và "BÀI"
+        songStatusElement.innerHTML = `<span>MỜI QUÝ KHÁCH CHUẨN BỊ</span>`;
     } else {
-        console.log("User not found or an error occurred.");
+        // Nếu còn nhiều hơn 1 bài, hiển thị số lượng bài còn lại
+        songStatusElement.innerHTML = `
+            <span>CÒN</span>
+            <span style="color: rgb(128, 184, 238);">${index}</span>
+            <span>BÀI</span>`;
     }
 });
