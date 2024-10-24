@@ -3,17 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Firebase Integration</title>
+  <title>Đăng ký người dùng</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Firebase Setup</h1>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <!-- Button mở popup -->
+  <button id="open-popup-btn" class="bg-blue-500 text-white py-2 px-4 rounded">
+    Đăng ký
+  </button>
+
+  <!-- Popup đăng ký -->
+  <div id="popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+      <h2 class="text-xl font-semibold mb-4">Đăng ký người dùng</h2>
+
+      <!-- Form đăng ký -->
+      <div class="mb-4">
+        <label for="phone-number" class="block text-sm font-medium text-gray-700">Số điện thoại:</label>
+        <input id="phone-number" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Nhập số điện thoại">
+      </div>
+
+      <div class="mb-4">
+        <label for="verification-code" class="block text-sm font-medium text-gray-700">Mã xác nhận:</label>
+        <input id="verification-code" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Nhập mã xác nhận">
+      </div>
+
+      <!-- Recaptcha container -->
+      <div id="recaptcha-container" class="mb-4"></div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between">
+        <button id="send-code-btn" class="bg-green-500 text-white py-2 px-4 rounded">Gửi mã</button>
+        <button id="verify-code-btn" class="bg-blue-500 text-white py-2 px-4 rounded">Xác thực</button>
+      </div>
+
+      <!-- Close popup -->
+      <button id="close-popup-btn" class="mt-4 text-red-500">Đóng</button>
+    </div>
+  </div>
 
   <script type="module">
-    // Import Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
       authDomain: "karaoke-3aa8f.firebaseapp.com",
@@ -21,14 +53,68 @@
       projectId: "karaoke-3aa8f",
       storageBucket: "karaoke-3aa8f.appspot.com",
       messagingSenderId: "652741363415",
-      appId: "1:652741363415:web:e33bb49a0be7eed7e09292",
-      measurementId: "G-MNBY4YPT3N"
+      appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
     };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    console.log("Firebase Initialized");
+    const auth = getAuth(app);
+
+    // Mở popup
+    const openPopupBtn = document.getElementById('open-popup-btn');
+    const closePopupBtn = document.getElementById('close-popup-btn');
+    const popup = document.getElementById('popup');
+
+    openPopupBtn.addEventListener('click', () => {
+      popup.classList.remove('hidden');
+    });
+
+    closePopupBtn.addEventListener('click', () => {
+      popup.classList.add('hidden');
+    });
+
+    // Recaptcha Setup
+    const setUpRecaptcha = () => {
+      window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+        'size': 'normal',
+        'callback': (response) => {
+          console.log("reCAPTCHA verified");
+        },
+        'expired-callback': () => {
+          console.log("reCAPTCHA expired");
+        }
+      }, auth);
+      recaptchaVerifier.render();
+    };
+
+    // Send verification code
+    document.getElementById('send-code-btn').addEventListener('click', () => {
+      const phoneNumber = document.getElementById('phone-number').value;
+      setUpRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("Mã xác minh đã được gửi!");
+        })
+        .catch((error) => {
+          console.error("Gửi mã xác minh thất bại:", error);
+        });
+    });
+
+    // Verify code
+    document.getElementById('verify-code-btn').addEventListener('click', () => {
+      const code = document.getElementById('verification-code').value;
+      window.confirmationResult.confirm(code)
+        .then((result) => {
+          const user = result.user;
+          alert("Đăng nhập thành công!");
+        })
+        .catch((error) => {
+          console.error("Xác thực mã thất bại:", error);
+        });
+    });
   </script>
 </body>
 </html>
