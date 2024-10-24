@@ -35,6 +35,8 @@
       <div class="flex justify-between">
         <button id="send-code-btn" class="bg-green-500 text-white py-2 px-4 rounded">Gửi mã</button>
         <button id="verify-code-btn" class="bg-blue-500 text-white py-2 px-4 rounded">Xác thực</button>
+        <!-- Nút đăng nhập ẩn danh -->
+        <button id="anonymous-login-btn" class="bg-gray-500 text-white py-2 px-4 rounded">Đăng nhập ẩn danh</button>
       </div>
 
       <!-- Close popup -->
@@ -44,7 +46,7 @@
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
@@ -113,6 +115,17 @@
         })
         .catch((error) => {
           console.error("Xác thực mã thất bại:", error);
+        });
+    });
+
+    // Anonymous login
+    document.getElementById('anonymous-login-btn').addEventListener('click', () => {
+      signInAnonymously(auth)
+        .then(() => {
+          alert("Đăng nhập ẩn danh thành công!");
+        })
+        .catch((error) => {
+          console.error("Đăng nhập ẩn danh thất bại:", error);
         });
     });
   </script>
