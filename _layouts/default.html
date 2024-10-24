@@ -173,6 +173,90 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
+    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
+      authDomain: "karaoke-3aa8f.firebaseapp.com",
+      databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "karaoke-3aa8f",
+      storageBucket: "karaoke-3aa8f.appspot.com",
+      messagingSenderId: "652741363415",
+      appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+  
+    $(document).ready(function() {
+      async function loadSelectedFile() {
+        const user = auth.currentUser;
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+  
+        if (userDoc.exists() && userDoc.data().songSelected) { 
+          $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
+            if (status === "error") {
+              console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
+            } else {
+              $('body').css('overflow', 'hidden');
+            }
+          });
+        }
+      }
+  
+      async function checkUser() {
+        const user = auth.currentUser;
+  
+        if (!user) {
+          await signInAnonymously(auth);
+          return checkUser();
+        } else {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+  
+          if (!userDoc.exists() || !userDoc.data().fullName) {
+            $('#content').load('/assets/html/infor.html', function(response, status, xhr) {
+              if (status == "success") {
+                $('body').css('overflow', 'hidden');
+              }
+            });
+          } else {
+            loadSelectedFile();
+          }
+        }
+      }
+  
+      $(document).on('submit', '#edit-full-name-form', async function(event) {
+        event.preventDefault();
+        const title = $('#title').val().trim();
+        const fullName = $('#fullName').val().trim();
+        const location = $('#location').val().trim();
+  
+        if (!title || !fullName) {
+          return;
+        }
+  
+        const user = auth.currentUser;
+
+        await setDoc(doc(db, 'users', user.uid), {
+          title: title,
+          fullName: fullName,
+          location: location,
+          songSelected: false
+        });
+  
+        $('#content').empty();
+        $('body').removeAttr('style');
+        alert("Thông tin đã được lưu!");
+      });
+  
+      checkUser();
+    });
+  </script>
+
 </head>
 
 <body>
@@ -192,73 +276,6 @@
     </div>
   </div>
   <div id="content"></div>
-  <script>
-    $(document).ready(function() {
-      function loadSelectedFile() {
-        const songSelected = getCookieValue('songSelected');
-        if (songSelected === 'true') { 
-          $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
-            if (status === "error") {
-              console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
-            } else {
-              $('body').css('overflow', 'hidden');
-            }
-          });
-        }
-      }
-    
-      function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        return parts.length === 2 ? parts.pop().split(';').shift() : null;
-      }
-    
-      function setCookie(name, value, days) {
-          var expires = "";
-          if (days) {
-              var date = new Date();
-              date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-              expires = "; expires=" + date.toUTCString();
-          }
-          document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-      }
-    
-      $(document).on('submit', '#edit-full-name-form', function(event) {
-        event.preventDefault();
-        var title = $('#title').val().trim();
-        var fullName = $('#fullName').val().trim();
-        var location = $('#location').val().trim();
-    
-        if (!title || !fullName) {
-          return;
-        }
-    
-        var userInfo = {
-          title: title,
-          fullName: fullName,
-          location: location
-        };
-        
-        var userInfoJson = JSON.stringify(userInfo);
-        setCookie('karaokeSaoMai', userInfoJson, 1);
-        alert(userInfoJson);
-        $('#content').empty();
-        $('body').removeAttr('style');
-      });
-    
-      if (!getCookie('karaokeSaoMai')) {
-        $('#content').load('/assets/html/infor.html', function(response, status, xhr) {
-          if (status == "success") {
-            $('body').css('overflow', 'hidden');
-          } else {
-            return;
-          }
-        });
-      } else {
-        loadSelectedFile();
-      }
-    });
-  </script>
 </body>
 
 </html>
