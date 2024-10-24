@@ -62,14 +62,13 @@ async function getUserIndexById() {
 function updateSongStatus(index) {
     const songStatusElement = document.getElementById('song_status');
     if (index === 0) {
-        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">BÀI CỦA QUÝ KHÁCH HIỆN ĐANG PHÁT</span></div>`;
+        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">ĐANG PHÁT BÀI CỦA QUÝ KHÁCH</span></div>`;
     } else if (index === null || index === -1) {
-        songStatusElement.innerHTML = `<div><span>QUÝ KHÁCH HÁT RẤT HAY</span></div>`;
-        songStatusElement.style.color = "red";
+        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">QUÝ KHÁCH ĐÃ HÁT RẤT HAY</span></div>`;
     } else if (index === 1) {
-        songStatusElement.innerHTML = `<div><span>MỜI QUÝ KHÁCH CHUẨN BỊ</span></div>`;
+        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">MỜI QUÝ KHÁCH CHUẨN BỊ</span></div>`;
     } else {
-        songStatusElement.innerHTML = `<div><span>CÒN</span><span style="color: rgb(128, 184, 238);">${index}</span><span>BÀI</span></div>`;
+        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">CÒN ${index} BÀI LÀ ĐẾN LƯỢT QUÝ KHÁCH</span></div>`;
     }
 }
 getUserIndexById();
