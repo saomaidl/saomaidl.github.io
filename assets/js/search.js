@@ -74,7 +74,7 @@ $(document).ready(function() {
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
         $.getJSON(url, handleSearchResponse);
-        $search.val(baseQuery);
+        console.log($search.val());
     }
 
     function handleSearchResponse(data) {
