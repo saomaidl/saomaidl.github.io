@@ -230,7 +230,9 @@
         console.error("Error saving song: ", error);
       }
     }
-  
+    
+    window.handleSongSelection = handleSongSelection;
+    
     $(document).ready(function() {
       async function loadSelectedFile() {
         const user = auth.currentUser;
