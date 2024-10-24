@@ -1,23 +1,21 @@
 import { auth, realTimeDb } from './firebase-config.js';
 import { ref, set, push, get } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 
 async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
     const user = auth.currentUser;
 
-    // Tạo tham chiếu đến Realtime Database
-    const userRef = ref(realTimeDb, `users/${user.uid}`);
+    const userDocRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
 
-    // Lấy thông tin người dùng hiện tại
-    const snapshot = await get(userRef);
-    
-    if (snapshot.exists() && snapshot.val().songSelected) {
+    if (userDoc.exists() && userDoc.data().songSelected) {
         loadSelectedFile();
         return;
     }
 
     try {
-        // Đặt thông tin bài hát được chọn
-        await set(userRef, {
+        // Lưu thông tin bài hát vào Firestore
+        await setDoc(userDocRef, {
             songSelected: true,
             videoId: videoId,
             songName: title,
@@ -29,23 +27,51 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
             publishedAt: publishedAt,
             channelId: channelId,
             timestamp: Date.now() // Thêm timestamp
-        });
+        }, { merge: true });
 
-        // Tạo tham chiếu đến nhánh users
-        const usersRef = ref(realTimeDb, 'users'); // Tham chiếu đến nhánh users
-        const newUserRef = push(usersRef); // Tạo một key mới tự động
+        // Tạo tham chiếu đến nhánh users trong Realtime Database
+        const usersRef = ref(realTimeDb, 'users');
+        const newUserRef = push(usersRef);
 
-        // Lưu thông tin với id tự động, played, và priority
+        // Lưu thông tin vào Realtime Database với id tự động, played, và priority ban đầu là false
         await set(newUserRef, {
             timestamp: Date.now(),
-            id: newUserRef.key, // Thêm trường id với giá trị là key tự động
+            id: null, // Tạm thời đặt null, sẽ cập nhật sau
             played: false,
-            priority: false
+            priority: false // Mặc định là false, có thể thay đổi sau
         });
+
+        // Cập nhật id và priority
+        await updateID();
 
         loadSelectedFile();
     } catch (error) {
         console.error("Error saving song: ", error);
+    }
+}
+
+async function updateID() {
+    const usersRef = ref(realTimeDb, 'users');
+    const snapshot = await get(usersRef);
+
+    if (snapshot.exists()) {
+        const usersData = snapshot.val();
+        const usersArray = Object.keys(usersData).map(key => ({
+            key, // Lưu lại key cho việc cập nhật
+            ...usersData[key]
+        }));
+
+        // Sắp xếp theo timestamp
+        usersArray.sort((a, b) => a.timestamp - b.timestamp);
+
+        // Cập nhật id theo thứ tự timestamp và giữ lại priority
+        for (let i = 0; i < usersArray.length; i++) {
+            const userRef = ref(realTimeDb, `users/${usersArray[i].key}`);
+            await set(userRef, {
+                ...usersArray[i],
+                id: i + 1 // Cập nhật thứ tự id dựa trên vị trí trong mảng
+            });
+        }
     }
 }
 
