@@ -109,7 +109,7 @@ $(document).ready(function() {
     function renderVideos(items, videoDetailsData, channelThumbnails) {
         items.forEach((item, index) => {
             const { videoId, title, channelTitle, publishedAt, channelId } = item.snippet;
-            const videoItem = item.id.videoId;
+            const videoIdItem = item.id.videoId;
             const thumbnailUrl = item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url;
             const viewCount = videoDetailsData.items[index].statistics.viewCount;
             const duration = formatDuration(videoDetailsData.items[index].contentDetails.duration);
@@ -117,7 +117,7 @@ $(document).ready(function() {
 
             const mbClass = index === items.length - 1 ? '' : ' mb-6';
             const videoItem = $(`
-                <div id="playlist" class="cursor-pointer flex w-full flex-col${mbClass}" data-video-id="${videoItem}" data-video-title="${title}">
+                <div id="playlist" class="cursor-pointer flex w-full flex-col${mbClass}" data-video-id="${videoIdItem}" data-video-title="${title}">
                     <div class="relative video-thumbnail-container-large center block m-0 p-0">
                         <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
                         <img src="${thumbnailUrl}" class="w-full h-full cover object-cover" />
