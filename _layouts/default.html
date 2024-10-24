@@ -208,11 +208,33 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
   
+    async function handleSongSelection(videoId, title) {
+      const user = auth.currentUser;
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+  
+      if (userDoc.exists() && userDoc.data().songSelected) {
+        loadSelectedFile();
+        return;
+      }
+  
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          songSelected: true,
+          videoId: videoId,
+          songName: title,
+        }, { merge: true });
+  
+        loadSelectedFile();
+      } catch (error) {
+        console.error("Error saving song: ", error);
+      }
+    }
+  
     $(document).ready(function() {
       async function loadSelectedFile() {
         const user = auth.currentUser;
         const userDoc = await getDoc(doc(db, 'users', user.uid));
-    
+  
         if (userDoc.exists() && userDoc.data().songSelected) { 
           $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
             if (status === "error") {
@@ -261,6 +283,7 @@
         $('#content').empty();
         $('body').removeAttr('style');
       });
+  
       checkUser();
       $('#search').on('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -392,28 +415,6 @@
       });
     }
   
-    async function handleSongSelection(videoId, title) {
-      const user = auth.currentUser;
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-  
-      if (userDoc.exists() && userDoc.data().songSelected) {
-        loadSelectedFile();
-        return;
-      }
-  
-      try {
-        await setDoc(doc(db, 'users', user.uid), {
-          songSelected: true,
-          videoId: videoId,
-          songName: title,
-        }, { merge: true });
-  
-        loadSelectedFile();
-      } catch (error) {
-        console.error("Error saving song: ", error);
-      }
-    }
-  
     function formatDate(dateString) {
       const date = new Date(dateString);
       const now = new Date();
@@ -461,7 +462,7 @@
       return hours === '0' ? `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}` : `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
     }
   </script>
-
+  
 </head>
 
 <body>
