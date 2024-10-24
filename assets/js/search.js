@@ -1,8 +1,8 @@
 $(document).ready(function() {
     const $search = $('#search');
     const $clearSearch = $('#clearSearch');
-    let currentTab = 'TẤT CẢ';
     const apiKey = 'AIzaSyAaQnJKKHqLZIQKCAFiwStspPcAKskUxmE';
+    let currentTab = 'TẤT CẢ';
 
     initEventListeners();
 
@@ -74,7 +74,6 @@ $(document).ready(function() {
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${apiKey}`;
 
         $.getJSON(url, handleSearchResponse);
-        console.log($search.val());
     }
 
     function handleSearchResponse(data) {
