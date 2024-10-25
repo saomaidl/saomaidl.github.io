@@ -1,6 +1,7 @@
 import { ref, onValue } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
-import { auth, db, realTimeDb } from './firebase-config.js'; // Đảm bảo sử dụng db cho Firestore
+import { auth, db, realTimeDb } from './firebase-config.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+import { setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
 // Thiết lập phiên đăng nhập vĩnh viễn
 setPersistence(auth, browserLocalPersistence)
@@ -69,7 +70,7 @@ function processAllUserData(usersData, currentUserId) {
 }
 
 async function getSongsFromFirestore() {
-    const songsCollection = collection(firestore, 'users'); // Thay đổi 'songs' thành tên collection của bạn
+    const songsCollection = collection(db, 'songs'); // Thay đổi 'songs' thành tên collection của bạn
     const songDocs = await getDocs(songsCollection);
     
     const songs = [];
