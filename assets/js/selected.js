@@ -64,11 +64,11 @@ function updateSongStatus(index) {
     if (index === 0) {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Bài hát của quý khách đang phát.</span><span>Xin mời thưởng thức!</span></div>`;
     } else if (index === null || index === -1) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Quý khách đã hoàn thành phần trình diễn.</span><span>Trân trọng cảm ơn!</span></div>`;
+        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Quý khách đã hoàn thành.</span><span>Trân trọng cảm ơn!</span></div>`;
     } else if (index === 1) {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Sắp đến lượt quý khách.</span><span>Xin hãy chuẩn bị!</span></div>`;
     } else {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Chỉ còn ${index} bài nữa là đến lượt quý khách.</span><span>Vui lòng chờ trong giây lát!</span></div>`;
+        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Chỉ còn ${index} bài nữa là đến lượt.</span><span>Vui lòng chờ trong giây lát!</span></div>`;
     }
 }
 
