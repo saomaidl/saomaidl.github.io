@@ -9,11 +9,11 @@ setPersistence(auth, browserLocalPersistence)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User is logged in:", user.uid);
-                // Nếu người dùng đã đăng nhập, gọi hàm để lấy danh sách người dùng và index
-                getAllUserIndexes();
+                // Gọi hàm để lấy danh sách người dùng ngay khi đăng nhập
+                getAllUserIndexes(user.uid);
             } else {
                 console.error("User is not logged in. Redirecting to login page.");
-                window.location.href = "/search"; // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+                window.location.href = "/login"; // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
             }
         });
     })
@@ -21,17 +21,11 @@ setPersistence(auth, browserLocalPersistence)
         console.error("Error setting persistence:", error);
     });
 
-async function getAllUserIndexes() {
+async function getAllUserIndexes(currentUserId) {
     try {
-        const user = auth.currentUser;
-        if (!user) {
-            console.error("User is not logged in.");
-            return;
-        }
-
-        const userId = user.uid;
         const usersRef = ref(realTimeDb, 'users');
-        
+
+        // Gọi hàm để lấy và console danh sách người dùng với index
         onValue(usersRef, (snapshot) => {
             if (!snapshot.exists()) {
                 console.error("No users found in the database.");
@@ -39,7 +33,7 @@ async function getAllUserIndexes() {
             }
 
             const usersData = snapshot.val();
-            const userIndexes = processAllUserData(usersData, userId);
+            const userIndexes = processAllUserData(usersData, currentUserId);
 
             // Console log toàn bộ danh sách người dùng với index tương ứng
             console.log("Danh sách người dùng và index tương ứng:");
