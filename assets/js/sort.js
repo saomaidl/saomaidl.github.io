@@ -1,19 +1,19 @@
 import { ref, onValue } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 import { auth, realTimeDb } from './firebase-config.js';
-import { onAuthStateChanged, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+import { firestore } from './firebase-config.js'; // Import firestore từ file cấu hình Firebase
 
 // Thiết lập phiên đăng nhập vĩnh viễn
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
-        // Lắng nghe thay đổi trạng thái đăng nhập
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User is logged in:", user.uid);
-                // Gọi hàm để lấy danh sách người dùng ngay khi đăng nhập
+                // Gọi hàm để lấy danh sách người dùng và bài hát
                 getAllUserIndexes(user.uid);
             } else {
                 console.error("User is not logged in. Redirecting to login page.");
-                window.location.href = "/login"; // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+                window.location.href = "/login";
             }
         });
     })
@@ -25,8 +25,7 @@ async function getAllUserIndexes(currentUserId) {
     try {
         const usersRef = ref(realTimeDb, 'users');
 
-        // Gọi hàm để lấy và console danh sách người dùng với index
-        onValue(usersRef, (snapshot) => {
+        onValue(usersRef, async (snapshot) => {
             if (!snapshot.exists()) {
                 console.error("No users found in the database.");
                 return;
@@ -35,11 +34,11 @@ async function getAllUserIndexes(currentUserId) {
             const usersData = snapshot.val();
             const userIndexes = processAllUserData(usersData, currentUserId);
 
-            // Console log toàn bộ danh sách người dùng với index tương ứng
-            console.log("Danh sách người dùng và index tương ứng:");
-            userIndexes.forEach(user => {
-                console.log(`User ID: ${user.uid}, Index: ${user.index}, Priority: ${user.priority}, Timestamp: ${user.timestamp}`);
-            });
+            // Lấy dữ liệu bài hát từ Firestore
+            const songs = await getSongsFromFirestore();
+
+            // Hiển thị danh sách bài hát
+            displaySongs(userIndexes, songs);
         }, (error) => {
             console.error("Error reading user data:", error);
         });
@@ -49,16 +48,13 @@ async function getAllUserIndexes(currentUserId) {
 }
 
 function processAllUserData(usersData, currentUserId) {
-    // Chuyển dữ liệu từ object thành mảng để dễ thao tác
     const usersArray = Object.keys(usersData).map(key => ({
         uid: key,
         ...usersData[key]
     }));
 
-    // Lọc những người có played là false
     const filteredUsers = usersArray.filter(user => !user.played);
 
-    // Sắp xếp theo priority và timestamp
     filteredUsers.sort((a, b) => {
         if (a.priority !== b.priority) {
             return b.priority - a.priority;
@@ -66,12 +62,68 @@ function processAllUserData(usersData, currentUserId) {
         return a.timestamp - b.timestamp;
     });
 
-    // Gắn `index` cho mỗi người dùng trong danh sách đã sắp xếp
     return filteredUsers.map((user, index) => ({
         ...user,
-        index: index, // Thêm trường index cho mỗi người dùng
-        isCurrentUser: user.uid === currentUserId // Xác định nếu là người dùng hiện tại
+        index: index,
+        isCurrentUser: user.uid === currentUserId
     }));
+}
+
+async function getSongsFromFirestore() {
+    const songsCollection = collection(firestore, 'users'); // Thay đổi 'songs' thành tên collection của bạn
+    const songDocs = await getDocs(songsCollection);
+    
+    const songs = [];
+    songDocs.forEach(doc => {
+        songs.push({ id: doc.id, ...doc.data() });
+    });
+
+    return songs;
+}
+
+function displaySongs(userIndexes, songs) {
+    const playlistContainer = document.querySelector('.ytm-playlist-panel-renderer-v2 lazy-list'); // Chọn phần tử chứa danh sách bài hát
+    playlistContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
+
+    userIndexes.forEach(user => {
+        const song = songs[user.index]; // Lấy bài hát tương ứng với index của người dùng
+
+        if (song) {
+            const songElement = `
+                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false">
+                    <div class="compact-media-item">
+                        <a href="/watch?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
+                            <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
+                                <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                                <img alt="" class="yt-core-image cover video-thumbnail-img" src="${song.thumbnailUrl}">
+                                <div class="video-preview-shim"></div>
+                                <div class="video-thumbnail-overlay-bottom-group">
+                                    <ytm-thumbnail-overlay-time-status-renderer data-style="DEFAULT">
+                                        <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
+                                            <div class="badge-shape-wiz__text">${song.duration}</div>
+                                        </badge-shape>
+                                    </ytm-thumbnail-overlay-time-status-renderer>
+                                </div>
+                            </ytm-compact-thumbnail>
+                        </a>
+                        <div class="compact-media-item-metadata">
+                            <a href="/watch?v=${song.videoId}" class="compact-media-item-metadata-content">
+                                <h4 class="compact-media-item-headline">
+                                    <span class="yt-core-attributed-string">${song.title}</span>
+                                </h4>
+                                <div class="subhead" aria-hidden="true">
+                                    <div class="compact-media-item-byline small-text">
+                                        <span class="yt-core-attributed-string">${song.artist}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </ytm-playlist-panel-video-renderer>
+            `;
+            playlistContainer.innerHTML += songElement; // Thêm bài hát vào playlist
+        }
+    });
 }
 
 // Không gọi getAllUserIndexes() ở đây, sẽ được gọi trong onAuthStateChanged
