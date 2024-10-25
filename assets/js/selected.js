@@ -62,9 +62,9 @@ async function getUserIndexById() {
 function updateSongStatus(index) {
     const songStatusElement = document.getElementById('song_status');
     if (index === 0) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Bài hát của quý khách đang được phát.</span><span>Xin mời thưởng thức!</span></div>`;
+        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Bài hát của quý khách đang được phát.</span></div>`;
     } else if (index === null || index === -1) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Quý khách đã hoàn thành phần trình diễn tuyệt vời của mình.</span><span>Trân trọng cảm ơn!</span></div>`;
+        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Quý khách đã hoàn thành phần trình diễn tuyệt vời của mình.</span></div>`;
     } else if (index === 1) {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col uppercase text-[rgb(128,184,238)]"><span>Sắp đến lượt quý khách!</span><span>Xin hãy chuẩn bị bài hát của mình.</span></div>`;
     } else {
