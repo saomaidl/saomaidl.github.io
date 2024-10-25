@@ -62,13 +62,14 @@ async function getUserIndexById() {
 function updateSongStatus(index) {
     const songStatusElement = document.getElementById('song_status');
     if (index === 0) {
-        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">ĐANG PHÁT BÀI CỦA QUÝ KHÁCH</span></div>`;
+        songStatusElement.innerHTML = `<div style="color: rgb(128, 184, 238);"><span>Bài hát của quý khách đang được phát.</span></div><div>Xin mời thưởng thức!</div>`;
     } else if (index === null || index === -1) {
-        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">QUÝ KHÁCH ĐÃ HÁT RẤT HAY</span></div>`;
+        songStatusElement.innerHTML = `<div style="color: rgb(128, 184, 238);"><span>Quý khách đã hoàn thành phần trình diễn tuyệt vời của mình.</span></div><div>Trân trọng cảm ơn!</div>`;
     } else if (index === 1) {
-        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">MỜI QUÝ KHÁCH CHUẨN BỊ</span></div>`;
+        songStatusElement.innerHTML = `<div style="color: rgb(128, 184, 238);"><span>Sắp đến lượt quý khách!</span></div><div>Xin hãy chuẩn bị bài hát của mình.</div>`;
     } else {
-        songStatusElement.innerHTML = `<div><span style="color: rgb(128, 184, 238);">CÒN ${index} BÀI LÀ ĐẾN LƯỢT QUÝ KHÁCH</span></div>`;
+        songStatusElement.innerHTML = `<div style="color: rgb(128, 184, 238);"><span>Chỉ còn ${index} bài nữa là đến lượt quý khách.</span></div><div>Vui lòng chờ trong giây lát.</div>`;
     }
 }
+
 getUserIndexById();
