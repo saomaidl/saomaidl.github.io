@@ -1,5 +1,26 @@
 import { ref, onValue } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 import { auth, realTimeDb } from './firebase-config.js';
+import { onAuthStateChanged, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+
+// Thiết lập phiên đăng nhập vĩnh viễn
+setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+        // Lắng nghe thay đổi trạng thái đăng nhập
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is logged in:", user.uid);
+                // Nếu người dùng đã đăng nhập, gọi hàm để lấy danh sách người dùng và index
+                getAllUserIndexes();
+            } else {
+                console.error("User is not logged in. Redirecting to login page.");
+                window.location.href = "/search"; // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+            }
+        });
+    })
+    .catch((error) => {
+        console.error("Error setting persistence:", error);
+    });
+
 async function getAllUserIndexes() {
     try {
         const user = auth.currentUser;
@@ -59,5 +80,4 @@ function processAllUserData(usersData, currentUserId) {
     }));
 }
 
-// Gọi hàm để lấy và console danh sách người dùng với index
-getAllUserIndexes();
+// Không gọi getAllUserIndexes() ở đây, sẽ được gọi trong onAuthStateChanged
