@@ -1,7 +1,6 @@
 import { ref, onValue } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
-import { auth, realTimeDb } from './firebase-config.js';
+import { auth, db, realTimeDb } from './firebase-config.js'; // Đảm bảo sử dụng db cho Firestore
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
-import { firestore } from './firebase-config.js'; // Import firestore từ file cấu hình Firebase
 
 // Thiết lập phiên đăng nhập vĩnh viễn
 setPersistence(auth, browserLocalPersistence)
