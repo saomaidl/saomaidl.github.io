@@ -152,5 +152,6 @@ $('.ytm-playlist-panel-video-renderer-v2').on('click', function () {
             .attr('aria-selected', 'true');
         const videoId = $(this).data('video-id');
         replaySong(videoId);
+        console.log(videoId);
     }
 });
