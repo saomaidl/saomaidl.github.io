@@ -104,7 +104,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
 
             const songElement = `
                 <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor} data-video-id="${song.videoId}"data-index="${index}"data-user-id="${userId}">
-                  <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
+                  <button class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
                     <div class="compact-media-item-image" aria-hidden="true">
                       <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
                         <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
@@ -131,7 +131,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </ytm-playlist-panel-video-renderer>
             `;
             playlistContainer.innerHTML += songElement;
