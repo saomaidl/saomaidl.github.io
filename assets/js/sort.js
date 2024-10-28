@@ -116,7 +116,7 @@ function displaySongs(userIndexes, songs) {
                         </h4>
                         <div class="subhead" aria-hidden="true" style="">
                           <div class="compact-media-item-byline small-text">
-                            <span class="yt-core-attributed-string">${song.channelTitle}</span>
+                            <span class="yt-core-attributed-string">${song.title} • ${song.fullName} • ${song.location}</span>
                           </div>
                         </div>
                       </a>
