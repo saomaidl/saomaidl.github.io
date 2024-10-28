@@ -83,8 +83,7 @@ function displaySongs(userIndexes, songs) {
     playlistContainer.innerHTML = '';
 
     userIndexes.forEach(user => {
-        const userId = user.uid;
-        const song = songs.find(s => s.userId === userId);
+        const song = songs[user.index];
 
         if (song) {
             const [minutes, seconds] = song.duration.split(':');
