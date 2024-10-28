@@ -90,10 +90,13 @@ function displaySongs(userIndexes, songs, currentUserId) {
             const [minutes, seconds] = song.duration.split(':');
             const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
 
-            const isSelected = index === 0 || userId === currentUserId;
-            const selectedClass = isSelected ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
-            const ariaSelected = isSelected ? 'true' : 'false';
-            const backgroundColor = isSelected ? 'style="background-color: rgb(235, 222, 221);"' : '';
+            let backgroundColor = '';
+            if (userId === currentUserId) {
+                backgroundColor = index === 0 ? 'style="background-color: rgb(235, 222, 221);"' : 'style="background-color: rgb(221, 229, 235);"';
+            }
+
+            const selectedClass = index === 0 ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
+            const ariaSelected = (index === 0 ? 'true' : 'false';
 
             const songElement = `
                 <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor}>
