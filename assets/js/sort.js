@@ -13,7 +13,7 @@ setPersistence(auth, browserLocalPersistence)
                 getAllUserIndexes(user.uid);
             } else {
                 console.error("User is not logged in. Redirecting to login page.");
-                window.location.href = "/login";
+                window.location.href = "/search";
             }
         });
     })
@@ -95,7 +95,7 @@ function displaySongs(userIndexes, songs) {
                         <a href="/watch?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
                             <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
                                 <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
-                                <img alt="" class="yt-core-image cover video-thumbnail-img" src="${song.thumbnailUrl}">
+                                <img alt="" class="yt-core-image cover video-thumbnail-img" src="${song.thumbnail}">
                                 <div class="video-preview-shim"></div>
                                 <div class="video-thumbnail-overlay-bottom-group">
                                     <ytm-thumbnail-overlay-time-status-renderer data-style="DEFAULT">
@@ -109,11 +109,11 @@ function displaySongs(userIndexes, songs) {
                         <div class="compact-media-item-metadata">
                             <a href="/watch?v=${song.videoId}" class="compact-media-item-metadata-content">
                                 <h4 class="compact-media-item-headline">
-                                    <span class="yt-core-attributed-string">${song.title}</span>
+                                    <span class="yt-core-attributed-string">${song.songName}</span>
                                 </h4>
                                 <div class="subhead" aria-hidden="true">
                                     <div class="compact-media-item-byline small-text">
-                                        <span class="yt-core-attributed-string">${song.artist}</span>
+                                        <span class="yt-core-attributed-string">${song.title}</span>
                                     </div>
                                 </div>
                             </a>
