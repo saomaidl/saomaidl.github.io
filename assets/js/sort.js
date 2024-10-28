@@ -186,17 +186,27 @@ $(document).ready(function() {
         } else {
             const updates = {};
             updates[`users/${userId}/priority`] = true;
-            updates[`users/${userId}/played`] = false;
-            const updatesRef = ref(realTimeDb);
-
-            update(updatesRef, updates)
-                .then(() => {
-                    console.log(`Cập nhật thành công cho người dùng: ${userId}`);
-                    replaySong(videoId);
-                })
-                .catch((error) => {
-                    console.error(`Lỗi cập nhật dữ liệu: ${error}`);
-                });
+            const usersRef = ref(realTimeDb, 'users');
+            onValue(usersRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const usersData = snapshot.val();
+                    Object.keys(usersData).forEach((key) => {
+                        if (key !== userId && usersData[key].priority === true) {
+                            updates[`users/${key}/priority`] = false;
+                        }
+                    });
+                    update(ref(realTimeDb), updates)
+                        .then(() => {
+                            console.log(`Cập nhật thành công cho người dùng: ${userId}`);
+                            replaySong(videoId);
+                        })
+                        .catch((error) => {
+                            console.error(`Lỗi cập nhật dữ liệu: ${error}`);
+                        });
+                }
+            }, (error) => {
+                console.error("Lỗi khi đọc dữ liệu người dùng:", error);
+            });
         }
     });
 });
