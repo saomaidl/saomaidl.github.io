@@ -142,59 +142,61 @@ function displaySongs(userIndexes, songs, currentUserId) {
 
 let player;
 function createYouTubePlayer(videoId) {
-      const showControls = $(window).width() >= 768;
-      player = new YT.Player('player', {
-          videoId: videoId,
-          playerVars: {
-              autoplay: 1,
-              controls: showControls ? 0 : 0,
-              rel: 0,
-              iv_load_policy: 3,
-              mute: 0,
-              playsinline: 1
-          },
-          events: {
-              'onReady': onPlayerReady
-          }
-      });
-  }
-  
-  function onPlayerReady(event) {
-      event.target.playVideo();
-  }
-  
-  function replaySong(videoId) {
-      if (player) {
-          player.loadVideoById(videoId);
-      } else {
-          createYouTubePlayer(videoId);
-      }
-  }
-
-  $(document).ready(function() {
-      const initialVideoId = 'peGSKWW8-EA';
-      createYouTubePlayer(initialVideoId);
-  
-      $(document).on('click', 'lazy-list a', function(event) {
-          event.preventDefault();
-          const parentRenderer = $(this).closest('.ytm-playlist-panel-video-renderer-v2');
-          const videoId = parentRenderer.data('video-id');
-          const userId = parentRenderer.data('user-id');
-
-          if (parentRenderer.hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
-              replaySong(videoId);
-          } else {
-              const updates = {};
-              updates[`users/${userId}/priority`] = true;
-              updates[`users/${userId}/played`] = false;
-              firebase.database().ref().update(updates)
-                  .then(() => {
-                      console.log(`Cập nhật thành công cho người dùng: ${userId}`);
-                      replaySong(videoId);
-                  })
-                  .catch((error) => {
-                      console.error(`Lỗi cập nhật dữ liệu: ${error}`);
-                  });
-          }
-      });
+  const showControls = $(window).width() >= 768;
+  player = new YT.Player("player", {
+    videoId: videoId,
+    playerVars: {
+      autoplay: 1,
+      controls: showControls ? 0 : 0,
+      rel: 0,
+      iv_load_policy: 3,
+      mute: 0,
+      playsinline: 1
+    },
+    events: {
+      onReady: onPlayerReady
+    }
   });
+}
+
+function onPlayerReady(event) {
+  event.target.playVideo();
+}
+
+function replaySong(videoId) {
+  if (player) {
+    player.loadVideoById(videoId);
+  } else {
+    createYouTubePlayer(videoId);
+  }
+}
+
+$(document).ready(function() {
+    const initialVideoId = 'peGSKWW8-EA';
+    createYouTubePlayer(initialVideoId);
+
+    $(document).on('click', 'lazy-list a', function(event) {
+        event.preventDefault();
+        const parentRenderer = $(this).closest('.ytm-playlist-panel-video-renderer-v2');
+        const videoId = parentRenderer.data('video-id');
+        const userId = parentRenderer.data('user-id');
+
+        if (parentRenderer.hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
+            replaySong(videoId);
+        } else {
+            const updates = {};
+            updates[`users/${userId}/priority`] = true;
+            updates[`users/${userId}/played`] = false;
+            const updatesRef = ref(realTimeDb);
+
+            update(updatesRef, updates)
+                .then(() => {
+                    console.log(`Cập nhật thành công cho người dùng: ${userId}`);
+                    replaySong(videoId);
+                })
+                .catch((error) => {
+                    console.error(`Lỗi cập nhật dữ liệu: ${error}`);
+                });
+        }
+    });
+});
