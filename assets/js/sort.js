@@ -96,7 +96,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
             }
 
             const selectedClass = index === 0 ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
-            const ariaSelected = (index === 0 ? 'true' : 'false';
+            const ariaSelected = index === 0 ? 'true' : 'false';
 
             const songElement = `
                 <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor}>
