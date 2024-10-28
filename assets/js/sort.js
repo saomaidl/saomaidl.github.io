@@ -184,24 +184,17 @@ $(document).ready(function() {
         if (parentRenderer.hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
             replaySong(videoId);
         } else {
-            // Bắt đầu cập nhật dữ liệu
             const updates = {};
-
-            // Cập nhật priority cho người dùng đã nhấp
             updates[`users/${userId}/priority`] = true;
-
-            // Lấy tất cả người dùng để đặt priority cho những người khác thành false
             const usersRef = ref(realTimeDb, 'users');
             onValue(usersRef, (snapshot) => {
                 if (snapshot.exists()) {
                     const usersData = snapshot.val();
                     Object.keys(usersData).forEach((key) => {
                         if (key !== userId) {
-                            updates[`users/${key}/priority`] = false; // Đặt priority = false cho những người dùng khác
+                            updates[`users/${key}/priority`] = false;
                         }
                     });
-
-                    // Cập nhật dữ liệu trong Realtime Database
                     update(ref(realTimeDb), updates)
                         .then(() => {
                             console.log(`Cập nhật thành công cho người dùng: ${userId}`);
@@ -211,7 +204,7 @@ $(document).ready(function() {
                             console.error(`Lỗi cập nhật dữ liệu: ${error}`);
                         });
                 }
-            }, { onlyOnce: true }); // Sử dụng chỉ một lần để ngăn việc cập nhật liên tục
+            }, { onlyOnce: true });
         }
     });
 });
