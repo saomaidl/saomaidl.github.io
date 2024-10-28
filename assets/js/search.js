@@ -206,12 +206,17 @@ $(document).ready(function() {
 
     function formatDuration(duration) {
         const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-        if (!match) return '00:00';
-
-        const hours = match[1] ? match[1].slice(0, -1) : '0';
-        const minutes = match[2] ? match[2].slice(0, -1) : '0';
-        const seconds = match[3] ? match[3].slice(0, -1) : '0';
-
-        return hours === '0' ? `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}` : `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+        if (!match) return '0:00';
+    
+        const hours = match[1] ? parseInt(match[1].slice(0, -1)) : 0;
+        const minutes = match[2] ? parseInt(match[2].slice(0, -1)) : 0;
+        const seconds = match[3] ? parseInt(match[3].slice(0, -1)) : 0;
+    
+        // Format theo các quy tắc của bạn
+        if (hours > 0) {
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        } else {
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
     }
 });
