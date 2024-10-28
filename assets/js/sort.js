@@ -91,8 +91,10 @@ function displaySongs(userIndexes, songs, currentUserId) {
             const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
 
             let backgroundColor = '';
-            if (userId === currentUserId) {
-                backgroundColor = index === 0 ? 'style="background-color: rgb(235, 222, 221);"' : 'style="background-color: rgb(221, 229, 235);"';
+            if (index === 0) {
+                backgroundColor = 'style="background-color: rgb(235, 222, 221);"';
+            } else if (userId === currentUserId) {
+                backgroundColor = song.id !== userIndexes[0].uid ? 'style="background-color: rgb(221, 229, 235);"' : '';
             }
 
             const selectedClass = index === 0 ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
