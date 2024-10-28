@@ -1,27 +1,36 @@
-@font-face {
-  font-family: "saomaiHeading";
-  src: url("https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok_fonts/TikTokDisplayFont-Bold.woff2?_default_font=1&v=2");
-  font-display: swap;
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: "saomai";
-  src: url("https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok_fonts/TikTokFont-Bold.woff2?_default_font=1&v=2");
-  font-display: swap;
-  font-weight: 700;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: "saomai";
-  src: url("https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok_fonts/TikTokFont-Regular.woff2?_default_font=1&v=2");
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
-}
 @font-face {
   font-family: "ui-icons";
   src: url("/assets/fonts/ui-icons.woff2") format("woff2");
   font-display: swap;
 }
+  @font-face {
+    font-family: saomaiHeading;
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: local("PlusJakartaSans-Bold"),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/webfonts/PlusJakartaSans-Bold.woff2),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/webfonts/PlusJakartaSans-Bold.woff),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/static/PlusJakartaSans-Bold.ttf);
+  }
+  @font-face {
+    font-family: saomai;
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    src: local("PlusJakartaSans-SemiBold"),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/webfonts/PlusJakartaSans-SemiBold.woff2),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/webfonts/PlusJakartaSans-SemiBold.woff),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/static/PlusJakartaSans-SemiBold.ttf);
+  }
+  @font-face {
+    font-family: saomai;
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    src: local("PlusJakartaSans-Medium"),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/webfonts/PlusJakartaSans-Medium.woff2),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/webfonts/PlusJakartaSans-Medium.woff),
+      url(https://www.pexels.com/assets/fonts/PlusJakartaSans-2.6/static/PlusJakartaSans-Medium.ttf);
+  }
