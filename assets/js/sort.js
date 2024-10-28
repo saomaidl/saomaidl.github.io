@@ -103,7 +103,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
             const ariaSelected = index === 0 ? 'true' : 'false';
 
             const songElement = `
-                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor}>
+                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor} data-video-id="${song.videoId}"data-index="${index}"data-user-id="${userId}">
                   <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
                     <a href="/songs?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
                       <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
