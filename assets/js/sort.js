@@ -48,30 +48,47 @@ async function getAllUserIndexes(currentUserId) {
 }
 
 function processAllUserData(usersData, currentUserId) {
+    // Chuyển đổi đối tượng usersData thành mảng
     const usersArray = Object.keys(usersData).map(key => ({
         uid: key,
-        ...usersData[key]
+        ...usersData[key] // Kết hợp UID với các thuộc tính của người dùng
     }));
+
+    console.log("Mảng người dùng ban đầu:", usersArray);
 
     // Lọc người dùng có `played` là `false`
     const filteredUsers = usersArray.filter(user => user.played === false);
 
+    console.log("Người dùng đã lọc (played: false):", filteredUsers);
+
+    // Sắp xếp theo priority và timestamp
     filteredUsers.sort((a, b) => {
         const priorityA = Number(a.priority === true); // Chuyển đổi thành số
         const priorityB = Number(b.priority === true); // Chuyển đổi thành số
-    
+
         if (priorityA !== priorityB) {
+            console.log(`So sánh priority: ${a.uid} (${priorityA}) và ${b.uid} (${priorityB})`);
             return priorityB - priorityA; // Sắp xếp descending cho priority
         }
+
+        console.log(`So sánh timestamp: ${a.uid} (${a.timestamp}) và ${b.uid} (${b.timestamp})`);
         return a.timestamp - b.timestamp; // Sắp xếp ascending cho timestamp
     });
 
-    return filteredUsers.map((user, index) => ({
+    console.log("Người dùng sau khi sắp xếp:", filteredUsers);
+
+    // Trả về mảng người dùng đã được xử lý, bao gồm cả chỉ số và cờ isCurrentUser
+    const result = filteredUsers.map((user, index) => ({
         ...user,
         index: index,
         isCurrentUser: user.uid === currentUserId
     }));
+
+    console.log("Kết quả cuối cùng:", result);
+    
+    return result;
 }
+
 
 async function getSongsFromFirestore() {
     const songsCollection = collection(db, 'users'); // Thay đổi 'users' thành tên collection của bạn
