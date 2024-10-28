@@ -59,9 +59,9 @@ function processAllUserData(usersData, currentUserId) {
     filteredUsers.sort((a, b) => {
         const priorityA = a.priority === true; // Kiểm tra xem priority có phải là true không
         const priorityB = b.priority === true; // Kiểm tra xem priority có phải là true không
-    
+
         if (priorityA !== priorityB) {
-            return priorityB - priorityA ? 1 : -1; // Sắp xếp descending cho priority
+            return priorityB ? 1 : -1; // Sắp xếp descending cho priority
         }
         return a.timestamp - b.timestamp; // Sắp xếp ascending cho timestamp
     });
@@ -74,7 +74,7 @@ function processAllUserData(usersData, currentUserId) {
 }
 
 async function getSongsFromFirestore() {
-    const songsCollection = collection(db, 'users'); // Thay đổi 'songs' thành tên collection của bạn
+    const songsCollection = collection(db, 'users'); // Thay đổi 'users' thành tên collection của bạn
     const songDocs = await getDocs(songsCollection);
     
     const songs = [];
@@ -90,14 +90,14 @@ function displaySongs(userIndexes, songs) {
     playlistContainer.innerHTML = '';
 
     userIndexes.forEach(user => {
-        const song = songs[user.index];
+        const song = songs[user.index]; // Kiểm tra chỉ số bài hát tương ứng
 
         if (song) {
             const [minutes, seconds] = song.duration.split(':');
             const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
 
             const songElement = `
-                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false" style="">
+                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false">
                   <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
                     <a href="/songs?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
                       <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
@@ -107,7 +107,7 @@ function displaySongs(userIndexes, songs) {
                         <div class="video-thumbnail-overlay-bottom-group">
                           <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
                             <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
-                              <div class="badge-shape-wiz__text">${song.duration}</div>
+                              <div class="badge-shape-wiz__text">${durationText}</div>
                             </badge-shape>
                           </ytm-thumbnail-overlay-time-status-renderer>
                         </div>
@@ -129,6 +129,8 @@ function displaySongs(userIndexes, songs) {
                 </ytm-playlist-panel-video-renderer>
             `;
             playlistContainer.innerHTML += songElement;
+        } else {
+            console.warn(`No song found for user index: ${user.index}`);
         }
     });
 }
