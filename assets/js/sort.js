@@ -140,19 +140,17 @@ function displaySongs(userIndexes, songs, currentUserId) {
 }
 
 
-$(document).ready(function () {
-    function replaySong(videoId) {
-        console.log(`Đang phát lại bài hát với video ID: ${videoId}`);
+function replaySong(videoId) {
+    console.log(`Đang phát lại bài hát với video ID: ${videoId}`);
+}
+$('.ytm-playlist-panel-video-renderer-v2').on('click', function () {
+    if ($(this).hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
+        $('.ytm-playlist-panel-video-renderer-v2').removeClass('ytm-playlist-panel-video-renderer-v2--selected')
+            .attr('aria-selected', 'false')
+            .removeAttr('style');
+        $(this).addClass('ytm-playlist-panel-video-renderer-v2--selected')
+            .attr('aria-selected', 'true');
+        const videoId = $(this).data('video-id');
+        replaySong(videoId);
     }
-    $('.ytm-playlist-panel-video-renderer-v2').on('click', function () {
-        if ($(this).hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
-            $('.ytm-playlist-panel-video-renderer-v2').removeClass('ytm-playlist-panel-video-renderer-v2--selected')
-                .attr('aria-selected', 'false')
-                .removeAttr('style');
-            $(this).addClass('ytm-playlist-panel-video-renderer-v2--selected')
-                .attr('aria-selected', 'true');
-            const videoId = $(this).data('video-id');
-            replaySong(videoId);
-        }
-    });
 });
