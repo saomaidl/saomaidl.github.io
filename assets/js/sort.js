@@ -82,7 +82,7 @@ function displaySongs(userIndexes, songs) {
     const playlistContainer = document.querySelector('.ytm-playlist-panel-renderer-v2 lazy-list');
     playlistContainer.innerHTML = '';
 
-    userIndexes.forEach(user => {
+    userIndexes.forEach((user, index) => {
         const userId = user.uid;
         const song = songs.find(s => s.id === userId);
 
