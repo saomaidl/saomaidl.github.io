@@ -83,6 +83,8 @@ function displaySongs(userIndexes, songs) {
     playlistContainer.innerHTML = '';
 
     userIndexes.forEach(user => {
+        const userId = user.uid;
+        console.log(userId);
         const song = songs[user.index];
 
         if (song) {
