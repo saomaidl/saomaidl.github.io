@@ -5,24 +5,24 @@
 }
 @font-face {
   font-family: "saomai";
-  src: url("/fonts/SpotifyMix-Regular.woff2") format("woff2"),
-    url("/fonts/SpotifyMix-Regular.woff") format("woff");
+  src: url("https://ads.spotify.com/fonts/SpotifyMix-Regular.woff2") format("woff2"),
+    url("https://ads.spotify.com/fonts/SpotifyMix-Regular.woff") format("woff");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "saomai";
-  src: url("/fonts/SpotifyMix-Bold.woff2") format("woff2"),
-    url("/fonts/SpotifyMix-Bold.woff") format("woff");
+  src: url("https://ads.spotify.com/fonts/SpotifyMix-Bold.woff2") format("woff2"),
+    url("https://ads.spotify.com/fonts/SpotifyMix-Bold.woff") format("woff");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
   font-family: "saomaiHeading";
-  src: url("/fonts/SpotifyMix-Extrabold.woff2") format("woff2"),
-    url("/fonts/SpotifyMix-Extrabold.woff") format("woff");
+  src: url("https://ads.spotify.com/fonts/SpotifyMix-Extrabold.woff2") format("woff2"),
+    url("https://ads.spotify.com/fonts/SpotifyMix-Extrabold.woff") format("woff");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
