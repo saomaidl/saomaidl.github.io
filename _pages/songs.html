@@ -147,49 +147,50 @@ $(document).ready(function() {
 </script>
 <script>
   let player;
+  
   function createYouTubePlayer(videoId) {
-    const showControls = $(window).width() >= 768;
-    player = new YT.Player('player', {
-      videoId: videoId,
-      playerVars: {
-        autoplay: 1,
-        controls: showControls ? 0 : 0,
-        rel: 0,
-        iv_load_policy: 3,
-        mute: 0,
-        playsinline: 1
-      },
-      events: {
-        'onReady': onPlayerReady
-      }
-    });
+      const showControls = $(window).width() >= 768;
+      player = new YT.Player('player', {
+          videoId: videoId,
+          playerVars: {
+              autoplay: 1,
+              controls: showControls ? 0 : 0,
+              rel: 0,
+              iv_load_policy: 3,
+              mute: 0,
+              playsinline: 1
+          },
+          events: {
+              'onReady': onPlayerReady
+          }
+      });
   }
-
+  
   function onPlayerReady(event) {
-    event.target.playVideo();
+      event.target.playVideo();
   }
-
-  $(document).ready(function() {
-    const videoId = 'peGSKWW8-EA';
-    createYouTubePlayer(videoId);
-  });
-
-  $(document).ready(function () {
-      function replaySong(videoId) {
-          console.log(`Đang phát lại bài hát với video ID: ${videoId}`);
+  
+  function replaySong(videoId) {
+      if (player) {
+          player.loadVideoById(videoId);
+      } else {
+          createYouTubePlayer(videoId);
       }
-      $(document).on('click', 'lazy-list a', function (event) {
+  }
+  
+  $(document).ready(function() {
+      const initialVideoId = 'peGSKWW8-EA';
+      createYouTubePlayer(initialVideoId);
+  
+      $(document).on('click', 'lazy-list a', function(event) {
           event.preventDefault();
           const parentRenderer = $(this).closest('.ytm-playlist-panel-video-renderer-v2');
           if (parentRenderer.hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
               const videoId = parentRenderer.data('video-id');
               replaySong(videoId);
-          } else {
-              console.log('Phần tử không được chọn, không phát video.');
           }
       });
   });
-  
 </script>
 
 {% include navigation.html %}
