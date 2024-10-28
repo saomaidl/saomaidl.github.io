@@ -90,8 +90,13 @@ function displaySongs(userIndexes, songs) {
             const [minutes, seconds] = song.duration.split(':');
             const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
 
+            const isSelected = index === 0;
+            const selectedClass = isSelected ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
+            const ariaSelected = isSelected ? 'true' : 'false';
+            const backgroundColor = isSelected ? 'style="background-color: rgb(235, 222, 221);"' : '';
+
             const songElement = `
-                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2" aria-selected="false" data-has-overflow-menu="false">
+                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor}>
                   <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
                     <a href="/songs?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
                       <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
