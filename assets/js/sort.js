@@ -81,6 +81,7 @@ async function getSongsFromFirestore() {
 function displaySongs(userIndexes, songs) {
     const playlistContainer = document.querySelector('.ytm-playlist-panel-renderer-v2 lazy-list');
     playlistContainer.innerHTML = '';
+    console.log(songs);
 
     userIndexes.forEach(user => {
         const userId = user.uid;
