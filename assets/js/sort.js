@@ -81,12 +81,10 @@ async function getSongsFromFirestore() {
 function displaySongs(userIndexes, songs) {
     const playlistContainer = document.querySelector('.ytm-playlist-panel-renderer-v2 lazy-list');
     playlistContainer.innerHTML = '';
-    console.log(songs);
 
     userIndexes.forEach(user => {
         const userId = user.uid;
-        console.log(userId);
-        const song = songs[user.index];
+        const song = songs.find(s => s.id === userId);
 
         if (song) {
             const [minutes, seconds] = song.duration.split(':');
