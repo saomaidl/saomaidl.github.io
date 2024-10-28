@@ -56,12 +56,15 @@ function processAllUserData(usersData, currentUserId) {
     // Lọc người dùng có `played` là `false`
     const filteredUsers = usersArray.filter(user => user.played === false);
 
-    // Sắp xếp theo `priority` và `timestamp`
     filteredUsers.sort((a, b) => {
-        if (a.priority !== b.priority) {
-            return b.priority - a.priority;
+        // Chuyển đổi giá trị priority thành số (1 cho true, 0 cho false)
+        const priorityA = a.priority ? 1 : 0;
+        const priorityB = b.priority ? 1 : 0;
+    
+        if (priorityA !== priorityB) {
+            return priorityB - priorityA; // Sắp xếp descending cho priority
         }
-        return a.timestamp - b.timestamp;
+        return a.timestamp - b.timestamp; // Sắp xếp ascending cho timestamp
     });
 
     return filteredUsers.map((user, index) => ({
