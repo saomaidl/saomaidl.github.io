@@ -29,7 +29,7 @@ async function getAllUserIndexes(currentUserId) {
             const usersData = snapshot.val();
             const userIndexes = processAllUserData(usersData, currentUserId);
             const songs = await getSongsFromFirestore();
-            displaySongs(userIndexes, songs);
+            displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
             console.error("Error reading user data:", error);
         });
@@ -78,7 +78,7 @@ async function getSongsFromFirestore() {
     return songs;
 }
 
-function displaySongs(userIndexes, songs) {
+function displaySongs(userIndexes, songs, currentUserId) {
     const playlistContainer = document.querySelector('.ytm-playlist-panel-renderer-v2 lazy-list');
     playlistContainer.innerHTML = '';
 
@@ -90,7 +90,7 @@ function displaySongs(userIndexes, songs) {
             const [minutes, seconds] = song.duration.split(':');
             const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
 
-            const isSelected = index === 0;
+            const isSelected = index === 0 || userId === currentUserId;
             const selectedClass = isSelected ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
             const ariaSelected = isSelected ? 'true' : 'false';
             const backgroundColor = isSelected ? 'style="background-color: rgb(235, 222, 221);"' : '';
