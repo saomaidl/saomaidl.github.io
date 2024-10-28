@@ -91,8 +91,10 @@ function displaySongs(userIndexes, songs, currentUserId) {
             const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
 
             let backgroundColor = '';
-            if (index === 0) {
+            if (index === 0 && userId !== currentUserId) {
                 backgroundColor = 'style="background-color: rgb(235, 222, 221);"';
+            } else if (index === 0 && userId === currentUserId) {
+                backgroundColor = '';
             } else if (userId === currentUserId) {
                 backgroundColor = song.id !== userIndexes[0].uid ? 'style="background-color: rgb(221, 229, 235);"' : '';
             }
