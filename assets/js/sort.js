@@ -70,7 +70,7 @@ function processAllUserData(usersData, currentUserId) {
 }
 
 async function getSongsFromFirestore() {
-    const songsCollection = collection(db, 'songs'); // Thay đổi 'songs' thành tên collection của bạn
+    const songsCollection = collection(db, 'users'); // Thay đổi 'songs' thành tên collection của bạn
     const songDocs = await getDocs(songsCollection);
     
     const songs = [];
