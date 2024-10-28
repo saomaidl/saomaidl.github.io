@@ -107,7 +107,7 @@ function displaySongs(userIndexes, songs) {
                         <div class="video-thumbnail-overlay-bottom-group">
                           <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
                             <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
-                              <div class="badge-shape-wiz__text">${duration}</div>
+                              <div class="badge-shape-wiz__text">${song.duration}</div>
                             </badge-shape>
                           </ytm-thumbnail-overlay-time-status-renderer>
                         </div>
