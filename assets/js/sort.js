@@ -105,7 +105,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
             const songElement = `
                 <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor} data-video-id="${song.videoId}"data-index="${index}"data-user-id="${userId}">
                   <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
-                    <a href="/songs?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
+                    <div class="compact-media-item-image" aria-hidden="true">
                       <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
                         <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
                         <img alt="" class="yt-core-image cover video-thumbnail-img yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-aspect-fill yt-core-image--loaded" src="${song.thumbnail}">
@@ -118,9 +118,9 @@ function displaySongs(userIndexes, songs, currentUserId) {
                           </ytm-thumbnail-overlay-time-status-renderer>
                         </div>
                       </ytm-compact-thumbnail>
-                    </a>
+                    </div>
                     <div class="compact-media-item-metadata" data-has-badges="false">
-                      <a href="/songs?v=${song.videoId}" class="compact-media-item-metadata-content">
+                      <div class="compact-media-item-metadata-content">
                         <h4 class="compact-media-item-headline" style="">
                           <span class="yt-core-attributed-string yt-core-attributed-string--link-inherit-color" aria-label="${song.songName} của ${song.channelTitle} ${durationText}" role="text">${song.songName}</span>
                         </h4>
@@ -129,7 +129,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
                             <span class="yt-core-attributed-string">${song.title} • ${song.fullName} • ${song.location}</span>
                           </div>
                         </div>
-                      </a>
+                      </div>
                     </div>
                   </div>
                 </ytm-playlist-panel-video-renderer>
