@@ -57,11 +57,11 @@ function processAllUserData(usersData, currentUserId) {
     const filteredUsers = usersArray.filter(user => user.played === false);
 
     filteredUsers.sort((a, b) => {
-        const priorityA = a.priority === true; // Kiểm tra xem priority có phải là true không
-        const priorityB = b.priority === true; // Kiểm tra xem priority có phải là true không
-
+        const priorityA = Number(a.priority === true); // Chuyển đổi thành số
+        const priorityB = Number(b.priority === true); // Chuyển đổi thành số
+    
         if (priorityA !== priorityB) {
-            return priorityB ? 1 : -1; // Sắp xếp descending cho priority
+            return priorityB - priorityA; // Sắp xếp descending cho priority
         }
         return a.timestamp - b.timestamp; // Sắp xếp ascending cho timestamp
     });
