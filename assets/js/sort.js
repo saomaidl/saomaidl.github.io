@@ -3,16 +3,12 @@ import { auth, db, realTimeDb } from './firebase-config.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
-// Thiết lập phiên đăng nhập vĩnh viễn
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log("User is logged in:", user.uid);
-                // Gọi hàm để lấy danh sách người dùng và bài hát
                 getAllUserIndexes(user.uid);
             } else {
-                console.error("User is not logged in. Redirecting to login page.");
                 window.location.href = "/search";
             }
         });
@@ -27,17 +23,12 @@ async function getAllUserIndexes(currentUserId) {
 
         onValue(usersRef, async (snapshot) => {
             if (!snapshot.exists()) {
-                console.error("No users found in the database.");
                 return;
             }
 
             const usersData = snapshot.val();
             const userIndexes = processAllUserData(usersData, currentUserId);
-
-            // Lấy dữ liệu bài hát từ Firestore
             const songs = await getSongsFromFirestore();
-
-            // Hiển thị danh sách bài hát
             displaySongs(userIndexes, songs);
         }, (error) => {
             console.error("Error reading user data:", error);
@@ -48,50 +39,35 @@ async function getAllUserIndexes(currentUserId) {
 }
 
 function processAllUserData(usersData, currentUserId) {
-    // Chuyển đổi đối tượng usersData thành mảng
     const usersArray = Object.keys(usersData).map(key => ({
         uid: key,
-        ...usersData[key] // Kết hợp UID với các thuộc tính của người dùng
+        ...usersData[key]
     }));
 
-    console.log("Mảng người dùng ban đầu:", usersArray);
-
-    // Lọc người dùng có `played` là `false`
     const filteredUsers = usersArray.filter(user => user.played === false);
 
-    console.log("Người dùng đã lọc (played: false):", filteredUsers);
-
-    // Sắp xếp theo priority và timestamp
     filteredUsers.sort((a, b) => {
-        const priorityA = Number(a.priority === true); // Chuyển đổi thành số
-        const priorityB = Number(b.priority === true); // Chuyển đổi thành số
+        const priorityA = Number(a.priority === true);
+        const priorityB = Number(b.priority === true);
 
         if (priorityA !== priorityB) {
-            console.log(`So sánh priority: ${a.uid} (${priorityA}) và ${b.uid} (${priorityB})`);
-            return priorityB - priorityA; // Sắp xếp descending cho priority
+            return priorityB - priorityA;
         }
 
-        console.log(`So sánh timestamp: ${a.uid} (${a.timestamp}) và ${b.uid} (${b.timestamp})`);
-        return a.timestamp - b.timestamp; // Sắp xếp ascending cho timestamp
+        return a.timestamp - b.timestamp;
     });
 
-    console.log("Người dùng sau khi sắp xếp:", filteredUsers);
-
-    // Trả về mảng người dùng đã được xử lý, bao gồm cả chỉ số và cờ isCurrentUser
     const result = filteredUsers.map((user, index) => ({
         ...user,
         index: index,
         isCurrentUser: user.uid === currentUserId
     }));
 
-    console.log("Kết quả cuối cùng:", result);
-    
     return result;
 }
 
-
 async function getSongsFromFirestore() {
-    const songsCollection = collection(db, 'users'); // Thay đổi 'users' thành tên collection của bạn
+    const songsCollection = collection(db, 'users');
     const songDocs = await getDocs(songsCollection);
     
     const songs = [];
@@ -107,7 +83,8 @@ function displaySongs(userIndexes, songs) {
     playlistContainer.innerHTML = '';
 
     userIndexes.forEach(user => {
-        const song = songs[user.index]; // Kiểm tra chỉ số bài hát tương ứng
+        const userId = user.uid;
+        const song = songs.find(s => s.userId === userId);
 
         if (song) {
             const [minutes, seconds] = song.duration.split(':');
@@ -146,8 +123,6 @@ function displaySongs(userIndexes, songs) {
                 </ytm-playlist-panel-video-renderer>
             `;
             playlistContainer.innerHTML += songElement;
-        } else {
-            console.warn(`No song found for user index: ${user.index}`);
         }
     });
 }
