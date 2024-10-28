@@ -139,18 +139,28 @@ function displaySongs(userIndexes, songs, currentUserId) {
     });
 }
 
-function replaySong(videoId) {
-    console.log(`Đang phát lại bài hát với video ID: ${videoId}`);
-}
-$('.ytm-playlist-panel-video-renderer-v2').on('click', function () {
-    if ($(this).hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
-        $('.ytm-playlist-panel-video-renderer-v2').removeClass('ytm-playlist-panel-video-renderer-v2--selected')
-            .attr('aria-selected', 'false')
-            .removeAttr('style');
-        $(this).addClass('ytm-playlist-panel-video-renderer-v2--selected')
-            .attr('aria-selected', 'true');
-        const videoId = $(this).data('video-id');
-        replaySong(videoId);
-        console.log(videoId);
+$(document).ready(function () {
+    // Hàm để phát lại bài hát
+    function replaySong(videoId) {
+        console.log(`Đang phát lại bài hát với video ID: ${videoId}`);
+        // Thêm logic để phát video ở đây
     }
+
+    // Thêm sự kiện click vào các phần tử a trong playlist
+    $('lazy-list a').on('click', function (event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định
+
+        // Kiểm tra xem phần tử cha có class ytm-playlist-panel-video-renderer-v2--selected không
+        const parentRenderer = $(this).closest('.ytm-playlist-panel-video-renderer-v2');
+
+        if (parentRenderer.hasClass('ytm-playlist-panel-video-renderer-v2--selected')) {
+            // Lấy videoId từ thuộc tính data-video-id của phần tử cha
+            const videoId = parentRenderer.data('video-id');
+
+            // Gọi hàm để phát lại bài hát
+            replaySong(videoId);
+        } else {
+            console.log('Phần tử không được chọn, không phát video.');
+        }
+    });
 });
