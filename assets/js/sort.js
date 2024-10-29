@@ -154,13 +154,41 @@ function createYouTubePlayer(videoId) {
       playsinline: 1
     },
     events: {
-      onReady: onPlayerReady
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
     }
   });
 }
 
 function onPlayerReady(event) {
   event.target.playVideo();
+  updateVideoData();
+}
+
+function updateVideoData(nextVideoId = null) {
+  const dbRef = ref(getDatabase(), `videos/${player.getVideoData().video_id}`);
+  set(dbRef, {
+    videoId: player.getVideoData().video_id,
+    currentTime: Math.floor(player.getCurrentTime()),
+    volume: player.getVolume(),
+    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause',
+    nextVideo: nextVideoId
+  });
+}
+
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
+    updateVideoData();
+  } else if (event.data === YT.PlayerState.ENDED) {
+    playNextVideo();
+  }
+}
+
+function playNextVideo() {
+  const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
+  const nextVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
+  player.loadVideoById(nextVideoId);
+  updateVideoData(nextVideoId);
 }
 
 function replaySong(videoId) {
