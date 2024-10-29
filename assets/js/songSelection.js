@@ -31,7 +31,8 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
         const dbRef = ref(getDatabase(), `users/${user.uid}`);
         await set(dbRef, {
             timestamp: Date.now(), // Lưu timestamp hiện tại
-            played: false,         // Ban đầu chưa phát
+            played: false,
+            status: null,
             priority: false        // Ban đầu priority là false
         });
 
