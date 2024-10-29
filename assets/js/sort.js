@@ -172,8 +172,9 @@ function replaySong(videoId) {
 }
 
 $(document).ready(function() {
-    const initialVideoId = 'peGSKWW8-EA';
-    createYouTubePlayer(initialVideoId);
+    const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
+    const randomVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
+    createYouTubePlayer(randomVideoId);
 
     $(document).on('click', 'lazy-list a', function(event) {
         event.preventDefault();
