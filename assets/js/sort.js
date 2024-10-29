@@ -126,7 +126,7 @@ function displaySongs(userIndexes, songs, currentUserId) {
                         </h4>
                         <div class="subhead" aria-hidden="true" style="">
                           <div class="compact-media-item-byline small-text">
-                            <span class="yt-core-attributed-string">${song.title} ${song.fullName} đến từ ${song.location}</span>
+                            <span class="yt-core-attributed-string">${song.fullName} ${song.location ? `đến từ ${song.location}` : ""}</span>
                           </div>
                         </div>
                       </a>
