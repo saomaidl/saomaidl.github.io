@@ -38,15 +38,13 @@ async function checkUser() {
 
 $(document).on('submit', '#edit-full-name-form', async function(event) {
     event.preventDefault();
-    var title = $('#title').val().trim().toUpperCase();
     var fullName = $('#fullName').val().trim().toUpperCase();
     var location = $('#location').val().trim().toUpperCase();
-    if (!title || !fullName) {
+    if (!fullName) {
         return;
     }
     const user = auth.currentUser;
     await setDoc(doc(db, 'users', user.uid), {
-        title: title,
         fullName: fullName,
         location: location,
         songSelected: false
