@@ -32,7 +32,7 @@ async function handleSongSelection(videoId, title, thumbnail, viewCount, duratio
         await set(dbRef, {
             timestamp: Date.now(), // Lưu timestamp hiện tại
             played: false,
-            status: "",
+            status: null,
             priority: false        // Ban đầu priority là false
         });
 
