@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đăng ký người dùng</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/jquery.mb.YTPlayer.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" />
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-
-  <div id="background-video" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=DkGHM-N0zus', containment:'body', autoPlay:false, mute:true, startAt:0, opacity:1, loop:true, showControls:false}"></div>
-
-  <!-- Nút Play -->
-  <button id="play-button">Play Video</button>
-
-  <!-- CSS cho nút Play -->
   <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      overflow: hidden; /* Ẩn thanh cuộn */
+    }
+    #background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Đặt video ở dưới cùng */
+    }
     #play-button {
       position: absolute;
       top: 50%;
@@ -29,24 +30,27 @@
       z-index: 10; /* Đảm bảo nút nằm trên video nền */
     }
   </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
 
-  <!-- JavaScript để khởi tạo YTPlayer và xử lý sự kiện -->
+  <!-- Nhúng video nền bằng iframe -->
+  <iframe id="background-video" 
+          src="https://www.youtube.com/embed/DkGHM-N0zus?autoplay=0&mute=1&controls=0&loop=1&playlist=DkGHM-N0zus" 
+          frameborder="0" 
+          allow="autoplay; encrypted-media" 
+          allowfullscreen>
+  </iframe>
+
+  <!-- Nút Play -->
+  <button id="play-button">Play Video</button>
+
+  <!-- JavaScript để xử lý sự kiện -->
   <script>
-  $(document).ready(function () {
-    // Kiểm tra nếu plugin YTPlayer đã tải thành công
-    if ($.fn.YTPlayer) {
-      // Khởi tạo YTPlayer
-      $("#background-video").YTPlayer();
-
-      // Xử lý sự kiện click nút "Play"
-      $("#play-button").on("click", function () {
-        $("#background-video").playYTP(); // Phát video
-        $(this).hide(); // Ẩn nút Play sau khi nhấp
-      });
-    } else {
-      console.log("YTPlayer chưa được tải đúng cách.");
-    }
-  });
+  document.getElementById("play-button").onclick = function() {
+    var iframe = document.getElementById("background-video");
+    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    this.style.display = 'none'; // Ẩn nút Play sau khi nhấp
+  };
   </script>
 
 </body>
