@@ -36,10 +36,14 @@ async function checkUser() {
     }
 }
 
+function capitalizeWords(str) {
+    return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 $(document).on('submit', '#edit-full-name-form', async function(event) {
     event.preventDefault();
-    var fullName = $('#fullName').val().trim().toUpperCase();
-    var location = $('#location').val().trim().toUpperCase();
+    var fullName = capitalizeWords($('#fullName').val().trim());
+    var location = capitalizeWords($('#location').val().trim());
     if (!fullName) {
         return;
     }
