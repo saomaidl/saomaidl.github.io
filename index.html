@@ -34,17 +34,22 @@
 <!-- JavaScript để khởi tạo YTPlayer và xử lý sự kiện -->
 <script>
 $(document).ready(function () {
-  // Khởi tạo YTPlayer
-  $("#background-video").YTPlayer();
+  // Kiểm tra nếu plugin YTPlayer đã tải thành công
+  if ($.fn.YTPlayer) {
+    // Khởi tạo YTPlayer
+    $("#background-video").YTPlayer();
 
-  // Xử lý sự kiện click nút "Play"
-  $("#play-button").on("click", function () {
-    $("#background-video").playYTP(); // Phát video
-    $(this).hide(); // Ẩn nút Play sau khi nhấp
-  });
+    // Xử lý sự kiện click nút "Play"
+    $("#play-button").on("click", function () {
+      $("#background-video").playYTP(); // Phát video
+      $(this).hide(); // Ẩn nút Play sau khi nhấp
+    });
+  } else {
+    console.log("YTPlayer chưa được tải đúng cách.");
+  }
 });
-
 </script>
+
 
 </body>
 </html>
