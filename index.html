@@ -1,57 +1,80 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đăng ký người dùng</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      overflow: hidden; /* Ẩn thanh cuộn */
-    }
-    #background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; /* Đặt video ở dưới cùng */
-    }
-    #play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 10; /* Đảm bảo nút nằm trên video nền */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Background Player</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #player {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: red;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body>
 
-  <!-- Nhúng video nền bằng iframe -->
-  <iframe id="background-video" 
-          src="https://www.youtube.com/embed/DkGHM-N0zus?autoplay=0&mute=1&controls=0&loop=1&playlist=DkGHM-N0zus" 
-          frameborder="0" 
-          allow="autoplay; encrypted-media" 
-          allowfullscreen>
-  </iframe>
+<div id="player"></div>
+<div class="content">
+    <h1>Your Title Here</h1>
+    <p>Your content goes here.</p>
+</div>
 
-  <!-- Nút Play -->
-  <button id="play-button">Play Video</button>
+<script>
+    // Load the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-  <!-- JavaScript để xử lý sự kiện -->
-  <script>
-  document.getElementById("play-button").onclick = function() {
-    var iframe = document.getElementById("background-video");
-    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    this.style.display = 'none'; // Ẩn nút Play sau khi nhấp
-  };
-  </script>
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            videoId: '7SnmCUwOsts', // Replace with your video ID
+            playerVars: {
+                autoplay: 1,
+                loop: 1,
+                playlist: '7SnmCUwOsts', // Same as videoId for looping
+                controls: 0,
+                showinfo: 0,
+                rel: 0,
+                mute: 1,
+                enablejsapi: 1,
+                modestbranding: 1,
+                wmode: 'transparent'
+            },
+            events: {
+                'onReady': function(event) {
+                    event.target.mute(); // Mute the video for autoplay
+                }
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
