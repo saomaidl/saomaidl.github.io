@@ -7,127 +7,43 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
-  <!-- Button mở popup -->
-  <button id="open-popup-btn" class="bg-blue-500 text-white py-2 px-4 rounded">
-    Đăng ký
-  </button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/jquery.mb.YTPlayer.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" />
 
-  <!-- Popup đăng ký -->
-  <div id="popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 hidden items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-      <h2 class="text-xl font-semibold mb-4">Đăng ký người dùng</h2>
+<div id="background-video" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=DkGHM-N0zus', containment:'body', autoPlay:false, mute:true, startAt:0, opacity:1, loop:true, showControls:false}"></div>
 
-      <!-- Form đăng ký -->
-      <div class="mb-4">
-        <label for="phone-number" class="block text-sm font-medium text-gray-700">Số điện thoại:</label>
-        <input id="phone-number" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Nhập số điện thoại">
-      </div>
+<!-- Nút Play -->
+<button id="play-button">Play Video</button>
 
-      <div class="mb-4">
-        <label for="verification-code" class="block text-sm font-medium text-gray-700">Mã xác nhận:</label>
-        <input id="verification-code" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Nhập mã xác nhận">
-      </div>
+<!-- CSS cho nút Play -->
+<style>
+  #play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10; /* Đảm bảo nút nằm trên video nền */
+  }
+</style>
 
-      <!-- Recaptcha container -->
-      <div id="recaptcha-container" class="mb-4"></div>
+<!-- JavaScript để khởi tạo YTPlayer và xử lý sự kiện -->
+<script>
+$(document).ready(function () {
+  // Khởi tạo YTPlayer
+  $("#background-video").YTPlayer();
 
-      <!-- Buttons -->
-      <div class="flex justify-between">
-        <button id="send-code-btn" class="bg-green-500 text-white py-2 px-4 rounded">Gửi mã</button>
-        <button id="verify-code-btn" class="bg-blue-500 text-white py-2 px-4 rounded">Xác thực</button>
-        <!-- Nút đăng nhập ẩn danh -->
-        <button id="anonymous-login-btn" class="bg-gray-500 text-white py-2 px-4 rounded">Đăng nhập ẩn danh</button>
-      </div>
+  // Xử lý sự kiện click nút "Play"
+  $("#play-button").on("click", function () {
+    $("#background-video").playYTP(); // Phát video
+    $(this).hide(); // Ẩn nút Play sau khi nhấp
+  });
+});
 
-      <!-- Close popup -->
-      <button id="close-popup-btn" class="mt-4 text-red-500">Đóng</button>
-    </div>
-  </div>
+</script>
 
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBBPKJcXjkZ0wUbXNremQuf_R1Z6baYcU0",
-      authDomain: "karaoke-3aa8f.firebaseapp.com",
-      databaseURL: "https://karaoke-3aa8f-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "karaoke-3aa8f",
-      storageBucket: "karaoke-3aa8f.appspot.com",
-      messagingSenderId: "652741363415",
-      appId: "1:652741363415:web:e33bb49a0be7eed7e09292"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Mở popup
-    const openPopupBtn = document.getElementById('open-popup-btn');
-    const closePopupBtn = document.getElementById('close-popup-btn');
-    const popup = document.getElementById('popup');
-
-    openPopupBtn.addEventListener('click', () => {
-      popup.classList.remove('hidden');
-    });
-
-    closePopupBtn.addEventListener('click', () => {
-      popup.classList.add('hidden');
-    });
-
-    // Recaptcha Setup
-    const setUpRecaptcha = () => {
-      window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-        'size': 'normal',
-        'callback': (response) => {
-          console.log("reCAPTCHA verified");
-        },
-        'expired-callback': () => {
-          console.log("reCAPTCHA expired");
-        }
-      }, auth);
-      recaptchaVerifier.render();
-    };
-
-    // Send verification code
-    document.getElementById('send-code-btn').addEventListener('click', () => {
-      const phoneNumber = document.getElementById('phone-number').value;
-      setUpRecaptcha();
-      const appVerifier = window.recaptchaVerifier;
-
-      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          alert("Mã xác minh đã được gửi!");
-        })
-        .catch((error) => {
-          console.error("Gửi mã xác minh thất bại:", error);
-        });
-    });
-
-    // Verify code
-    document.getElementById('verify-code-btn').addEventListener('click', () => {
-      const code = document.getElementById('verification-code').value;
-      window.confirmationResult.confirm(code)
-        .then((result) => {
-          const user = result.user;
-          alert("Đăng nhập thành công!");
-        })
-        .catch((error) => {
-          console.error("Xác thực mã thất bại:", error);
-        });
-    });
-
-    // Anonymous login
-    document.getElementById('anonymous-login-btn').addEventListener('click', () => {
-      signInAnonymously(auth)
-        .then(() => {
-          alert("Đăng nhập ẩn danh thành công!");
-        })
-        .catch((error) => {
-          console.error("Đăng nhập ẩn danh thất bại:", error);
-        });
-    });
-  </script>
 </body>
 </html>
