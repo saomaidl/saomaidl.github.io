@@ -10,7 +10,7 @@ $(document).ready(function() {
     ];
 
     let currentApiKeyIndex = 0; // Chỉ số của API key hiện tại
-    let currentTab = 'TẤT CẢ';
+    let currentTab = 'KARAOKE';
 
     initEventListeners();
 
