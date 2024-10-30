@@ -166,13 +166,19 @@ function onPlayerReady(event) {
 }
 
 function updateVideoData(nextVideoId = null) {
-  const dbRef = ref(getDatabase(), `videos/${player.getVideoData().video_id}`);
-  set(dbRef, {
-    videoId: player.getVideoData().video_id,
-    currentTime: Math.floor(player.getCurrentTime()),
-    volume: player.getVolume(),
-    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause',
-    nextVideo: nextVideoId
+  const dbRef = ref(getDatabase(), 'videoStatus'); // Trỏ tới node 'videoStatus'
+
+  // Cập nhật dữ liệu video vào Realtime Database
+  update(dbRef, {
+    currentVideo: player.getVideoData().video_id,                 // ID video hiện tại
+    nextVideo: nextVideoId,                                       // ID video tiếp theo (nếu có)
+    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause', // Trạng thái video
+    currentTime: Math.floor(player.getCurrentTime()),             // Thời gian hiện tại của video
+    volume: player.getVolume()                                    // Âm lượng hiện tại của video
+  }).then(() => {
+    console.log("Video data updated successfully.");
+  }).catch((error) => {
+    console.error("Error updating video data: ", error);
   });
 }
 
