@@ -1,4 +1,4 @@
-<div class="bg-white fixed bottom-0 left-0 right-0 w-full flex flex-col border-t border-black border-opacity-10"><div class="z-max"><div class="flex h-[70px] items-center" id="navbar"></div></div></div>
+<div class="bg-white fixed bottom-0 left-0 right-0 w-full flex flex-col border-t border-black border-opacity-10"><div class="z-max"><div class="flex h-[56px] items-center" id="navbar"></div></div></div>
 
 <script>
 $(document).ready(function() {
@@ -38,7 +38,7 @@ $(document).ready(function() {
   buttons.forEach(button => {
     const isActive = window.location.pathname === button.url;
     $('#navbar').append(`
-      <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-1">
+      <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-0">
         ${isActive ? button.iconAlt : button.icon}
         ${button.label ? `<span class="encore-text text-marginal leading-normal">${button.label}</span>` : ''}
       </a>
