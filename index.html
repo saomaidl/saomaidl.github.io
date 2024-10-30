@@ -5,51 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đăng ký người dùng</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/jquery.mb.YTPlayer.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" />
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.7/jquery.mb.YTPlayer.min.js"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" />
+  <div id="background-video" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=DkGHM-N0zus', containment:'body', autoPlay:false, mute:true, startAt:0, opacity:1, loop:true, showControls:false}"></div>
 
-<div id="background-video" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=DkGHM-N0zus', containment:'body', autoPlay:false, mute:true, startAt:0, opacity:1, loop:true, showControls:false}"></div>
+  <!-- Nút Play -->
+  <button id="play-button">Play Video</button>
 
-<!-- Nút Play -->
-<button id="play-button">Play Video</button>
+  <!-- CSS cho nút Play -->
+  <style>
+    #play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10; /* Đảm bảo nút nằm trên video nền */
+    }
+  </style>
 
-<!-- CSS cho nút Play -->
-<style>
-  #play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 10; /* Đảm bảo nút nằm trên video nền */
-  }
-</style>
+  <!-- JavaScript để khởi tạo YTPlayer và xử lý sự kiện -->
+  <script>
+  $(document).ready(function () {
+    // Kiểm tra nếu plugin YTPlayer đã tải thành công
+    if ($.fn.YTPlayer) {
+      // Khởi tạo YTPlayer
+      $("#background-video").YTPlayer();
 
-<!-- JavaScript để khởi tạo YTPlayer và xử lý sự kiện -->
-<script>
-$(document).ready(function () {
-  // Kiểm tra nếu plugin YTPlayer đã tải thành công
-  if ($.fn.YTPlayer) {
-    // Khởi tạo YTPlayer
-    $("#background-video").YTPlayer();
-
-    // Xử lý sự kiện click nút "Play"
-    $("#play-button").on("click", function () {
-      $("#background-video").playYTP(); // Phát video
-      $(this).hide(); // Ẩn nút Play sau khi nhấp
-    });
-  } else {
-    console.log("YTPlayer chưa được tải đúng cách.");
-  }
-});
-</script>
-
+      // Xử lý sự kiện click nút "Play"
+      $("#play-button").on("click", function () {
+        $("#background-video").playYTP(); // Phát video
+        $(this).hide(); // Ẩn nút Play sau khi nhấp
+      });
+    } else {
+      console.log("YTPlayer chưa được tải đúng cách.");
+    }
+  });
+  </script>
 
 </body>
 </html>
