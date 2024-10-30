@@ -36,14 +36,30 @@ async function checkUser() {
     }
 }
 
+function capitalizeAllInputs(formSelector) {
+    $(formSelector).find('input[type="text"], textarea').each(function() {
+        var currentVal = $(this).val();
+        var capitalizedVal = capitalizeWords(currentVal); // Gọi hàm capitalizeWords đã định nghĩa trước đó
+        $(this).val(capitalizedVal);
+    });
+}
+
+// Hàm capitalizeWords như đã định nghĩa trước đó
 function capitalizeWords(str) {
-    return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+    var words = str.toLowerCase().split(" ");
+    for (var i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    return words.join(" ");
 }
 
 $(document).on('submit', '#edit-full-name-form', async function(event) {
     event.preventDefault();
-    var fullName = capitalizeWords($('#fullName').val().trim());
-    var location = capitalizeWords($('#location').val().trim());
+    capitalizeAllInputs('#edit-full-name-form');
+
+    // Lấy giá trị đã viết hoa
+    var fullName = $('#fullName').val().trim();
+    var location = $('#location').val().trim();
     if (!fullName) {
         return;
     }
