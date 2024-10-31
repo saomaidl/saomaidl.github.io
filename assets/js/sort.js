@@ -32,12 +32,14 @@ async function getAllUserIndexes(currentUserId) {
             const userIndexes = processAllUserData(usersData, currentUserId);
             
             const songs = await getSongsFromFirestore();
-            const videoIds = songs.map(song => song.videoId);
 
-            customerData = userIndexes.map((user, index) => ({
-                customerId: user.uid,
-                videoId: videoIds[index]
-            }));
+            customerData = userIndexes.map(user => {
+                const song = songs.find(s => s.id === user.videoId); // Tìm bài hát tương ứng
+                return {
+                    customerId: user.uid, // ID người dùng
+                    videoId: song ? song.videoId : null // Video ID tương ứng, nếu có
+                };
+            });
 
             console.log(customerData);
 
