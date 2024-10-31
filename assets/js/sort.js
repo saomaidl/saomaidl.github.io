@@ -47,6 +47,15 @@ function processAllUserData(usersData, currentUserId) {
     const filteredUsers = usersArray.filter(user => user.played === false);
 
     filteredUsers.sort((a, b) => {
+
+        const statusA = a.status !== null ? 1 : 0;
+        const statusB = b.status !== null ? 1 : 0;
+
+        if (statusA !== statusB) {
+            return statusB - statusA;
+        }
+
+        
         const priorityA = Number(a.priority === true);
         const priorityB = Number(b.priority === true);
 
