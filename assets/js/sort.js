@@ -258,6 +258,10 @@ function onPlayerStateChange(event) {
       const nextUserId = nextVideo ? nextVideo.customerId : null;
       
       playNextVideo(currentUserId, nextUserId);
+      const currentVideoIdAPI = player.getVideoData().video_id;
+      const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+          
+      updateCurrentUserStatus(currentVideoCustomerId);
       isUpdating = false;
       break;
 
@@ -279,12 +283,6 @@ function onPlayerStateChange(event) {
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
-  
-  if (currentUserId) {
-    updates[`${currentUserId}/played`] = true;
-    updates[`${currentUserId}/select`] = false;
-    updates[`${currentUserId}/priority`] = false;
-  }
   
   if (nextUserId) {
     updates[`${nextUserId}/select`] = true;
