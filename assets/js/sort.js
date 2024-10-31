@@ -49,6 +49,9 @@ async function getAllUserIndexes(currentUserId) {
             const currentVideo = customerData[0];
             const nextVideo = customerData[1];
 
+            console.log('Current Video:', currentVideo);
+            console.log('Next Video:', nextVideo);
+
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
             console.error("Error reading user data:", error);
