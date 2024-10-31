@@ -215,12 +215,12 @@ function onPlayerReady(event) {
 
 function startUpdatingVideoData() {
   function update() {
-    updateVideoData(); // Cập nhật video data
+    updateVideoData();
     if (isUpdating) {
-      requestAnimationFrame(update); // Tiếp tục cập nhật nếu isUpdating là true
+      requestAnimationFrame(update);
     }
   }
-  requestAnimationFrame(update); // Bắt đầu cập nhật
+  requestAnimationFrame(update);
 }
 
 function updateVideoDataLoop() {
@@ -237,12 +237,10 @@ function updateVideoData() {
   if (player) {
     const playerState = player.getPlayerState();
     const currentTime = Math.floor(player.getCurrentTime());
-
-    // Kiểm tra giá trị currentTime
-    if (!isNaN(currentTime)) { // Kiểm tra không phải NaN
+    if (!isNaN(currentTime)) {
       update(dbRef, {
         status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
-        currentTime: currentTime, // Cập nhật thời gian hiện tại
+        currentTime: currentTime,
         volume: player.getVolume()
       }).catch((error) => {
         console.error("Error updating video data: ", error);
@@ -261,18 +259,12 @@ function onPlayerStateChange(event) {
           const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
           if (currentVideoCustomerId) {
             updateCurrentUserStatus(currentVideoCustomerId);
-          } else {
-            console.warn("No customerId found for current video ID.");
           }
         }
-      } else {
-        console.warn("Player or video data is not available.");
       }
-
-      const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
 
-      playNextVideo(currentUserId, nextUserId);
+      playNextVideo(nextUserId);
       isUpdating = false;
       break;
 
@@ -291,7 +283,7 @@ function onPlayerStateChange(event) {
   }
 }
 
-function updateVideoStatus(currentUserId, nextUserId) {
+function updateVideoStatus(nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
   
@@ -324,10 +316,10 @@ function updateCurrentUserStatus(currentUserId) {
 }
 
 
-function playNextVideo(currentUserId, nextUserId) {
+function playNextVideo(nextUserId) {
   if (nextVideo) {
     replaySong(nextVideo.videoId);
-    updateVideoStatus(currentUserId, nextUserId);
+    updateVideoStatus(nextUserId);
   } else {
     playRandomVideo();
   }
