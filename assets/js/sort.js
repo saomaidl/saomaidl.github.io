@@ -281,31 +281,37 @@ function onPlayerStateChange(event) {
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
-  if (currentUserId && nextUserId) {
+  
+  if (currentUserId) {
     updates[`${currentUserId}/played`] = true;
     updates[`${currentUserId}/select`] = false;
     updates[`${currentUserId}/priority`] = false;
+  }
+  
+  if (nextUserId) {
     updates[`${nextUserId}/select`] = true;
+  }
 
-    if (Object.keys(updates).length > 0) {
-      update(dbRef, updates).catch((error) => {
-        console.error("Error updating video status: ", error);
-      });
-    }
+  if (Object.keys(updates).length > 0) {
+    update(dbRef, updates).catch((error) => {
+      console.error("Error updating video status: ", error);
+    });
   }
 }
 
 function playNextVideo(currentUserId, nextUserId) {
   if (nextVideo) {
     replaySong(nextVideo.videoId);
-    if (currentUserId) {
-      updateVideoStatus(currentUserId, nextUserId);
-    }
+    updateVideoStatus(currentUserId, nextUserId);
   } else {
-    const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
-    const randomVideoId = initialVideoIds[randomIndex];
-    replaySong(randomVideoId);
+    playRandomVideo();
   }
+}
+
+function playRandomVideo() {
+  const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+  const randomVideoId = initialVideoIds[randomIndex];
+  replaySong(randomVideoId);
 }
 
 function replaySong(videoId) {
