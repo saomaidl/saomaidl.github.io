@@ -257,7 +257,7 @@ function onPlayerStateChange(event) {
       const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
 
-          console.log(nextUserId);
+          console.log(currentUserId);
       
       playNextVideo(currentUserId, nextUserId);
       isUpdating = false;
