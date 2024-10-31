@@ -56,6 +56,9 @@ async function getAllUserIndexes(currentUserId) {
             currentVideo = customerData[0];
             nextVideo = customerData[1];
 
+            console.log(currentVideo);
+            console.log(nextVideo);
+            
             displaySongs(userIndexes, songs, currentUserId);
 
             if (!isVideoPlayerInitialized) {
