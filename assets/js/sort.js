@@ -258,7 +258,6 @@ function onPlayerStateChange(event) {
       const nextUserId = nextVideo ? nextVideo.customerId : null;
       
       playNextVideo(currentUserId, nextUserId);
-      updateVideoStatus(currentUserId, nextUserId);
       isUpdating = false;
       break;
 
@@ -298,10 +297,30 @@ function updateVideoStatus(currentUserId, nextUserId) {
   }
 }
 
+function updateCurrentUserStatus(currentUserId) {
+  const dbRef = ref(getDatabase(), 'users');
+  const updates = {};
+
+  if (currentUserId) {
+    updates[`${currentUserId}/played`] = true;
+    updates[`${currentUserId}/select`] = false;
+    updates[`${currentUserId}/priority`] = false;
+  }
+
+  if (Object.keys(updates).length > 0) {
+    update(dbRef, updates).catch((error) => {
+      console.error("Error updating current user status: ", error);
+    });
+  }
+}
+
+
 function playNextVideo(currentUserId, nextUserId) {
   if (nextVideo) {
     replaySong(nextVideo.videoId);
+    updateVideoStatus(currentUserId, nextUserId);
   } else {
+    updateCurrentUserStatus(currentVideo.videoId)
     playRandomVideo();
   }
 }
