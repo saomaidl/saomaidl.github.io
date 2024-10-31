@@ -8,6 +8,8 @@ let customerData = [];
 let currentVideo = null;
 let nextVideo = null;
 let isVideoPlayerInitialized = false;
+let updateInterval;
+const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
 
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
@@ -209,14 +211,19 @@ function createYouTubePlayer(videoId) {
 
 function onPlayerReady(event) {
   event.target.playVideo();
-  updateVideoData();
+  startUpdatingVideoData();
 }
 
-function updateVideoData(nextVideoId = null) {
+function startUpdatingVideoData() {
+  updateInterval = setInterval(updateVideoData, 1000);
+}
+
+function updateVideoData() {
   const dbRef = ref(getDatabase(), 'videoStatus');
   if (player) {
+    const playerState = player.getPlayerState();
     update(dbRef, {
-      status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause',
+      status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
       currentTime: Math.floor(player.getCurrentTime()),
       volume: player.getVolume()
     }).catch((error) => {
@@ -226,16 +233,24 @@ function updateVideoData(nextVideoId = null) {
 }
 
 function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
-    updateVideoData();
-  } else if (event.data === YT.PlayerState.ENDED) {
+  if (event.data === YT.PlayerState.ENDED) {
+    clearInterval(updateInterval);
     playNextVideo();
+  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.BUFFERING) {
+    clearInterval(updateInterval);
+  } else if (event.data === YT.PlayerState.PLAYING) {
+    updateVideoData();
+    startUpdatingVideoData();
   }
 }
 
 function playNextVideo() {
   if (nextVideo) {
     replaySong(nextVideo.videoId);
+  } else {
+    const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+    const randomVideoId = initialVideoIds[randomIndex];
+    replaySong(randomVideoId);
   }
 }
 
@@ -249,8 +264,8 @@ function replaySong(videoId) {
 
 function initializeVideoPlayer() {
   if (!currentVideo && !nextVideo) {
-    const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
-    const randomVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
+    const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+    const randomVideoId = initialVideoIds[randomIndex];
     createYouTubePlayer(randomVideoId);
   } else {
     if (currentVideo) {
