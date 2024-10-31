@@ -7,6 +7,7 @@ let player;
 let customerData = [];
 let currentVideo = null;
 let nextVideo = null;
+let isVideoPlayerInitialized = false;
 
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
@@ -53,6 +54,12 @@ async function getAllUserIndexes(currentUserId) {
             nextVideo = customerData[1];
 
             displaySongs(userIndexes, songs, currentUserId);
+
+            if (!isVideoPlayerInitialized) {
+                initializeVideoPlayer();
+                isVideoPlayerInitialized = true;
+            }
+            
         }, (error) => {
             console.error("Error reading user data:", error);
         });
@@ -249,8 +256,6 @@ function initializeVideoPlayer() {
     }
   }
 }
-
-initializeVideoPlayer();
 
 $(document).ready(function() {
   $(document).on('click', 'lazy-list a', function(event) {
