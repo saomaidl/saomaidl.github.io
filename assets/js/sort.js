@@ -275,7 +275,6 @@ $(document).ready(function() {
           });
           update(ref(realTimeDb), updates)
             .then(() => {
-              replaySong(videoId);
             })
             .catch((error) => {
               console.error(`Lỗi cập nhật dữ liệu: ${error}`);
