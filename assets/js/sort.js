@@ -72,6 +72,17 @@ function processAllUserData(usersData, currentUserId) {
         isCurrentUser: user.uid === currentUserId
     }));
 
+    if (result.length > 0 && result[0].status === null) {
+        const firstUser = result[0];
+        const userRef = ref(realTimeDb, `users/${firstUser.uid}`);
+        
+        update(userRef, { status: true })
+            .then(() => console.log(`Updated status for user ${firstUser.uid} to true.`))
+            .catch(error => console.error("Error updating status:", error));
+        
+        result[0].status = true;
+    }
+
     return result;
 }
 
