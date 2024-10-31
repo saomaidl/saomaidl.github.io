@@ -262,9 +262,11 @@ function onPlayerStateChange(event) {
           }
         }
       }
+          
+      const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
 
-      playNextVideo(nextUserId);
+      playNextVideo(currentUserId, nextUserId);
       isUpdating = false;
       break;
 
@@ -316,10 +318,12 @@ function updateCurrentUserStatus(currentUserId) {
 }
 
 
-function playNextVideo(nextUserId) {
-  if (nextVideo) {
+function playNextVideo(currentUserId, nextUserId) {
+  if (nextUserId && nextVideo) {
     replaySong(nextVideo.videoId);
     updateVideoStatus(nextUserId);
+  } else if (currentUserId && currentVideo) {
+    replaySong(currentVideo.videoId);
   } else {
     playRandomVideo();
   }
