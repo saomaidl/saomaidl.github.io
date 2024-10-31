@@ -282,6 +282,12 @@ function updateVideoStatus(currentUserId, nextUserId) {
 
   const currentVideoIdAPI = player.getVideoData().video_id;
   const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+
+    if (currentVideoCustomerId) {
+        console.log("Current video customerId:", currentVideoCustomerId);
+    } else {
+        console.warn("No customerId found for current video ID.");
+    }
   
   if (currentVideoCustomerId) {
     updates[`${currentVideoCustomerId}/played`] = true;
