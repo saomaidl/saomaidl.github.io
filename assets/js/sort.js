@@ -320,7 +320,7 @@ function playNextVideo(currentUserId, nextUserId) {
     replaySong(nextVideo.videoId);
     updateVideoStatus(currentUserId, nextUserId);
   } else {
-    updateCurrentUserStatus(currentVideo.videoId)
+    updateCurrentUserStatus(currentVideo.videoId);
     playRandomVideo();
   }
 }
