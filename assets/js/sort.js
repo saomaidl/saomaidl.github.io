@@ -279,23 +279,11 @@ function onPlayerStateChange(event) {
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
-
-const currentVideoIdAPI = player.getVideoData().video_id;
-const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
-
-if (currentVideoCustomerId) {
-    console.log("Current video customerId:", currentVideoCustomerId);
-} else {
-    console.warn("No customerId found for current video ID.");
-}
-
-    console.log("Current Video ID from API:", currentVideoIdAPI);
-console.log("Customer Data:", customerData);
   
-  if (currentVideoCustomerId) {
-    updates[`${currentVideoCustomerId}/played`] = true;
-    updates[`${currentVideoCustomerId}/select`] = false;
-    updates[`${currentVideoCustomerId}/priority`] = false;
+  if (currentUserId) {
+    updates[`${currentUserId}/played`] = true;
+    updates[`${currentUserId}/select`] = false;
+    updates[`${currentUserId}/priority`] = false;
   }
   
   if (nextUserId) {
