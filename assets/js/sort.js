@@ -256,6 +256,8 @@ function onPlayerStateChange(event) {
     case YT.PlayerState.ENDED:
       const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
+
+          console.log(nextUserId);
       
       playNextVideo(currentUserId, nextUserId);
       isUpdating = false;
