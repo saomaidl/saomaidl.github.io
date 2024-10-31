@@ -3,6 +3,11 @@ import { auth, db, realTimeDb } from './firebase-config.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
+let player;
+let customerData = [];
+let currentVideo = [];
+let nextVideo = [];
+
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
         onAuthStateChanged(auth, (user) => {
@@ -17,10 +22,7 @@ setPersistence(auth, browserLocalPersistence)
         console.error("Error setting persistence:", error);
     });
 
-let customerData = [];
-let player;
-let currentVideo = null;
-let nextVideo = null;
+
 
 async function getAllUserIndexes(currentUserId) {
     try {
