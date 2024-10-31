@@ -286,15 +286,20 @@ function onPlayerStateChange(event) {
 
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
-  const updates = {
-    [`${currentUserId}/played`]: true,
-    [`${currentUserId}/select`]: false,
-    [`${currentUserId}/priority`]: false,
-    [`${nextUserId}/select`]: true
-  };
-  update(dbRef, updates).catch((error) => {
-    console.error("Error updating video status: ", error);
-  });
+  const updates = {};
+  if (currentUserId) {
+    updates[`${currentUserId}/played`] = true;
+    updates[`${currentUserId}/select`] = false;
+    updates[`${currentUserId}/priority`] = false;
+  }
+  if (nextUserId) {
+    updates[`${nextUserId}/select`] = true;
+  }
+  if (Object.keys(updates).length > 0) {
+    update(dbRef, updates).catch((error) => {
+      console.error("Error updating video status: ", error);
+    });
+  }
 }
 
 function playNextVideo() {
