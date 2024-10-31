@@ -46,6 +46,9 @@ async function getAllUserIndexes(currentUserId) {
                 };
             });
 
+            const currentVideo = customerData[0];
+            const nextVideo = customerData[1];
+
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
             console.error("Error reading user data:", error);
