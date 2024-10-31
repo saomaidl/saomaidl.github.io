@@ -18,6 +18,9 @@ setPersistence(auth, browserLocalPersistence)
     });
 
 let customerData = [];
+let player;
+let currentVideo = null;
+let nextVideo = null;
 
 async function getAllUserIndexes(currentUserId) {
     try {
@@ -175,76 +178,88 @@ function displaySongs(userIndexes, songs, currentUserId) {
     });
 }
 
-
-let player;
 function createYouTubePlayer(videoId) {
-  const showControls = $(window).width() >= 768;
-  player = new YT.Player("player", {
-    videoId: videoId,
-    playerVars: {
-      autoplay: 1,
-      controls: showControls ? 0 : 0,
-      rel: 0,
-      iv_load_policy: 3,
-      mute: 0,
-      playsinline: 1
-    },
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
-    }
-  });
+    const showControls = $(window).width() >= 768;
+    player = new YT.Player("player", {
+        videoId: videoId,
+        playerVars: {
+            autoplay: 1,
+            controls: showControls ? 0 : 0,
+            rel: 0,
+            iv_load_policy: 3,
+            mute: 0,
+            playsinline: 1,
+            enablejsapi: 1,
+            modestbranding: 1,
+            wmode: 'transparent',
+            showinfo: 0,
+        },
+        events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange
+        }
+    });
 }
 
 function onPlayerReady(event) {
-  event.target.playVideo();
-  updateVideoData();
+    event.target.playVideo();
+    updateVideoData();
 }
 
 function updateVideoData(nextVideoId = null) {
-  const dbRef = ref(getDatabase(), 'videoStatus'); // Trỏ tới node 'videoStatus'
+    const dbRef = ref(getDatabase(), 'videoStatus'); // Trỏ tới node 'videoStatus'
 
-  // Cập nhật dữ liệu video vào Realtime Database
-  update(dbRef, {
-    currentVideo: player.getVideoData().video_id,                 // ID video hiện tại
-    nextVideo: nextVideoId,                                       // ID video tiếp theo (nếu có)
-    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause', // Trạng thái video
-    currentTime: Math.floor(player.getCurrentTime()),             // Thời gian hiện tại của video
-    volume: player.getVolume()                                    // Âm lượng hiện tại của video
-  }).then(() => {
-    console.log("Video data updated successfully.");
-  }).catch((error) => {
-    console.error("Error updating video data: ", error);
-  });
+    // Cập nhật dữ liệu video vào Realtime Database
+    update(dbRef, {
+        currentVideo: player.getVideoData().video_id, // ID video hiện tại
+        nextVideo: nextVideoId, // ID video tiếp theo (nếu có)
+        status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause', // Trạng thái video
+        currentTime: Math.floor(player.getCurrentTime()), // Thời gian hiện tại của video
+        volume: player.getVolume() // Âm lượng hiện tại của video
+    }).then(() => {
+        console.log("Video data updated successfully.");
+    }).catch((error) => {
+        console.error("Error updating video data: ", error);
+    });
 }
 
 function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
-    updateVideoData();
-  } else if (event.data === YT.PlayerState.ENDED) {
-    playNextVideo();
-  }
+    if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
+        updateVideoData();
+    } else if (event.data === YT.PlayerState.ENDED) {
+        playNextVideo();
+    }
 }
 
 function playNextVideo() {
-  const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
-  const nextVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
-  player.loadVideoById(nextVideoId);
-  updateVideoData(nextVideoId);
+    if (nextVideo) {
+        replaySong(nextVideo); // Phát video tiếp theo
+    } else {
+        console.log("No next video available to play.");
+    }
 }
 
 function replaySong(videoId) {
-  if (player) {
-    player.loadVideoById(videoId);
-  } else {
-    createYouTubePlayer(videoId);
-  }
+    if (player) {
+        player.loadVideoById(videoId);
+    } else {
+        createYouTubePlayer(videoId);
+    }
 }
 
 $(document).ready(function() {
     const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
-    const randomVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
-    createYouTubePlayer(randomVideoId);
+
+    // Hàm để khởi động player
+    function startPlayer() {
+        if (!currentVideo && !nextVideo) { // Kiểm tra xem currentVideo và nextVideo có null không
+            const randomVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
+            createYouTubePlayer(randomVideoId); // Tạo player với video ID ngẫu nhiên
+        }
+    }
+
+    // Khởi động player
+    startPlayer();
 
     $(document).on('click', 'lazy-list a', function(event) {
         event.preventDefault();
@@ -256,19 +271,21 @@ $(document).ready(function() {
             replaySong(videoId);
         } else {
             const updates = {};
-            updates[`users/${userId}/priority`] = true;
+            updates[`users/${userId}/priority`] = true; // Đặt priority cho người dùng
             const usersRef = ref(realTimeDb, 'users');
             onValue(usersRef, (snapshot) => {
                 if (snapshot.exists()) {
                     const usersData = snapshot.val();
                     Object.keys(usersData).forEach((key) => {
                         if (key !== userId) {
-                            updates[`users/${key}/priority`] = false;
+                            updates[`users/${key}/priority`] = false; // Hủy priority cho những người khác
                         }
                     });
                     update(ref(realTimeDb), updates)
                         .then(() => {
                             console.log(`Cập nhật thành công cho người dùng: ${userId}`);
+                            currentVideo = videoId; // Gán videoId vào currentVideo
+                            nextVideo = null; // Đặt nextVideo là null
                             replaySong(videoId);
                         })
                         .catch((error) => {
