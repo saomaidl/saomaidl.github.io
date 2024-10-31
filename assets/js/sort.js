@@ -22,8 +22,6 @@ setPersistence(auth, browserLocalPersistence)
         console.error("Error setting persistence:", error);
     });
 
-
-
 async function getAllUserIndexes(currentUserId) {
     try {
         const usersRef = ref(realTimeDb, 'users');
@@ -55,8 +53,6 @@ async function getAllUserIndexes(currentUserId) {
             nextVideo = customerData[1];
 
             displaySongs(userIndexes, songs, currentUserId);
-
-            initializeVideoPlayer();
         }, (error) => {
             console.error("Error reading user data:", error);
         });
@@ -209,18 +205,15 @@ function onPlayerReady(event) {
 
 function updateVideoData(nextVideoId = null) {
   const dbRef = ref(getDatabase(), 'videoStatus');
-
-  update(dbRef, {
-    currentVideo: currentVideo ? currentVideo.videoId : null,
-    nextVideo: nextVideo ? nextVideo.videoId : null,
-    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause',
-    currentTime: Math.floor(player.getCurrentTime()),
-    volume: player.getVolume()
-  }).then(() => {
-    console.log("Video data updated successfully.");
-  }).catch((error) => {
-    console.error("Error updating video data: ", error);
-  });
+  if (player) {
+    update(dbRef, {
+      status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause',
+      currentTime: Math.floor(player.getCurrentTime()),
+      volume: player.getVolume()
+    }).catch((error) => {
+      console.error("Error updating video data: ", error);
+    });
+  }
 }
 
 function onPlayerStateChange(event) {
@@ -256,6 +249,8 @@ function initializeVideoPlayer() {
     }
   }
 }
+
+initializeVideoPlayer();
 
 $(document).ready(function() {
   $(document).on('click', 'lazy-list a', function(event) {
