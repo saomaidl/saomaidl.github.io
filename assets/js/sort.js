@@ -5,8 +5,8 @@ import { setPersistence, browserLocalPersistence, onAuthStateChanged } from 'htt
 
 let player;
 let customerData = [];
-let currentVideo = [];
-let nextVideo = [];
+let currentVideo = null;
+let nextVideo = null;
 
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
@@ -51,10 +51,12 @@ async function getAllUserIndexes(currentUserId) {
                 };
             });
 
-            const currentVideo = customerData[0];
-            const nextVideo = customerData[1];
+            currentVideo = customerData[0];
+            nextVideo = customerData[1];
 
             displaySongs(userIndexes, songs, currentUserId);
+
+            initializeVideoPlayer();
         }, (error) => {
             console.error("Error reading user data:", error);
         });
@@ -208,13 +210,12 @@ function onPlayerReady(event) {
 function updateVideoData(nextVideoId = null) {
   const dbRef = ref(getDatabase(), 'videoStatus');
 
-  // Cập nhật dữ liệu video vào Realtime Database
   update(dbRef, {
-    currentVideo: currentVideo ? currentVideo.videoId : null, // ID video hiện tại
-    nextVideo: nextVideo ? nextVideo.videoId : null, // ID video tiếp theo (nếu có)
-    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause', // Trạng thái video
-    currentTime: Math.floor(player.getCurrentTime()), // Thời gian hiện tại của video
-    volume: player.getVolume() // Âm lượng hiện tại của video
+    currentVideo: currentVideo ? currentVideo.videoId : null,
+    nextVideo: nextVideo ? nextVideo.videoId : null,
+    status: player.getPlayerState() === YT.PlayerState.PLAYING ? 'play' : 'pause',
+    currentTime: Math.floor(player.getCurrentTime()),
+    volume: player.getVolume()
   }).then(() => {
     console.log("Video data updated successfully.");
   }).catch((error) => {
@@ -256,10 +257,7 @@ function initializeVideoPlayer() {
   }
 }
 
-initializeVideoPlayer();
-
 $(document).ready(function() {
-
   $(document).on('click', 'lazy-list a', function(event) {
     event.preventDefault();
     const parentRenderer = $(this).closest('.ytm-playlist-panel-video-renderer-v2');
@@ -282,7 +280,6 @@ $(document).ready(function() {
           });
           update(ref(realTimeDb), updates)
             .then(() => {
-              console.log(`Cập nhật thành công cho người dùng: ${userId}`);
               replaySong(videoId);
             })
             .catch((error) => {
