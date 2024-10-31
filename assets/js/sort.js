@@ -238,15 +238,23 @@ function updateVideoData() {
   const dbRef = ref(getDatabase(), 'videoStatus');
   if (player) {
     const playerState = player.getPlayerState();
-    update(dbRef, {
-      status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
-      currentTime: Math.floor(player.getCurrentTime()),
-      volume: player.getVolume()
-    }).catch((error) => {
-      console.error("Error updating video data: ", error);
-    });
+    const currentTime = Math.floor(player.getCurrentTime());
+
+    // Kiểm tra giá trị currentTime
+    if (!isNaN(currentTime)) { // Kiểm tra không phải NaN
+      update(dbRef, {
+        status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
+        currentTime: currentTime, // Cập nhật thời gian hiện tại
+        volume: player.getVolume()
+      }).catch((error) => {
+        console.error("Error updating video data: ", error);
+      });
+    } else {
+      console.warn("Current time is NaN. Skipping update.");
+    }
   }
 }
+
 
 function onPlayerStateChange(event) {
   switch (event.data) {
