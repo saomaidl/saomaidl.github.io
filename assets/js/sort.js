@@ -32,22 +32,19 @@ async function getAllUserIndexes(currentUserId) {
             const userIndexes = processAllUserData(usersData, currentUserId);
             
             const songs = await getSongsFromFirestore();
-            console.log(songs);
 
             customerData = userIndexes.map(user => {
-                const videoId = user.videoId; // Lấy videoId từ user
-                console.log(`Searching for videoId: ${videoId}`); // Kiểm tra videoId
-            
-                // Tìm video tương ứng trong danh sách bài hát
-                const song = songs.find(s => s.id === videoId); // Tìm theo id của bài hát
+                const userId = user.uid;
+                console.log(`Searching for userId: ${userId}`);
+                const song = songs.find(s => s.id === userId);
             
                 if (!song) {
-                    console.warn(`No song found for videoId: ${videoId}`); // Cảnh báo nếu không tìm thấy
+                    console.warn(`No song found for userId: ${userId}`);
                 }
             
                 return {
-                    customerId: user.uid, // ID người dùng
-                    videoId: song ? song.videoId : null // Video ID tương ứng, sử dụng song.videoId
+                    customerId: userId,
+                    videoId: song ? song.videoId : null
                 };
             });
 
