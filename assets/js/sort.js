@@ -40,13 +40,11 @@ async function getAllUserIndexes(currentUserId) {
                 if (!song) {
                     console.warn(`No song found for userId: ${userId}`);
                 }
-            
                 return {
                     customerId: userId,
                     videoId: song ? song.videoId : null
                 };
             });
-            console.log(customerData);
 
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
@@ -89,13 +87,9 @@ function processAllUserData(usersData, currentUserId) {
     if (allSelectFalse && result.length > 0) {
         const firstUser = result[0];
         const userRef = ref(realTimeDb, `users/${firstUser.uid}`);
-        
-        // Cập nhật select của bài hát đầu tiên thành true
         update(userRef, { select: true })
             .then(() => console.log(`Updated select for user ${firstUser.uid} to true.`))
             .catch(error => console.error("Error updating select:", error));
-        
-        // Cập nhật lại kết quả trong mảng
         result[0].select = true;
     }
 
