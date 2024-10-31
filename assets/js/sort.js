@@ -17,6 +17,8 @@ setPersistence(auth, browserLocalPersistence)
         console.error("Error setting persistence:", error);
     });
 
+let customerID = [];
+
 async function getAllUserIndexes(currentUserId) {
     try {
         const usersRef = ref(realTimeDb, 'users');
@@ -28,6 +30,8 @@ async function getAllUserIndexes(currentUserId) {
 
             const usersData = snapshot.val();
             const userIndexes = processAllUserData(usersData, currentUserId);
+            customerID = userIndexes.map(user => user.uid);
+            console.log("Updated customerID:", customerID);
             const songs = await getSongsFromFirestore();
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
