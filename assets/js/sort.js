@@ -262,11 +262,8 @@ function onPlayerStateChange(event) {
           }
         }
       }
-          
-      const currentUserId = currentVideo ? currentVideo.customerId : null;
-      const nextUserId = nextVideo ? nextVideo.customerId : null;
 
-      playNextVideo(currentUserId, nextUserId);
+      playNextVideo();
       isUpdating = false;
       break;
 
@@ -318,7 +315,10 @@ function updateCurrentUserStatus(currentUserId) {
 }
 
 
-function playNextVideo(currentUserId, nextUserId) {
+function playNextVideo() {
+  const currentUserId = currentVideo ? currentVideo.customerId : null;
+  const nextUserId = nextVideo ? nextVideo.customerId : null;
+    
   if (nextUserId && nextVideo) {
     replaySong(nextVideo.videoId);
     updateVideoStatus(nextUserId);
