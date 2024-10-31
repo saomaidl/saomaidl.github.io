@@ -271,12 +271,6 @@ function onPlayerStateChange(event) {
         isUpdating = true;
         updateVideoData();
         startUpdatingVideoData();
-        const currentVideoIdAPI = player.getVideoData().video_id;
-        if (initialVideoIds.includes(currentVideoIdAPI)) {
-          const currentUserId = currentVideo ? currentVideo.customerId : null;
-          const nextUserId = nextVideo ? nextVideo.customerId : null;
-          playNextVideo(currentUserId, nextUserId);
-        }
       }
       break;
   }
@@ -285,11 +279,14 @@ function onPlayerStateChange(event) {
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
+
+  const currentVideoIdAPI = player.getVideoData().video_id;
+  const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
   
-  if (currentUserId) {
-    updates[`${currentUserId}/played`] = true;
-    updates[`${currentUserId}/select`] = false;
-    updates[`${currentUserId}/priority`] = false;
+  if (currentVideoCustomerId) {
+    updates[`${currentVideoCustomerId}/played`] = true;
+    updates[`${currentVideoCustomerId}/select`] = false;
+    updates[`${currentVideoCustomerId}/priority`] = false;
   }
   
   if (nextUserId) {
