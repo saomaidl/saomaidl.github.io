@@ -35,7 +35,6 @@ async function getAllUserIndexes(currentUserId) {
 
             customerData = userIndexes.map(user => {
                 const userId = user.uid;
-                console.log(`Searching for userId: ${userId}`);
                 const song = songs.find(s => s.id === userId);
             
                 if (!song) {
@@ -47,6 +46,7 @@ async function getAllUserIndexes(currentUserId) {
                     videoId: song ? song.videoId : null
                 };
             });
+            console.log(customerData);
 
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
