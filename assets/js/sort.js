@@ -242,13 +242,21 @@ function replaySong(videoId) {
   }
 }
 
-$(document).ready(function() {
-  // Chỉ khởi động video nếu không có currentVideo và nextVideo
+function initializeVideoPlayer() {
   if (!currentVideo && !nextVideo) {
     const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
     const randomVideoId = initialVideoIds[Math.floor(Math.random() * initialVideoIds.length)];
     createYouTubePlayer(randomVideoId);
+  } else {
+    if (currentVideo) {
+      createYouTubePlayer(currentVideo.videoId);
+    }
   }
+}
+
+initializeVideoPlayer();
+
+$(document).ready(function() {
 
   $(document).on('click', 'lazy-list a', function(event) {
     event.preventDefault();
