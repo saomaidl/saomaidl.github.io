@@ -254,14 +254,27 @@ function updateVideoData() {
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.ENDED:
+      // Lấy customerId của current và next video, nếu có
       const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
-      
+
+      // Phát video tiếp theo
       playNextVideo(currentUserId, nextUserId);
-      const currentVideoIdAPI = player.getVideoData().video_id;
-      const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
-          
-      updateCurrentUserStatus(currentVideoCustomerId);
+
+      // Kiểm tra player và video data trước khi truy cập video_id
+      if (player && player.getVideoData()) {
+        const currentVideoIdAPI = player.getVideoData().video_id;
+        const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+        
+        if (currentVideoCustomerId) {
+          updateCurrentUserStatus(currentVideoCustomerId);
+        } else {
+          console.warn("No customerId found for current video ID.");
+        }
+      } else {
+        console.warn("Player or video data is not available.");
+      }
+
       isUpdating = false;
       break;
 
@@ -279,6 +292,7 @@ function onPlayerStateChange(event) {
       break;
   }
 }
+
 
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
