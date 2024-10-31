@@ -254,25 +254,24 @@ function updateVideoData() {
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.ENDED:
-      // Kiểm tra player và video ID trước khi lấy dữ liệu
       if (player && player.getVideoData && player.getVideoData().video_id) {
         const currentVideoIdAPI = player.getVideoData().video_id;
-        const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
-
-        if (currentVideoCustomerId) {
-          updateCurrentUserStatus(currentVideoCustomerId);
-        } else {
-          console.warn("No customerId found for current video ID.");
+        const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
+        if (!isInitialVideo) {
+          const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+          if (currentVideoCustomerId) {
+            updateCurrentUserStatus(currentVideoCustomerId);
+          } else {
+            console.warn("No customerId found for current video ID.");
+          }
         }
       } else {
         console.warn("Player or video data is not available.");
       }
 
-      // Lấy customerId của current và next video, nếu có
       const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
 
-      // Phát video tiếp theo
       playNextVideo(currentUserId, nextUserId);
       isUpdating = false;
       break;
