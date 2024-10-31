@@ -9,6 +9,7 @@ let currentVideo = null;
 let nextVideo = null;
 let isVideoPlayerInitialized = false;
 let isUpdating = false;
+
 const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
 
 setPersistence(auth, browserLocalPersistence)
@@ -215,11 +216,13 @@ function onPlayerReady(event) {
 }
 
 function startUpdatingVideoData() {
-  if (!isUpdating) {
-    isUpdating = true;
-    updateVideoData();
-    requestAnimationFrame(updateVideoDataLoop);
+  function update() {
+    updateVideoData(); // Cập nhật video data
+    if (isUpdating) {
+      requestAnimationFrame(update); // Tiếp tục cập nhật nếu isUpdating là true
+    }
   }
+  requestAnimationFrame(update); // Bắt đầu cập nhật
 }
 
 function updateVideoDataLoop() {
@@ -246,14 +249,24 @@ function updateVideoData() {
 }
 
 function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.ENDED) {
-    clearInterval(updateInterval);
-    playNextVideo();
-  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.BUFFERING) {
-    clearInterval(updateInterval);
-  } else if (event.data === YT.PlayerState.PLAYING) {
-    updateVideoData();
-    startUpdatingVideoData();
+  switch (event.data) {
+    case YT.PlayerState.ENDED:
+      playNextVideo(); // Phát video tiếp theo
+      isUpdating = false; // Đặt lại trạng thái cập nhật
+      break;
+
+    case YT.PlayerState.PAUSED:
+    case YT.PlayerState.BUFFERING:
+      isUpdating = false; // Đặt lại trạng thái cập nhật
+      break;
+
+    case YT.PlayerState.PLAYING:
+      if (!isUpdating) {
+        isUpdating = true; // Đặt trạng thái cập nhật
+        updateVideoData(); // Cập nhật dữ liệu ngay khi video bắt đầu phát
+        startUpdatingVideoData(); // Bắt đầu cập nhật liên tục
+      }
+      break;
   }
 }
 
