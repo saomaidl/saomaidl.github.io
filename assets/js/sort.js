@@ -256,10 +256,9 @@ function onPlayerStateChange(event) {
     case YT.PlayerState.ENDED:
       const currentUserId = currentVideo ? currentVideo.customerId : null;
       const nextUserId = nextVideo ? nextVideo.customerId : null;
-
-          console.log(currentUserId);
       
       playNextVideo(currentUserId, nextUserId);
+      updateVideoStatus(currentUserId, nextUserId);
       isUpdating = false;
       break;
 
@@ -302,7 +301,6 @@ function updateVideoStatus(currentUserId, nextUserId) {
 function playNextVideo(currentUserId, nextUserId) {
   if (nextVideo) {
     replaySong(nextVideo.videoId);
-    updateVideoStatus(currentUserId, nextUserId);
   } else {
     playRandomVideo();
   }
