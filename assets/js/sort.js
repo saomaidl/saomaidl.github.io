@@ -259,23 +259,42 @@ function updateVideoData() {
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.ENDED:
-      playNextVideo(); // Phát video tiếp theo
-      isUpdating = false; // Đặt lại trạng thái cập nhật
-      break;
+      const currentUserId = currentVideo.customerId;
+      const nextUserId = nextVideo ? nextVideo.customerId : null;
 
+      if (nextUserId) {
+        updateVideoStatus(currentUserId, nextUserId);
+      }
+      playNextVideo();
+      isUpdating = false;
+      break;
+          
     case YT.PlayerState.PAUSED:
     case YT.PlayerState.BUFFERING:
-      isUpdating = false; // Đặt lại trạng thái cập nhật
+      isUpdating = false;
       break;
 
     case YT.PlayerState.PLAYING:
       if (!isUpdating) {
-        isUpdating = true; // Đặt trạng thái cập nhật
-        updateVideoData(); // Cập nhật dữ liệu ngay khi video bắt đầu phát
-        startUpdatingVideoData(); // Bắt đầu cập nhật liên tục
+        isUpdating = true;
+        updateVideoData();
+        startUpdatingVideoData();
       }
       break;
   }
+}
+
+function updateVideoStatus(currentUserId, nextUserId) {
+  const dbRef = ref(getDatabase(), 'users');
+  const updates = {
+    [`${currentUserId}/played`]: true,
+    [`${currentUserId}/select`]: false,
+    [`${currentUserId}/priority`]: false,
+    [`${nextUserId}/select`]: true
+  };
+  update(dbRef, updates).catch((error) => {
+    console.error("Error updating video status: ", error);
+  });
 }
 
 function playNextVideo() {
