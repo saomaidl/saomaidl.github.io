@@ -34,10 +34,12 @@ async function getAllUserIndexes(currentUserId) {
             const songs = await getSongsFromFirestore();
 
             customerData = userIndexes.map(user => {
-                const song = songs.find(s => s.id === user.videoId); // Tìm bài hát tương ứng
+                const videoId = user.videoId;
+                const song = songs.find(s => s.videoId === videoId);
+
                 return {
-                    customerId: user.uid, // ID người dùng
-                    videoId: song ? song.videoId : null // Video ID tương ứng, nếu có
+                    customerId: user.uid,
+                    videoId: song ? song.videoId : null
                 };
             });
 
