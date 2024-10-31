@@ -301,33 +301,9 @@ function playNextVideo(currentUserId, nextUserId) {
       updateVideoStatus(currentUserId, nextUserId);
     }
   } else {
-    const usersRef = ref(getDatabase(), 'users');
-    get(usersRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        let hasSelectedUser = false;
-
-        snapshot.forEach((childSnapshot) => {
-          const userData = childSnapshot.val();
-          if (userData.select) {
-            hasSelectedUser = true;
-          }
-        });
-        
-        // Nếu không có người dùng nào đã chọn, phát video ngẫu nhiên
-        if (!hasSelectedUser) {
-          const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
-          const randomVideoId = initialVideoIds[randomIndex];
-          replaySong(randomVideoId);
-        }
-      } else {
-        // Nếu không có dữ liệu người dùng, phát video ngẫu nhiên
-        const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
-        const randomVideoId = initialVideoIds[randomIndex];
-        replaySong(randomVideoId);
-      }
-    }).catch((error) => {
-      console.error("Error fetching users: ", error);
-    });
+    const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+    const randomVideoId = initialVideoIds[randomIndex];
+    replaySong(randomVideoId);
   }
 }
 
