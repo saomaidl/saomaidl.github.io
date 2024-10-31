@@ -1,4 +1,4 @@
-import { ref, onValue, getDatabase, update } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { ref, onValue, getDatabase, update, get } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 import { auth, db, realTimeDb } from './firebase-config.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
