@@ -8,7 +8,7 @@ let customerData = [];
 let currentVideo = null;
 let nextVideo = null;
 let isVideoPlayerInitialized = false;
-let updateInterval;
+let isUpdating = false;
 const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
 
 setPersistence(auth, browserLocalPersistence)
@@ -215,7 +215,20 @@ function onPlayerReady(event) {
 }
 
 function startUpdatingVideoData() {
-  updateInterval = setInterval(updateVideoData, 1000);
+  if (!isUpdating) {
+    isUpdating = true;
+    updateVideoData();
+    requestAnimationFrame(updateVideoDataLoop);
+  }
+}
+
+function updateVideoDataLoop() {
+  updateVideoData();
+  requestAnimationFrame(updateVideoDataLoop);
+}
+
+function stopUpdatingVideoData() {
+  isUpdating = false;
 }
 
 function updateVideoData() {
