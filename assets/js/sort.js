@@ -249,8 +249,6 @@ function updateVideoData() {
       }).catch((error) => {
         console.error("Error updating video data: ", error);
       });
-    } else {
-      console.warn("Current time is NaN. Skipping update.");
     }
   }
 }
