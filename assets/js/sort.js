@@ -271,6 +271,12 @@ function onPlayerStateChange(event) {
         isUpdating = true;
         updateVideoData();
         startUpdatingVideoData();
+        const currentVideoIdAPI = player.getVideoData().video_id;
+        if (initialVideoIds.includes(currentVideoIdAPI)) {
+          const currentUserId = currentVideo ? currentVideo.customerId : null;
+          const nextUserId = nextVideo ? nextVideo.customerId : null;
+          playNextVideo(currentUserId, nextUserId);
+        }
       }
       break;
   }
