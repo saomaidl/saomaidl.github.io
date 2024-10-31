@@ -47,40 +47,31 @@ function processAllUserData(usersData, currentUserId) {
     const filteredUsers = usersArray.filter(user => user.played === false);
 
     filteredUsers.sort((a, b) => {
-
-        const statusA = a.status !== null ? 1 : 0;
-        const statusB = b.status !== null ? 1 : 0;
-
-        if (statusA !== statusB) {
-            return statusB - statusA;
+        const selectA = Number(a.select === true);
+        const selectB = Number(b.select === true);
+        if (selectA !== selectB) {
+            return selectB - selectA;
         }
-
-        
         const priorityA = Number(a.priority === true);
         const priorityB = Number(b.priority === true);
-
         if (priorityA !== priorityB) {
             return priorityB - priorityA;
         }
-
         return a.timestamp - b.timestamp;
     });
-
     const result = filteredUsers.map((user, index) => ({
         ...user,
         index: index,
         isCurrentUser: user.uid === currentUserId
     }));
 
-    if (result.length > 0 && result[0].status === null) {
+    if (result.length > 0 && result[0].select === null) {
         const firstUser = result[0];
         const userRef = ref(realTimeDb, `users/${firstUser.uid}`);
-        
-        update(userRef, { status: true })
-            .then(() => console.log(`Updated status for user ${firstUser.uid} to true.`))
-            .catch(error => console.error("Error updating status:", error));
-        
-        result[0].status = true;
+        update(userRef, { select: true })
+            .then(() => console.log(`Updated select for user ${firstUser.uid} to true.`))
+            .catch(error => console.error("Error updating select:", error));
+        result[0].select = true;
     }
 
     return result;
