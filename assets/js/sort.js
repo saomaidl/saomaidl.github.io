@@ -252,31 +252,27 @@ function updateVideoData() {
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.ENDED:
-      // Kiểm tra ID video hiện tại từ API của YouTube
       if (player && player.getVideoData && player.getVideoData().video_id) {
         const currentVideoIdAPI = player.getVideoData().video_id;
         const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
 
-        // Nếu video không nằm trong initialVideoIds, thực hiện cập nhật trạng thái
         if (!isInitialVideo) {
           const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
 
           if (currentVideoCustomerId) {
-            // Cập nhật trạng thái cho video hiện tại và sau đó phát video tiếp theo
             updateCurrentUserStatus(currentVideoCustomerId).then(() => {
-              playNextVideo(); // Chỉ phát video tiếp theo sau khi cập nhật hoàn thành
+              playNextVideo();
             }).catch(error => {
               console.error("Error updating current video status:", error);
-              playNextVideo(); // Dù có lỗi, vẫn chuyển sang video tiếp theo
+              playNextVideo();
             }).finally(() => {
-              isUpdating = false; // Đảm bảo `isUpdating` được đặt lại
+              isUpdating = false;
             });
-            return; // Thoát sớm để tránh gọi playNextVideo thêm lần nữa
+            return;
           }
         }
       }
 
-      // Nếu là video từ initialVideoIds hoặc không có customerId, phát video tiếp theo luôn
       playNextVideo();
       isUpdating = false;
       break;
@@ -296,7 +292,6 @@ function onPlayerStateChange(event) {
   }
 }
 
-
 function updateVideoStatus(nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
@@ -313,22 +308,31 @@ function updateVideoStatus(nextUserId) {
 }
 
 function updateCurrentUserStatus(currentUserId) {
-  const dbRef = ref(getDatabase(), 'users');
-  const updates = {};
+  return new Promise((resolve, reject) => {
+    const dbRef = ref(getDatabase(), 'users');
+    const updates = {};
 
-  if (currentUserId) {
-    updates[`${currentUserId}/played`] = true;
-    updates[`${currentUserId}/select`] = false;
-    updates[`${currentUserId}/priority`] = false;
-  }
+    if (currentUserId) {
+      updates[`${currentUserId}/played`] = true;
+      updates[`${currentUserId}/select`] = false;
+      updates[`${currentUserId}/priority`] = false;
+    }
 
-  if (Object.keys(updates).length > 0) {
-    update(dbRef, updates).catch((error) => {
-      console.error("Error updating current user status: ", error);
-    });
-  }
+    if (Object.keys(updates).length > 0) {
+      update(dbRef, updates)
+        .then(() => {
+          console.log(`Updated status for currentUserId: ${currentUserId}`);
+          resolve();
+        })
+        .catch((error) => {
+          console.error("Error updating current user status: ", error);
+          reject(error);
+        });
+    } else {
+      resolve();
+    }
+  });
 }
-
 
 function playNextVideo() {
   const currentUserId = currentVideo ? currentVideo.customerId : null;
