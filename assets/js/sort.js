@@ -32,7 +32,7 @@ async function getAllUserIndexes(currentUserId) {
             const userIndexes = processAllUserData(usersData, currentUserId);
             
             const songs = await getSongsFromFirestore();
-            console.log("Songs from Firestore:", songs);
+            console.log(songs);
 
             customerData = userIndexes.map(user => {
                 const videoId = user.videoId; // Lấy videoId từ user
