@@ -35,16 +35,21 @@ async function getAllUserIndexes(currentUserId) {
             console.log("Songs from Firestore:", songs);
 
             customerData = userIndexes.map(user => {
-                const videoId = user.videoId;
-                const song = songs.find(s => s.videoId === videoId);
-
+                const videoId = user.videoId; // Lấy videoId từ user
+                console.log(`Searching for videoId: ${videoId}`); // Kiểm tra videoId
+            
+                // Tìm video tương ứng trong danh sách bài hát
+                const song = songs.find(s => s.id === videoId); // Tìm theo id của bài hát
+            
+                if (!song) {
+                    console.warn(`No song found for videoId: ${videoId}`); // Cảnh báo nếu không tìm thấy
+                }
+            
                 return {
-                    customerId: user.uid,
-                    videoId: song ? song.videoId : null
+                    customerId: user.uid, // ID người dùng
+                    videoId: song ? song.videoId : null // Video ID tương ứng, sử dụng song.videoId
                 };
             });
-
-            console.log(customerData);
 
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
