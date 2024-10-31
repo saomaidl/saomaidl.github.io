@@ -251,41 +251,30 @@ function updateVideoData() {
   }
 }
 
-
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.ENDED:
-      // Kiểm tra xem currentVideo có hợp lệ không
-      const currentUserId = currentVideo ? currentVideo.customerId : null; // Lấy customerId nếu currentVideo hợp lệ
-      const nextUserId = nextVideo ? nextVideo.customerId : null; // Lấy customerId nếu nextVideo hợp lệ
-
-      console.log(currentUserId);
-      console.log(nextUserId);
-
-      // Cập nhật trạng thái video chỉ nếu currentUserId không null
-      if (currentUserId) {
-        updateVideoStatus(currentUserId, nextUserId);
-      }
+      const currentUserId = currentVideo ? currentVideo.customerId : null;
+      const nextUserId = nextVideo ? nextVideo.customerId : null;
       
-      playNextVideo(); // Phát video tiếp theo
-      isUpdating = false; // Đặt lại trạng thái cập nhật
+      playNextVideo(currentUserId, nextUserId);
+      isUpdating = false;
       break;
 
     case YT.PlayerState.PAUSED:
     case YT.PlayerState.BUFFERING:
-      isUpdating = false; // Đặt lại trạng thái cập nhật
+      isUpdating = false;
       break;
 
     case YT.PlayerState.PLAYING:
       if (!isUpdating) {
-        isUpdating = true; // Đặt trạng thái cập nhật
-        updateVideoData(); // Cập nhật dữ liệu ngay khi video bắt đầu phát
-        startUpdatingVideoData(); // Bắt đầu cập nhật liên tục
+        isUpdating = true;
+        updateVideoData();
+        startUpdatingVideoData();
       }
       break;
   }
 }
-
 
 function updateVideoStatus(currentUserId, nextUserId) {
   const dbRef = ref(getDatabase(), 'users');
@@ -305,13 +294,40 @@ function updateVideoStatus(currentUserId, nextUserId) {
   }
 }
 
-function playNextVideo() {
+function playNextVideo(currentUserId, nextUserId) {
   if (nextVideo) {
     replaySong(nextVideo.videoId);
+    if (currentUserId) {
+      updateVideoStatus(currentUserId, nextUserId);
+    }
   } else {
-    const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
-    const randomVideoId = initialVideoIds[randomIndex];
-    replaySong(randomVideoId);
+    const usersRef = ref(getDatabase(), 'users');
+    get(usersRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        let hasSelectedUser = false;
+
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.select) {
+            hasSelectedUser = true;
+          }
+        });
+        
+        // Nếu không có người dùng nào đã chọn, phát video ngẫu nhiên
+        if (!hasSelectedUser) {
+          const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+          const randomVideoId = initialVideoIds[randomIndex];
+          replaySong(randomVideoId);
+        }
+      } else {
+        // Nếu không có dữ liệu người dùng, phát video ngẫu nhiên
+        const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+        const randomVideoId = initialVideoIds[randomIndex];
+        replaySong(randomVideoId);
+      }
+    }).catch((error) => {
+      console.error("Error fetching users: ", error);
+    });
   }
 }
 
