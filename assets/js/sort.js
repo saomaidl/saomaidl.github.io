@@ -31,8 +31,10 @@ async function getAllUserIndexes(currentUserId) {
             const usersData = snapshot.val();
             const userIndexes = processAllUserData(usersData, currentUserId);
             customerID = userIndexes.map(user => user.uid);
-            console.log("Updated customerID:", customerID);
             const songs = await getSongsFromFirestore();
+            const videoIds = songs.map(song => song.videoId); 
+            customerID = [...customerID, ...videoIds];
+            console.log("Updated customerID (uids + videoIds):", customerID);
             displaySongs(userIndexes, songs, currentUserId);
         }, (error) => {
             console.error("Error reading user data:", error);
