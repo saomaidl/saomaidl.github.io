@@ -9,6 +9,7 @@ let currentVideo = null;
 let nextVideo = null;
 let isVideoPlayerInitialized = false;
 let isUpdating = false;
+let lastUpdatedUserId = null;
 
 const initialVideoIds = ['peGSKWW8-EA', 'Aeomc7RwiQw'];
 
@@ -279,7 +280,7 @@ function monitorVideoStatusChanges() {
         currentVideo = selectedVideo;
         replaySong(newVideoId);
         
-        // Cập nhật trạng thái người dùng
+        // Cập nhật trạng thái người dùng chỉ khi có thay đổi
         const currentUserId = currentVideo.customerId;
         const nextUserId = nextVideo ? nextVideo.customerId : null;
         updateUserStatus(currentUserId, nextUserId);
@@ -293,6 +294,11 @@ function monitorVideoStatusChanges() {
 }
 
 function updateUserStatus(currentUserId, nextUserId) {
+  // Kiểm tra xem có thay đổi người dùng hay không
+  if (currentUserId === lastUpdatedUserId) {
+    return; // Không cần cập nhật nếu không có thay đổi
+  }
+  
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
 
@@ -313,6 +319,7 @@ function updateUserStatus(currentUserId, nextUserId) {
     update(dbRef, updates)
       .then(() => {
         console.log(`Updated status for currentUserId: ${currentUserId}, nextUserId: ${nextUserId}`);
+        lastUpdatedUserId = currentUserId; // Cập nhật ID người dùng đã cập nhật
       })
       .catch((error) => {
         console.error("Error updating user status: ", error);
