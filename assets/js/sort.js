@@ -321,25 +321,40 @@ function updateUserStatus(currentUserId, nextUserId) {
 }
 
 function handleVideoEnd() {
-  if (player && player.getVideoData && typeof player.getVideoData === 'function') {
-    const videoData = player.getVideoData();
-    const currentVideoIdAPI = videoData.video_id;
+  if (!player || typeof player.getVideoData !== 'function') {
+    console.error("Player is not initialized or getVideoData is not a function");
+    return;
+  }
 
-    if (currentVideoIdAPI) {
-      const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
-      if (!isInitialVideo) {
-        const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+  const videoData = player.getVideoData();
+  if (!videoData) {
+    console.error("No video data available");
+    playRandomVideo();
+    return;
+  }
 
-        if (currentUserId) {
-          const nextUserId = nextVideo ? nextVideo.customerId : null;
-          updateUserStatus(currentUserId, nextUserId);
-          replaySong(nextVideo ? nextVideo.videoId : null);
-          return;
+  const currentVideoIdAPI = videoData.video_id;
+
+  if (currentVideoIdAPI) {
+    const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
+    if (!isInitialVideo) {
+      const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+
+      if (currentUserId) {
+        const nextUserId = nextVideo ? nextVideo.customerId : null;
+        updateUserStatus(currentUserId, nextUserId);
+        
+        if (nextVideo && nextVideo.videoId) {
+          replaySong(nextVideo.videoId); // Phát video tiếp theo nếu có
+        } else {
+          playRandomVideo(); // Nếu không có video tiếp theo, phát video ngẫu nhiên
         }
+        return;
       }
     }
   }
-  playRandomVideo();
+
+  playRandomVideo(); // Phát video ngẫu nhiên nếu không có video nào
   isUpdating = false;
 }
 
