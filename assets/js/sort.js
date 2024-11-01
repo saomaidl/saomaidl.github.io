@@ -313,7 +313,8 @@ function monitorVideoStatusChanges() {
   const dbRef = ref(getDatabase(), 'videoStatus/currentVideoId');
   onValue(dbRef, (snapshot) => {
     const newVideoId = snapshot.val();
-    if (newVideoId && player.getVideoData().video_id !== newVideoId) {
+    // Kiểm tra nếu player đã được khởi tạo và có phương thức getVideoData
+    if (newVideoId && player && typeof player.getVideoData === 'function' && player.getVideoData().video_id !== newVideoId) {
       console.log(`Detected change in currentVideoId. New video ID: ${newVideoId}`);
       const selectedVideo = customerData.find(video => video.videoId === newVideoId);
       if (selectedVideo) {
@@ -327,6 +328,7 @@ function monitorVideoStatusChanges() {
     console.error("Error monitoring video status changes:", error);
   });
 }
+
 
 monitorVideoStatusChanges();
 
