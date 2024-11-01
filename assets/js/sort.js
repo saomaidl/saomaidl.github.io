@@ -321,21 +321,24 @@ function updateUserStatus(currentUserId, nextUserId) {
 }
 
 function handleVideoEnd() {
-  if (player && player.getVideoData && player.getVideoData().video_id) {
-    const currentVideoIdAPI = player.getVideoData().video_id;
-    const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
+  if (player && player.getVideoData && typeof player.getVideoData === 'function') {
+    const videoData = player.getVideoData();
+    const currentVideoIdAPI = videoData.video_id;
 
-    if (!isInitialVideo) {
-      const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+    if (currentVideoIdAPI) {
+      const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
+      if (!isInitialVideo) {
+        const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
 
-      if (currentUserId) {
-        // Tìm kiếm video tiếp theo
-        nextVideo = customerData.find(video => video.customerId !== currentUserId && video.select);
-        const nextUserId = nextVideo ? nextVideo.customerId : null;
+        if (currentUserId) {
+          // Tìm video tiếp theo
+          nextVideo = customerData.find(video => video.customerId !== currentUserId && video.select);
+          const nextUserId = nextVideo ? nextVideo.customerId : null;
 
-        updateUserStatus(currentUserId, nextUserId);
-        replaySong(nextVideo ? nextVideo.videoId : null); // Phát video tiếp theo nếu có
-        return;
+          updateUserStatus(currentUserId, nextUserId);
+          replaySong(nextVideo ? nextVideo.videoId : null); // Phát video tiếp theo nếu có
+          return;
+        }
       }
     }
   }
