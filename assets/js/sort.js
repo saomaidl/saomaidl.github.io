@@ -331,19 +331,15 @@ function handleVideoEnd() {
         const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
 
         if (currentUserId) {
-          // Tìm video tiếp theo
-          nextVideo = customerData.find(video => video.customerId !== currentUserId && video.select);
           const nextUserId = nextVideo ? nextVideo.customerId : null;
-
           updateUserStatus(currentUserId, nextUserId);
-          replaySong(nextVideo ? nextVideo.videoId : null); // Phát video tiếp theo nếu có
+          replaySong(nextVideo ? nextVideo.videoId : null);
           return;
         }
       }
     }
   }
-
-  playRandomVideo(); // Phát video ngẫu nhiên nếu không có video nào
+  playRandomVideo();
   isUpdating = false;
 }
 
