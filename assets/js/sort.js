@@ -309,6 +309,25 @@ function updateVideoStatus(nextUserId) {
   }
 }
 
+function monitorVideoStatusChanges() {
+  const dbRef = ref(getDatabase(), 'videoStatus/currentVideoId');
+  onValue(dbRef, (snapshot) => {
+    const newVideoId = snapshot.val();
+    if (newVideoId && player.getVideoData().video_id !== newVideoId) {
+      console.log(`Detected change in currentVideoId. New video ID: ${newVideoId}`);
+      const selectedVideo = customerData.find(video => video.videoId === newVideoId);
+      if (selectedVideo) {
+        currentVideo = selectedVideo;
+        replaySong(newVideoId);
+      } else {
+        console.warn(`No video found for the new video ID: ${newVideoId}`);
+      }
+    }
+  }, (error) => {
+    console.error("Error monitoring video status changes:", error);
+  });
+}
+
 function updateCurrentUserStatus(currentUserId) {
   return new Promise((resolve, reject) => {
     const dbRef = ref(getDatabase(), 'users');
