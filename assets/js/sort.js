@@ -194,7 +194,7 @@ function createYouTubePlayer(videoId) {
       controls: showControls ? 1 : 0,
       rel: 0,
       iv_load_policy: 3,
-      mute: 0,
+      mute: showControls ? 1 : 0,
       playsinline: 1,
       enablejsapi: 1,
       modestbranding: 1,
@@ -223,11 +223,6 @@ function startUpdatingVideoData() {
   requestAnimationFrame(update);
 }
 
-function updateVideoDataLoop() {
-  updateVideoData();
-  requestAnimationFrame(updateVideoDataLoop);
-}
-
 function stopUpdatingVideoData() {
   isUpdating = false;
 }
@@ -254,29 +249,7 @@ function updateVideoData() {
 function onPlayerStateChange(event) {
   switch (event.data) {
     case YT.PlayerState.ENDED:
-      if (player && player.getVideoData && player.getVideoData().video_id) {
-        const currentVideoIdAPI = player.getVideoData().video_id;
-        const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
-
-        if (!isInitialVideo) {
-          const currentVideoCustomerId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
-
-          if (currentVideoCustomerId) {
-            updateCurrentUserStatus(currentVideoCustomerId).then(() => {
-              playNextVideo();
-            }).catch(error => {
-              console.error("Error updating current video status:", error);
-              playNextVideo();
-            }).finally(() => {
-              isUpdating = false;
-            });
-            return;
-          }
-        }
-      }
-
-      playNextVideo();
-      isUpdating = false;
+      handleVideoEnd();
       break;
 
     case YT.PlayerState.PAUSED:
@@ -294,32 +267,22 @@ function onPlayerStateChange(event) {
   }
 }
 
-function updateVideoStatus(nextUserId) {
-  const dbRef = ref(getDatabase(), 'users');
-  const updates = {};
-  
-  if (nextUserId) {
-    updates[`${nextUserId}/select`] = true;
-  }
-
-  if (Object.keys(updates).length > 0) {
-    update(dbRef, updates).catch((error) => {
-      console.error("Error updating video status: ", error);
-    });
-  }
-}
-
 function monitorVideoStatusChanges() {
   const dbRef = ref(getDatabase(), 'videoStatus/currentVideoId');
   onValue(dbRef, (snapshot) => {
     const newVideoId = snapshot.val();
-    // Kiểm tra nếu player đã được khởi tạo và có phương thức getVideoData
     if (newVideoId && player && typeof player.getVideoData === 'function' && player.getVideoData().video_id !== newVideoId) {
       console.log(`Detected change in currentVideoId. New video ID: ${newVideoId}`);
       const selectedVideo = customerData.find(video => video.videoId === newVideoId);
+      
       if (selectedVideo) {
         currentVideo = selectedVideo;
         replaySong(newVideoId);
+        
+        // Cập nhật trạng thái người dùng
+        const currentUserId = currentVideo.customerId;
+        const nextUserId = nextVideo ? nextVideo.customerId : null;
+        updateUserStatus(currentUserId, nextUserId);
       } else {
         console.warn(`No video found for the new video ID: ${newVideoId}`);
       }
@@ -329,54 +292,56 @@ function monitorVideoStatusChanges() {
   });
 }
 
+function updateUserStatus(currentUserId, nextUserId) {
+  const dbRef = ref(getDatabase(), 'users');
+  const updates = {};
 
-monitorVideoStatusChanges();
+  // Cập nhật trạng thái cho người dùng hiện tại
+  if (currentUserId) {
+    updates[`${currentUserId}/played`] = true;
+    updates[`${currentUserId}/select`] = false;
+    updates[`${currentUserId}/priority`] = false;
+  }
 
-function updateCurrentUserStatus(currentUserId) {
-  return new Promise((resolve, reject) => {
-    const dbRef = ref(getDatabase(), 'users');
-    const updates = {};
+  // Cập nhật trạng thái cho người dùng tiếp theo
+  if (nextUserId) {
+    updates[`${nextUserId}/select`] = true;
+  }
 
-    if (currentUserId) {
-      updates[`${currentUserId}/played`] = true;
-      updates[`${currentUserId}/select`] = false;
-      updates[`${currentUserId}/priority`] = false;
-    }
-
-    if (Object.keys(updates).length > 0) {
-      update(dbRef, updates)
-        .then(() => {
-          console.log(`Updated status for currentUserId: ${currentUserId}`);
-          resolve();
-        })
-        .catch((error) => {
-          console.error("Error updating current user status: ", error);
-          reject(error);
-        });
-    } else {
-      resolve();
-    }
-  });
-}
-
-function playNextVideo() {
-  const currentUserId = currentVideo ? currentVideo.customerId : null;
-  const nextUserId = nextVideo ? nextVideo.customerId : null;
-    
-  if (nextUserId && nextVideo) {
-    replaySong(nextVideo.videoId);
-    updateVideoStatus(nextUserId);
-  } else if (currentUserId && currentVideo) {
-    replaySong(currentVideo.videoId);
-  } else {
-    playRandomVideo();
+  // Thực hiện cập nhật
+  if (Object.keys(updates).length > 0) {
+    update(dbRef, updates)
+      .then(() => {
+        console.log(`Updated status for currentUserId: ${currentUserId}, nextUserId: ${nextUserId}`);
+      })
+      .catch((error) => {
+        console.error("Error updating user status: ", error);
+      });
   }
 }
 
-function playRandomVideo() {
-  const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
-  const randomVideoId = initialVideoIds[randomIndex];
-  replaySong(randomVideoId);
+function handleVideoEnd() {
+  if (player && player.getVideoData && player.getVideoData().video_id) {
+    const currentVideoIdAPI = player.getVideoData().video_id;
+    const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
+
+    if (!isInitialVideo) {
+      const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+
+      if (currentUserId) {
+        // Tìm kiếm video tiếp theo
+        nextVideo = customerData.find(video => video.customerId !== currentUserId && video.select);
+        const nextUserId = nextVideo ? nextVideo.customerId : null;
+
+        updateUserStatus(currentUserId, nextUserId);
+        replaySong(nextVideo ? nextVideo.videoId : null); // Phát video tiếp theo nếu có
+        return;
+      }
+    }
+  }
+
+  playRandomVideo(); // Phát video ngẫu nhiên nếu không có video nào
+  isUpdating = false;
 }
 
 function replaySong(videoId) {
@@ -387,17 +352,24 @@ function replaySong(videoId) {
   }
 }
 
+function playRandomVideo() {
+  const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+  const randomVideoId = initialVideoIds[randomIndex];
+  replaySong(randomVideoId);
+}
+
 function initializeVideoPlayer() {
   if (!currentVideo && !nextVideo) {
     const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
     const randomVideoId = initialVideoIds[randomIndex];
     createYouTubePlayer(randomVideoId);
-  } else {
-    if (currentVideo) {
-      createYouTubePlayer(currentVideo.videoId);
-    }
+  } else if (currentVideo) {
+    createYouTubePlayer(currentVideo.videoId);
   }
 }
+
+// Bắt đầu giám sát video status changes
+monitorVideoStatusChanges();
 
 $(document).ready(function() {
   $(document).on('click', 'lazy-list a', function(event) {
