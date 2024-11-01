@@ -279,11 +279,6 @@ function monitorVideoStatusChanges() {
       if (selectedVideo) {
         currentVideo = selectedVideo;
         replaySong(newVideoId);
-        
-        // Cập nhật trạng thái người dùng chỉ khi có thay đổi
-        const currentUserId = currentVideo.customerId;
-        const nextUserId = nextVideo ? nextVideo.customerId : null;
-        updateUserStatus(currentUserId, nextUserId);
       } else {
         console.warn(`No video found for the new video ID: ${newVideoId}`);
       }
