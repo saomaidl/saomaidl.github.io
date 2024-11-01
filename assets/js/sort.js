@@ -328,6 +328,8 @@ function monitorVideoStatusChanges() {
   });
 }
 
+monitorVideoStatusChanges();
+
 function updateCurrentUserStatus(currentUserId) {
   return new Promise((resolve, reject) => {
     const dbRef = ref(getDatabase(), 'users');
