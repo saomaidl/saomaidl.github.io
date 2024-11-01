@@ -239,6 +239,8 @@ function updateVideoData() {
     const currentTime = Math.floor(player.getCurrentTime());
     if (!isNaN(currentTime)) {
       update(dbRef, {
+        currentVideoId: currentVideo ? currentVideo.videoId : null,
+        nextVideoId: nextVideo ? nextVideo.videoId : null,
         status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
         currentTime: currentTime,
         volume: player.getVolume()
