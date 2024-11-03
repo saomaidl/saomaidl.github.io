@@ -68,6 +68,9 @@ function processUserData(usersData, userId) {
 
 function updateSongStatus(index) {
     const songStatusElement = document.getElementById('song_status');
+    if (!songStatusElement) {
+        return;
+    }
     if (index === 0) {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Ca khúc của quý khách đang phát.</span></div>`;
     } else if (index === null || index === -1) {
