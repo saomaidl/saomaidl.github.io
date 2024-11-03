@@ -210,6 +210,7 @@ function createYouTubePlayer(videoId) {
 }
 
 function onPlayerReady(event) {
+  event.target.setPlaybackQuality('highres');
   event.target.playVideo();
   startUpdatingVideoData();
 }
@@ -261,6 +262,7 @@ function onPlayerStateChange(event) {
     case YT.PlayerState.PLAYING:
       if (!isUpdating) {
         isUpdating = true;
+        player.setPlaybackQuality('highres');
         updateVideoData();
         startUpdatingVideoData();
       }
