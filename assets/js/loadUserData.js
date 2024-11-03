@@ -26,6 +26,7 @@ function checkUser() {
             });
 
             const userDoc = await getDoc(userDocRef);
+            console.log(userDoc.exists(), userDoc.data());
             if (!userDoc.exists() || !userDoc.data().fullName) {
                 $('#content').load('/assets/html/infor.html', function(response, status) {
                     if (status === "success") {
