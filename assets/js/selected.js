@@ -39,7 +39,6 @@ async function getUserIndexById() {
                         updateSongStatus(-1);
                     });
                 } else {
-                    // Nếu songSelected là false, không cần làm gì
                     updateSongStatus(-1);
                 }
             } else {
@@ -78,7 +77,7 @@ function updateSongStatus(index) {
     } else if (index === 1) {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chuẩn bị đến lượt quý khách.</span><span>Hãy sẵn sàng!</span></div>`;
     } else {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chỉ còn ${index} ca khúc.</span><span>Vui lòng chờ trong giây lát!</span></div>`;
+        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chỉ còn ${index} ca khúc.</span></div>`;
     }
 }
 
