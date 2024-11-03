@@ -16,24 +16,28 @@ description: "Tìm kiếm và khám phá các bài hát karaoke yêu thích củ
             
             <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
             <script>
-              const video = document.getElementById('weddingVideo');
-              const videoSrc = 'https://saomaidl.github.io/assets/videos/output.m3u8';
-            
-              if (Hls.isSupported()) {
-                  const hls = new Hls();
-                  hls.loadSource(videoSrc);
-                  hls.attachMedia(video);
-                  hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                      video.play();
-                  });
-              } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                  video.src = videoSrc;
-                  video.addEventListener('loadedmetadata', function() {
-                      video.play();
-                  });
-              } else {
-                  console.error('HLS not supported');
-              }
+                const video = document.getElementById('weddingVideo');
+                const videoSrc = 'https://saomaidl.github.io/assets/videos/output.m3u8';
+                video.muted = true;
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(videoSrc);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play().catch(error => {
+                            console.error('Error attempting to play:', error);
+                        });
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = videoSrc;
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play().catch(error => {
+                            console.error('Error attempting to play:', error);
+                        });
+                    });
+                } else {
+                    console.error('HLS not supported');
+                }
             </script>
         </div>
     </div>
