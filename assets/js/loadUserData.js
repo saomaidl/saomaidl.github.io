@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+import { doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
 function loadSelectedFile() {
