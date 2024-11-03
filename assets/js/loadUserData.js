@@ -10,15 +10,13 @@ async function loadSelectedFile() {
             const userData = docSnapshot.data();
             if (userData.songSelected) { 
                 $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
-                    if (status === "error") {
-                        console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
-                    } else {
+                    if (status === "success") {
                         $('body').css('overflow', 'hidden');
                     }
                 });
             } else {
                 $('#content').empty();
-                $('body').css('overflow', 'hidden');
+                $('body').removeAttr('style');
             }
         }
     });
