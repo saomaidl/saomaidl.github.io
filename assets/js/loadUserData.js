@@ -16,8 +16,21 @@ function checkUser() {
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
             await signInAnonymously(auth);
+            console.log('Người dùng đã được đăng nhập thành công');
+            return checkUser(); // gọi lại hàm nếu người dùng đã đăng nhập
         } else {
             const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (!userDoc.exists()) {
+                console.log('Tài liệu không tồn tại');
+                $('#content').load('/assets/html/infor.html', function(response, status) {
+                    if (status === "success") {
+                        $('body').css('overflow', 'hidden');
+                    }
+                });
+                return;
+            }
 
             onSnapshot(userDocRef, (docSnapshot) => {
                 if (docSnapshot.exists() && docSnapshot.data().songSelected) {
@@ -25,9 +38,8 @@ function checkUser() {
                 }
             });
 
-            const userDoc = await getDoc(userDocRef);
             console.log(userDoc.exists(), userDoc.data());
-            if (!userDoc.exists() || !userDoc.data().fullName) {
+            if (!userDoc.data().fullName) {
                 $('#content').load('/assets/html/infor.html', function(response, status) {
                     if (status === "success") {
                         $('body').css('overflow', 'hidden');
@@ -37,6 +49,7 @@ function checkUser() {
         }
     });
 }
+
 
 checkUser();
 
