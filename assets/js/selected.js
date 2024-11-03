@@ -73,7 +73,7 @@ function updateSongStatus(index) {
     } else if (index === null || index === -1) {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chưa có ca khúc nào được phát.</span></div>`;
     } else if (index === 1) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Sắp đến lượt quý khách.</span><span>Xin hãy chuẩn bị!</span></div>`;
+        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chuẩn bị đến lượt quý khách.</span><span>Hãy sẵn sàng!</span></div>`;
     } else {
         songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chỉ còn ${index} ca khúc.</span><span>Vui lòng chờ trong giây lát!</span></div>`;
     }
