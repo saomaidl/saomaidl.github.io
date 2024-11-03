@@ -18,6 +18,7 @@ async function loadSelectedFile() {
                 });
             } else {
                 $('#content').empty();
+                $('body').css('overflow', 'hidden');
             }
         }
     });
