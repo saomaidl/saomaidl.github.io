@@ -2,54 +2,46 @@ import { auth, db } from './firebase-config.js';
 import { doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
-function loadSelectedFile() {
-    $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
-        if (status === "error") {
-            console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
-        } else {
-            $('body').css('overflow', 'hidden');
-        }
-    });
+async function loadSelectedFile() {
+    const user = auth.currentUser;
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+    if (userDoc.exists() && userDoc.data().songSelected) { 
+        $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
+            if (status === "error") {
+                console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
+            } else {
+                $('body').css('overflow', 'hidden');
+            }
+        });
+    }
 }
 
-function checkUser() {
-    onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-            await signInAnonymously(auth);
-            console.log('Người dùng đã được đăng nhập thành công');
-            return checkUser(); // gọi lại hàm nếu người dùng đã đăng nhập
-        } else {
-            const userDocRef = doc(db, 'users', user.uid);
-            const userDoc = await getDoc(userDocRef);
-
-            if (!userDoc.exists()) {
-                console.log('Tài liệu không tồn tại');
-                $('#content').load('/assets/html/infor.html', function(response, status) {
-                    if (status === "success") {
-                        $('body').css('overflow', 'hidden');
-                    }
-                });
-                return;
-            }
-
-            onSnapshot(userDocRef, (docSnapshot) => {
-                if (docSnapshot.exists() && docSnapshot.data().songSelected) {
+async function checkUser() {
+    const user = auth.currentUser;
+    if (!user) {
+        await signInAnonymously(auth);
+        return checkUser();
+    } else {
+        const userDocRef = doc(db, 'users', user.uid);
+        onSnapshot(userDocRef, (docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const userData = docSnapshot.data();
+                if (!userData.fullName) {
+                    $('#content').load('/assets/html/infor.html', function(response, status, xhr) {
+                        if (status === "success") {
+                            $('body').css('overflow', 'hidden');
+                        }
+                    });
+                } else {
                     loadSelectedFile();
                 }
-            });
-
-            console.log(userDoc.exists(), userDoc.data());
-            if (!userDoc.data().fullName) {
-                $('#content').load('/assets/html/infor.html', function(response, status) {
-                    if (status === "success") {
-                        $('body').css('overflow', 'hidden');
-                    }
-                });
             }
-        }
-    });
+        });
+        const userDoc = await getDoc(userDocRef);
+        console.log(userDoc.exists(), userDoc.data());
+    }
 }
-
 
 checkUser();
 
