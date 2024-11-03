@@ -1,6 +1,6 @@
-import { ref, onValue, getDatabase, update, get } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { ref, onValue, getDatabase, update, get, remove } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
 import { auth, db, realTimeDb } from './firebase-config.js';
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+import { collection, getDocs, deleteField, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
 let player;
@@ -70,6 +70,28 @@ async function getAllUserIndexes(currentUserId) {
     } catch (error) {
         console.error("Error getting user data:", error);
     }
+}
+
+async function handleEndOfVideo(userId) {
+  try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      channelId: deleteField(),
+      channelThumbnailUrl: deleteField(),
+      channelTitle: deleteField(),
+      duration: deleteField(),
+      publishedAt: deleteField(),
+      songName: deleteField(),
+      thumbnail: deleteField(),
+      videoId: deleteField(),
+      viewCount: deleteField(),
+      songSelected: false
+    });
+    const userRealtimeRef = ref(realTimeDb, `users/${userId}`);
+    await remove(userRealtimeRef);
+  } catch (error) {
+    console.error("Lỗi khi cập nhật Firestore hoặc Realtime Database:", error);
+  }
 }
 
 function processAllUserData(usersData, currentUserId) {
@@ -275,9 +297,7 @@ function monitorVideoStatusChanges() {
   onValue(dbRef, (snapshot) => {
     const newVideoId = snapshot.val();
     if (newVideoId && player && typeof player.getVideoData === 'function' && player.getVideoData().video_id !== newVideoId) {
-      console.log(`Detected change in currentVideoId. New video ID: ${newVideoId}`);
       const selectedVideo = customerData.find(video => video.videoId === newVideoId);
-      
       if (selectedVideo) {
         currentVideo = selectedVideo;
         replaySong(newVideoId);
@@ -291,32 +311,23 @@ function monitorVideoStatusChanges() {
 }
 
 function updateUserStatus(currentUserId, nextUserId) {
-  // Kiểm tra xem có thay đổi người dùng hay không
   if (currentUserId === lastUpdatedUserId) {
-    return; // Không cần cập nhật nếu không có thay đổi
+    return;
   }
-  
   const dbRef = ref(getDatabase(), 'users');
   const updates = {};
-
-  // Cập nhật trạng thái cho người dùng hiện tại
   if (currentUserId) {
     updates[`${currentUserId}/played`] = true;
     updates[`${currentUserId}/select`] = false;
     updates[`${currentUserId}/priority`] = false;
   }
-
-  // Cập nhật trạng thái cho người dùng tiếp theo
   if (nextUserId) {
     updates[`${nextUserId}/select`] = true;
   }
-
-  // Thực hiện cập nhật
   if (Object.keys(updates).length > 0) {
     update(dbRef, updates)
       .then(() => {
-        console.log(`Updated status for currentUserId: ${currentUserId}, nextUserId: ${nextUserId}`);
-        lastUpdatedUserId = currentUserId; // Cập nhật ID người dùng đã cập nhật
+        lastUpdatedUserId = currentUserId;
       })
       .catch((error) => {
         console.error("Error updating user status: ", error);
@@ -326,39 +337,32 @@ function updateUserStatus(currentUserId, nextUserId) {
 
 function handleVideoEnd() {
   if (!player || typeof player.getVideoData !== 'function') {
-    console.error("Player is not initialized or getVideoData is not a function");
     return;
   }
-
   const videoData = player.getVideoData();
   if (!videoData) {
-    console.error("No video data available");
     playRandomVideo();
     return;
   }
-
   const currentVideoIdAPI = videoData.video_id;
-
   if (currentVideoIdAPI) {
     const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
     if (!isInitialVideo) {
       const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
-
       if (currentUserId) {
+        handleEndOfVideo(currentUserId);
         const nextUserId = nextVideo ? nextVideo.customerId : null;
         updateUserStatus(currentUserId, nextUserId);
-        
         if (nextVideo && nextVideo.videoId) {
-          replaySong(nextVideo.videoId); // Phát video tiếp theo nếu có
+          replaySong(nextVideo.videoId);
         } else {
-          playRandomVideo(); // Nếu không có video tiếp theo, phát video ngẫu nhiên
+          playRandomVideo();
         }
         return;
       }
     }
   }
-
-  playRandomVideo(); // Phát video ngẫu nhiên nếu không có video nào
+  playRandomVideo();
   isUpdating = false;
 }
 
@@ -386,7 +390,6 @@ function initializeVideoPlayer() {
   }
 }
 
-// Bắt đầu giám sát video status changes
 monitorVideoStatusChanges();
 
 $(document).ready(function() {
