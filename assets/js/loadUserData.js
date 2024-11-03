@@ -2,17 +2,10 @@ import { auth, db } from './firebase-config.js';
 import { doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
-let currentListener = null;
-
 async function loadSelectedFile() {
     const user = auth.currentUser;
     const userDocRef = doc(db, 'users', user.uid);
-
-    if (currentListener) {
-        currentListener();
-    }
-
-    currentListener = onSnapshot(userDocRef, (docSnapshot) => {
+    onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
             const userData = docSnapshot.data();
             if (userData.songSelected) { 
