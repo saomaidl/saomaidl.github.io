@@ -55,6 +55,11 @@ function capitalizeWords(str) {
     return words.join(" ");
 }
 
+$(document).on('input', 'input[type="text"], textarea', function() {
+    const currentVal = $(this).val();
+    $(this).val(capitalizeWords(currentVal));
+});
+
 $(document).on('submit', '#edit-full-name-form', async function(event) {
     event.preventDefault();
     capitalizeAllInputs('#edit-full-name-form');
