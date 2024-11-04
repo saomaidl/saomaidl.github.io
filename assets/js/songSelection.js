@@ -175,4 +175,8 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-getUserIndexById();
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        getUserIndexById();
+    }
+});
