@@ -116,17 +116,22 @@ function processUserData(usersData, userId) {
 }
 
 function updateSongStatus(index) {
-    const songStatusElement = document.getElementById('song_status');
-    if (!songStatusElement) return;
-
+    const songStatusElement = $('#song_status');
+    if (!songStatusElement.length) return;
+    let message = '';
     if (index === 0) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Ca khúc của quý khách đang phát.</span></div>`;
+        message = 'Ca khúc của quý khách đang phát.';
     } else if (index === null || index === -1) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chưa có ca khúc nào được phát.</span></div>`;
+        $('#content').empty();
+        $('body').removeAttr('style');
     } else if (index === 1) {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chuẩn bị đến lượt quý khách.</span><span>Hãy sẵn sàng!</span></div>`;
+        message = 'Chuẩn bị đến lượt quý khách.<br>Hãy sẵn sàng!';
     } else {
-        songStatusElement.innerHTML = `<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>Chỉ còn ${index} ca khúc.</span></div>`;
+        message = `Chỉ còn ${index} ca khúc.`;
+    }
+
+    if (message) {
+        songStatusElement.html(`<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>${message}</span></div>`);
     }
 }
 
