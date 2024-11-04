@@ -77,7 +77,7 @@ async function getUserIndexById() {
                 onValue(usersRef, (snapshot) => {
                     if (!snapshot.exists()) {
                         console.log('Không có dữ liệu người dùng.');
-                        updateSongStatus(-1);
+                        $('#song_status').trigger('updateStatus', [-1]);
                         return;
                     }
                     
@@ -92,18 +92,18 @@ async function getUserIndexById() {
                     lastDataSnapshot = usersData;
                     const userIndex = processUserData(usersData, userId);
                     console.log(`Chỉ số người dùng: ${userIndex}`);
-                    updateSongStatus(userIndex);
+                    $('#song_status').trigger('updateStatus', [userIndex]);
                 }, (error) => {
                     console.error('Lỗi khi lấy dữ liệu người dùng:', error);
-                    updateSongStatus(-1);
+                    $('#song_status').trigger('updateStatus', [-1]);
                 });
             } else {
                 console.log('Người dùng chưa chọn bài hát.');
-                updateSongStatus(-1);
+                $('#song_status').trigger('updateStatus', [-1]);
             }
         } else {
             console.log('Tài liệu người dùng không tồn tại.');
-            updateSongStatus(-1);
+            $('#song_status').trigger('updateStatus', [-1]);
         }
     });
 }
@@ -136,7 +136,6 @@ function processUserData(usersData, userId) {
 }
 
 function updateSongStatus(index) {
-    console.log(`Gọi hàm updateSongStatus với index: ${index}`);
     const songStatusElement = $('#song_status');
     if (!songStatusElement.length) return;
     let message = '';
@@ -155,6 +154,10 @@ function updateSongStatus(index) {
         songStatusElement.html(`<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>${message}</span></div>`);
     }
 }
+
+$('#song_status').on('updateStatus', function(event, index) {
+    updateSongStatus(index);
+});
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
