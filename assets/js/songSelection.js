@@ -61,7 +61,6 @@ onAuthStateChanged(auth, async (user) => {
     if (!user) {
         await ensureAnonymousLogin();
     } else {
-        console.log("User is logged in:", user.uid);
         $(document).on('click', '#playlist', function() {
             const songData = {
                 videoId: $(this).data('video-id'),
