@@ -1,78 +1,84 @@
-import { auth, db, realTimeDb } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
-async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
+// Kiểm tra xem người dùng đã chọn bài hát chưa
+async function checkUserSongSelection(userId) {
+    const userDoc = await getDoc(doc(db, 'users', userId));
+    return userDoc.exists() && userDoc.data().songSelected;
+}
+
+// Lưu thông tin bài hát vào Firestore
+async function saveSongToFirestore(userId, songData) {
+    await setDoc(doc(db, 'users', userId), { ...songData, songSelected: true }, { merge: true });
+}
+
+// Lưu thông tin vào Realtime Database
+async function saveSongToRealtimeDb(userId) {
+    const dbRef = ref(getDatabase(), `users/${userId}`);
+    await set(dbRef, {
+        timestamp: Date.now(),
+        played: false,
+        select: false,
+        priority: false
+    });
+}
+
+// Tải giao diện bài hát đã chọn
+function loadSelectedFile() {
+    $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
+        if (status === "error") {
+            console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
+        } else {
+            $('body').css('overflow', 'hidden');
+        }
+    });
+}
+
+// Hàm xử lý chọn bài hát
+async function handleSongSelection(songData) {
     const user = auth.currentUser;
-    if (!user) {
-        console.error("User is not logged in or authentication state is not ready yet.");
-        return;
-    }
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    if (!user) return; // Thoát nếu không có người dùng
 
-    // Kiểm tra xem người dùng đã chọn bài hát chưa
-    if (userDoc.exists() && userDoc.data().songSelected) {
-        loadSelectedFile(); // Nếu đã chọn, tải file bài hát đã chọn
+    const songSelected = await checkUserSongSelection(user.uid);
+    if (songSelected) {
+        loadSelectedFile();
         return;
     }
 
     try {
-        // Lưu thông tin bài hát vào Firestore
-        await setDoc(doc(db, 'users', user.uid), {
-            songSelected: true,
-            videoId: videoId,
-            songName: title,
-            thumbnail: thumbnail,
-            viewCount: viewCount,
-            duration: duration,
-            channelThumbnailUrl: channelThumbnailUrl,
-            channelTitle: channelTitle,
-            publishedAt: publishedAt,
-            channelId: channelId,
-        }, { merge: true });
-
-        // Lưu các thông tin cần thiết vào Realtime Database
-        const dbRef = ref(getDatabase(), `users/${user.uid}`);
-        await set(dbRef, {
-            timestamp: Date.now(), // Lưu timestamp hiện tại
-            played: false,
-            select: false,
-            priority: false        // Ban đầu priority là false
-        });
-
-        loadSelectedFile(); // Sau khi lưu, tải file đã chọn
+        await saveSongToFirestore(user.uid, songData);
+        await saveSongToRealtimeDb(user.uid);
+        loadSelectedFile();
     } catch (error) {
         console.error("Error saving song: ", error);
     }
 }
 
-async function loadSelectedFile() {
-    const user = auth.currentUser;
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
+// Đăng ký observer để theo dõi trạng thái đăng nhập
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is logged in:", user.uid);
+        
+        // Lắng nghe sự kiện khi người dùng chọn bài hát
+        $(document).on('click', '#playlist', function() {
+            const songData = {
+                videoId: $(this).data('video-id'),
+                songName: $(this).data('video-title'),
+                thumbnail: $(this).data('thumbnail'),
+                viewCount: $(this).data('viewCount'),
+                duration: $(this).data('duration'),
+                channelThumbnailUrl: $(this).data('channelThumbnailUrl'),
+                channelTitle: $(this).data('channelTitle'),
+                publishedAt: $(this).data('publishedAt'),
+                channelId: $(this).data('channelId')
+            };
 
-    if (userDoc.exists() && userDoc.data().songSelected) {
-        // Tải giao diện cho bài hát đã chọn
-        $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
-            if (status === "error") {
-                console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
-            } else {
-                $('body').css('overflow', 'hidden'); // Ẩn scroll khi tải xong
-            }
+            // Gọi hàm xử lý khi chọn bài hát
+            handleSongSelection(songData);
         });
+    } else {
+        console.log("No user is logged in.");
     }
-}
-
-$(document).on('click', '#playlist', function() {
-    const videoId = $(this).data('video-id');
-    const title = $(this).data('video-title');
-    const thumbnail = $(this).data('thumbnail');
-    const viewCount = $(this).data('viewCount');
-    const duration = $(this).data('duration');
-    const channelThumbnailUrl = $(this).data('channelThumbnailUrl');
-    const channelTitle = $(this).data('channelTitle');
-    const publishedAt = $(this).data('publishedAt');
-    const channelId = $(this).data('channelId');
-
-    // Gọi hàm xử lý khi chọn bài hát
-    handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId);
 });
