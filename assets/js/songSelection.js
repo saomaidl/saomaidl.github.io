@@ -55,37 +55,54 @@ async function handleSongSelection(songData) {
 
 async function getUserIndexById() {
     const user = getCurrentUser();
-    if (!user) return;
+    if (!user) {
+        console.log('Không có người dùng hiện tại.');
+        return;
+    }
 
     const userId = user.uid;
     const usersRef = ref(realTimeDb, 'users');
 
     let lastDataSnapshot = null;
     const userDocRef = doc(db, 'users', userId);
+    console.log(`Theo dõi tài liệu người dùng: ${userId}`);
+    
     onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
             const userData = docSnapshot.data();
+            console.log('Dữ liệu người dùng:', userData);
+            
             if (userData.songSelected) {
+                console.log('Người dùng đã chọn bài hát.');
                 onValue(usersRef, (snapshot) => {
                     if (!snapshot.exists()) {
+                        console.log('Không có dữ liệu người dùng.');
                         updateSongStatus(-1);
                         return;
                     }
+                    
                     const usersData = snapshot.val();
+                    console.log('Dữ liệu người dùng từ Realtime Database:', usersData);
+                    
                     if (JSON.stringify(usersData) === JSON.stringify(lastDataSnapshot)) {
+                        console.log('Dữ liệu người dùng không thay đổi.');
                         return;
                     }
+                    
                     lastDataSnapshot = usersData;
                     const userIndex = processUserData(usersData, userId);
-                    console.log(userIndex);
+                    console.log(`Chỉ số người dùng: ${userIndex}`);
                     updateSongStatus(userIndex);
                 }, (error) => {
+                    console.error('Lỗi khi lấy dữ liệu người dùng:', error);
                     updateSongStatus(-1);
                 });
             } else {
+                console.log('Người dùng chưa chọn bài hát.');
                 updateSongStatus(-1);
             }
         } else {
+            console.log('Tài liệu người dùng không tồn tại.');
             updateSongStatus(-1);
         }
     });
