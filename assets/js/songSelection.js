@@ -30,6 +30,7 @@ function loadSelectedFile() {
     $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
         if (status === "success") {
             $('body').css('overflow', 'hidden');
+            getUserIndexById();
         }
     });
 }
