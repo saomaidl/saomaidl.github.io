@@ -136,6 +136,7 @@ function processUserData(usersData, userId) {
 }
 
 function updateSongStatus(index) {
+    console.log(`Gọi hàm updateSongStatus với index: ${index}`);
     const songStatusElement = $('#song_status');
     if (!songStatusElement.length) return;
     let message = '';
