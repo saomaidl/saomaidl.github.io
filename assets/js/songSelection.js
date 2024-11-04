@@ -7,6 +7,11 @@ function getCurrentUser() {
     return auth.currentUser;
 }
 
+function getCurrentUserAPI(callback) {
+    const user = auth.currentUser;
+    callback(user);
+}
+
 async function checkUserSongSelection(userId) {
     const userDoc = await getDoc(doc(db, 'users', userId));
     return userDoc.exists() && userDoc.data().songSelected;
@@ -30,7 +35,13 @@ function loadSelectedFile() {
     $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
         if (status === "success") {
             $('body').css('overflow', 'hidden');
-            getUserIndexById();
+            getCurrentUserAPI((user) => {
+                if (user) {
+                    getUserIndexById();
+                } else {
+                    console.log('Không có người dùng hiện tại.');
+                }
+            });
         }
     });
 }
