@@ -138,7 +138,10 @@ function processUserData(usersData, userId) {
 
 function updateSongStatus(index) {
     const songStatusElement = $('#song_status');
-    if (!songStatusElement.length) return;
+    if (!songStatusElement.length) {
+        console.log('Không tìm thấy phần tử song_status');
+        return;
+    }
     let message = '';
     if (index === 0) {
         message = 'Ca khúc của quý khách đang phát.';
