@@ -28,35 +28,70 @@ setPersistence(auth, browserLocalPersistence)
     });
 
 async function getAllUserIndexes(currentUserId) {
-    const usersRef = ref(realTimeDb, 'users');
+    try {
+        const usersRef = ref(realTimeDb, 'users');
 
-    onValue(usersRef, async (snapshot) => {
-        if (!snapshot.exists()) return;
+        onValue(usersRef, async (snapshot) => {
+            if (!snapshot.exists()) {
+                return;
+            }
 
-        const usersData = snapshot.val();
-        const userIndexes = processAllUserData(usersData, currentUserId);
-        const songs = await getSongsFromFirestore();
+            const usersData = snapshot.val();
+            const userIndexes = processAllUserData(usersData, currentUserId);
+            
+            const songs = await getSongsFromFirestore();
 
-        customerData = userIndexes.map(user => {
-            const song = songs.find(s => s.id === user.uid);
-            return {
-                customerId: user.uid,
-                videoId: song ? song.videoId : null
-            };
+            customerData = userIndexes.map(user => {
+                const userId = user.uid;
+                const song = songs.find(s => s.id === userId);
+            
+                if (!song) {
+                    console.warn(`No song found for userId: ${userId}`);
+                }
+                return {
+                    customerId: userId,
+                    videoId: song ? song.videoId : null
+                };
+            });
+
+            currentVideo = customerData[0];
+            nextVideo = customerData[1];
+            
+            displaySongs(userIndexes, songs, currentUserId);
+
+            if (!isVideoPlayerInitialized) {
+                initializeVideoPlayer();
+                isVideoPlayerInitialized = true;
+            }
+            
+        }, (error) => {
+            console.error("Error reading user data:", error);
         });
+    } catch (error) {
+        console.error("Error getting user data:", error);
+    }
+}
 
-        currentVideo = customerData[0];
-        nextVideo = customerData[1];
-
-        displaySongs(userIndexes, songs, currentUserId);
-
-        if (!isVideoPlayerInitialized) {
-            initializeVideoPlayer();
-            isVideoPlayerInitialized = true;
-        }
-    }, (error) => {
-        console.error("Error reading user data:", error);
+async function handleEndOfVideo(userId) {
+  try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      channelId: deleteField(),
+      channelThumbnailUrl: deleteField(),
+      channelTitle: deleteField(),
+      duration: deleteField(),
+      publishedAt: deleteField(),
+      songName: deleteField(),
+      thumbnail: deleteField(),
+      videoId: deleteField(),
+      viewCount: deleteField(),
+      songSelected: false
     });
+    const userRealtimeRef = ref(realTimeDb, `users/${userId}`);
+    await remove(userRealtimeRef);
+  } catch (error) {
+    console.error("Lỗi khi cập nhật Firestore hoặc Realtime Database:", error);
+  }
 }
 
 function processAllUserData(usersData, currentUserId) {
@@ -65,46 +100,51 @@ function processAllUserData(usersData, currentUserId) {
         ...usersData[key]
     }));
 
-    const filteredUsers = usersArray.filter(user => !user.played);
+    const filteredUsers = usersArray.filter(user => user.played === false);
 
     filteredUsers.sort((a, b) => {
         const selectA = Number(a.select === true);
         const selectB = Number(b.select === true);
-        if (selectA !== selectB) return selectB - selectA;
-
+        if (selectA !== selectB) {
+            return selectB - selectA;
+        }
         const priorityA = Number(a.priority === true);
         const priorityB = Number(b.priority === true);
-        if (priorityA !== priorityB) return priorityB - priorityA;
-
+        if (priorityA !== priorityB) {
+            return priorityB - priorityA;
+        }
         return a.timestamp - b.timestamp;
     });
-
     const result = filteredUsers.map((user, index) => ({
         ...user,
-        index,
+        index: index,
         isCurrentUser: user.uid === currentUserId
     }));
 
-    handleInitialSelect(result);
-    return result;
-}
+    const allSelectFalse = result.every(user => user.select === false);
 
-function handleInitialSelect(users) {
-    const allSelectFalse = users.every(user => user.select === false);
-    if (allSelectFalse && users.length > 0) {
-        const firstUser = users[0];
+    if (allSelectFalse && result.length > 0) {
+        const firstUser = result[0];
         const userRef = ref(realTimeDb, `users/${firstUser.uid}`);
         update(userRef, { select: true })
             .then(() => console.log(`Updated select for user ${firstUser.uid} to true.`))
             .catch(error => console.error("Error updating select:", error));
-        firstUser.select = true; // Update locally as well
+        result[0].select = true;
     }
+
+    return result;
 }
 
 async function getSongsFromFirestore() {
     const songsCollection = collection(db, 'users');
     const songDocs = await getDocs(songsCollection);
-    return songDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    const songs = [];
+    songDocs.forEach(doc => {
+        songs.push({ id: doc.id, ...doc.data() });
+    });
+
+    return songs;
 }
 
 function displaySongs(userIndexes, songs, currentUserId) {
@@ -112,55 +152,232 @@ function displaySongs(userIndexes, songs, currentUserId) {
     playlistContainer.innerHTML = '';
 
     userIndexes.forEach((user, index) => {
-        const song = songs.find(s => s.id === user.uid);
+        const userId = user.uid;
+        const song = songs.find(s => s.id === userId);
+
         if (song) {
-            const durationText = formatDuration(song.duration);
-            const backgroundColor = getBackgroundColor(user, index, currentUserId);
+            const [minutes, seconds] = song.duration.split(':');
+            const durationText = `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
+
+            let backgroundColor = '';
+            if (index === 0 && userId !== currentUserId) {
+                backgroundColor = 'style="background-color: rgb(235, 222, 221);"';
+            } else if (index === 0 && userId === currentUserId) {
+                backgroundColor = '';
+            } else if (userId === currentUserId) {
+                backgroundColor = song.id !== userIndexes[0].uid ? 'style="background-color: rgb(221, 229, 235);"' : '';
+            }
+
             const selectedClass = index === 0 ? 'ytm-playlist-panel-video-renderer-v2--selected' : '';
             const ariaSelected = index === 0 ? 'true' : 'false';
 
-            const songElement = createSongElement(song, durationText, selectedClass, ariaSelected, backgroundColor, user.uid);
+            const songElement = `
+                <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor} data-video-id="${song.videoId}"data-index="${index}"data-user-id="${userId}">
+                  <div class="compact-media-item" data-has-subscribe-button="" data-color-palette-applied="false">
+                    <a href="/songs?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
+                      <ytm-compact-thumbnail class="video-thumbnail-container-compact center video-thumbnail-container-compact-rounded">
+                        <div class="cover video-thumbnail-img video-thumbnail-bg"></div>
+                        <img alt="" class="yt-core-image cover video-thumbnail-img yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-aspect-fill yt-core-image--loaded" src="${song.thumbnail}">
+                        <div class="video-preview-shim"></div>
+                        <div class="video-thumbnail-overlay-bottom-group">
+                          <ytm-thumbnail-overlay-time-status-renderer class="" data-style="DEFAULT">
+                            <badge-shape class="badge-shape-wiz badge-shape-wiz--thumbnail-default badge-shape-wiz--thumbnail-badge">
+                              <div class="badge-shape-wiz__text">${song.duration}</div>
+                            </badge-shape>
+                          </ytm-thumbnail-overlay-time-status-renderer>
+                        </div>
+                      </ytm-compact-thumbnail>
+                    </a>
+                    <div class="compact-media-item-metadata" data-has-badges="false">
+                      <a href="/songs?v=${song.videoId}" class="compact-media-item-metadata-content">
+                        <h4 class="compact-media-item-headline" style="">
+                          <span class="yt-core-attributed-string yt-core-attributed-string--link-inherit-color" aria-label="${song.songName} của ${song.channelTitle} ${durationText}" role="text">${song.songName}</span>
+                        </h4>
+                        <div class="subhead" aria-hidden="true" style="">
+                          <div class="compact-media-item-byline small-text">
+                            <span class="yt-core-attributed-string">${song.fullName} ${song.location ? `đến từ ${song.location}` : ""}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </ytm-playlist-panel-video-renderer>
+            `;
             playlistContainer.innerHTML += songElement;
         }
     });
 }
 
-function formatDuration(duration) {
-    const [minutes, seconds] = duration.split(':');
-    return `${parseInt(minutes)} phút, ${parseInt(seconds)} giây`;
-}
-
-function getBackgroundColor(user, index, currentUserId) {
-    if (index === 0) {
-        return user.uid === currentUserId ? '' : 'style="background-color: rgb(235, 222, 221);"';
+function createYouTubePlayer(videoId) {
+  const showControls = $(window).width() >= 768;
+  player = new YT.Player("player", {
+    videoId: videoId,
+    playerVars: {
+      autoplay: 1,
+      controls: showControls ? 1 : 0,
+      rel: 0,
+      iv_load_policy: 3,
+      mute: showControls ? 0 : 1,
+      playsinline: 1,
+      enablejsapi: 1,
+      modestbranding: 1,
+      wmode: 'transparent',
+      showinfo: 0,
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
     }
-    return user.uid === currentUserId ? 'style="background-color: rgb(221, 229, 235);"' : '';
+  });
 }
 
-function createSongElement(song, durationText, selectedClass, ariaSelected, backgroundColor, userId) {
-    return `
-        <ytm-playlist-panel-video-renderer class="ytm-playlist-panel-video-renderer-v2 ${selectedClass}" aria-selected="${ariaSelected}" data-has-overflow-menu="false" ${backgroundColor} data-video-id="${song.videoId}" data-index="${userId}">
-            <div class="compact-media-item">
-                <a href="/songs?v=${song.videoId}" class="compact-media-item-image" aria-hidden="true">
-                    <ytm-compact-thumbnail>
-                        <img src="${song.thumbnail}" alt="">
-                    </ytm-compact-thumbnail>
-                </a>
-                <div class="compact-media-item-metadata">
-                    <a href="/songs?v=${song.videoId}" class="compact-media-item-metadata-content">
-                        <h4 class="compact-media-item-headline" aria-label="${song.songName} của ${song.channelTitle} ${durationText}">
-                            <span>${song.songName}</span>
-                        </h4>
-                        <div class="subhead" aria-hidden="true">
-                            <div class="compact-media-item-byline small-text">
-                                <span>${song.fullName} ${song.location ? `đến từ ${song.location}` : ""}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </ytm-playlist-panel-video-renderer>
-    `;
+function onPlayerReady(event) {
+  event.target.setPlaybackQuality('highres');
+  event.target.playVideo();
+  startUpdatingVideoData();
+}
+
+function startUpdatingVideoData() {
+  function update() {
+    updateVideoData();
+    if (isUpdating) {
+      requestAnimationFrame(update);
+    }
+  }
+  requestAnimationFrame(update);
+}
+
+function stopUpdatingVideoData() {
+  isUpdating = false;
+}
+
+function updateVideoData() {
+  const dbRef = ref(getDatabase(), 'videoStatus');
+  if (player) {
+    const playerState = player.getPlayerState();
+    const currentTime = Math.floor(player.getCurrentTime());
+    if (!isNaN(currentTime)) {
+      update(dbRef, {
+        currentVideoId: currentVideo ? currentVideo.videoId : null,
+        nextVideoId: nextVideo ? nextVideo.videoId : null,
+        status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
+        currentTime: currentTime,
+        volume: player.getVolume()
+      }).catch((error) => {
+        console.error("Error updating video data: ", error);
+      });
+    }
+  }
+}
+
+function onPlayerStateChange(event) {
+  switch (event.data) {
+    case YT.PlayerState.ENDED:
+      handleVideoEnd();
+      break;
+
+    case YT.PlayerState.PAUSED:
+    case YT.PlayerState.BUFFERING:
+      isUpdating = false;
+      break;
+
+    case YT.PlayerState.PLAYING:
+      if (!isUpdating) {
+        isUpdating = true;
+        player.setPlaybackQuality('highres');
+        updateVideoData();
+        startUpdatingVideoData();
+      }
+      break;
+  }
+}
+
+function monitorVideoStatusChanges() {
+  const dbRef = ref(getDatabase(), 'videoStatus/currentVideoId');
+  onValue(dbRef, (snapshot) => {
+    const newVideoId = snapshot.val();
+    if (newVideoId && player && typeof player.getVideoData === 'function' && player.getVideoData().video_id !== newVideoId) {
+      const selectedVideo = customerData.find(video => video.videoId === newVideoId);
+      if (selectedVideo) {
+        currentVideo = selectedVideo;
+        replaySong(newVideoId);
+      } else {
+        console.warn(`No video found for the new video ID: ${newVideoId}`);
+      }
+    }
+  }, (error) => {
+    console.error("Error monitoring video status changes:", error);
+  });
+}
+
+function updateUserStatus(currentUserId, nextUserId) {
+  if (currentUserId === lastUpdatedUserId) {
+    return;
+  }
+  const dbRef = ref(getDatabase(), 'users');
+  const updates = {};
+  if (currentUserId) {
+    updates[`${currentUserId}/played`] = true;
+    updates[`${currentUserId}/select`] = false;
+    updates[`${currentUserId}/priority`] = false;
+  }
+  if (nextUserId) {
+    updates[`${nextUserId}/select`] = true;
+  }
+  if (Object.keys(updates).length > 0) {
+    update(dbRef, updates)
+      .then(() => {
+        lastUpdatedUserId = currentUserId;
+      })
+      .catch((error) => {
+        console.error("Error updating user status: ", error);
+      });
+  }
+}
+
+function handleVideoEnd() {
+  if (!player || typeof player.getVideoData !== 'function') {
+    return;
+  }
+  const videoData = player.getVideoData();
+  if (!videoData) {
+    playRandomVideo();
+    return;
+  }
+  const currentVideoIdAPI = videoData.video_id;
+  if (currentVideoIdAPI) {
+    const isInitialVideo = initialVideoIds.includes(currentVideoIdAPI);
+    if (!isInitialVideo) {
+      const currentUserId = customerData.find(video => video.videoId === currentVideoIdAPI)?.customerId;
+      if (currentUserId) {
+        handleEndOfVideo(currentUserId);
+        const nextUserId = nextVideo ? nextVideo.customerId : null;
+        updateUserStatus(currentUserId, nextUserId);
+        if (nextVideo && nextVideo.videoId) {
+          replaySong(nextVideo.videoId);
+        } else {
+          playRandomVideo();
+        }
+        return;
+      }
+    }
+  }
+  playRandomVideo();
+  isUpdating = false;
+}
+
+function replaySong(videoId) {
+  if (player) {
+    player.loadVideoById(videoId);
+  } else {
+    createYouTubePlayer(videoId);
+  }
+}
+
+function playRandomVideo() {
+  const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+  const randomVideoId = initialVideoIds[randomIndex];
+  replaySong(randomVideoId);
 }
 
 function initializeVideoPlayer() {
@@ -168,128 +385,12 @@ function initializeVideoPlayer() {
     const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
     const randomVideoId = initialVideoIds[randomIndex];
     createYouTubePlayer(randomVideoId);
-  } else {
+  } else if (currentVideo) {
     createYouTubePlayer(currentVideo.videoId);
   }
 }
 
-function createYouTubePlayer(videoId) {
-    const showControls = window.innerWidth >= 768;
-    player = new YT.Player("player", {
-        videoId,
-        playerVars: {
-            autoplay: 1,
-            controls: showControls ? 1 : 0,
-            rel: 0,
-            iv_load_policy: 3,
-            mute: showControls ? 0 : 1,
-            playsinline: 1,
-            enablejsapi: 1,
-            modestbranding: 1,
-            wmode: 'transparent',
-            showinfo: 0,
-        },
-        events: {
-            onReady: onPlayerReady,
-            onStateChange: onPlayerStateChange
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    event.target.setPlaybackQuality('highres');
-    event.target.playVideo();
-    startUpdatingVideoData();
-}
-
-function startUpdatingVideoData() {
-    isUpdating = true;
-    updateVideoData();
-    function update() {
-        if (isUpdating) {
-            updateVideoData();
-            requestAnimationFrame(update);
-        }
-    }
-    requestAnimationFrame(update);
-}
-
-function stopUpdatingVideoData() {
-    isUpdating = false;
-}
-
-function updateVideoData() {
-    const dbRef = ref(getDatabase(), 'videoStatus');
-    if (player) {
-        const playerState = player.getPlayerState();
-        const currentTime = Math.floor(player.getCurrentTime());
-        if (!isNaN(currentTime)) {
-            update(dbRef, {
-                currentVideoId: currentVideo ? currentVideo.videoId : null,
-                nextVideoId: nextVideo ? nextVideo.videoId : null,
-                status: playerState === YT.PlayerState.PLAYING ? 'play' : 'pause',
-                currentTime,
-                volume: player.getVolume()
-            }).catch((error) => {
-                console.error("Error updating video data: ", error);
-            });
-        }
-    }
-}
-
-function onPlayerStateChange(event) {
-    switch (event.data) {
-        case YT.PlayerState.ENDED:
-            handleVideoEnd();
-            break;
-        case YT.PlayerState.PAUSED:
-        case YT.PlayerState.BUFFERING:
-            isUpdating = false;
-            break;
-        case YT.PlayerState.PLAYING:
-            if (!isUpdating) {
-                isUpdating = true;
-                player.setPlaybackQuality('highres');
-                updateVideoData();
-                startUpdatingVideoData();
-            }
-            break;
-    }
-}
-
-function handleVideoEnd() {
-    const currentIndex = customerData.findIndex(user => user.customerId === currentVideo.customerId);
-    const nextIndex = currentIndex + 1 < customerData.length ? currentIndex + 1 : 0; // Loop back to first video if at end
-    nextVideo = customerData[nextIndex];
-    currentVideo = customerData[nextIndex];
-
-    if (nextVideo) {
-        updateVideoData();
-        player.loadVideoById(nextVideo.videoId);
-    }
-}
-
-// Listening for changes in videoStatus from Realtime Database
-const videoStatusRef = ref(realTimeDb, 'videoStatus');
-onValue(videoStatusRef, (snapshot) => {
-    if (snapshot.exists()) {
-        const statusData = snapshot.val();
-        handleVideoStatusUpdate(statusData);
-    }
-}, (error) => {
-    console.error("Error reading video status:", error);
-});
-
-function handleVideoStatusUpdate(statusData) {
-    if (statusData.currentVideoId && statusData.currentVideoId !== currentVideo.videoId) {
-        const videoIndex = customerData.findIndex(user => user.videoId === statusData.currentVideoId);
-        if (videoIndex !== -1) {
-            currentVideo = customerData[videoIndex];
-            player.loadVideoById(currentVideo.videoId);
-        }
-    }
-}
-
+monitorVideoStatusChanges();
 
 $(document).ready(function() {
   $(document).on('click', 'lazy-list a', function(event) {
