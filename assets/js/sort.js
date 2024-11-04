@@ -33,37 +33,46 @@ async function getAllUserIndexes(currentUserId) {
 
         onValue(usersRef, async (snapshot) => {
             if (!snapshot.exists()) {
-                return;
+                // Nếu không có dữ liệu người dùng, khởi tạo video player với video ngẫu nhiên
+                if (!isVideoPlayerInitialized) {
+                    initializeVideoPlayer(); // Khởi tạo video player
+                    isVideoPlayerInitialized = true;
+                }
+                return; // Không làm gì thêm
             }
 
+            // Dữ liệu người dùng tồn tại
             const usersData = snapshot.val();
             const userIndexes = processAllUserData(usersData, currentUserId);
-            
             const songs = await getSongsFromFirestore();
 
+            // Xây dựng customerData
             customerData = userIndexes.map(user => {
                 const userId = user.uid;
                 const song = songs.find(s => s.id === userId);
-            
+
                 if (!song) {
                     console.warn(`No song found for userId: ${userId}`);
                 }
+
                 return {
                     customerId: userId,
                     videoId: song ? song.videoId : null
                 };
             });
 
-            currentVideo = customerData[0];
-            nextVideo = customerData[1];
+            // Cập nhật currentVideo và nextVideo
+            currentVideo = customerData[0] || null; // Đảm bảo có giá trị mặc định
+            nextVideo = customerData[1] || null; // Đảm bảo có giá trị mặc định
             
             displaySongs(userIndexes, songs, currentUserId);
 
+            // Khởi tạo video player nếu chưa được khởi tạo
             if (!isVideoPlayerInitialized) {
-                initializeVideoPlayer();
+                initializeVideoPlayer(); // Khởi tạo video player
                 isVideoPlayerInitialized = true;
             }
-            
+
         }, (error) => {
             console.error("Error reading user data:", error);
         });
