@@ -96,8 +96,10 @@ function processUserData(usersData, userId) {
         uid: key,
         ...usersData[key]
     }));
+    
+    const filteredUsers = usersArray.filter(user => !user.played);
 
-    usersArray.sort((a, b) => {
+    filteredUsers.sort((a, b) => {
         const selectA = Number(a.select === true);
         const selectB = Number(b.select === true);
         if (selectA !== selectB) {
@@ -113,7 +115,7 @@ function processUserData(usersData, userId) {
         return a.timestamp - b.timestamp;
     });
 
-    return usersArray.findIndex(user => user.uid === userId);
+    return filteredUsers.findIndex(user => user.uid === userId);
 }
 
 function updateSongStatus(index) {
