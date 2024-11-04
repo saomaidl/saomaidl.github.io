@@ -164,9 +164,13 @@ function createSongElement(song, durationText, selectedClass, ariaSelected, back
 }
 
 function initializeVideoPlayer() {
-    if (currentVideo) {
-        createYouTubePlayer(currentVideo.videoId);
-    }
+  if (!currentVideo) {
+    const randomIndex = Math.floor(Math.random() * initialVideoIds.length);
+    const randomVideoId = initialVideoIds[randomIndex];
+    createYouTubePlayer(randomVideoId);
+  } else {
+    createYouTubePlayer(currentVideo.videoId);
+  }
 }
 
 function createYouTubePlayer(videoId) {
