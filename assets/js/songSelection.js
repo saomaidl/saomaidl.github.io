@@ -4,6 +4,10 @@ import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.0.1
 
 async function handleSongSelection(videoId, title, thumbnail, viewCount, duration, channelThumbnailUrl, channelTitle, publishedAt, channelId) {
     const user = auth.currentUser;
+    if (!user) {
+        console.error("User is not logged in or authentication state is not ready yet.");
+        return;
+    }
     const userDoc = await getDoc(doc(db, 'users', user.uid));
 
     // Kiểm tra xem người dùng đã chọn bài hát chưa
