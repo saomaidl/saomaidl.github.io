@@ -1,13 +1,7 @@
 import { auth, db } from './firebase-config.js';
 import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js';
-import { onAuthStateChanged, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
-
-async function ensureAnonymousLogin() {
-    if (!auth.currentUser) {
-        await signInAnonymously(auth);
-    }
-}
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
 async function checkUserSongSelection(userId) {
     const userDoc = await getDoc(doc(db, 'users', userId));
@@ -30,9 +24,7 @@ async function saveSongToRealtimeDb(userId) {
 
 function loadSelectedFile() {
     $('#content').load('/assets/html/selected.html', function(response, status, xhr) {
-        if (status === "error") {
-            console.error("Không thể tải tệp selected.html:", xhr.status, xhr.statusText);
-        } else {
+        if (status === "success") {
             $('body').css('overflow', 'hidden');
         }
     });
@@ -57,10 +49,9 @@ async function handleSongSelection(songData) {
     }
 }
 
-onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-        await ensureAnonymousLogin();
-    } else {
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is logged in:", user.uid);
         $(document).on('click', '#playlist', function() {
             const songData = {
                 videoId: $(this).data('video-id'),
@@ -76,7 +67,7 @@ onAuthStateChanged(auth, async (user) => {
 
             handleSongSelection(songData);
         });
+    } else {
+        console.error("No user is logged in.");
     }
 });
-
-ensureAnonymousLogin();
