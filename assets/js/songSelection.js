@@ -142,6 +142,7 @@ function updateSongStatus(index) {
         console.log('Không tìm thấy phần tử song_status');
         return;
     }
+    console.log('Đã tìm thấy phần tử song_status');
     let message = '';
     if (index === 0) {
         message = 'Ca khúc của quý khách đang phát.';
