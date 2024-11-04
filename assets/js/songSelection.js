@@ -51,7 +51,6 @@ async function handleSongSelection(songData) {
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("User is logged in:", user.uid);
         $(document).on('click', '#playlist', function() {
             const songData = {
                 videoId: $(this).data('video-id'),
@@ -67,7 +66,5 @@ onAuthStateChanged(auth, (user) => {
 
             handleSongSelection(songData);
         });
-    } else {
-        console.error("No user is logged in.");
     }
 });
