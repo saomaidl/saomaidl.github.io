@@ -94,6 +94,7 @@ async function getUserIndexById() {
                     const userIndex = processUserData(usersData, userId);
                     console.log(`Chỉ số người dùng: ${userIndex}`);
                     $('#song_status').trigger('updateStatus', [userIndex]);
+                    updateSongStatus(userIndex);
                 }, (error) => {
                     console.error('Lỗi khi lấy dữ liệu người dùng:', error);
                     $('#song_status').trigger('updateStatus', [-1]);
