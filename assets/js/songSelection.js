@@ -156,12 +156,12 @@ function updateSongStatus(index) {
     console.log('Đã tìm thấy phần tử song_status');
     let message = '';
     if (index === 0) {
-        message = 'Ca khúc của quý khách đang phát.';
+        message = 'Ca khúc của quý khách<br>ĐANG PHÁT';
     } else if (index === null || index === -1) {
         $('#content').empty();
         $('body').removeAttr('style');
     } else if (index === 1) {
-        message = 'Chuẩn bị đến lượt quý khách.<br>Hãy sẵn sàng!';
+        message = 'Chuẩn bị đến lượt quý khách.<br>HÃY SẴN SÀNG NHÉ!';
     } else {
         message = `Chỉ còn ${index} ca khúc.`;
     }
