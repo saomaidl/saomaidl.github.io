@@ -77,6 +77,7 @@ async function getUserIndexById() {
                     }
                     lastDataSnapshot = usersData;
                     const userIndex = processUserData(usersData, userId);
+                    console.log(userIndex);
                     updateSongStatus(userIndex);
                 }, (error) => {
                     updateSongStatus(-1);
