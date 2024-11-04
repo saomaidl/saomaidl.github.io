@@ -78,7 +78,7 @@ async function getUserIndexById() {
                 onValue(usersRef, (snapshot) => {
                     if (!snapshot.exists()) {
                         console.log('Không có dữ liệu người dùng.');
-                        $('#song_status').trigger('updateStatus', [-1]);
+                        updateSongStatus(-1);
                         return;
                     }
                     
@@ -93,19 +93,18 @@ async function getUserIndexById() {
                     lastDataSnapshot = usersData;
                     const userIndex = processUserData(usersData, userId);
                     console.log(`Chỉ số người dùng: ${userIndex}`);
-                    $('#song_status').trigger('updateStatus', [userIndex]);
                     updateSongStatus(userIndex);
                 }, (error) => {
                     console.error('Lỗi khi lấy dữ liệu người dùng:', error);
-                    $('#song_status').trigger('updateStatus', [-1]);
+                    updateSongStatus(-1);
                 });
             } else {
                 console.log('Người dùng chưa chọn bài hát.');
-                $('#song_status').trigger('updateStatus', [-1]);
+                updateSongStatus(-1);
             }
         } else {
             console.log('Tài liệu người dùng không tồn tại.');
-            $('#song_status').trigger('updateStatus', [-1]);
+            updateSongStatus(-1);
         }
     });
 }
