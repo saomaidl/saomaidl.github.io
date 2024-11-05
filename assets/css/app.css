@@ -292,7 +292,7 @@ ytm-chip-divider-renderer {
 }
 .chip-text.modern {
   font-size: 14px;
-  line-height: 20px;
+  line-height: 32px;
   font-weight: 400;
 }
 .chip-text {
