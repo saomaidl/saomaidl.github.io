@@ -254,7 +254,7 @@ ytm-chip-cloud-chip-renderer {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border-radius: 9999px;
+  border-radius: 12px;
   border: 0;
 }
 [chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer
@@ -359,6 +359,7 @@ ytm-mobile-topbar-renderer c3-icon {
   margin: 0;
   padding: 0;
   height: 32px;
+  margin-right: 12px;
 }
 .YtSearchboxComponentMweb .YtSearchboxComponentInputBox {
   margin: 0;
