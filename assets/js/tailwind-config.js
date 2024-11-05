@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             'margin': '0',
             '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
             'display': 'flex',
-            'letter-spacing': '-0.022rem',
+            'letter-spacing': 'normal',
           },
           '.scrollbar-none': {
             '&::-webkit-scrollbar': {
