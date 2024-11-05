@@ -1,6 +1,12 @@
 @font-face {
   font-family: "ui-icons";
-  src: url("https://saomaidl.github.io//assets/fonts/ui-icons.888cf473.woff2") format("woff2");
+  src: url(
+    {% if page.url == '/services/' %}
+      "https://saomaidl.github.io/assets/fonts/ui-icons.888cf473.woff2"
+    {% else %}
+      "https://saomaidl.github.io/assets/fonts/ui-icons.woff2"
+    {% endif %}
+  ) format("woff2");
   font-display: swap;
 }
 @font-face {
