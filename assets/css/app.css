@@ -1078,3 +1078,6 @@ html .gold {
 .ld.ld-All:before {
     content: "\f1e2";
 }
+.ld.ld-Two:before {
+    content: "\f1aa";
+}
