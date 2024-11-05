@@ -1,21 +1,64 @@
 @font-face {
   font-family: "saomai";
-  src: url("https://saomaidl.github.io//assets/fonts/SpotifyMixUI-Regular.woff2") format("woff2");
+  src: url("https://saomaidl.github.io/assets/fonts/SpotifyMixUI-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "saomai";
-  src: url("https://saomaidl.github.io//assets/fonts/SpotifyMixUI-Bold.woff2") format("woff2");
+  src: url("https://saomaidl.github.io/assets/fonts/SpotifyMixUI-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "saomaiHeading";
-  src: url("https://saomaidl.github.io//assets/fonts/SpotifyMixUITitleVariable.woff2") format("woff2");
+  src: url("https://saomaidl.github.io/assets/fonts/SpotifyMixUITitleVariable.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "saomai";
+  font-style: normal;
+  font-display: swap;
+  src: url("https://saomaidl.github.io/assets/fonts/Anamart-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "saomai";
+  font-style: normal;
+  font-display: swap;
+  src: url("https://saomaidl.github.io/assets/fonts/BogleWeb-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "saomai";
+  font-style: normal;
+  font-display: swap;
+  src: url("https://saomaidl.github.io/assets/fonts/Anamart-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "saomai";
+  font-style: normal;
+  font-display: swap;
+  src: url("https://saomaidl.github.io/assets/fonts/BogleWeb-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "saomaiHeading";
+  font-style: normal;
+  font-display: swap;
+  src: url("https://saomaidl.github.io/assets/fonts/Anamart-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "saomaiHeading";
+  font-style: normal;
+  font-display: swap;
+  src: url("https://saomaidl.github.io/assets/fonts/BogleWeb-Bold.woff2") format("woff2");
+  font-weight: 700;
 }
