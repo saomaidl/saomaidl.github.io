@@ -28,8 +28,8 @@
   <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">  
   <meta name="twitter:card" content="summary_large_image">
   
-  <link rel="preload" href="{{ site.baseurl }}/assets/css/services.css">
-  <link rel="preload" href="{{ site.baseurl }}/assets/css/font.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/services.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/font.css" as="style" onload="this.rel='stylesheet'">
   
   <!-- Các thư viện khác -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
