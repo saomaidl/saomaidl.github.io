@@ -249,13 +249,15 @@ ytm-chip-cloud-chip-renderer {
   height: 32px;
   min-width: 48px;
   text-align: center;
-  padding: 0 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   border-radius: 12px;
   border: 0;
+  line-height: 1;
+  padding: 0 1rem;
+  white-space: nowrap;
 }
 [chip-style="STYLE_EXPLORE_LAUNCHER_CHIP"].more-drawer
   .chip-container
