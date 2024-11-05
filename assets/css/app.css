@@ -1079,5 +1079,14 @@ html .gold {
     content: "\f1e2";
 }
 .ld.ld-Two:before {
-    content: "\f1aa";
+    content: "\f1d4";
+}
+.ld.ld-Karaoke:before {
+  content: "\f1bc";
+}
+.ld.ld-Male:before {
+    content: "\f1d3";
+}
+.ld.ld-Female:before {
+    content: "\f1d3";
 }
