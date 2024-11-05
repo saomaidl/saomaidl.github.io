@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'vi' }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/favicon/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Sao Mai" />
+  <link rel="manifest" href="{{ site.baseurl }}/assets/favicon/site.webmanifest" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="alternate" href="{{ page.url | prepend: site.baseurl }}" hreflang="{{ page.lang | default: 'vi' }}">
+  <link rel="canonical" href="{{ page.url | prepend: site.baseurl }}">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <meta property="og:locale" content="{{ site.locale | default: 'vi_VN' }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:url" content="{{ page.url | prepend: site.baseurl }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">  
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/app.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/font.css">
+  
+  <!-- Các thư viện khác -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  
+  <!-- Các file JavaScript của bạn -->
+  <script type="module" src="{{ site.baseurl }}/assets/js/firebase-config.js" defer></script>
+</head>
+
+<body>
+  <div id="__next">
+    <div data-testid="layout-container" class="flex flex-column min-vh-100 shadow-2" style="transform:none;transition:transform .2s">
+      <div class="flex flex-column flex-auto relative z-0" aria-hidden="false">
+        <div class="flex-auto relative z-1" data-testid="main-content-container">
+          <div class="main-content mw1280 center" id="maincontent" data-testid="maincontent">
+            <div class="bg-washed-blue pt5 pb5">
+              <div class="flex items-center">
+                <div class="ml3 flex flex-column w-100">
+                  <h1 class="blue ma0 f1" style="font-size:42px">Tìm dịch vụ gần đây</h1>
+                  <p class="ma2 mh0 f4">Khám phá các dịch vụ uy tín gần bạn cùng thông tin chi tiết về giờ hoạt động, chỉ đường và tiện ích đi kèm.</p>
+                </div>
+              </div>
+              <section>
+                <div class="bg-white shadow-1 mh3 br3">
+                  {{ content }}
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
