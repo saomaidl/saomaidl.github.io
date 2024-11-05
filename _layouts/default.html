@@ -27,16 +27,23 @@
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">  
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="/assets/css/app.css">
-  <link rel="stylesheet" href="/assets/css/font.css">
+  
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/app.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/font.css">
+  
+  <!-- Cấu hình Tailwind trước khi tải CDN -->
+  <script src="{{ site.baseurl }}/assets/js/tailwind-config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="./assets/js/tailwind-config.js"></script>
+  
+  <!-- Các thư viện khác -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="./assets/js/search.js"></script>
-  <script type="module" src="./assets/js/firebase-config.js"></script>
-  <script type="module" src="./assets/js/loadUserData.js"></script>
-  <script type="module" src="./assets/js/songSelection.js"></script>
+  
+  <!-- Các file JavaScript của bạn -->
+  <script type="module" src="{{ site.baseurl }}/assets/js/firebase-config.js" defer></script>
+  <script type="module" src="{{ site.baseurl }}/assets/js/loadUserData.js" defer></script>
+  <script type="module" src="{{ site.baseurl }}/assets/js/songSelection.js" defer></script>
+  <script src="{{ site.baseurl }}/assets/js/search.js" defer></script>
   
 </head>
 
