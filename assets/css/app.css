@@ -1075,3 +1075,6 @@ html .gold {
 .ld.ld-Spark:before {
   content: "\f1bc";
 }
+.ld.ld-All:before {
+    content: "\f1e2";
+}
