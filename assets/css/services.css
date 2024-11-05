@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 :root {
-  --font-family: Arial, sans-serif;
+  --font-family: saomai, Arial, sans-serif;
 }
 
 .w_iUH7 {
@@ -17609,14 +17609,6 @@ html {
   border-bottom: 0.0625rem solid #e3e4e5;
   margin: 0;
   width: 100%;
-}
-@font-face {
-  font-display: swap;
-  font-family: ui-icons;
-  src: url(https://i5.walmartimages.com/dfw/63fd9f59-4fb8/d394978f-6031-4014-874c-b0c453136fd4/v2/en-US/_next/static/media/ui-icons.888cf473.woff2)
-      format("woff2"),
-    url(https://i5.walmartimages.com/dfw/63fd9f59-4fb8/d394978f-6031-4014-874c-b0c453136fd4/v2/en-US/_next/static/media/ui-icons.e5ee2fdb.woff)
-      format("woff");
 }
 .ld {
   -moz-osx-font-smoothing: grayscale;
