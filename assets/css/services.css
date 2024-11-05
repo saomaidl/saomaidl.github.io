@@ -17610,6 +17610,11 @@ html {
   margin: 0;
   width: 100%;
 }
+@font-face {
+  font-family: "ui-icons";
+  src: url("https://saomaidl.github.io/assets/fonts/ui-icons.888cf473.woff2") format("woff2");
+  font-display: swap;
+}
 .ld {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
