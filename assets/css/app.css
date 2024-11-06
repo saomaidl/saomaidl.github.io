@@ -1279,22 +1279,6 @@ a:visited {
 }
 
 /* Icon and Text Alignment */
-.google-material-icons {
-  font-family: "Google Material Icons";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
-}
-
 .kW9Bj {
   display: flex;
   align-items: center;
@@ -1372,4 +1356,19 @@ a:visited {
 }
 .hQnXo.sMVRZe .ePyrDc:not(:disabled) {
     border-color: rgb(218,220,224);
+}
+.google-material-icons {
+  font-family: "Google Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
 }
