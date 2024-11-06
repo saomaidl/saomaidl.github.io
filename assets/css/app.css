@@ -8,6 +8,72 @@ html {
 :before {
   box-sizing: inherit;
 }
+html .w-auto {
+  width: auto;
+}
+.w_frKC {
+  box-shadow: inset 0 -0.0625rem 0 #e3e4e5;
+  width: 100%;
+}
+.w_SnjK {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+html article,
+html aside,
+html footer,
+html header,
+html nav,
+html section {
+  display: block;
+}
+.w_eM3c {
+  flex: 1 1;
+}
+html .flex {
+  display: flex;
+}
+.w_B9j1 {
+  align-items: center;
+  background: #fff;
+  border: 0;
+  box-shadow: inset 0 -0.0625rem 0 #e3e4e5;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  line-height: 3rem;
+  padding: 0 1rem;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
+html .w-100 {
+  width: 100%;
+}
+.w_B9j1.w_olxg {
+  color: #2e2f32;
+  font-weight: 700;
+}
+.w_7hrN {
+  color: #2e2f32;
+  font-size: 0.875rem;
+  line-height: 3rem;
+}
+.w_B9j1.w_olxg:after {
+  background-color: #0071dc;
+}
+.w_B9j1:after {
+  border-radius: 62.5rem 62.5rem 0 0;
+  bottom: 0.0625rem;
+  content: "";
+  height: 0.1875rem;
+  left: 0.25rem;
+  position: absolute;
+  right: 0.25rem;
+}
 .chips:after,
 .chips:before {
   bottom: 0;
