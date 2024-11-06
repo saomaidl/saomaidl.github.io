@@ -9,31 +9,31 @@
     const buttons = [
       {
         url: '/songs?event=play',
-        label: 'Play',
+        label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">play_arrow</span>`,
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">play_arrow</span>`,
       },
       {
         url: '/songs?event=next',
-        label: 'Next',
+        label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">skip_next</span>`,
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">skip_next</span>`,
       },
       {
         url: '/songs?event=volume_down',
-        label: 'Vol Down',
+        label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">volume_down</span>`,
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">volume_down</span>`,
       },
       {
         url: '/songs?event=volume_up',
-        label: 'Vol Up',
+        label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">volume_up</span>`,
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">volume_up</span>`,
       },
       {
         url: '/songs?event=settings',
-        label: 'Settings',
+        label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">settings</span>`,
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">settings</span>`,
       },
@@ -55,6 +55,9 @@
   });
 </script>
 <style>
+  .material-symbols-outlined {
+    font-size: 36px;
+  }
   .icon-default {
     font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;
   }
