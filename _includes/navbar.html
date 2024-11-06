@@ -42,7 +42,8 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const currentParam = urlParams.get('play') || urlParams.get('volume_down') || urlParams.get('next') || urlParams.get('volume_up') || urlParams.get('settings');
-
+    console.log(urlParams);
+    console.log(currentParam);
     buttons.forEach(button => {
       const isActive = window.location.pathname === button.url && currentParam === button.url.split('?')[1];
       $('#navbar').append(`
