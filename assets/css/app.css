@@ -431,11 +431,11 @@ ytm-mobile-topbar-renderer c3-icon {
 }
 .YtSearchboxComponentMweb .YtSearchboxComponentInputBox {
   margin: 0;
-  border-radius: 32px 0 0 32px;
+  border-radius: 0;
   border-right: 0;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #fff;
   border: 0;
-  padding: 0 48px 0 12px;
+  padding: 0 48px 0 0;
   box-shadow: none;
 }
 .YtSearchboxComponentInputBox {
