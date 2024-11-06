@@ -1188,7 +1188,7 @@ a:visited {
 
 .aoJE7e {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: hidden;
   scroll-snap-type: x mandatory;
 }
 
@@ -1200,6 +1200,8 @@ a:visited {
 .ULeU3b {
   flex-shrink: 0;
   scroll-snap-align: start;
+  height: 32px;
+  margin: 8px 0;
 }
 
 /* Button and Link Styles */
