@@ -1,9 +1,3 @@
-<div class="bg-white fixed bottom-0 left-0 right-0 w-full flex flex-col border-t border-black border-opacity-10">
-  <div class="z-max">
-    <div class="flex h-[56px] items-center" id="navbar"></div>
-  </div>
-</div>
-
 <script>
   $(document).ready(function() {
     const buttons = [
@@ -39,8 +33,12 @@
       },
     ];
 
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentParam = urlParams.get('play') || urlParams.get('volume_down') || urlParams.get('next') || urlParams.get('volume_up') || urlParams.get('settings');
+
     buttons.forEach(button => {
-      const isActive = window.location.pathname === button.url;
+      const isActive = window.location.pathname === button.url && currentParam === button.url.split('?')[1];
       $('#navbar').append(`
         <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-0">
           ${isActive ? button.iconAlt : button.icon}
@@ -50,17 +48,3 @@
     });
   });
 </script>
-
-<style>
-  .icon-default {
-    font-variation-settings: 'FILL' 0, 'wght' 300, 'opsz' 24;
-  }
-  
-  .icon-active {
-    font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;
-  }
-  
-  .text-icon {
-    color: gray;
-  }
-</style>
