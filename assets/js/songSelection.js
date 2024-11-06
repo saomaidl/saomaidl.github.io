@@ -167,7 +167,7 @@ function updateSongStatus(index) {
     }
 
     if (message) {
-        songStatusElement.html(`<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(128,184,238)]"><span>${message}</span></div>`);
+        songStatusElement.html(`<div class="flex gap-[4px] items-center justify-center flex-col text-[rgb(1,135,95)]"><span>${message}</span></div>`);
     }
 }
 
