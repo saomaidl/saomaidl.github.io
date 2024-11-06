@@ -1330,3 +1330,14 @@ a:visited {
   bottom: 0;
   opacity: 0;
 }
+
+.UJwHBc .opB26b {
+    color: rgb(95,99,104);
+    fill: rgb(95,99,104);
+    stop-color: rgb(95,99,104);
+    font-size: 24px;
+    position: relative;
+}
+.UJwHBc .opB26b:not(:disabled) {
+    color: rgb(95,99,104);
+}
