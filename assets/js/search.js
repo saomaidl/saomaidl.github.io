@@ -34,15 +34,7 @@ $(document).ready(function() {
     function showClearButton() {
         $('.clear-button').remove();
         if ($search.val().trim() !== '') {
-            const clearButton = `
-                <button class="clear-button absolute right-3 top-1-2 -translate-y-1-2" aria-label="Clear search field">
-                    <span aria-hidden="true">
-                        <svg viewBox="0 0 16 16" class="w-5 h-5 fill-current">
-                            <path d="M2.47 2.47a.75.75 0 0 1 1.06 0L8 6.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L9.06 8l4.47 4.47a.75.75 0 1 1-1.06 1.06L8 9.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L6.94 8 2.47 3.53a.75.75 0 0 1 0-1.06Z"></path>
-                        </svg>
-                    </span>
-                </button>
-            `;
+            const clearButton = `<button class="clear-button XLWCmc"><i class="google-material-icons VFjhDf" aria-hidden="true">clear</i></button>`;
             $search.after(clearButton);
         }
     }
