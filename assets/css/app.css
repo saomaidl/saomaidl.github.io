@@ -1159,3 +1159,164 @@ html .gold {
 .ld.ld-Female:before {
     content: "\f117";
 }
+/* Global Styles */
+c-wiz {
+  contain: style;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  color: inherit;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #333;
+}
+
+/* Layout and Positioning */
+.bewvKb {
+  position: relative;
+}
+
+.aoJE7e {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+
+.rE4BKe {
+  display: flex;
+  gap: 12px;
+}
+
+.ULeU3b {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* Button and Link Styles */
+.D3Qfie {
+  color: rgb(95, 99, 104);
+  fill: rgb(95, 99, 104);
+  background-color: #fff;
+  border: 1px solid rgb(218, 220, 224);
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  height: 32px;
+  line-height: 18px;
+  padding: 1px;
+  text-align: center;
+  text-transform: none;
+  transition: background 0.2s 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+}
+
+.D3Qfie.KKjvXb {
+  color: rgb(26, 115, 232);
+  fill: rgb(26, 115, 232);
+  background-color: rgb(232, 240, 254);
+  border: none;
+}
+
+.EFMXQ.KKjvXb:not(:disabled) {
+  color: #056449;
+  fill: #056449;
+  background-color: #e6f3ef;
+}
+
+/* Ripple Effect */
+.VfPpkd-ksKsZd-XxIAqe {
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  will-change: transform, opacity;
+}
+
+.VfPpkd-ksKsZd-XxIAqe::before,
+.VfPpkd-ksKsZd-XxIAqe::after {
+  position: absolute;
+  top: calc(50% - 100%);
+  left: calc(50% - 100%);
+  width: 200%;
+  height: 200%;
+  background-color: #000;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.VfPpkd-ksKsZd-XxIAqe::before {
+  transition: opacity 15ms linear, background-color 15ms linear;
+  z-index: 1;
+}
+
+.VfPpkd-ksKsZd-XxIAqe::after {
+  transition: opacity 150ms linear;
+  z-index: 0;
+}
+
+/* Icon and Text Alignment */
+.google-material-icons {
+  font-family: "Google Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+.kW9Bj {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0 16px;
+}
+
+.c6xzBd {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.kW9Bj .ypTNYd {
+  display: inline-block;
+  margin: 6px 4px;
+}
+
+.kofMvc {
+  border-radius: 9999px;
+}
+
+/* Icon Container Background */
+.D3Qfie .Gggmbb {
+  background-color: rgb(95, 99, 104);
+}
+
+.Gggmbb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
