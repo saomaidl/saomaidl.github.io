@@ -8,6 +8,18 @@
   $(document).ready(function() {
     const buttons = [
       {
+        url: '/songs?event=volume_down',
+        label: '',
+        icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">volume_down</span>`,
+        iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">volume_down</span>`,
+      },
+      {
+        url: '/songs?event=replay',
+        label: '',
+        icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">replay</span>`,
+        iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">replay</span>`,
+      },
+      {
         url: '/songs?event=play',
         label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">play_arrow</span>`,
@@ -20,22 +32,10 @@
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">skip_next</span>`,
       },
       {
-        url: '/songs?event=volume_down',
-        label: '',
-        icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">volume_down</span>`,
-        iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">volume_down</span>`,
-      },
-      {
         url: '/songs?event=volume_up',
         label: '',
         icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">volume_up</span>`,
         iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">volume_up</span>`,
-      },
-      {
-        url: '/songs?event=replay',
-        label: '',
-        icon: `<span class="material-symbols-outlined flex items-center justify-center icon-default">replay</span>`,
-        iconAlt: `<span class="material-symbols-outlined flex items-center justify-center icon-active" style="color: #056449;">replay</span>`,
       },
     ];
 
