@@ -1,0 +1,48 @@
+<div class="bg-white fixed bottom-0 left-0 right-0 w-full flex flex-col border-t border-black border-opacity-10"><div class="z-max"><div class="flex h-[56px] items-center" id="navbar"></div></div></div>
+
+<script>
+$(document).ready(function() {
+  const buttons = [
+    {
+      url: '/',
+      label: 'Play',
+      icon: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'opsz' 24;">play_arrow</span>`,
+      iconAlt: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;color: #056449;">play_arrow</span>`,
+    },
+    {
+      url: '/like',
+      label: 'Yêu thích',
+      icon: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'opsz' 24;">favorite</span>`,
+      iconAlt: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;color: #056449;">favorite</span>`,
+    },
+    {
+      url: '/search',
+      label: '',
+      icon: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 36;font-size: 36px;">add_circle</span>`,
+      iconAlt: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 36;font-size: 36px;color: #056449;">add_circle</span>`,
+    },
+    {
+      url: '/songs',
+      label: 'Danh sách',
+      icon: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'opsz' 24;">subscriptions</span>`,
+      iconAlt: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;color: #056449;">subscriptions</span>`,
+    },
+    {
+      url: '/services',
+      label: 'Khám phá',
+      icon: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 0, 'wght' 300, 'opsz' 24;">map</span>`,
+      iconAlt: `<span class="material-symbols-rounded flex items-center justify-center" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;color: #056449;">map</span>`,
+    },
+  ];
+
+  buttons.forEach(button => {
+    const isActive = window.location.pathname === button.url;
+    $('#navbar').append(`
+      <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-0">
+        ${isActive ? button.iconAlt : button.icon}
+        ${button.label ? `<span class="encore-text text-marginal leading-normal font-bold" style="font-size:10px;${isActive ? 'color: #056449;' : ''}">${button.label}</span>` : ''}
+      </a>
+    `);
+  });
+});
+</script>
