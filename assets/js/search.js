@@ -18,7 +18,7 @@ $(document).ready(function() {
         $search.on('input', handleSearchInput);
         $clearSearch.on('click', clearSearch);
         $('#search').on('keydown', handleKeyDown);
-        $(document).on('click', '.chip-container', handleChipClick);
+        $(document).on('click', '.ULeU3b', handleChipClick);
         $(document).on('click', '.clear-button', clearSearchInput);
     }
 
@@ -51,15 +51,13 @@ $(document).ready(function() {
     }
 
     function handleChipClick() {
-        const parentChip = $(this).closest('ytm-chip-cloud-chip-renderer');
-        if (parentChip.attr('chip-style') === 'STYLE_HOME_FILTER') {
-            $('ytm-chip-cloud-chip-renderer').removeClass('selected all-chip-renderer');
-            parentChip.addClass('selected all-chip-renderer');
-            $('ytm-chip-cloud-chip-renderer').attr('aria-selected', 'false');
-            parentChip.attr('aria-selected', 'true');
-            currentTab = $(this).attr('aria-label');
-            searchVideos();
-        }
+        const selectedLabel = $(this).find('.ypTNYd').text();
+        $('.ULeU3b').attr('aria-selected', 'false');
+        $(this).attr('aria-selected', 'true');
+        $('.ULeU3b button').attr('class', 'D3Qfie VfPpkd-ksKsZd-XxIAqe kofMvc EFMXQ');
+        $(this).find('button').attr('class', 'D3Qfie VfPpkd-ksKsZd-XxIAqe KKjvXb kofMvc EFMXQ');
+        currentTab = selectedLabel;
+        searchVideos();
     }
 
     function clearSearchInput() {
