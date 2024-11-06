@@ -42,7 +42,7 @@
       $('#navbar').append(`
         <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-0">
           ${isActive ? button.iconAlt : button.icon}
-          ${button.label ? `<span class="encore-text text-marginal leading-normal font-bold" style="font-size:10px;${isActive ? 'color: #056449;' : ''}">${button.label}</span>` : ''}
+          ${button.label ? `<span class="encore-text text-marginal leading-normal font-bold" style="font-size:14px;${isActive ? 'color: #056449;' : ''}">${button.label}</span>` : ''}
         </a>
       `);
     });
@@ -50,7 +50,7 @@
 </script>
 <style>
   .material-symbols-outlined {
-    font-size: 24px;
+    font-size: 36px;
   }
   .icon-default {
     font-variation-settings: 'FILL' 1, 'wght' 300, 'opsz' 24;
