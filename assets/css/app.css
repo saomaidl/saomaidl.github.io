@@ -387,7 +387,7 @@ header {
 }
 .mobile-topbar-back-arrow {
   color: #606060;
-  padding: 12px;
+  padding: 12px 12px 12px 24px;
   display: flex;
 }
 button,
@@ -427,7 +427,7 @@ ytm-mobile-topbar-renderer c3-icon {
   display: flex;
   margin: 0;
   padding: 0;
-  height: 32px;
+  height: 48px;
 }
 .YtSearchboxComponentMweb .YtSearchboxComponentInputBox {
   margin: 0;
@@ -435,7 +435,7 @@ ytm-mobile-topbar-renderer c3-icon {
   border-right: 0;
   background-color: #fff;
   border: 0;
-  padding: 0 48px 0 0;
+  padding: 0;
   box-shadow: none;
 }
 .YtSearchboxComponentInputBox {
