@@ -8,31 +8,31 @@
   $(document).ready(function() {
     const buttons = [
       {
-        url: 'play',
+        url: '/songs?event=play',
         label: 'Play',
         icon: `<span class="material-symbols-rounded flex items-center justify-center icon-default">play_circle</span>`,
         iconAlt: `<span class="material-symbols-rounded flex items-center justify-center icon-active" style="color: #056449;">play_circle</span>`,
       },
       {
-        url: 'volume_down',
+        url: '/songs?event=volume_down',
         label: 'Vol Down',
         icon: `<span class="material-symbols-rounded flex items-center justify-center icon-default">volume_down</span>`,
         iconAlt: `<span class="material-symbols-rounded flex items-center justify-center icon-active" style="color: #056449;">volume_down</span>`,
       },
       {
-        url: 'next',
+        url: '/songs?event=next',
         label: 'Next',
         icon: `<span class="material-symbols-rounded flex items-center justify-center icon-default">skip_next</span>`,
         iconAlt: `<span class="material-symbols-rounded flex items-center justify-center icon-active" style="color: #056449;">skip_next</span>`,
       },
       {
-        url: 'volume_up',
+        url: '/songs?event=volume_up',
         label: 'Vol Up',
         icon: `<span class="material-symbols-rounded flex items-center justify-center icon-default">volume_up</span>`,
         iconAlt: `<span class="material-symbols-rounded flex items-center justify-center icon-active" style="color: #056449;">volume_up</span>`,
       },
       {
-        url: 'settings',
+        url: '/songs?event=settings',
         label: 'Settings',
         icon: `<span class="material-symbols-rounded flex items-center justify-center icon-default">settings</span>`,
         iconAlt: `<span class="material-symbols-rounded flex items-center justify-center icon-active" style="color: #056449;">settings</span>`,
@@ -41,7 +41,7 @@
 
 
     const urlParams = new URLSearchParams(window.location.search);
-    const currentParam = urlParams.get('q');
+    const currentParam = urlParams.get('event');
     console.log(urlParams);
     console.log(currentParam);
     buttons.forEach(button => {
