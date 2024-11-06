@@ -287,8 +287,8 @@ ytm-feed-filter-chip-bar-renderer.chip-bar {
   scrollbar-width: none;
 }
 .chip-bar-contents > * {
-  display: inline-block;
-  vertical-align: text-top;
+  display: inline-flex;
+  vertical-align: middle;
 }
 ytm-chip-cloud-chip-renderer:first-of-type {
   margin-left: 12px;
@@ -1202,6 +1202,14 @@ a:visited {
   scroll-snap-align: start;
   height: 32px;
   margin: 8px 0;
+}
+
+.ULeU3b:first-of-type {
+    margin-left: 12px;
+}
+
+.ULeU3b:last-of-type {
+    margin-right: 12px;
 }
 
 /* Button and Link Styles */
