@@ -42,10 +42,9 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const currentParam = urlParams.get('event');
-    console.log(urlParams);
-    console.log(currentParam);
     buttons.forEach(button => {
-      const isActive = window.location.pathname === button.url && currentParam === button.url.split('?')[1];
+      const buttonEvent = button.url.split('=')[1];
+      const isActive = currentParam === buttonEvent;
       $('#navbar').append(`
         <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-0">
           ${isActive ? button.iconAlt : button.icon}
