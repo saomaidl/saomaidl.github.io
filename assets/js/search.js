@@ -189,8 +189,8 @@ $(document).ready(function() {
     }
 
     function formatViews(views) {
-        if (views > 1000000) return (views / 1000000).toFixed(1) + ' Tr lượt xem';
-        if (views > 1000) return (views / 1000).toFixed(1) + ' N lượt xem';
+        if (views >= 1000000) return (views / 1000000).toFixed(1).replace(/\.0$/, '') + ' Tr lượt xem';
+        if (views >= 1000) return (views / 1000).toFixed(1).replace(/\.0$/, '') + ' N lượt xem';
         return views + ' lượt xem';
     }
 
