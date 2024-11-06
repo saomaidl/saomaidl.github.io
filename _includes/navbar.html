@@ -41,7 +41,7 @@
 
 
     const urlParams = new URLSearchParams(window.location.search);
-    const currentParam = urlParams.get('play') || urlParams.get('volume_down') || urlParams.get('next') || urlParams.get('volume_up') || urlParams.get('settings');
+    const currentParam = urlParams.get('q');
     console.log(urlParams);
     console.log(currentParam);
     buttons.forEach(button => {
