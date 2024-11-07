@@ -40,7 +40,7 @@ $(document).ready(function() {
     $('#navbar').append(`
       <a href='${button.url}' class="flex flex-col items-center justify-center text-center flex-1 h-full ${isActive ? 'text-black' : 'text-icon'} gap-0">
         ${isActive ? button.iconAlt : button.icon}
-        ${button.label ? `<span class="encore-text text-marginal leading-normal font-bold text-sm leading-5" style="${isActive ? 'color: #056449;' : ''}">${button.label}</span>` : ''}
+        ${button.label ? `<span class="encore-text text-sm leading-5 font-bold" style="${isActive ? 'color: #056449;' : ''}">${button.label}</span>` : ''}
       </a>
     `);
   });
