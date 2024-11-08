@@ -1327,9 +1327,9 @@ a:visited {
 }
 .XLWCmc {
     height: 48px;
-    padding: 17px 19px;
+    padding: 12px;
     position: relative;
-    width: 52px;
+    width: 48px;
 }
 .XLWCmc .VFjhDf:not(:disabled) {
     color: rgb(95,99,104);
@@ -1339,7 +1339,7 @@ a:visited {
     color: rgb(95,99,104);
     fill: rgb(95,99,104);
     stop-color: rgb(95,99,104);
-    font-size: 14px;
+    font-size: 24px;
 }
 
 .ePyrDc {
