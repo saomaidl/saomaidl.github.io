@@ -404,7 +404,6 @@ ytm-feed-filter-chip-bar-renderer.chip-bar {
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  height: 56px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
