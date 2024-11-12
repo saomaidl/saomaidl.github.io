@@ -384,7 +384,7 @@ ytm-media-item .details {
 }
 .rich-grid-sticky-header {
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 48px;
 }
 .rich-grid-sticky-header ytm-feed-filter-chip-bar-renderer {
   position: fixed;
