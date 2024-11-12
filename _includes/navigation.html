@@ -43,7 +43,7 @@ $(document).ready(function() {
   buttons.forEach(button => {
     const isActive = window.location.pathname === button.url;
     $('.yyaGpb').append(`
-      <a href='${button.url}' class="uEz1ib ${isActive ? 'VuUAje' : button.class}">
+      <a href='${button.url}' class="uEz1ib ${isActive ? button.class : 'Y4jiDf'}">
         <div class="jb05Ib">${isActive ? button.iconAlt : button.icon}</div>
         ${button.label ? `<div class="WL3b7c">${button.label}</div>` : ''}
       </a>
