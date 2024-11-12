@@ -1339,20 +1339,30 @@ a:visited {
   color: rgb(95, 99, 104);
   fill: rgb(95, 99, 104);
   background-color: #fff;
-  border: 1px solid rgb(218, 220, 224);
+  border: 1px rgb(218, 220, 224) solid;
   border-radius: 8px;
+  box-sizing: border-box;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
   font-weight: 700;
-  height: 40px;
-  line-height: 24px;
-  padding: 1px;
+  height: 32px;
+  letter-spacing: 0.25px;
+  line-height: 18px;
+  min-width: auto;
+  outline: none;
+  overflow: hidden;
+  position: relative;
   text-align: center;
+  text-decoration: none;
   text-transform: none;
   transition: background 0.2s 0.1s;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  z-index: 0;
 }
 
 .D3Qfie.KKjvXb {
@@ -1411,7 +1421,7 @@ a:visited {
 .c6xzBd {
   display: inline-flex;
   flex-shrink: 0;
-  margin-right: 4px;
+  margin: 0 4px 0 0;
 }
 
 .kW9Bj .ypTNYd {
@@ -1598,4 +1608,8 @@ c-wiz {
 }
 .xCoTHe:not(:disabled) {
   color: rgb(32, 33, 36);
+}
+.kofMvc .Ka7T4c,
+.KnEF3e .Ka7T4c {
+  font-size: 16px;
 }
