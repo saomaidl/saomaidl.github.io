@@ -1372,3 +1372,76 @@ a:visited {
   -webkit-font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
 }
+.uOuZTe {
+  display: block;
+}
+c-wiz {
+  contain: style;
+}
+
+.P7NFWb {
+  background-color: #fff;
+  border-top: none;
+  bottom: 0;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  left: 0;
+  position: static;
+  width: 100%;
+  z-index: 3;
+  border-top: 1px solid rgb(218, 220, 224);
+  height: 56px;
+  position: fixed;
+}
+.yyaGpb {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.uEz1ib {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 112px;
+}
+.Y4jiDf {
+  color: rgb(95, 99, 104);
+  fill: rgb(95, 99, 104);
+  stop-color: rgb(95, 99, 104);
+}
+.Y4jiDf:not(:disabled) {
+  color: rgb(95, 99, 104);
+}
+.jb05Ib {
+  display: block;
+  line-height: 0;
+}
+.Y4jiDf {
+  color: rgb(95, 99, 104);
+  fill: rgb(95, 99, 104);
+  stop-color: rgb(95, 99, 104);
+}
+.Y4jiDf:not(:disabled) {
+  color: rgb(95, 99, 104);
+}
+.WL3b7c {
+  line-height: 1.25rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.0178571429em;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.VuUAje {
+  color: #01875f;
+  fill: #01875f;
+  stop-color: #01875f;
+}
+.VuUAje:not(:disabled) {
+  color: #01875f;
+}
