@@ -802,7 +802,7 @@ c-wiz {
 }
 @media (min-width: 1200px) {
   .video {
-    width: 50%;
+    width: 100%;
   }
 }
 .video:after {
