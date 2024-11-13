@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
           marginal: '0.6875rem',
         },
         fontFamily: {
-          saomaiHeading: ['saomaiHeading', 'Arial', 'sans-serif'],
+          saomaiHeading: ['Google Sans', 'Arial', 'sans-serif'],
         },
         translate: {
           '1-2': '50%',
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
             'margin-block': '0',
           },
           'body': {
-            'font-family': 'saomai, Arial, sans-serif',
+            'font-family': 'Google Sans, Arial, sans-serif',
             'background-color': '#fff',
             'margin': '0',
             '-webkit-tap-highlight-color': 'hsla(0, 0%, 100%, .1)',
