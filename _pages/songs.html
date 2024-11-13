@@ -10,7 +10,7 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
   <div id="movie_player" class="relative w-full bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out" style="transform: scale(1); transition: 0.2s;">
     <div class="absolute top-0 left-0 right-0 bottom-0">
       <div class="video">
-        <div class="video-preview" style="background-image: url(https://raw.githubusercontent.com/Ahmetaksungur/twitter-video-player-clone/master/92456705_506989316849451_7379405183454806542_n.jpg);">
+        <div class="video-preview" style="background-image: url(https://raw.githubusercontent.com/Ahmetaksungur/twitter-video-player-clone/master/92456705_506989316849451_7379405183454806542_n.jpg);display: none;">
           <button class="video-start-btn">
             <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <path d="M256,0C114.833,0,0,114.844,0,256s114.833,256,256,256s256-114.844,256-256S397.167,0,256,0z M357.771,264.969
@@ -21,7 +21,7 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
           </button>
         </div>
         <div class="video-top"></div>
-        <div class="video-loading">
+        <div class="video-loading" style="display: none;">
           <div class="video-loading-spinner"></div>
         </div>
         <div class="video-reset">
