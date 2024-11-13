@@ -223,10 +223,10 @@ function createYouTubePlayer(videoId) {
     videoId: videoId,
     playerVars: {
       autoplay: 1,
-      controls: showControls ? 1 : 0,
+      controls: showControls ? 0 : 0,
       rel: 0,
       iv_load_policy: 3,
-      mute: showControls ? 0 : 1,
+      mute: showControls ? 0 : 0,
       playsinline: 1,
       enablejsapi: 1,
       modestbranding: 1,
