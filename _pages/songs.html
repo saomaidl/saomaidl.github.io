@@ -206,7 +206,7 @@ $(document).ready(function() {
             var videoHeight = 576;
             var leftOffset = (screenWidth - 1024) / 2;
     
-            $("#player").css({
+            $(".video").css({
                 "width": containerWidth + "px",
                 "height": videoHeight + "px",
                 "left": leftOffset + "px",
@@ -215,7 +215,7 @@ $(document).ready(function() {
         } else {
             var containerWidth = $("#player-container-id").width();
             var videoHeight = (containerWidth * 9) / 16;
-            $("#player").css({
+            $(".video").css({
                 "width": containerWidth + "px",
                 "height": videoHeight + "px",
                 "left": "0px",
