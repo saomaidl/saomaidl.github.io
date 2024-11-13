@@ -788,7 +788,6 @@ c-wiz {
   flex-direction: column;
   transition: all 0.3s ease;
   color: white;
-  margin: 0 auto;
 }
 @media (min-width: 768px) {
   .video {
