@@ -241,9 +241,16 @@ function createYouTubePlayer(videoId) {
 }
 
 function onPlayerReady(event) {
-  event.target.setPlaybackQuality('highres');
-  event.target.playVideo();
-  startUpdatingVideoData();
+    event.target.setPlaybackQuality('highres');
+    event.target.playVideo();
+    startUpdatingVideoData();
+    $('#overlay').on('click', function() {
+        if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+        }
+    });
 }
 
 function startUpdatingVideoData() {
