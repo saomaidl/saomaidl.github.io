@@ -782,14 +782,13 @@ c-wiz {
 .video {
   position: relative;
   width: 100%;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
   color: white;
-  border-radius: 10px;
   margin: 0 auto;
-  margin-top: 2rem;
 }
 @media (min-width: 768px) {
   .video {
