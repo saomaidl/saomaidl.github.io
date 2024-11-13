@@ -251,6 +251,11 @@ function onPlayerReady(event) {
             player.playVideo();
         }
     });
+    $('#volume-slider').on('input', function() {
+      var volume = $(this).val();
+      player.setVolume(volume);
+      $('#volume-indicator').text('Volume: ' + volume + '%');
+    });
 }
 
 function startUpdatingVideoData() {
