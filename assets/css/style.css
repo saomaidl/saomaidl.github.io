@@ -735,3 +735,29 @@ c-wiz {
 .KnEF3e .Ka7T4c {
   font-size: 16px;
 }
+#volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #4A90E2;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#volume-slider::-webkit-slider-thumb:hover {
+    background-color: #0078D4;
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #4A90E2;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#volume-slider::-moz-range-thumb:hover {
+    background-color: #0078D4;
+}
