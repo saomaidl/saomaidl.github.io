@@ -1,0 +1,626 @@
+button {
+  padding: 0;
+  border: none;
+  outline: none;
+  font: inherit;
+  text-transform: inherit;
+  color: inherit;
+  background: transparent;
+}
+button,
+select,
+[role="button"],
+input[type="checkbox"] {
+  cursor: pointer;
+}
+#player-control-container.disable-user-select {
+  -webkit-user-select: none;
+}
+#player-control-container {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.YtmWatchPlayerControlsHost {
+  display: block;
+}
+#player-control-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  touch-action: manipulation;
+}
+#player-control-overlay.animation-enabled {
+  -webkit-transition: -webkit-transform 0.7s;
+  transition: -webkit-transform 0.7s;
+  transition: transform 0.7s;
+  transition: transform 0.7s, -webkit-transform 0.7s;
+  -webkit-transition-property: all;
+  transition-property: all;
+}
+#player-control-overlay.fadein {
+  pointer-events: auto;
+}
+#player-control-overlay .player-controls-content {
+  height: 100%;
+  overflow: hidden;
+  visibility: hidden;
+}
+#player-control-overlay.fadein .player-controls-content {
+  visibility: visible;
+}
+#player-control-overlay .player-controls-background-container {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  visibility: visible;
+}
+#player-control-overlay .player-controls-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0);
+}
+#player-control-overlay.animation-enabled .player-controls-background {
+  -webkit-transition-property: background-color;
+  transition-property: background-color;
+  -webkit-transition-duration: 0.7s;
+  transition-duration: 0.7s;
+}
+#player-control-overlay.fadein .player-controls-background {
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+}
+#player-control-overlay .player-controls-background-action-items {
+  position: absolute;
+  z-index: 0;
+}
+.cbox,
+.vbox,
+.center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.YtwDoubleTapToSeekHost {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.player-controls-double-tap-to-seek-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #fff;
+  overflow: hidden;
+}
+.player-controls-double-tap-to-seek-content.always-visible {
+  visibility: visible;
+  pointer-events: none;
+}
+.vbox {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.player-controls-double-tap-to-seek-info {
+  position: relative;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.YtwPlayerTopControlsHost {
+  display: block;
+}
+ytm-custom-control .player-controls-top {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+ytm-custom-control .with-video-details {
+  width: 100%;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+.YtwPlayerAutonavToggleHost {
+  display: block;
+}
+.ytm-autonav-toggle-button-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+.ytm-autonav-toggle-button-container .play-icon {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 22px;
+  width: 20px;
+  height: 20px;
+}
+.ytm-autonav-toggle-button-container .spanner-icon-off,
+.ytm-autonav-toggle-button-container .spanner-icon-on {
+  width: 36px;
+  height: 14px;
+  position: relative;
+}
+.yt-spec-icon-shape {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.ytm-autonav-toggle-button-container .spanner-icon-on svg,
+.ytm-autonav-toggle-button-container .spanner-icon-off svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 14px;
+}
+.YtmClosedCaptioningButtonHost {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+.YtmClosedCaptioningButtonButton {
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: none;
+  outline: none;
+  font: inherit;
+  text-transform: inherit;
+  color: inherit;
+  background: transparent;
+}
+ytm-custom-control .player-controls-bottom .icon-button > c3-icon svg path,
+ytm-custom-control .player-controls-middle .icon-button > c3-icon svg path,
+ytm-custom-control .player-controls-top .icon-button > c3-icon svg path,
+ytm-custom-control .player-controls-pb .icon-button > c3-icon,
+ytm-custom-control
+  .player-controls-top
+  ytm-closed-captioning-button
+  button[aria-pressed="true"]
+  > c3-icon
+  svg
+  path,
+ytm-custom-control
+  .player-controls-top
+  ytm-closed-captioning-button
+  button[aria-pressed="false"]
+  > c3-icon
+  svg
+  path,
+ytm-custom-control .fine-scrubbing-overlay .icon-button > c3-icon svg path {
+  fill: #fff;
+}
+c3-icon svg {
+  width: 100%;
+  height: 100%;
+}
+c3-icon {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  stroke: none;
+}
+.icon-button {
+  border: none;
+  background: transparent;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+ytm-custom-control .icon-button {
+  height: 48px;
+  width: 48px;
+  padding: 12px;
+}
+.center {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.YtwPlayerMiddleControlsHost {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+ytm-custom-control .player-controls-middle {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 4;
+}
+ytm-custom-control .icon-button {
+  height: 48px;
+  width: 48px;
+  padding: 12px;
+}
+ytm-custom-control .player-controls-middle .icon-button {
+  height: 48px;
+  width: 48px;
+  padding: 6px;
+}
+ytm-custom-control .player-controls-middle .modern-tap-target-ui .icon-button {
+  border-radius: 24px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+ytm-custom-control .player-controls-middle .icon-button > c3-icon {
+  height: 36px;
+  width: 36px;
+}
+ytm-custom-control
+  .player-controls-middle
+  .modern-tap-target-ui
+  .icon-button
+  > c3-icon {
+  height: 32px;
+  width: 32px;
+}
+.hidden-button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 12px;
+  width: 12px;
+}
+ytm-custom-control
+  .player-controls-middle
+  .modern-tap-target-ui
+  .player-control-play-pause-icon,
+ytm-custom-control
+  .player-controls-middle
+  .modern-tap-target-ui
+  .endscreen-replay-button.icon-button {
+  margin: 0 40px;
+}
+ytm-custom-control
+  .player-controls-middle
+  .modern-tap-target-ui
+  .player-control-play-pause-icon.icon-button {
+  height: 56px;
+  width: 56px;
+  border-radius: 56px;
+}
+ytm-custom-control
+  .player-controls-middle
+  .modern-tap-target-ui
+  .player-control-play-pause-icon.icon-button
+  > c3-icon {
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+}
+ytm-custom-control
+  .player-controls-middle
+  .player-control-play-pause-icon.icon-button,
+ytm-custom-control
+  .player-controls-middle
+  .player-control-play-pause-icon.icon-button
+  > c3-icon {
+  height: 56px;
+  width: 56px;
+  padding: 0;
+}
+ytm-custom-control .player-controls-middle .player-control-play-pause-icon,
+ytm-custom-control
+  .player-controls-middle
+  .endscreen-replay-button.icon-button {
+  margin: 0 60px;
+  padding: 0;
+}
+.YtwPlayerBottomControlsHost {
+  display: block;
+}
+ytm-custom-control .player-controls-bottom {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 30px;
+  z-index: 2;
+}
+.YtwPlayerTimeDisplayHost {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  margin-left: 16px;
+  font-weight: 500;
+  overflow: hidden;
+}
+.YtwPlayerTimeDisplayContent {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+.YtwPlayerTimeDisplayTime {
+  color: #fff;
+}
+.YtwPlayerTimeDisplayTimeSecond {
+  opacity: 0.7;
+}
+.YtwPlayerTimeDisplayTimeDelimiter {
+  color: #fff;
+  margin: 0 4px;
+  opacity: 0.7;
+}
+.YtwPlayerTimeDisplayTimeSecond {
+  opacity: 0.7;
+}
+c3-material-button {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+  min-width: 5.14em;
+  margin: 0 0.29em;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+.YtwPlayerTimeDisplayPlaybarActionContainer {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.c3-material-button-button {
+  padding: 0.7em 0.57em;
+}
+.YtwPlayerTimeDisplayPlaybarButton.YtwPlayerTimeDisplayPlaybarButton {
+  pointer-events: auto;
+  overflow: hidden;
+  padding: 0;
+}
+c3-material-button .c3-material-button-button.sentence-case {
+  text-transform: none;
+}
+.YtwPlayerTimeDisplaySpacerDot {
+  margin: 0 4px;
+}
+.YtwPlayerTimeDisplayTimeMacro {
+  text-transform: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.YtwPlayerTimeDisplayChevron {
+  color: #fff;
+}
+ytm-custom-control .player-controls-bottom .icon-button {
+  height: 44px;
+  width: 44px;
+  padding: 8px;
+  display: block;
+}
+.YtPlayerProgressBarHost {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  height: 100%;
+}
+.YtPlayerProgressBarHostLowerPlayer {
+  bottom: 0;
+  left: 30px;
+  right: 30px;
+  height: 44px;
+}
+.YtPlayerProgressBarDragContainer {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.YtPlayerProgressBarProgressBar {
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.YtHeatSeekerHost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.5px;
+  fill: rgba(255, 255, 255, 0.4);
+}
+.YtChapteredProgressBarHost {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+}
+.YtChapteredProgressBarChapteredPlayerBarChapter {
+  height: 3px;
+  background: #f03;
+  margin: 0 1px;
+  position: relative;
+}
+.YtChapteredProgressBarChapteredPlayerBarChapter:first-of-type {
+  margin-left: 0;
+}
+.YtChapteredProgressBarChapteredPlayerBarLoaded {
+  background: rgba(255, 255, 255, 0.3);
+  height: 3px;
+  position: absolute;
+}
+.YtChapteredProgressBarChapteredPlayerBarFill {
+  background: #f03;
+  height: 3px;
+  position: absolute;
+}
+.YtChapteredProgressBarChapteredPlayerBarFillRefresh {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(80%, #f03),
+    to(#ff2791)
+  );
+  background: -webkit-linear-gradient(left, #f03 80%, #ff2791 100%);
+  background: linear-gradient(to right, #f03 80%, #ff2791 100%);
+}
+.YtProgressBarPlayheadHost {
+  display: block;
+  position: absolute;
+}
+.YtProgressBarPlayheadProgressBarPlayheadDot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: #f03;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: -webkit-transform 0.1s ease;
+  transition: -webkit-transform 0.1s ease;
+  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, -webkit-transform 0.1s ease;
+}
+.YtwPlayerFullscreenControlsHost {
+  display: block;
+}
+.YtProgressBarLineHost {
+  display: block;
+  position: absolute;
+  width: 100%;
+}
+.YtProgressBarLineProgressBarLine {
+  position: relative;
+  height: 3px;
+  width: 100%;
+}
+.YtProgressBarLineProgressBarBackground {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+  opacity: 0.3;
+  width: 100%;
+}
+.YtProgressBarLineProgressBarBackground {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+  opacity: 0.3;
+  width: 100%;
+}
+.YtProgressBarLineProgressBarLoaded {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+  opacity: 0.6;
+}
+.YtProgressBarLineProgressBarHovered {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+  opacity: 0.7;
+}
+.YtProgressBarLineProgressBarPlayed {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #f03;
+}
+.YtProgressBarLineProgressBarPlayedRefresh {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(80%, #f03),
+    to(#ff2791)
+  );
+  background: -webkit-linear-gradient(left, #f03 80%, #ff2791 100%);
+  background: linear-gradient(to right, #f03 80%, #ff2791 100%);
+}
