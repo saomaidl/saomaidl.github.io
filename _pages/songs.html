@@ -329,4 +329,25 @@ $(document).ready(function() {
 });
 </script>
 
+<script>
+  $(document).ready(function () {
+    let fadeTimeout;
+    $('.video').hover(
+      function () {
+        $('#player-control-overlay').addClass('fadein');
+        clearTimeout(fadeTimeout);
+        fadeTimeout = setTimeout(function () {
+          $('#player-control-overlay').removeClass('fadein');
+        }, 3000);
+      },
+      function () {
+        clearTimeout(fadeTimeout);
+        fadeTimeout = setTimeout(function () {
+          $('#player-control-overlay').removeClass('fadein');
+        }, 3000);
+      }
+    );
+  });
+</script>
+
 {% include navbar.html %}
