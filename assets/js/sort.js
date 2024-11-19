@@ -244,17 +244,16 @@ function onPlayerReady(event) {
     event.target.setPlaybackQuality('highres');
     event.target.playVideo();
     startUpdatingVideoData();
-    $('#overlay').on('click', function() {
-        if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+    $('.player-control-play-pause-icon').on('click', function () {
+        const playerState = player.getPlayerState();
+        const playPauseIcon = $(this).find('path');
+        if (playerState === YT.PlayerState.PLAYING) {
             player.pauseVideo();
+            playPauseIcon.attr('d', 'M9 19H7V5h2Zm8-14h-2v14h2Z');
         } else {
             player.playVideo();
+            playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
         }
-    });
-    $('#volume-slider').on('input', function() {
-      var volume = $(this).val();
-      player.setVolume(volume);
-      $('#volume-indicator').text('Volume: ' + volume + '%');
     });
 }
 
