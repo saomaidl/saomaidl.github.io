@@ -332,35 +332,23 @@ $(document).ready(function() {
 <script>
   $(document).ready(function () {
     let fadeTimeout;
-
     function showControls() {
       $('#player-control-overlay').addClass('fadein');
       clearTimeout(fadeTimeout);
       fadeTimeout = setTimeout(hideControls, 3000);
     }
-
     function hideControls() {
       $('#player-control-overlay').removeClass('fadein');
     }
-
-    // Hover for desktop
-    $('.video').on('mouseenter', function () {
-      showControls();
+    $('.video').on('click', function () {
+      if ($('#player-control-overlay').hasClass('fadein')) {
+        hideControls();
+      } else {
+        showControls();
+      }
     });
-
-    $('.video').on('mouseleave', function () {
-      clearTimeout(fadeTimeout);
-      fadeTimeout = setTimeout(hideControls, 3000);
-    });
-
-    // Touch for mobile
-    $('.video').on('touchstart', function () {
-      showControls();
-    });
-
-    $('.video').on('touchend', function () {
-      clearTimeout(fadeTimeout);
-      fadeTimeout = setTimeout(hideControls, 3000);
+    $('#player-control-overlay').on('click', function (e) {
+      e.stopPropagation();
     });
   });
 </script>
