@@ -24,28 +24,22 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
                     <div>
                       <player-top-controls class="YtwPlayerTopControlsHost">
                         <div class="player-controls-top with-video-details">
-                          <player-autonav-toggle class="YtwPlayerAutonavToggleHost">
-                            <button class="ytm-autonav-toggle-button-container" aria-label="Chế độ tự động phát đang bật" aria-pressed="true">
-                              <c3-icon class="spanner-icon-on">
-                                <span class="yt-icon-shape yt-spec-icon-shape">
-                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                                    <svg width="36" height="14" viewBox="0 0 36 14" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C4.13401 0 1 3.13401 1 7C1 10.866 4.13401 14 8 14H28C31.866 14 35 10.866 35 7C35 3.13401 31.866 0 28 0H8ZM22.83 1.32999V12.66L22.9835 12.5675L31.66 6.98437L22.83 1.32999Z" fill="white" fill-opacity="0.5"></path>
-                                    </svg>
-                                  </div>
+                          <yt-mute-toggle-button>
+                            <ytm-mute-button class="YtmMuteButtonHost">
+                              <button class="YtmMuteButtonButton" title="Tắt tiếng" aria-label="Tắt tiếng"><span>
+                                  <c3-icon>
+                                    <span class="yt-icon-shape yt-spec-icon-shape">
+                                      <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                          <path d="M21 12c0 4.08-3.05 7.44-7 7.93v-2.02c2.83-.48 5-2.94 5-5.91s-2.17-5.43-5-5.91V4.07c3.95.49 7 3.85 7 7.93zM3 9v6h3.16L12 19.93V4.07L6.16 9H3zm11-1.38v2.09c.88.39 1.5 1.27 1.5 2.29s-.62 1.9-1.5 2.29v2.09c2-.46 3.5-2.24 3.5-4.38S16 8.08 14 7.62z"></path>
+                                        </svg>
+                                      </div>
+                                    </span>
+                                  </c3-icon>
                                 </span>
-                              </c3-icon>
-                              <c3-icon class="play-icon">
-                                <span class="yt-icon-shape yt-spec-icon-shape">
-                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0ZM14.6667 10L7.33334 14.6667V5.33333L14.6667 10Z" fill="white"></path>
-                                    </svg>
-                                  </div>
-                                </span>
-                              </c3-icon>
-                            </button>
-                          </player-autonav-toggle>
+                              </button>
+                            </ytm-mute-button>
+                          </yt-mute-toggle-button>
                           <yt-closed-captions-toggle-button>
                             <ytm-closed-captioning-button class="YtmClosedCaptioningButtonHost">
                               <button class="YtmClosedCaptioningButtonButton" title="Đã tắt phụ đề" aria-label="Đã tắt phụ đề" aria-pressed="false">
