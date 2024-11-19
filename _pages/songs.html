@@ -12,193 +12,193 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
       <div class="video">
         <div class="video-player">
           <div tabindex="-1" id="player" class="block w-full h-full absolute"></div>
+          <div id="player-control-container" initial-load="" playable="true" class="disable-user-select">
+            <ytm-custom-control>
+              <ytm-watch-player-controls class="YtmWatchPlayerControlsHost">
+                <div id="player-control-overlay" class="new-controls bigbar medium-modification animation-enabled enable-fullscreen-controls fs-watch-system fadein">
+                  <div class="player-controls-content">
+                    <div class="player-controls-background-container">
+                      <div class="player-controls-background"></div>
+                      <div class="player-controls-background-action-items"></div>
+                    </div>
+                    <div>
+                      <player-top-controls class="YtwPlayerTopControlsHost">
+                        <div class="player-controls-top with-video-details">
+                          <player-autonav-toggle class="YtwPlayerAutonavToggleHost">
+                            <button class="ytm-autonav-toggle-button-container" aria-label="Chế độ tự động phát đang bật" aria-pressed="true">
+                              <c3-icon class="spanner-icon-on">
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg width="36" height="14" viewBox="0 0 36 14" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C4.13401 0 1 3.13401 1 7C1 10.866 4.13401 14 8 14H28C31.866 14 35 10.866 35 7C35 3.13401 31.866 0 28 0H8ZM22.83 1.32999V12.66L22.9835 12.5675L31.66 6.98437L22.83 1.32999Z" fill="white" fill-opacity="0.5"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                              <c3-icon class="play-icon">
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0ZM14.6667 10L7.33334 14.6667V5.33333L14.6667 10Z" fill="white"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                            </button>
+                          </player-autonav-toggle>
+                          <yt-closed-captions-toggle-button>
+                            <ytm-closed-captioning-button class="YtmClosedCaptioningButtonHost">
+                              <button class="YtmClosedCaptioningButtonButton" title="Đã tắt phụ đề" aria-label="Đã tắt phụ đề" aria-pressed="false">
+                                <c3-icon>
+                                  <span class="yt-icon-shape yt-spec-icon-shape">
+                                    <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                      <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                        <path d="M6 14v-4c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1H9.5v-.5h-2v3h2V13H11v1c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1zm8 1h3c.55 0 1-.45 1-1v-1h-1.5v.5h-2v-3h2v.5H18v-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm6-11H4v16h16V4m1-1v18H3V3.01C3 3 3 3 3.01 3H21z"></path>
+                                      </svg>
+                                    </div>
+                                  </span>
+                                </c3-icon>
+                              </button>
+                            </ytm-closed-captioning-button>
+                          </yt-closed-captions-toggle-button>
+                          <div><button class="icon-button player-settings-icon" aria-label="Cài đặt tính năng phát">
+                              <c3-icon>
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path d="M12 9.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5m0-1c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zM13.22 3l.55 2.2.13.51.5.18c.61.23 1.19.56 1.72.98l.4.32.5-.14 2.17-.62 1.22 2.11-1.63 1.59-.37.36.08.51c.05.32.08.64.08.98s-.03.66-.08.98l-.08.51.37.36 1.63 1.59-1.22 2.11-2.17-.62-.5-.14-.4.32c-.53.43-1.11.76-1.72.98l-.5.18-.13.51-.55 2.24h-2.44l-.55-2.2-.13-.51-.5-.18c-.6-.23-1.18-.56-1.72-.99l-.4-.32-.5.14-2.17.62-1.21-2.12 1.63-1.59.37-.36-.08-.51c-.05-.32-.08-.65-.08-.98s.03-.66.08-.98l.08-.51-.37-.36L3.6 8.56l1.22-2.11 2.17.62.5.14.4-.32c.53-.44 1.11-.77 1.72-.99l.5-.18.13-.51.54-2.21h2.44M14 2h-4l-.74 2.96c-.73.27-1.4.66-2 1.14l-2.92-.83-2 3.46 2.19 2.13c-.06.37-.09.75-.09 1.14s.03.77.09 1.14l-2.19 2.13 2 3.46 2.92-.83c.6.48 1.27.87 2 1.14L10 22h4l.74-2.96c.73-.27 1.4-.66 2-1.14l2.92.83 2-3.46-2.19-2.13c.06-.37.09-.75.09-1.14s-.03-.77-.09-1.14l2.19-2.13-2-3.46-2.92.83c-.6-.48-1.27-.87-2-1.14L14 2z"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </player-top-controls>
+                      <player-middle-controls class="YtwPlayerMiddleControlsHost player-controls-middle center">
+                        <div class="player-controls-middle-core-buttons center modern-tap-target-ui">
+                          <div><button class="icon-button icon-disable" aria-label="Video trước" aria-disabled="true">
+                              <c3-icon>
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path d="M19 6 9 12l10 6V6zM7 6H5v12h2V6z"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button class="icon-button player-control-play-pause-icon" aria-label="Phát video" aria-pressed="false">
+                              <c3-icon>
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path d="m7 4 12 8-12 8V4z"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                            </button>
+                          </div>
+                          <button aria-label="Tua nhanh 10 giây" class="player-control-seek-icon-a11y hidden-button"></button>
+                          <div>
+                            <button class="icon-button" aria-label="Video tiếp theo">
+                              <c3-icon>
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path d="m5 18 10-6L5 6v12zM19 6h-2v12h2V6z"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </player-middle-controls>
+                    </div>
+                    <div>
+                      <player-bottom-controls class="YtwPlayerBottomControlsHost">
+                        <div class="player-controls-bottom cbox">
+                          <player-time-display class="YtwPlayerTimeDisplayHost">
+                            <div class="YtwPlayerTimeDisplayContent">
+                              <span class="YtwPlayerTimeDisplayTime" role="text" aria-label="Thời lượng đã trôi qua 0:11">0:11</span>
+                              <span class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplayTimeSecond"></span>
+                              <span class="YtwPlayerTimeDisplayTimeDelimiter" aria-hidden="true">/</span>
+                              <span role="text" class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplayTimeSecond" aria-label="Thời lượng 1:00:46">1:00:46</span>
+                              <c3-material-button class="YtwPlayerTimeDisplayPlaybarActionContainer">
+                                <button class="c3-material-button-button YtwPlayerTimeDisplayPlaybarButton sentence-case" aria-label="Xem các chương">
+                                  <div class="cbox">
+                                    <span aria-hidden="true" class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplaySpacerDot">·</span>
+                                    <span class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplayTimeMacro">
+                                      <span class="yt-core-attributed-string" role="text">Tình Yêu Màu Nắng - Trúc Nhân x MIN</span>
+                                    </span>
+                                    <c3-icon class="YtwPlayerTimeDisplayChevron">
+                                      <span class="yt-icon-shape yt-spec-icon-shape">
+                                        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                            <path d="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"></path>
+                                          </svg>
+                                        </div>
+                                      </span>
+                                    </c3-icon>
+                                  </div>
+                                </button>
+                              </c3-material-button>
+                            </div>
+                          </player-time-display>
+                          <div>
+                            <button class="icon-button fullscreen-icon" aria-label="Chuyển sang chế độ toàn màn hình">
+                              <c3-icon>
+                                <span class="yt-icon-shape yt-spec-icon-shape">
+                                  <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                      <path d="M7,11H6V6h5v1H7V11z M18,6h-5v1h4v4h1V6z M18,13h-1v4h-4v1h5V13z M11,17H7v-4H6v5h5V17z"></path>
+                                    </svg>
+                                  </div>
+                                </span>
+                              </c3-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </player-bottom-controls>
+                    </div>
+                    <div>
+                      <yt-progress-bar class="YtPlayerProgressBarHost watch-page-progress-bar YtPlayerProgressBarHostLowerPlayer">
+                        <div role="slider" tabindex="0" aria-label="Thanh tua" class="YtPlayerProgressBarDragContainer" aria-valuenow="0" aria-valuetext="0%">
+                          <div class="YtPlayerProgressBarProgressBar">
+                            <yt-progress-bar-heatseeker class="YtHeatSeekerHost" style="height: 320px; display: none;">
+                              <svg width="100%" height="320px" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                                <path d="M 0.0,100.0 C 0.0,99.1 -1.0,96.6 0.0,95.7 C 1.0,94.9 2.0,95.2 5.0,95.7 C 8.0,96.3 11.0,97.9 15.0,98.5 C 19.0,99.1 21.0,98.6 25.0,98.7 C 29.0,98.7 31.0,98.7 35.0,98.8 C 39.0,98.8 41.0,98.7 45.0,98.7 C 49.0,98.7 51.0,98.8 55.0,98.8 C 59.0,98.8 61.0,98.9 65.0,98.8 C 69.0,98.7 71.0,99.0 75.0,98.3 C 79.0,97.6 81.0,95.2 85.0,95.3 C 89.0,95.4 91.0,98.0 95.0,98.7 C 99.0,99.4 101.0,98.7 105.0,98.8 C 109.0,98.8 111.0,98.8 115.0,98.8 C 119.0,98.7 121.0,98.7 125.0,98.7 C 129.0,98.7 131.0,98.7 135.0,98.8 C 139.0,98.8 141.0,98.8 145.0,98.8 C 149.0,98.8 151.0,99.1 155.0,98.8 C 159.0,98.4 161.0,96.8 165.0,96.8 C 169.0,96.8 171.0,98.4 175.0,98.8 C 179.0,99.1 181.0,98.8 185.0,98.8 C 189.0,98.8 191.0,98.8 195.0,98.8 C 199.0,98.7 201.0,98.6 205.0,98.6 C 209.0,98.6 211.0,98.7 215.0,98.8 C 219.0,98.8 221.0,98.8 225.0,98.8 C 229.0,98.8 231.0,99.0 235.0,98.8 C 239.0,98.5 241.0,97.3 245.0,97.3 C 249.0,97.3 251.0,98.5 255.0,98.8 C 259.0,99.0 261.0,98.8 265.0,98.8 C 269.0,98.8 271.0,98.8 275.0,98.8 C 279.0,98.8 281.0,98.8 285.0,98.8 C 289.0,98.8 291.0,98.8 295.0,98.8 C 299.0,98.8 301.0,98.8 305.0,98.8 C 309.0,98.7 311.0,99.0 315.0,98.7 C 319.0,98.3 321.0,97.1 325.0,97.1 C 329.0,97.1 331.0,98.3 335.0,98.6 C 339.0,98.9 341.0,98.7 345.0,98.8 C 349.0,98.8 351.0,98.8 355.0,98.8 C 359.0,98.8 361.0,98.8 365.0,98.8 C 369.0,98.8 371.0,98.8 375.0,98.8 C 379.0,98.8 381.0,98.8 385.0,98.8 C 389.0,98.7 391.0,98.7 395.0,98.4 C 399.0,98.2 401.0,97.4 405.0,97.5 C 409.0,97.6 411.0,98.5 415.0,98.8 C 419.0,99.0 421.0,98.8 425.0,98.8 C 429.0,98.8 431.0,98.8 435.0,98.8 C 439.0,98.8 441.0,98.7 445.0,98.7 C 449.0,98.7 451.0,98.8 455.0,98.8 C 459.0,98.7 461.0,98.7 465.0,98.7 C 469.0,98.7 471.0,99.0 475.0,98.8 C 479.0,98.6 481.0,97.7 485.0,97.7 C 489.0,97.7 491.0,98.5 495.0,98.8 C 499.0,99.0 501.0,98.8 505.0,98.8 C 509.0,98.8 511.0,98.8 515.0,98.8 C 519.0,98.8 521.0,98.8 525.0,98.8 C 529.0,98.8 531.0,98.8 535.0,98.8 C 539.0,98.8 541.0,98.8 545.0,98.8 C 549.0,98.8 551.0,98.8 555.0,98.8 C 559.0,98.8 561.0,99.0 565.0,98.8 C 569.0,98.6 571.0,97.8 575.0,97.8 C 579.0,97.8 581.0,98.6 585.0,98.8 C 589.0,98.9 591.0,98.7 595.0,98.6 C 599.0,98.6 601.0,98.4 605.0,98.5 C 609.0,98.5 611.0,98.7 615.0,98.8 C 619.0,98.8 621.0,98.7 625.0,98.7 C 629.0,98.7 631.0,98.7 635.0,98.7 C 639.0,98.7 641.0,98.9 645.0,98.8 C 649.0,98.6 651.0,98.1 655.0,98.1 C 659.0,98.1 661.0,98.6 665.0,98.8 C 669.0,98.9 671.0,98.8 675.0,98.8 C 679.0,98.8 681.0,98.8 685.0,98.8 C 689.0,98.8 691.0,98.8 695.0,98.8 C 699.0,98.7 701.0,98.6 705.0,98.6 C 709.0,98.6 711.0,101.0 715.0,98.8 C 719.0,96.5 721.0,87.6 725.0,87.5 C 729.0,87.5 731.0,96.2 735.0,98.4 C 739.0,100.7 741.0,98.7 745.0,98.8 C 749.0,98.8 751.0,98.8 755.0,98.8 C 759.0,98.8 761.0,98.8 765.0,98.8 C 769.0,98.8 771.0,98.8 775.0,98.8 C 779.0,98.8 781.0,98.8 785.0,98.8 C 789.0,98.8 791.0,98.8 795.0,98.8 C 799.0,98.8 801.0,98.8 805.0,98.8 C 809.0,98.7 811.0,98.5 815.0,98.5 C 819.0,98.5 821.0,98.7 825.0,98.8 C 829.0,98.8 831.0,98.8 835.0,98.8 C 839.0,98.8 841.0,98.8 845.0,98.8 C 849.0,98.8 851.0,98.8 855.0,98.8 C 859.0,98.8 861.0,98.8 865.0,98.8 C 869.0,98.8 871.0,98.8 875.0,98.8 C 879.0,98.8 881.0,98.9 885.0,98.8 C 889.0,98.6 891.0,98.2 895.0,98.2 C 899.0,98.2 901.0,98.6 905.0,98.8 C 909.0,98.9 911.0,98.8 915.0,98.8 C 919.0,98.8 921.0,98.8 925.0,98.8 C 929.0,98.8 931.0,98.8 935.0,98.8 C 939.0,98.8 941.0,98.8 945.0,98.8 C 949.0,98.8 951.0,98.8 955.0,98.8 C 959.0,98.8 961.0,98.8 965.0,98.8 C 969.0,98.8 971.0,98.8 975.0,98.8 C 979.0,98.8 981.0,98.8 985.0,98.8 C 989.0,98.8 992.0,98.8 995.0,98.8 C 998.0,98.8 999.0,98.5 1000.0,98.8 C 1001.0,99.0 1000.0,99.8 1000.0,100.0"></path>
+                              </svg>
+                            </yt-progress-bar-heatseeker>
+                            <yt-progress-bar-line class="YtProgressBarLineHost">
+                              <div class="YtProgressBarLineProgressBarLine">
+                                <div class="YtProgressBarLineProgressBarBackground"></div>
+                                <div class="YtProgressBarLineProgressBarLoaded" style="width: 0%;"></div>
+                                <div class="YtProgressBarLineProgressBarHovered" style="width: 0%;"></div>
+                                <div class="YtProgressBarLineProgressBarPlayed YtProgressBarLineProgressBarPlayedRefresh" style="width: 0%;"></div>
+                              </div>
+                            </yt-progress-bar-line>
+                            <yt-progress-bar-playhead class="YtProgressBarPlayheadHost" style="margin-left: 0%; transform: translateX(0px);">
+                              <div class="YtProgressBarPlayheadProgressBarPlayheadDot" style="transform-origin: 0px center;"></div>
+                            </yt-progress-bar-playhead>
+                          </div>
+                        </div>
+                        <yt-player-storyboard></yt-player-storyboard>
+                      </yt-progress-bar>
+                    </div>
+                    <player-fullscreen-controls class="YtwPlayerFullscreenControlsHost"></player-fullscreen-controls>
+                  </div>
+                </div>
+              </ytm-watch-player-controls>
+            </ytm-custom-control>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div id="player-control-container" initial-load="" playable="true" class="disable-user-select">
-    <ytm-custom-control>
-      <ytm-watch-player-controls class="YtmWatchPlayerControlsHost">
-        <div id="player-control-overlay" class="new-controls bigbar medium-modification animation-enabled enable-fullscreen-controls fs-watch-system fadein">
-          <div class="player-controls-content">
-            <div class="player-controls-background-container">
-              <div class="player-controls-background"></div>
-              <div class="player-controls-background-action-items"></div>
-            </div>
-            <div>
-              <player-top-controls class="YtwPlayerTopControlsHost">
-                <div class="player-controls-top with-video-details">
-                  <player-autonav-toggle class="YtwPlayerAutonavToggleHost">
-                    <button class="ytm-autonav-toggle-button-container" aria-label="Chế độ tự động phát đang bật" aria-pressed="true">
-                      <c3-icon class="spanner-icon-on">
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg width="36" height="14" viewBox="0 0 36 14" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C4.13401 0 1 3.13401 1 7C1 10.866 4.13401 14 8 14H28C31.866 14 35 10.866 35 7C35 3.13401 31.866 0 28 0H8ZM22.83 1.32999V12.66L22.9835 12.5675L31.66 6.98437L22.83 1.32999Z" fill="white" fill-opacity="0.5"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                      <c3-icon class="play-icon">
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0ZM14.6667 10L7.33334 14.6667V5.33333L14.6667 10Z" fill="white"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                    </button>
-                  </player-autonav-toggle>
-                  <yt-closed-captions-toggle-button>
-                    <ytm-closed-captioning-button class="YtmClosedCaptioningButtonHost">
-                      <button class="YtmClosedCaptioningButtonButton" title="Đã tắt phụ đề" aria-label="Đã tắt phụ đề" aria-pressed="false">
-                        <c3-icon>
-                          <span class="yt-icon-shape yt-spec-icon-shape">
-                            <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                              <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                                <path d="M6 14v-4c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1H9.5v-.5h-2v3h2V13H11v1c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1zm8 1h3c.55 0 1-.45 1-1v-1h-1.5v.5h-2v-3h2v.5H18v-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm6-11H4v16h16V4m1-1v18H3V3.01C3 3 3 3 3.01 3H21z"></path>
-                              </svg>
-                            </div>
-                          </span>
-                        </c3-icon>
-                      </button>
-                    </ytm-closed-captioning-button>
-                  </yt-closed-captions-toggle-button>
-                  <div><button class="icon-button player-settings-icon" aria-label="Cài đặt tính năng phát">
-                      <c3-icon>
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path d="M12 9.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5m0-1c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zM13.22 3l.55 2.2.13.51.5.18c.61.23 1.19.56 1.72.98l.4.32.5-.14 2.17-.62 1.22 2.11-1.63 1.59-.37.36.08.51c.05.32.08.64.08.98s-.03.66-.08.98l-.08.51.37.36 1.63 1.59-1.22 2.11-2.17-.62-.5-.14-.4.32c-.53.43-1.11.76-1.72.98l-.5.18-.13.51-.55 2.24h-2.44l-.55-2.2-.13-.51-.5-.18c-.6-.23-1.18-.56-1.72-.99l-.4-.32-.5.14-2.17.62-1.21-2.12 1.63-1.59.37-.36-.08-.51c-.05-.32-.08-.65-.08-.98s.03-.66.08-.98l.08-.51-.37-.36L3.6 8.56l1.22-2.11 2.17.62.5.14.4-.32c.53-.44 1.11-.77 1.72-.99l.5-.18.13-.51.54-2.21h2.44M14 2h-4l-.74 2.96c-.73.27-1.4.66-2 1.14l-2.92-.83-2 3.46 2.19 2.13c-.06.37-.09.75-.09 1.14s.03.77.09 1.14l-2.19 2.13 2 3.46 2.92-.83c.6.48 1.27.87 2 1.14L10 22h4l.74-2.96c.73-.27 1.4-.66 2-1.14l2.92.83 2-3.46-2.19-2.13c.06-.37.09-.75.09-1.14s-.03-.77-.09-1.14l2.19-2.13-2-3.46-2.92.83c-.6-.48-1.27-.87-2-1.14L14 2z"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                    </button>
-                  </div>
-                </div>
-              </player-top-controls>
-              <player-middle-controls class="YtwPlayerMiddleControlsHost player-controls-middle center">
-                <div class="player-controls-middle-core-buttons center modern-tap-target-ui">
-                  <div><button class="icon-button icon-disable" aria-label="Video trước" aria-disabled="true">
-                      <c3-icon>
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path d="M19 6 9 12l10 6V6zM7 6H5v12h2V6z"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                    </button>
-                  </div>
-                  <div>
-                    <button class="icon-button player-control-play-pause-icon" aria-label="Phát video" aria-pressed="false">
-                      <c3-icon>
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path d="m7 4 12 8-12 8V4z"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                    </button>
-                  </div>
-                  <button aria-label="Tua nhanh 10 giây" class="player-control-seek-icon-a11y hidden-button"></button>
-                  <div>
-                    <button class="icon-button" aria-label="Video tiếp theo">
-                      <c3-icon>
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path d="m5 18 10-6L5 6v12zM19 6h-2v12h2V6z"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                    </button>
-                  </div>
-                </div>
-              </player-middle-controls>
-            </div>
-            <div>
-              <player-bottom-controls class="YtwPlayerBottomControlsHost">
-                <div class="player-controls-bottom cbox">
-                  <player-time-display class="YtwPlayerTimeDisplayHost">
-                    <div class="YtwPlayerTimeDisplayContent">
-                      <span class="YtwPlayerTimeDisplayTime" role="text" aria-label="Thời lượng đã trôi qua 0:11">0:11</span>
-                      <span class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplayTimeSecond"></span>
-                      <span class="YtwPlayerTimeDisplayTimeDelimiter" aria-hidden="true">/</span>
-                      <span role="text" class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplayTimeSecond" aria-label="Thời lượng 1:00:46">1:00:46</span>
-                      <c3-material-button class="YtwPlayerTimeDisplayPlaybarActionContainer">
-                        <button class="c3-material-button-button YtwPlayerTimeDisplayPlaybarButton sentence-case" aria-label="Xem các chương">
-                          <div class="cbox">
-                            <span aria-hidden="true" class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplaySpacerDot">·</span>
-                            <span class="YtwPlayerTimeDisplayTime YtwPlayerTimeDisplayTimeMacro">
-                              <span class="yt-core-attributed-string" role="text">Tình Yêu Màu Nắng - Trúc Nhân x MIN</span>
-                            </span>
-                            <c3-icon class="YtwPlayerTimeDisplayChevron">
-                              <span class="yt-icon-shape yt-spec-icon-shape">
-                                <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                                    <path d="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"></path>
-                                  </svg>
-                                </div>
-                              </span>
-                            </c3-icon>
-                          </div>
-                        </button>
-                      </c3-material-button>
-                    </div>
-                  </player-time-display>
-                  <div>
-                    <button class="icon-button fullscreen-icon" aria-label="Chuyển sang chế độ toàn màn hình">
-                      <c3-icon>
-                        <span class="yt-icon-shape yt-spec-icon-shape">
-                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
-                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
-                              <path d="M7,11H6V6h5v1H7V11z M18,6h-5v1h4v4h1V6z M18,13h-1v4h-4v1h5V13z M11,17H7v-4H6v5h5V17z"></path>
-                            </svg>
-                          </div>
-                        </span>
-                      </c3-icon>
-                    </button>
-                  </div>
-                </div>
-              </player-bottom-controls>
-            </div>
-            <div>
-              <yt-progress-bar class="YtPlayerProgressBarHost watch-page-progress-bar YtPlayerProgressBarHostLowerPlayer">
-                <div role="slider" tabindex="0" aria-label="Thanh tua" class="YtPlayerProgressBarDragContainer" aria-valuenow="0" aria-valuetext="0%">
-                  <div class="YtPlayerProgressBarProgressBar">
-                    <yt-progress-bar-heatseeker class="YtHeatSeekerHost" style="height: 320px; display: none;">
-                      <svg width="100%" height="320px" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                        <path d="M 0.0,100.0 C 0.0,99.1 -1.0,96.6 0.0,95.7 C 1.0,94.9 2.0,95.2 5.0,95.7 C 8.0,96.3 11.0,97.9 15.0,98.5 C 19.0,99.1 21.0,98.6 25.0,98.7 C 29.0,98.7 31.0,98.7 35.0,98.8 C 39.0,98.8 41.0,98.7 45.0,98.7 C 49.0,98.7 51.0,98.8 55.0,98.8 C 59.0,98.8 61.0,98.9 65.0,98.8 C 69.0,98.7 71.0,99.0 75.0,98.3 C 79.0,97.6 81.0,95.2 85.0,95.3 C 89.0,95.4 91.0,98.0 95.0,98.7 C 99.0,99.4 101.0,98.7 105.0,98.8 C 109.0,98.8 111.0,98.8 115.0,98.8 C 119.0,98.7 121.0,98.7 125.0,98.7 C 129.0,98.7 131.0,98.7 135.0,98.8 C 139.0,98.8 141.0,98.8 145.0,98.8 C 149.0,98.8 151.0,99.1 155.0,98.8 C 159.0,98.4 161.0,96.8 165.0,96.8 C 169.0,96.8 171.0,98.4 175.0,98.8 C 179.0,99.1 181.0,98.8 185.0,98.8 C 189.0,98.8 191.0,98.8 195.0,98.8 C 199.0,98.7 201.0,98.6 205.0,98.6 C 209.0,98.6 211.0,98.7 215.0,98.8 C 219.0,98.8 221.0,98.8 225.0,98.8 C 229.0,98.8 231.0,99.0 235.0,98.8 C 239.0,98.5 241.0,97.3 245.0,97.3 C 249.0,97.3 251.0,98.5 255.0,98.8 C 259.0,99.0 261.0,98.8 265.0,98.8 C 269.0,98.8 271.0,98.8 275.0,98.8 C 279.0,98.8 281.0,98.8 285.0,98.8 C 289.0,98.8 291.0,98.8 295.0,98.8 C 299.0,98.8 301.0,98.8 305.0,98.8 C 309.0,98.7 311.0,99.0 315.0,98.7 C 319.0,98.3 321.0,97.1 325.0,97.1 C 329.0,97.1 331.0,98.3 335.0,98.6 C 339.0,98.9 341.0,98.7 345.0,98.8 C 349.0,98.8 351.0,98.8 355.0,98.8 C 359.0,98.8 361.0,98.8 365.0,98.8 C 369.0,98.8 371.0,98.8 375.0,98.8 C 379.0,98.8 381.0,98.8 385.0,98.8 C 389.0,98.7 391.0,98.7 395.0,98.4 C 399.0,98.2 401.0,97.4 405.0,97.5 C 409.0,97.6 411.0,98.5 415.0,98.8 C 419.0,99.0 421.0,98.8 425.0,98.8 C 429.0,98.8 431.0,98.8 435.0,98.8 C 439.0,98.8 441.0,98.7 445.0,98.7 C 449.0,98.7 451.0,98.8 455.0,98.8 C 459.0,98.7 461.0,98.7 465.0,98.7 C 469.0,98.7 471.0,99.0 475.0,98.8 C 479.0,98.6 481.0,97.7 485.0,97.7 C 489.0,97.7 491.0,98.5 495.0,98.8 C 499.0,99.0 501.0,98.8 505.0,98.8 C 509.0,98.8 511.0,98.8 515.0,98.8 C 519.0,98.8 521.0,98.8 525.0,98.8 C 529.0,98.8 531.0,98.8 535.0,98.8 C 539.0,98.8 541.0,98.8 545.0,98.8 C 549.0,98.8 551.0,98.8 555.0,98.8 C 559.0,98.8 561.0,99.0 565.0,98.8 C 569.0,98.6 571.0,97.8 575.0,97.8 C 579.0,97.8 581.0,98.6 585.0,98.8 C 589.0,98.9 591.0,98.7 595.0,98.6 C 599.0,98.6 601.0,98.4 605.0,98.5 C 609.0,98.5 611.0,98.7 615.0,98.8 C 619.0,98.8 621.0,98.7 625.0,98.7 C 629.0,98.7 631.0,98.7 635.0,98.7 C 639.0,98.7 641.0,98.9 645.0,98.8 C 649.0,98.6 651.0,98.1 655.0,98.1 C 659.0,98.1 661.0,98.6 665.0,98.8 C 669.0,98.9 671.0,98.8 675.0,98.8 C 679.0,98.8 681.0,98.8 685.0,98.8 C 689.0,98.8 691.0,98.8 695.0,98.8 C 699.0,98.7 701.0,98.6 705.0,98.6 C 709.0,98.6 711.0,101.0 715.0,98.8 C 719.0,96.5 721.0,87.6 725.0,87.5 C 729.0,87.5 731.0,96.2 735.0,98.4 C 739.0,100.7 741.0,98.7 745.0,98.8 C 749.0,98.8 751.0,98.8 755.0,98.8 C 759.0,98.8 761.0,98.8 765.0,98.8 C 769.0,98.8 771.0,98.8 775.0,98.8 C 779.0,98.8 781.0,98.8 785.0,98.8 C 789.0,98.8 791.0,98.8 795.0,98.8 C 799.0,98.8 801.0,98.8 805.0,98.8 C 809.0,98.7 811.0,98.5 815.0,98.5 C 819.0,98.5 821.0,98.7 825.0,98.8 C 829.0,98.8 831.0,98.8 835.0,98.8 C 839.0,98.8 841.0,98.8 845.0,98.8 C 849.0,98.8 851.0,98.8 855.0,98.8 C 859.0,98.8 861.0,98.8 865.0,98.8 C 869.0,98.8 871.0,98.8 875.0,98.8 C 879.0,98.8 881.0,98.9 885.0,98.8 C 889.0,98.6 891.0,98.2 895.0,98.2 C 899.0,98.2 901.0,98.6 905.0,98.8 C 909.0,98.9 911.0,98.8 915.0,98.8 C 919.0,98.8 921.0,98.8 925.0,98.8 C 929.0,98.8 931.0,98.8 935.0,98.8 C 939.0,98.8 941.0,98.8 945.0,98.8 C 949.0,98.8 951.0,98.8 955.0,98.8 C 959.0,98.8 961.0,98.8 965.0,98.8 C 969.0,98.8 971.0,98.8 975.0,98.8 C 979.0,98.8 981.0,98.8 985.0,98.8 C 989.0,98.8 992.0,98.8 995.0,98.8 C 998.0,98.8 999.0,98.5 1000.0,98.8 C 1001.0,99.0 1000.0,99.8 1000.0,100.0"></path>
-                      </svg>
-                    </yt-progress-bar-heatseeker>
-                    <yt-progress-bar-line class="YtProgressBarLineHost">
-                      <div class="YtProgressBarLineProgressBarLine">
-                        <div class="YtProgressBarLineProgressBarBackground"></div>
-                        <div class="YtProgressBarLineProgressBarLoaded" style="width: 0%;"></div>
-                        <div class="YtProgressBarLineProgressBarHovered" style="width: 0%;"></div>
-                        <div class="YtProgressBarLineProgressBarPlayed YtProgressBarLineProgressBarPlayedRefresh" style="width: 0%;"></div>
-                      </div>
-                    </yt-progress-bar-line>
-                    <yt-progress-bar-playhead class="YtProgressBarPlayheadHost" style="margin-left: 0%; transform: translateX(0px);">
-                      <div class="YtProgressBarPlayheadProgressBarPlayheadDot" style="transform-origin: 0px center;"></div>
-                    </yt-progress-bar-playhead>
-                  </div>
-                </div>
-                <yt-player-storyboard></yt-player-storyboard>
-              </yt-progress-bar>
-            </div>
-            <player-fullscreen-controls class="YtwPlayerFullscreenControlsHost"></player-fullscreen-controls>
-          </div>
-        </div>
-      </ytm-watch-player-controls>
-    </ytm-custom-control>
   </div>
 </div>
 
