@@ -319,6 +319,9 @@ ytm-custom-control .player-controls-middle .icon-button {
   height: 48px;
   width: 48px;
   padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 ytm-custom-control .player-controls-middle .modern-tap-target-ui .icon-button {
   border-radius: 24px;
