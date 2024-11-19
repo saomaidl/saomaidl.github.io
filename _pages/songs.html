@@ -332,21 +332,36 @@ $(document).ready(function() {
 <script>
   $(document).ready(function () {
     let fadeTimeout;
-    $('.video').hover(
-      function () {
-        $('#player-control-overlay').addClass('fadein');
-        clearTimeout(fadeTimeout);
-        fadeTimeout = setTimeout(function () {
-          $('#player-control-overlay').removeClass('fadein');
-        }, 3000);
-      },
-      function () {
-        clearTimeout(fadeTimeout);
-        fadeTimeout = setTimeout(function () {
-          $('#player-control-overlay').removeClass('fadein');
-        }, 3000);
-      }
-    );
+
+    function showControls() {
+      $('#player-control-overlay').addClass('fadein');
+      clearTimeout(fadeTimeout);
+      fadeTimeout = setTimeout(hideControls, 3000);
+    }
+
+    function hideControls() {
+      $('#player-control-overlay').removeClass('fadein');
+    }
+
+    // Hover for desktop
+    $('.video').on('mouseenter', function () {
+      showControls();
+    });
+
+    $('.video').on('mouseleave', function () {
+      clearTimeout(fadeTimeout);
+      fadeTimeout = setTimeout(hideControls, 3000);
+    });
+
+    // Touch for mobile
+    $('.video').on('touchstart', function () {
+      showControls();
+    });
+
+    $('.video').on('touchend', function () {
+      clearTimeout(fadeTimeout);
+      fadeTimeout = setTimeout(hideControls, 3000);
+    });
   });
 </script>
 
