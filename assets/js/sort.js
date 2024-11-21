@@ -319,9 +319,14 @@ function updateProgressBar() {
   playedBar.css('width', `${playedPercent}%`);
   const playhead = progressBar.find('.YtProgressBarPlayheadHost');
   playhead.css('margin-left', `${playedPercent}%`);
+
+  const currentTimeFormatted = formatTime(currentTime);
+  const totalTimeFormatted = formatTime(duration);
+    
   const timeDisplay = $('player-time-display');
   const elapsedTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').first();
   const totalTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').last();
+    
 
   elapsedTime.text(currentTimeFormatted);
   totalTime.text(totalTimeFormatted);
