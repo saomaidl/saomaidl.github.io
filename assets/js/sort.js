@@ -289,6 +289,7 @@ function updateVideoData() {
 
 function onPlayerStateChange(event) {
   const playPauseIcon = $('.player-control-play-pause-icon path');
+  const playPauseButton = $('.player-control-play-pause-icon');
   switch (event.data) {
     case YT.PlayerState.ENDED:
       handleVideoEnd();
@@ -298,6 +299,7 @@ function onPlayerStateChange(event) {
     case YT.PlayerState.PAUSED:
       isUpdating = false;
       playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
+      playPauseButton.attr('aria-label', 'Phát video');
       break;
 
     case YT.PlayerState.BUFFERING:
@@ -313,6 +315,7 @@ function onPlayerStateChange(event) {
         startUpdatingVideoData();
       }
       playPauseIcon.attr('d', 'M9 19H7V5h2Zm8-14h-2v14h2Z');
+      playPauseButton.attr('aria-label', 'Tạm dừng video');
       break;
   }
 }
