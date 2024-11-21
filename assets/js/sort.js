@@ -319,6 +319,21 @@ function updateProgressBar() {
   playedBar.css('width', `${playedPercent}%`);
   const playhead = progressBar.find('.YtProgressBarPlayheadHost');
   playhead.css('margin-left', `${playedPercent}%`);
+  const timeDisplay = $('player-time-display');
+  const elapsedTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').first();
+  const totalTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').last();
+
+  elapsedTime.text(currentTimeFormatted);
+  totalTime.text(totalTimeFormatted);
+  const songTitle = "Tình Yêu Màu Nắng - Trúc Nhân x MIN";
+  const songTitleElement = timeDisplay.find('.YtwPlayerTimeDisplayTimeMacro');
+  songTitleElement.text(songTitle);
+}
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
 function onPlayerStateChange(event) {
