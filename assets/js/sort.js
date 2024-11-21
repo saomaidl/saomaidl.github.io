@@ -309,10 +309,10 @@ function updateBufferingUI(isBuffering) {
 function updateProgressBar() {
   const currentTime = player.getCurrentTime();
   const duration = player.getDuration();
+  if (!duration) return;
   const playedPercent = (currentTime / duration) * 100;
   const progressBar = $('yt-progress-bar');
   if (!progressBar.length) {
-    console.error('Không tìm thấy yt-progress-bar');
     return;
   }
   const playedBar = progressBar.find('.YtProgressBarLineProgressBarPlayed');
@@ -322,15 +322,17 @@ function updateProgressBar() {
 
   const currentTimeFormatted = formatTime(currentTime);
   const totalTimeFormatted = formatTime(duration);
-    
+  
   const timeDisplay = $('player-time-display');
   const elapsedTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').first();
   const totalTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').last();
-    
 
   elapsedTime.text(currentTimeFormatted);
   totalTime.text(totalTimeFormatted);
-  const songTitle = "Tình Yêu Màu Nắng - Trúc Nhân x MIN";
+
+  const videoData = player.getVideoData();
+  const songTitle = videoData.title;
+
   const songTitleElement = timeDisplay.find('.YtwPlayerTimeDisplayTimeMacro');
   songTitleElement.text(songTitle);
 }
