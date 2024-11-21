@@ -715,3 +715,7 @@ ytm-custom-control .player-controls-middle .player-controls-spinner {
     transform: rotate(1turn);
   }
 }
+ytm-custom-control .player-controls-middle .screenreader-safe-hide-middle-buttons {
+    pointer-events: none;
+    opacity: 0;
+}
