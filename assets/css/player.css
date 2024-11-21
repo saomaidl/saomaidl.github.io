@@ -486,9 +486,9 @@ c3-material-button .c3-material-button-button.sentence-case {
   color: #fff;
 }
 ytm-custom-control .player-controls-bottom .icon-button {
-  height: 44px;
-  width: 44px;
-  padding: 8px;
+  height: 48px;
+  width: 48px;
+  padding: 12px;
   display: block;
 }
 .YtPlayerProgressBarHost {
