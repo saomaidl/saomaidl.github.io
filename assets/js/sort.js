@@ -287,24 +287,44 @@ function updateVideoData() {
   }
 }
 
+function updateBufferingUI(isBuffering) {
+  const $playerMiddleControls = $('player-middle-controls');
+  const $middleButtons = $playerMiddleControls.find('.player-controls-middle-core-buttons');
+  if (isBuffering) {
+    $middleButtons.addClass('screenreader-safe-hide-middle-buttons');
+    if ($playerMiddleControls.find('.player-controls-spinner').length === 0) {
+      const spinnerHtml = `
+        <div class="player-controls-spinner">
+          <div class="spinner"></div>
+        </div>`;
+      $playerMiddleControls.prepend(spinnerHtml);
+    }
+  } else {
+    $middleButtons.removeClass('screenreader-safe-hide-middle-buttons');
+    $playerMiddleControls.find('.player-controls-spinner').remove();
+  }
+}
+
 function onPlayerStateChange(event) {
   const playPauseIcon = $('.player-control-play-pause-icon path');
   const playPauseButton = $('.player-control-play-pause-icon');
   switch (event.data) {
     case YT.PlayerState.ENDED:
       handleVideoEnd();
+      updateBufferingUI(false);
       playPauseIcon.attr('d', 'M22 12c0 5.51-4.49 10-10 10S2 17.51 2 12h1c0 4.96 4.04 9 9 9s9-4.04 9-9-4.04-9-9-9C8.81 3 5.92 4.64 4.28 7.38c-.11.18-.22.37-.31.56L3.94 8H8v1H1.96V3h1v4.74c.04-.09.07-.17.11-.25.11-.22.23-.42.35-.63C5.22 3.86 8.51 2 12 2c5.51 0 10 4.49 10 10z');   
       break;
 
     case YT.PlayerState.PAUSED:
       isUpdating = false;
+      updateBufferingUI(false);
       playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
       playPauseButton.attr('aria-label', 'Phát video');
       break;
 
     case YT.PlayerState.BUFFERING:
       isUpdating = false;
-      playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
+      updateBufferingUI(true);
       break;
 
     case YT.PlayerState.PLAYING:
@@ -314,6 +334,7 @@ function onPlayerStateChange(event) {
         updateVideoData();
         startUpdatingVideoData();
       }
+      updateBufferingUI(false);
       playPauseIcon.attr('d', 'M9 19H7V5h2Zm8-14h-2v14h2Z');
       playPauseButton.attr('aria-label', 'Tạm dừng video');
       break;
