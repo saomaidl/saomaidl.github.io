@@ -402,9 +402,9 @@ ytm-custom-control .player-controls-bottom {
   -webkit-justify-content: space-between;
   justify-content: space-between;
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 30px;
+  left: 0;
+  right: 0;
+  bottom: 8px;
   z-index: 2;
 }
 .YtwPlayerTimeDisplayHost {
@@ -415,7 +415,7 @@ ytm-custom-control .player-controls-bottom {
   -webkit-align-items: center;
   align-items: center;
   margin-left: 16px;
-  font-weight: 500;
+  font-weight: 700;
   overflow: hidden;
 }
 .YtwPlayerTimeDisplayContent {
@@ -503,9 +503,9 @@ ytm-custom-control .player-controls-bottom .icon-button {
 }
 .YtPlayerProgressBarHostLowerPlayer {
   bottom: 0;
-  left: 30px;
-  right: 30px;
-  height: 44px;
+  left: 0;
+  right: 0;
+  height: 3px;
 }
 .YtPlayerProgressBarDragContainer {
   width: 100%;
