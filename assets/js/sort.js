@@ -257,6 +257,7 @@ function onPlayerReady(event) {
 function startUpdatingVideoData() {
   function update() {
     updateVideoData();
+    updateProgressBar();
     if (isUpdating) {
       requestAnimationFrame(update);
     }
@@ -306,19 +307,18 @@ function updateBufferingUI(isBuffering) {
 }
 
 function updateProgressBar() {
-  const progressBar = document.getElementById('progress-bar');
-  const duration = player.getDuration(); // Tổng thời gian video
-
-  function step() {
-    const currentTime = player.getCurrentTime();
-    const percentage = (currentTime / duration) * 100;
-    progressBar.style.width = `${percentage}%`;
-
-    if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-      requestAnimationFrame(step);
-    }
+  const currentTime = player.getCurrentTime();
+  const duration = player.getDuration();
+  const playedPercent = (currentTime / duration) * 100;
+  const progressBar = $('yt-progress-bar');
+  if (!progressBar.length) {
+    console.error('Không tìm thấy yt-progress-bar');
+    return;
   }
-  step();
+  const playedBar = progressBar.find('.YtProgressBarLineProgressBarPlayed');
+  playedBar.css('width', `${playedPercent}%`);
+  const playhead = progressBar.find('.YtProgressBarPlayheadHost');
+  playhead.css('margin-left', `${playedPercent}%`);
 }
 
 function onPlayerStateChange(event) {
