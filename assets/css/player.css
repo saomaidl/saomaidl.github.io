@@ -653,3 +653,65 @@ ytm-custom-control .player-controls-bottom .icon-button {
   background: -webkit-linear-gradient(left, #f03 80%, #ff2791 100%);
   background: linear-gradient(to right, #f03 80%, #ff2791 100%);
 }
+ytm-custom-control .player-controls-middle .player-controls-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.spinner {
+  display: block;
+  box-sizing: border-box;
+  margin: 12px auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  border-top-color: #666;
+  -webkit-animation: spinner 0.8s linear infinite;
+  animation: spinner 0.8s linear infinite;
+}
+.spinner:not([hidden]) {
+  color: #333;
+  font-size: 1.6rem;
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(1turn);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(1turn);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
