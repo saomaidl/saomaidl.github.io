@@ -241,20 +241,17 @@ function createYouTubePlayer(videoId) {
 }
 
 function onPlayerReady(event) {
-    event.target.setPlaybackQuality('highres');
-    event.target.playVideo();
-    startUpdatingVideoData();
-    $('.player-control-play-pause-icon').on('click', function () {
-        const playerState = player.getPlayerState();
-        const playPauseIcon = $(this).find('path');
-        if (playerState === YT.PlayerState.PLAYING) {
-            player.pauseVideo();
-            playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
-        } else {
-            player.playVideo();
-            playPauseIcon.attr('d', 'M9 19H7V5h2Zm8-14h-2v14h2Z');
-        }
-    });
+  event.target.setPlaybackQuality('highres');
+  event.target.playVideo();
+  startUpdatingVideoData();
+  $('.player-control-play-pause-icon').on('click', function () {
+    const playerState = player.getPlayerState();
+    if (playerState === YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  });
 }
 
 function startUpdatingVideoData() {
@@ -291,14 +288,21 @@ function updateVideoData() {
 }
 
 function onPlayerStateChange(event) {
+  const playPauseIcon = $('.player-control-play-pause-icon path');
   switch (event.data) {
     case YT.PlayerState.ENDED:
       handleVideoEnd();
+      playPauseIcon.attr('d', 'M22 12c0 5.51-4.49 10-10 10S2 17.51 2 12h1c0 4.96 4.04 9 9 9s9-4.04 9-9-4.04-9-9-9C8.81 3 5.92 4.64 4.28 7.38c-.11.18-.22.37-.31.56L3.94 8H8v1H1.96V3h1v4.74c.04-.09.07-.17.11-.25.11-.22.23-.42.35-.63C5.22 3.86 8.51 2 12 2c5.51 0 10 4.49 10 10z');   
       break;
 
     case YT.PlayerState.PAUSED:
+      isUpdating = false;
+      playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
+      break;
+
     case YT.PlayerState.BUFFERING:
       isUpdating = false;
+      playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
       break;
 
     case YT.PlayerState.PLAYING:
@@ -308,6 +312,7 @@ function onPlayerStateChange(event) {
         updateVideoData();
         startUpdatingVideoData();
       }
+      playPauseIcon.attr('d', 'M9 19H7V5h2Zm8-14h-2v14h2Z');
       break;
   }
 }
