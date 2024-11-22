@@ -23,6 +23,59 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
                     </div>
                     <div>
                       <player-top-controls class="YtwPlayerTopControlsHost">
+
+<div class="player-controls style-scope ytd-reel-video-renderer">
+  <ytd-shorts-player-controls class="style-scope ytd-reel-video-renderer" new-player-controls="" fullscreen-shorts="">
+    <yt-button-shape id="play-pause-button-shape" version="modern" class="style-scope ytd-shorts-player-controls">
+      <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-disabled="false" aria-label="Phát (k)" title="Phát (k)">
+        <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
+          <yt-icon style="width: 24px; height: 24px;">
+            <span class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+              <div style="width: 100%; height: 100%; display: block; filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.3)); fill: currentcolor;">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                  <path d="m7 4 12 8-12 8V4z"></path>
+                </svg>
+              </div>
+            </span>
+          </yt-icon>
+        </div>
+      </button>
+    </yt-button-shape>
+    <desktop-shorts-volume-controls class="YtdDesktopShortsVolumeControlsHost style-scope ytd-shorts-player-controls">
+      <div class="YtdDesktopShortsVolumeControlsBackgroundScrim YtdDesktopShortsVolumeControlsBackgroundScrimExpanded"></div>
+      <button aria-label="Tắt tiếng" title="Tắt tiếng" class="YtdDesktopShortsVolumeControlsMuteIconButton">
+        <yt-icon class="YtdDesktopShortsVolumeControlsMuteIcon" aria-label="Tắt tiếng" role="img">
+          <span class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+            <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+              <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                <path d="M21 12c0 4.08-3.05 7.44-7 7.93v-2.02c2.83-.48 5-2.94 5-5.91s-2.17-5.43-5-5.91V4.07c3.95.49 7 3.85 7 7.93zM3 9v6h3.16L12 19.93V4.07L6.16 9H3zm11-1.38v2.09c.88.39 1.5 1.27 1.5 2.29s-.62 1.9-1.5 2.29v2.09c2-.46 3.5-2.24 3.5-4.38S16 8.08 14 7.62z"></path>
+              </svg>
+            </div>
+          </span>
+        </yt-icon>
+      </button>
+      <div class="YtdDesktopShortsVolumeControlsSliderContainer YtdDesktopShortsVolumeControlsSliderContainerExpanded">
+        <input aria-label="Âm lượng" title="Âm lượng" type="range" class="YtdDesktopShortsVolumeControlsNativeSlider" id="volume-input" style="--gradient-percent: 100%;">
+      </div>
+    </desktop-shorts-volume-controls>
+    <yt-button-shape id="fullscreen-button-shape" version="modern" class="style-scope ytd-shorts-player-controls">
+      <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-disabled="false" aria-label="Mở chế độ toàn màn hình (f)" title="Mở chế độ toàn màn hình (f)">
+        <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
+          <yt-icon style="width: 24px; height: 24px;">
+            <span class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+              <div style="width: 100%; height: 100%; display: block; filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.3)); fill: currentcolor;">
+                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                  <path d="M5 9H4V4h5v1H5v4zm15-5h-5v1h4v4h1V4zm0 11h-1v4h-4v1h5v-5zM9 19H5v-4H4v5h5v-1z"></path>
+                </svg>
+              </div>
+            </span>
+          </yt-icon>
+        </div>
+      </button>
+    </yt-button-shape>
+  </ytd-shorts-player-controls>
+</div>
+                        
                         <div class="player-controls-top with-video-details">
                           <yt-mute-toggle-button>
                             <ytm-mute-button class="YtmMuteButtonHost">
