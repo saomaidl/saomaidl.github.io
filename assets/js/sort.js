@@ -222,16 +222,13 @@ function createYouTubePlayer(videoId) {
   player = new YT.Player("player", {
     videoId: videoId,
     playerVars: {
-      autoplay: 1,
-      controls: showControls ? 0 : 0,
-      rel: 0,
-      iv_load_policy: 3,
-      mute: showControls ? 0 : 1,
-      playsinline: 1,
+      autoplay: 1,              // Tự động phát
+      controls: showControls ? 0 : 0,  // Hiển thị nút điều khiển nếu màn hình lớn
+      rel: 0,                   // Không hiển thị video liên quan
+      iv_load_policy: 3,        // Ẩn chú thích
+      mute: showControls ? 0 : 1, // Tắt tiếng trên màn hình nhỏ
+      playsinline: 1,           // Phát trong giao diện
       enablejsapi: 1,
-      modestbranding: 1,
-      wmode: 'transparent',
-      showinfo: 0,
     },
     events: {
       onReady: onPlayerReady,
