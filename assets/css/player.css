@@ -719,3 +719,283 @@ ytm-custom-control .player-controls-middle .screenreader-safe-hide-middle-button
     pointer-events: none;
     opacity: 0;
 }
+
+
+
+
+
+
+.player-controls.ytd-reel-video-renderer {
+  border-radius: 12px 12px 0 0;
+  height: 72px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+ytd-shorts-player-controls {
+  justify-content: space-between;
+  display: flexbox;
+  display: flex;
+  flex-direction: row;
+  padding: 16px 16px 32px 16px;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent);
+}
+
+ytd-shorts-player-controls[new-player-controls] {
+  --yt-icon-button-icon-height: 24px;
+  --yt-icon-button-icon-width: 24px;
+  justify-content: normal;
+  gap: 16px;
+  background-image: none;
+}
+
+ytd-shorts-player-controls.ytd-reel-video-renderer {
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 1, 1);
+}
+
+ps-dom-if,
+ps-dom-repeat {
+  display: none;
+}
+
+yt-button-shape {
+  display: flex;
+  flex: 1;
+  flex-basis: 1e-9px;
+}
+
+#play-pause-button-shape.ytd-shorts-player-controls {
+  pointer-events: all;
+  flex: none;
+}
+
+.yt-spec-button-shape-next {
+  position: relative;
+  margin: 0;
+  white-space: nowrap;
+  min-width: 0;
+  text-transform: none;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  border: none;
+  cursor: pointer;
+  outline-width: 0;
+  box-sizing: border-box;
+  background: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  flex: 1;
+  flex-basis: 1e-9px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.yt-spec-button-shape-next--icon-button {
+  flex: none;
+}
+
+.yt-spec-button-shape-next--size-l {
+  padding: 0 24px;
+  height: 48px;
+  font-size: 18px;
+  line-height: 48px;
+  border-radius: 24px;
+}
+
+.yt-spec-button-shape-next--size-l.yt-spec-button-shape-next--icon-button {
+  width: 48px;
+  padding: 0;
+}
+
+.yt-spec-button-shape-next--overlay-dark.yt-spec-button-shape-next--tonal {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.yt-spec-button-shape-next--overlay-dark.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next--enable-backdrop-filter-experiment {
+  backdrop-filter: blur(8px);
+}
+
+.yt-spec-button-shape-next__icon {
+  line-height: 0;
+  fill: currentColor;
+}
+
+.yt-spec-button-shape-next--size-l .yt-spec-button-shape-next__icon {
+  width: 24px;
+  height: 24px;
+}
+
+yt-icon,
+.yt-icon-container.yt-icon {
+  display: inline-flexbox;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+  fill: currentcolor;
+  stroke: var(--iron-icon-stroke-color, none);
+  width: var(--iron-icon-width, 24px);
+  height: var(--iron-icon-height, 24px);
+  animation: var(--iron-icon-animation);
+  margin-top: var(--iron-icon-margin-top);
+  margin-right: var(--iron-icon-margin-right);
+  margin-bottom: var(--iron-icon-margin-bottom);
+  margin-left: var(--iron-icon-margin-left);
+  padding: var(--iron-icon-padding);
+}
+
+.yt-spec-icon-shape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.YtdDesktopShortsVolumeControlsHost {
+  display: flex;
+  width: calc(100% - 128px);
+  gap: 12px;
+  height: 48px;
+  align-items: center;
+  pointer-events: all;
+  border-radius: 50px;
+  position: relative;
+}
+
+.YtdDesktopShortsVolumeControlsBackgroundScrim {
+  height: 48px;
+  width: 48px;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: width 0.25s linear;
+  position: absolute;
+  border-radius: 50px;
+}
+
+.YtdDesktopShortsVolumeControlsMuteIconButton {
+  display: flex;
+  align-items: center;
+  min-width: 36px;
+  justify-content: end;
+  z-index: 1;
+  position: relative;
+  background: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.YtdDesktopShortsVolumeControlsMuteIcon {
+  color: white;
+  pointer-events: all;
+}
+
+.YtdDesktopShortsVolumeControlsSliderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  padding-right: 12px;
+  flex-basis: 0%;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0.12s linear, opacity 0.12s linear,
+    flex-basis 0.12s linear;
+  pointer-events: none;
+}
+
+.YtdDesktopShortsVolumeControlsSliderContainerExpanded {
+  flex-basis: 100%;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.3s linear, opacity 0.3s linear,
+    flex-basis 0.3s linear;
+  z-index: 1;
+  pointer-events: all;
+}
+
+.YtdDesktopShortsVolumeControlsNativeSlider {
+  --gradient-percent: 0;
+  -webkit-appearance: none;
+  cursor: pointer;
+  flex-grow: 1;
+  display: block;
+  min-width: 0;
+  background-color: transparent;
+  border-bottom: none;
+  padding: 6px 0;
+}
+
+.YtdDesktopShortsVolumeControlsNativeSlider::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    #fff 0,
+    #fff var(--gradient-percent),
+    rgba(255, 255, 255, 0.3) var(--gradient-percent),
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  height: 4px;
+  border-radius: 12px;
+}
+
+.YtdDesktopShortsVolumeControlsNativeSlider::-moz-range-track {
+  background: linear-gradient(
+    to right,
+    #fff 0,
+    #fff var(--gradient-percent),
+    rgba(0, 0, 0, 0.1) var(--gradient-percent),
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  height: 4px;
+  border-radius: 12px;
+}
+
+.YtdDesktopShortsVolumeControlsNativeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  margin-top: -6.5px;
+}
+
+.YtdDesktopShortsVolumeControlsNativeSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+}
+
+.YtdDesktopShortsVolumeControlsMuteIcon {
+  color: white;
+  pointer-events: all;
+}
+
+.YtdDesktopShortsVolumeControlsBackgroundScrim {
+  height: 48px;
+  width: 48px;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: width 0.25s linear;
+  position: absolute;
+  border-radius: 50px;
+}
+
+.YtdDesktopShortsVolumeControlsBackgroundScrimExpanded {
+  width: 100%;
+  background-color: rgba(40, 40, 40, 0.6);
+}
