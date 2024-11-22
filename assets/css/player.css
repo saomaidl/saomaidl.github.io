@@ -726,8 +726,8 @@ ytm-custom-control .player-controls-middle .screenreader-safe-hide-middle-button
 
 
 .player-controls.ytd-reel-video-renderer {
-  border-radius: 12px 12px 0 0;
-  height: 72px;
+  border-radius: 0;
+  height: 48px;
   position: absolute;
   top: 0;
   width: 100%;
@@ -740,7 +740,7 @@ ytd-shorts-player-controls {
   display: flexbox;
   display: flex;
   flex-direction: row;
-  padding: 16px 16px 32px 16px;
+  padding: 0;
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent);
 }
 
