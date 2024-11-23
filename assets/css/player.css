@@ -1,1001 +1,166 @@
-button {
-  padding: 0;
-  border: none;
-  outline: none;
-  font: inherit;
-  text-transform: inherit;
-  color: inherit;
-  background: transparent;
-}
-button,
-select,
-[role="button"],
-input[type="checkbox"] {
-  cursor: pointer;
-}
-#player-control-container.disable-user-select {
-  -webkit-user-select: none;
-}
-#player-control-container {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-.YtmWatchPlayerControlsHost {
-  display: block;
-}
-#player-control-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  touch-action: manipulation;
-}
-#player-control-overlay.animation-enabled {
-  -webkit-transition: -webkit-transform 0.7s;
-  transition: -webkit-transform 0.7s;
-  transition: transform 0.7s;
-  transition: transform 0.7s, -webkit-transform 0.7s;
-  -webkit-transition-property: all;
-  transition-property: all;
-}
-#player-control-overlay.fadein {
-  pointer-events: auto;
-}
-#player-control-overlay .player-controls-content {
-  height: 100%;
-  overflow: hidden;
-  visibility: hidden;
-}
-#player-control-overlay.fadein .player-controls-content {
-  visibility: visible;
-}
-#player-control-overlay .player-controls-background-container {
-  position: absolute;
-  z-index: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  visibility: visible;
-}
-#player-control-overlay .player-controls-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  background: rgba(0, 0, 0, 0);
-}
-#player-control-overlay.animation-enabled .player-controls-background {
-  -webkit-transition-property: background-color;
-  transition-property: background-color;
-  -webkit-transition-duration: 0.7s;
-  transition-duration: 0.7s;
-}
-#player-control-overlay.fadein .player-controls-background {
-  z-index: 2;
-  background: rgba(0, 0, 0, 0.6);
-}
-#player-control-overlay .player-controls-background-action-items {
-  position: absolute;
-  z-index: 0;
-}
-.cbox,
-.vbox,
-.center {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
-.YtwDoubleTapToSeekHost {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-}
-.player-controls-double-tap-to-seek-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  color: #fff;
-  overflow: hidden;
-}
-.player-controls-double-tap-to-seek-content.always-visible {
-  visibility: visible;
-  pointer-events: none;
-}
-.vbox {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-}
-.player-controls-double-tap-to-seek-info {
-  position: relative;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-.YtwPlayerTopControlsHost {
-  display: block;
-}
-ytm-custom-control .player-controls-top {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
-}
-ytm-custom-control .with-video-details {
-  width: 100%;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-}
-.YtmMuteButtonHost {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  position: relative;
-  width: 48px;
-  height: 48px;
-}
-.YtmMuteButtonButton {
-  cursor: pointer;
-  width: 48px;
-  height: 48px;
-  padding: 12px;
-  border: none;
-  outline: none;
-  font: inherit;
-  text-transform: inherit;
-  color: inherit;
-  background: transparent;
-}
-.YtwPlayerAutonavToggleHost {
-  display: block;
-}
-.ytm-autonav-toggle-button-container {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  position: relative;
-  width: 48px;
-  height: 48px;
-}
-.ytm-autonav-toggle-button-container .play-icon {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  left: 22px;
-  width: 20px;
-  height: 20px;
-}
-.ytm-autonav-toggle-button-container .spanner-icon-off,
-.ytm-autonav-toggle-button-container .spanner-icon-on {
-  width: 36px;
-  height: 14px;
-  position: relative;
-}
-.yt-spec-icon-shape {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-.ytm-autonav-toggle-button-container .spanner-icon-on svg,
-.ytm-autonav-toggle-button-container .spanner-icon-off svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: 14px;
-}
-.YtmClosedCaptioningButtonHost {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  position: relative;
-  width: 48px;
-  height: 48px;
-}
-.YtmClosedCaptioningButtonButton {
-  cursor: pointer;
-  width: 48px;
-  height: 48px;
-  padding: 12px;
-  border: none;
-  outline: none;
-  font: inherit;
-  text-transform: inherit;
-  color: inherit;
-  background: transparent;
-}
-ytm-custom-control .player-controls-bottom .icon-button > c3-icon svg path,
-ytm-custom-control .player-controls-middle .icon-button > c3-icon svg path,
-ytm-custom-control .player-controls-top .icon-button > c3-icon svg path,
-ytm-custom-control .player-controls-pb .icon-button > c3-icon,
-ytm-custom-control
-  .player-controls-top
-  ytm-closed-captioning-button
-  button[aria-pressed="true"]
-  > c3-icon
-  svg
-  path,
-ytm-custom-control
-  .player-controls-top
-  ytm-closed-captioning-button
-  button[aria-pressed="false"]
-  > c3-icon
-  svg
-  path,
-ytm-custom-control .fine-scrubbing-overlay .icon-button > c3-icon svg path {
-  fill: #fff;
-}
-c3-icon svg {
-  width: 100%;
-  height: 100%;
-}
-c3-icon {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: inline-flex;
-  -webkit-flex-shrink: 0;
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-  stroke: none;
-}
-.icon-button {
-  border: none;
-  background: transparent;
-  width: 40px;
-  height: 40px;
-  padding: 8px;
+.default-ltr-cache-bb2aon * {
   box-sizing: border-box;
 }
-ytm-custom-control .icon-button {
-  height: 48px;
-  width: 48px;
-  padding: 12px;
+.default-ltr-cache-4ztd1d {
+  filter: none;
 }
-.center {
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+.default-ltr-cache-rloyte {
+  background-color: rgba(255, 255, 255, 0.15);
+  position: relative;
+  border-radius: 12px 12px 8px 8px;
 }
-.YtwPlayerMiddleControlsHost {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-}
-ytm-custom-control .player-controls-middle {
+.default-ltr-cache-rloyte::before {
+  content: "";
   position: absolute;
-  top: 50%;
+  inset: 0;
+  padding: 2px;
+  mask-composite: exclude;
+  z-index: 100;
+  pointer-events: none;
+}
+.default-ltr-cache-josj09 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.default-ltr-cache-1uvi23e {
   width: 100%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  z-index: 4;
-}
-ytm-custom-control .icon-button {
-  height: 48px;
-  width: 48px;
-  padding: 12px;
-}
-ytm-custom-control .player-controls-middle .icon-button {
-  height: 48px;
-  width: 48px;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-ytm-custom-control .player-controls-middle .modern-tap-target-ui .icon-button {
-  border-radius: 24px;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-ytm-custom-control .player-controls-middle .icon-button > c3-icon {
-  height: 36px;
-  width: 36px;
-}
-ytm-custom-control
-  .player-controls-middle
-  .modern-tap-target-ui
-  .icon-button
-  > c3-icon {
-  height: 32px;
-  width: 32px;
-}
-.hidden-button {
-  position: fixed;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
   top: 0;
   left: 0;
-  height: 12px;
-  width: 12px;
 }
-ytm-custom-control
-  .player-controls-middle
-  .modern-tap-target-ui
-  .player-control-play-pause-icon,
-ytm-custom-control
-  .player-controls-middle
-  .modern-tap-target-ui
-  .endscreen-replay-button.icon-button {
-  margin: 0 40px;
+.default-ltr-cache-19d7fqb {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 1;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s;
 }
-ytm-custom-control
-  .player-controls-middle
-  .modern-tap-target-ui
-  .player-control-play-pause-icon.icon-button {
-  height: 56px;
-  width: 56px;
-  border-radius: 56px;
+.default-ltr-cache-vglbum {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.008333) 54.17%,
+    rgba(0, 0, 0, 0.03333) 58.33%,
+    rgba(0, 0, 0, 0.075) 62.5%,
+    rgba(0, 0, 0, 0.1333) 66.67%,
+    rgba(0, 0, 0, 0.2083) 70.83%,
+    rgba(0, 0, 0, 0.3) 75%,
+    rgba(0, 0, 0, 0.3917) 79.17%,
+    rgba(0, 0, 0, 0.4667) 83.33%,
+    rgba(0, 0, 0, 0.525) 87.5%,
+    rgba(0, 0, 0, 0.5667) 91.67%,
+    rgba(0, 0, 0, 0.5917) 95.83%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
 }
-ytm-custom-control
-  .player-controls-middle
-  .modern-tap-target-ui
-  .player-control-play-pause-icon.icon-button
-  > c3-icon {
-  height: 56px;
-  width: 56px;
-  padding: 8px;
-}
-ytm-custom-control
-  .player-controls-middle
-  .player-control-play-pause-icon.icon-button,
-ytm-custom-control
-  .player-controls-middle
-  .player-control-play-pause-icon.icon-button
-  > c3-icon {
-  height: 56px;
-  width: 56px;
-  padding: 0;
-}
-ytm-custom-control .player-controls-middle .player-control-play-pause-icon,
-ytm-custom-control
-  .player-controls-middle
-  .endscreen-replay-button.icon-button {
-  margin: 0 60px;
-  padding: 0;
-}
-.YtwPlayerBottomControlsHost {
-  display: block;
-}
-ytm-custom-control .player-controls-bottom {
-  display: -webkit-box;
-  display: -webkit-flex;
+.default-ltr-cache-4c5682 {
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-width: 120rem;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  min-height: 18.75rem;
+}
+@supports (aspect-ratio: 16/9) {
+  .default-ltr-cache-4c5682 {
+    min-height: initial;
+  }
+}
+@supports (aspect-ratio: 16/9) {
+  .default-ltr-cache-4c5682 {
+    aspect-ratio: 16 / 9;
+  }
+}
+.default-ltr-cache-15g54dn {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0.75rem 1.25rem;
+  flex-direction: column;
+  align-items: center;
+}
+.default-ltr-cache-1b4a1ef {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: end;
+  justify-content: end;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+.default-ltr-cache-eebncd {
+  direction: ltr;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  width: 100%;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 8px;
-  z-index: 2;
 }
-.YtwPlayerTimeDisplayHost {
-  display: -webkit-box;
-  display: -webkit-flex;
+.default-ltr-cache-2rfcwr {
+  direction: ltr;
+  flex-wrap: wrap;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  margin-left: 16px;
-  font-weight: 700;
-  overflow: hidden;
+  gap: 0.5rem;
 }
-.YtwPlayerTimeDisplayContent {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  pointer-events: none;
-  overflow: hidden;
-}
-.YtwPlayerTimeDisplayTime {
-  color: #fff;
-}
-.YtwPlayerTimeDisplayTimeSecond {
-  opacity: 0.7;
-}
-.YtwPlayerTimeDisplayTimeDelimiter {
-  color: #fff;
-  margin: 0 4px;
-  opacity: 0.7;
-}
-.YtwPlayerTimeDisplayTimeSecond {
-  opacity: 0.7;
-}
-c3-material-button {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  box-sizing: border-box;
-  -webkit-user-select: none;
-  user-select: none;
-  min-width: 5.14em;
-  margin: 0 0.29em;
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  border-radius: 3px;
-}
-.YtwPlayerTimeDisplayPlaybarActionContainer {
+.default-ltr-cache-ye6lrm-PressableButton-StyledPressable-StyledPressable {
+  appearance: none;
+  font: inherit;
   margin: 0;
-  font-size: 1rem;
-}
-.c3-material-button-button {
-  padding: 0.7em 0.57em;
-}
-.YtwPlayerTimeDisplayPlaybarButton.YtwPlayerTimeDisplayPlaybarButton {
-  pointer-events: auto;
-  overflow: hidden;
-  padding: 0;
-}
-c3-material-button .c3-material-button-button.sentence-case {
-  text-transform: none;
-}
-.YtwPlayerTimeDisplaySpacerDot {
-  margin: 0 4px;
-}
-.YtwPlayerTimeDisplayTimeMacro {
-  text-transform: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.YtwPlayerTimeDisplayChevron {
-  color: #fff;
-}
-ytm-custom-control .player-controls-bottom .icon-button {
-  height: 48px;
-  width: 48px;
-  padding: 12px;
-  display: block;
-}
-.YtPlayerProgressBarHost {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  height: 100%;
-}
-.YtPlayerProgressBarHostLowerPlayer {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-}
-.YtPlayerProgressBarDragContainer {
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-}
-.YtPlayerProgressBarProgressBar {
-  width: 100%;
-  overflow: visible;
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
-.YtHeatSeekerHost {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 1.5px;
-  fill: rgba(255, 255, 255, 0.4);
-}
-.YtChapteredProgressBarHost {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  position: absolute;
-  width: 100%;
-  height: 3px;
-}
-.YtChapteredProgressBarChapteredPlayerBarChapter {
-  height: 3px;
-  background: #f03;
-  margin: 0 1px;
-  position: relative;
-}
-.YtChapteredProgressBarChapteredPlayerBarChapter:first-of-type {
-  margin-left: 0;
-}
-.YtChapteredProgressBarChapteredPlayerBarLoaded {
-  background: rgba(255, 255, 255, 0.3);
-  height: 3px;
-  position: absolute;
-}
-.YtChapteredProgressBarChapteredPlayerBarFill {
-  background: #f03;
-  height: 3px;
-  position: absolute;
-}
-.YtChapteredProgressBarChapteredPlayerBarFillRefresh {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    color-stop(80%, #f03),
-    to(#ff2791)
-  );
-  background: -webkit-linear-gradient(left, #f03 80%, #ff2791 100%);
-  background: linear-gradient(to right, #f03 80%, #ff2791 100%);
-}
-.YtProgressBarPlayheadHost {
-  display: block;
-  position: absolute;
-}
-.YtProgressBarPlayheadProgressBarPlayheadDot {
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-  background-color: #f03;
-  -webkit-transform: scale(1);
-  transform: scale(1);
-  -webkit-transition: -webkit-transform 0.1s ease;
-  transition: -webkit-transform 0.1s ease;
-  transition: transform 0.1s ease;
-  transition: transform 0.1s ease, -webkit-transform 0.1s ease;
-}
-.YtwPlayerFullscreenControlsHost {
-  display: block;
-}
-.YtProgressBarLineHost {
-  display: block;
-  position: absolute;
-  width: 100%;
-}
-.YtProgressBarLineProgressBarLine {
-  position: relative;
-  height: 3px;
-  width: 100%;
-}
-.YtProgressBarLineProgressBarBackground {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: #fff;
-  opacity: 0.3;
-  width: 100%;
-}
-.YtProgressBarLineProgressBarBackground {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: #fff;
-  opacity: 0.3;
-  width: 100%;
-}
-.YtProgressBarLineProgressBarLoaded {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: #fff;
-  opacity: 0.6;
-}
-.YtProgressBarLineProgressBarHovered {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: #fff;
-  opacity: 0.7;
-}
-.YtProgressBarLineProgressBarPlayed {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: #f03;
-}
-.YtProgressBarLineProgressBarPlayedRefresh {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    color-stop(80%, #f03),
-    to(#ff2791)
-  );
-  background: -webkit-linear-gradient(left, #f03 80%, #ff2791 100%);
-  background: linear-gradient(to right, #f03 80%, #ff2791 100%);
-}
-ytm-custom-control .player-controls-middle .player-controls-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.spinner {
-  display: block;
-  box-sizing: border-box;
-  margin: 12px auto;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid #eee;
-  border-top-color: #666;
-  -webkit-animation: spinner 0.8s linear infinite;
-  animation: spinner 0.8s linear infinite;
-}
-.spinner:not([hidden]) {
-  color: #333;
-  font-size: 1.6rem;
-}
-
-@-webkit-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(1turn);
-  }
-}
-@keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(1turn);
-    transform: rotate(1turn);
-  }
-}
-
-@-webkit-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(1turn);
-  }
-}
-@keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(1turn);
-    transform: rotate(1turn);
-  }
-}
-ytm-custom-control .player-controls-middle .screenreader-safe-hide-middle-buttons {
-    pointer-events: none;
-    opacity: 0;
-}
-
-
-
-
-
-
-.player-controls.ytd-reel-video-renderer {
-  border-radius: 0;
-  height: 48px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
-ytd-shorts-player-controls {
-  justify-content: space-between;
-  display: flexbox;
-  display: flex;
-  flex-direction: row;
-  padding: 0;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent);
-}
-
-ytd-shorts-player-controls[new-player-controls] {
-  --yt-icon-button-icon-height: 24px;
-  --yt-icon-button-icon-width: 24px;
-  justify-content: normal;
-  gap: 16px;
-  background-image: none;
-}
-
-ytd-shorts-player-controls.ytd-reel-video-renderer {
-  transition: opacity 0.1s cubic-bezier(0.4, 0, 1, 1);
-}
-
-ps-dom-if,
-ps-dom-repeat {
-  display: none;
-}
-
-yt-button-shape {
-  display: flex;
-  flex: 1;
-  flex-basis: 1e-9px;
-}
-
-#play-pause-button-shape.ytd-shorts-player-controls {
-  pointer-events: all;
-  flex: none;
-}
-
-.yt-spec-button-shape-next {
-  position: relative;
-  margin: 0;
-  white-space: nowrap;
-  min-width: 0;
-  text-transform: none;
-  font-family: "Roboto", "Arial", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 18px;
-  border: none;
-  cursor: pointer;
-  outline-width: 0;
-  box-sizing: border-box;
-  background: none;
   text-decoration: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  -webkit-tap-highlight-color: transparent;
-  flex: 1;
-  flex-basis: 1e-9px;
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-}
-
-.yt-spec-button-shape-next--icon-button {
-  flex: none;
-}
-
-.yt-spec-button-shape-next--size-l {
-  padding: 0 24px;
-  height: 48px;
-  font-size: 18px;
-  line-height: 48px;
-  border-radius: 24px;
-}
-
-.yt-spec-button-shape-next--size-l.yt-spec-button-shape-next--icon-button {
-  width: 48px;
-  padding: 0;
-}
-
-.yt-spec-button-shape-next--overlay-dark.yt-spec-button-shape-next--tonal {
-  color: #fff;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.yt-spec-button-shape-next--overlay-dark.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next--enable-backdrop-filter-experiment {
-  backdrop-filter: blur(8px);
-}
-
-.yt-spec-button-shape-next__icon {
-  line-height: 0;
-  fill: currentColor;
-}
-
-.yt-spec-button-shape-next--size-l .yt-spec-button-shape-next__icon {
-  width: 24px;
-  height: 24px;
-}
-
-yt-icon,
-.yt-icon-container.yt-icon {
-  display: inline-flexbox;
+  border: 1px solid dimgray;
+  box-sizing: border-box;
   display: inline-flex;
-  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
   justify-content: center;
-  position: relative;
-  vertical-align: middle;
-  fill: currentcolor;
-  stroke: var(--iron-icon-stroke-color, none);
-  width: var(--iron-icon-width, 24px);
-  height: var(--iron-icon-height, 24px);
-  animation: var(--iron-icon-animation);
-  margin-top: var(--iron-icon-margin-top);
-  margin-right: var(--iron-icon-margin-right);
-  margin-bottom: var(--iron-icon-margin-bottom);
-  margin-left: var(--iron-icon-margin-left);
-  padding: var(--iron-icon-padding);
-}
-
-.yt-spec-icon-shape {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.YtdDesktopShortsVolumeControlsHost {
-  display: flex;
-  width: calc(100% - 128px);
-  gap: 12px;
-  height: 48px;
-  align-items: center;
-  pointer-events: all;
-  border-radius: 50px;
-  position: relative;
-}
-
-.YtdDesktopShortsVolumeControlsBackgroundScrim {
-  height: 48px;
-  width: 48px;
-  z-index: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  transition: width 0.25s linear;
-  position: absolute;
-  border-radius: 50px;
-}
-
-.YtdDesktopShortsVolumeControlsMuteIconButton {
-  display: flex;
-  align-items: center;
-  min-width: 36px;
-  justify-content: end;
-  z-index: 1;
-  position: relative;
-  background: none;
-  outline: none;
-  border: none;
-  padding: 0;
-  pointer-events: all;
+  letter-spacing: normal;
+  line-height: 1;
+  padding: 2px 7px;
+  user-select: none;
+  border-radius: 1.25rem;
   cursor: pointer;
+  fill: currentColor;
+  position: relative;
+  transition-duration: 250ms;
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.68, 0.06);
+  vertical-align: text-top;
+  border-style: solid;
+  border-width: 0.0625rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(22, 22, 22, 0.7);
+  color: rgb(255, 255, 255);
+  border-color: rgba(128, 128, 128, 0.7);
 }
-
-.YtdDesktopShortsVolumeControlsMuteIcon {
-  color: white;
-  pointer-events: all;
+@media screen and (prefers-reduced-motion) {
+  .default-ltr-cache-ye6lrm-PressableButton-StyledPressable-StyledPressable {
+    -webkit-transition: none;
+    transition: none;
+  }
 }
-
-.YtdDesktopShortsVolumeControlsSliderContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 0;
-  padding-right: 12px;
-  flex-basis: 0%;
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility 0.12s linear, opacity 0.12s linear,
-    flex-basis 0.12s linear;
-  pointer-events: none;
+.default-ltr-cache-mzvhg6 {
+  display: inline-block;
+  height: 1.5rem;
 }
-
-.YtdDesktopShortsVolumeControlsSliderContainerExpanded {
-  flex-basis: 100%;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0.3s linear, opacity 0.3s linear,
-    flex-basis 0.3s linear;
-  z-index: 1;
-  pointer-events: all;
-}
-
-.YtdDesktopShortsVolumeControlsNativeSlider {
-  --gradient-percent: 0;
-  -webkit-appearance: none;
-  cursor: pointer;
-  flex-grow: 1;
-  display: block;
-  min-width: 0;
-  background-color: transparent;
-  border-bottom: none;
-  padding: 6px 0;
-}
-
-.YtdDesktopShortsVolumeControlsNativeSlider::-webkit-slider-runnable-track {
-  background: linear-gradient(
-    to right,
-    #fff 0,
-    #fff var(--gradient-percent),
-    rgba(255, 255, 255, 0.3) var(--gradient-percent),
-    rgba(255, 255, 255, 0.3) 100%
-  );
-  height: 4px;
-  border-radius: 12px;
-}
-
-.YtdDesktopShortsVolumeControlsNativeSlider::-moz-range-track {
-  background: linear-gradient(
-    to right,
-    #fff 0,
-    #fff var(--gradient-percent),
-    rgba(0, 0, 0, 0.1) var(--gradient-percent),
-    rgba(0, 0, 0, 0.1) 100%
-  );
-  height: 4px;
-  border-radius: 12px;
-}
-
-.YtdDesktopShortsVolumeControlsNativeSlider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  background-color: white;
-  border-radius: 50%;
-  margin-top: -6.5px;
-}
-
-.YtdDesktopShortsVolumeControlsNativeSlider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background-color: white;
-  border-radius: 50%;
-  border: none;
-}
-
-.YtdDesktopShortsVolumeControlsMuteIcon {
-  color: white;
-  pointer-events: all;
-}
-
-.YtdDesktopShortsVolumeControlsBackgroundScrim {
-  height: 48px;
-  width: 48px;
-  z-index: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  transition: width 0.25s linear;
-  position: absolute;
-  border-radius: 50px;
-}
-
-.YtdDesktopShortsVolumeControlsBackgroundScrimExpanded {
-  width: 100%;
-  background-color: rgba(40, 40, 40, 0.6);
+.default-ltr-cache-mzvhg6 > svg {
+  height: inherit;
+  width: 1.5rem;
 }
