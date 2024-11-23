@@ -241,7 +241,7 @@ function onPlayerReady(event) {
   event.target.setPlaybackQuality('highres');
   event.target.playVideo();
   startUpdatingVideoData();
-  $('.player-control-play-pause-icon').on('click', function () {
+  $('.playPauseIcon').on('click', function () {
     const playerState = player.getPlayerState();
     if (playerState === YT.PlayerState.PLAYING) {
       player.pauseVideo();
