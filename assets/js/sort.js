@@ -341,17 +341,17 @@ function formatTime(seconds) {
 }
 
 function onPlayerStateChange(event) {
-  const playPauseIcon = $('.player-control-play-pause-icon path');
-  const playPauseButton = $('.player-control-play-pause-icon');
+  const playPauseIcon = $('.playPauseIcon path');
+  const playPauseButton = $('.playPauseIcon');
   switch (event.data) {
     case YT.PlayerState.ENDED:
       handleVideoEnd();
-      playPauseIcon.attr('d', 'M22 12c0 5.51-4.49 10-10 10S2 17.51 2 12h1c0 4.96 4.04 9 9 9s9-4.04 9-9-4.04-9-9-9C8.81 3 5.92 4.64 4.28 7.38c-.11.18-.22.37-.31.56L3.94 8H8v1H1.96V3h1v4.74c.04-.09.07-.17.11-.25.11-.22.23-.42.35-.63C5.22 3.86 8.51 2 12 2c5.51 0 10 4.49 10 10z');   
+      playPauseIcon.attr('d', 'M5 2.69127C5 1.93067 5.81547 1.44851 6.48192 1.81506L23.4069 11.1238C24.0977 11.5037 24.0977 12.4963 23.4069 12.8762L6.48192 22.1849C5.81546 22.5515 5 22.0693 5 21.3087V2.69127Z');   
       break;
 
     case YT.PlayerState.PAUSED:
       isUpdating = false;
-      playPauseIcon.attr('d', 'm7 4 12 8-12 8V4z');
+      playPauseIcon.attr('d', 'M5 2.69127C5 1.93067 5.81547 1.44851 6.48192 1.81506L23.4069 11.1238C24.0977 11.5037 24.0977 12.4963 23.4069 12.8762L6.48192 22.1849C5.81546 22.5515 5 22.0693 5 21.3087V2.69127Z');
       playPauseButton.attr('aria-label', 'Phát video');
       break;
 
@@ -366,7 +366,7 @@ function onPlayerStateChange(event) {
         updateVideoData();
         updateProgressBar();
         startUpdatingVideoData();
-        playPauseIcon.attr('d', 'M9 19H7V5h2Zm8-14h-2v14h2Z');
+        playPauseIcon.attr('d', 'M4.5 3C4.22386 3 4 3.22386 4 3.5V20.5C4 20.7761 4.22386 21 4.5 21H9.5C9.77614 21 10 20.7761 10 20.5V3.5C10 3.22386 9.77614 3 9.5 3H4.5ZM14.5 3C14.2239 3 14 3.22386 14 3.5V20.5C14 20.7761 14.2239 21 14.5 21H19.5C19.7761 21 20 20.7761 20 20.5V3.5C20 3.22386 19.7761 3 19.5 3H14.5Z');
         playPauseButton.attr('aria-label', 'Tạm dừng video');
       }
       break;
