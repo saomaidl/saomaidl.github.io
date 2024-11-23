@@ -170,3 +170,6 @@
   height: inherit;
   width: 1.5rem;
 }
+iframe .ytp-chrome-top.ytp-show-cards-title {
+  display: none !important;
+}
