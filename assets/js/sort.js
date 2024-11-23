@@ -254,7 +254,6 @@ function onPlayerReady(event) {
 function startUpdatingVideoData() {
   function update() {
     updateVideoData();
-    updateProgressBar();
     if (isUpdating) {
       requestAnimationFrame(update);
     }
@@ -285,61 +284,6 @@ function updateVideoData() {
   }
 }
 
-function updateBufferingUI(isBuffering) {
-  const $playerMiddleControls = $('player-middle-controls');
-  const $middleButtons = $playerMiddleControls.find('.player-controls-middle-core-buttons');
-  if (isBuffering) {
-    $middleButtons.addClass('screenreader-safe-hide-middle-buttons');
-    if ($playerMiddleControls.find('.player-controls-spinner').length === 0) {
-      const spinnerHtml = `
-        <div class="player-controls-spinner">
-          <div class="spinner"></div>
-        </div>`;
-      $playerMiddleControls.prepend(spinnerHtml);
-    }
-  } else {
-    $middleButtons.removeClass('screenreader-safe-hide-middle-buttons');
-    $playerMiddleControls.find('.player-controls-spinner').remove();
-  }
-}
-
-function updateProgressBar() {
-  const currentTime = player.getCurrentTime();
-  const duration = player.getDuration();
-  if (!duration) return;
-  const playedPercent = (currentTime / duration) * 100;
-  const progressBar = $('yt-progress-bar');
-  if (!progressBar.length) {
-    return;
-  }
-  const playedBar = progressBar.find('.YtProgressBarLineProgressBarPlayed');
-  playedBar.css('width', `${playedPercent}%`);
-  const playhead = progressBar.find('.YtProgressBarPlayheadHost');
-  playhead.css('margin-left', `${playedPercent}%`);
-
-  const currentTimeFormatted = formatTime(currentTime);
-  const totalTimeFormatted = formatTime(duration);
-  
-  const timeDisplay = $('player-time-display');
-  const elapsedTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').first();
-  const totalTime = timeDisplay.find('.YtwPlayerTimeDisplayTime').last();
-
-  elapsedTime.text(currentTimeFormatted);
-  totalTime.text(totalTimeFormatted);
-
-  const videoData = player.getVideoData();
-  const songTitle = videoData.title;
-
-  const songTitleElement = timeDisplay.find('.YtwPlayerTimeDisplayTimeMacro');
-  songTitleElement.text(songTitle);
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-}
-
 function onPlayerStateChange(event) {
   const playPauseIcon = $('.playPauseIcon path');
   const playPauseButton = $('.playPauseIcon');
@@ -364,7 +308,6 @@ function onPlayerStateChange(event) {
         isUpdating = true;
         player.setPlaybackQuality('highres');
         updateVideoData();
-        updateProgressBar();
         startUpdatingVideoData();
         playPauseIcon.attr('d', 'M4.5 3C4.22386 3 4 3.22386 4 3.5V20.5C4 20.7761 4.22386 21 4.5 21H9.5C9.77614 21 10 20.7761 10 20.5V3.5C10 3.22386 9.77614 3 9.5 3H4.5ZM14.5 3C14.2239 3 14 3.22386 14 3.5V20.5C14 20.7761 14.2239 21 14.5 21H19.5C19.7761 21 20 20.7761 20 20.5V3.5C20 3.22386 19.7761 3 19.5 3H14.5Z');
         playPauseButton.attr('aria-label', 'Tạm dừng video');
