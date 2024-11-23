@@ -198,28 +198,4 @@ $(document).ready(function() {
 });
 </script>
 
-<script>
-  $(document).ready(function () {
-    let fadeTimeout;
-    function showControls() {
-      $('#player-control-overlay').addClass('fadein');
-      clearTimeout(fadeTimeout);
-      fadeTimeout = setTimeout(hideControls, 3000);
-    }
-    function hideControls() {
-      $('#player-control-overlay').removeClass('fadein');
-    }
-    $('.video').on('click', function () {
-      if ($('#player-control-overlay').hasClass('fadein')) {
-        hideControls();
-      } else {
-        showControls();
-      }
-    });
-    $('#player-control-overlay').on('click', function (e) {
-      e.stopPropagation();
-    });
-  });
-</script>
-
 {% include navbar.html %}
