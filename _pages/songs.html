@@ -378,7 +378,7 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
     function adjustVideoHeightAndPosition() {
       const windowWidth = $(window).width();
       const windowHeight = $(window).height();
-      const maxHeight = (1024 * 9) / 16;
+      const maxHeight = 576;
       let newHeight, bottomValue;
 
       if (windowWidth >= 1024) {
@@ -395,7 +395,7 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
         });
       } else {
         const containerWidth = $("#player-container-id").width();
-        const videoHeight = (windowHeight * 9) / 16;
+        const videoHeight = (containerWidth * 9) / 16;
 
         newHeight = windowHeight * 9 / 16;
         $("#player").css({
