@@ -417,6 +417,8 @@ $(document).ready(function () {
     bottomValue = windowHeight - newHeight;
     $('.YtShortsCarouselCarouselWrapper, .YtShortsCarouselCarouselItem').css('height', `${newHeight}px`);
     $('#player-cinematics-container').css('bottom', `${bottomValue}px`);
+    $('ytm-engagement-panel').css('top', `${newHeight}px`);
+    $('ytw-scrim').css('top', `${newHeight}px`);
   }
   adjustVideoHeightAndPosition();
   $(window).resize(function () {
