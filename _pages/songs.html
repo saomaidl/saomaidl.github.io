@@ -395,9 +395,9 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
         });
       } else {
         const containerWidth = $("#player-container-id").width();
-        const videoHeight = (containerWidth * 9) / 16;
+        const videoHeight = (windowHeight * 9) / 16;
 
-        newHeight = videoHeight;
+        newHeight = windowHeight * 9 / 16;
         $("#player").css({
           width: `${containerWidth}px`,
           height: `${videoHeight}px`,
