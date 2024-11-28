@@ -5,76 +5,323 @@ permalink: /songs
 description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy cập và quản lý các lựa chọn yêu thích của bạn."
 ---
 
-<div id="player-container-id" class="sticky top-0 right-0 left-0 overflow-hidden z-2 ltr">
-  <div id="player-cinematics-container" class="absolute inset-0 pointer-events-none bg-black"></div>
-  <div id="movie_player" class="relative w-full bg-black flex items-center justify-center text-white transition-all duration-300 ease-in-out" style="transform: scale(1); transition: 0.2s;">
-    <div class="absolute top-0 left-0 right-0 bottom-0">
-      <div class="video">
-        <div class="video-player">
-          <div tabindex="-1" id="player" class="block w-full h-full absolute"></div>
-          <div class="default-ltr-cache-4c5682 e1xmwqhr2 nfp-popup-control">
-            <div class="default-ltr-cache-15g54dn e1xmwqhr1">
-              <div class="default-ltr-cache-1b4a1ef ejszqex0">
-                <div class="default-ltr-cache-eebncd e18zrrfs2">
-                  <div class="default-ltr-cache-2rfcwr e18zrrfs1">
-                    <span class="default-ltr-cache-2rfcwr e18zrrfs0">
-                      <button role="button" data-uia="icon-button" title="Chơi" class="playPauseIcon e18xltav0 ew97par0 default-ltr-cache-ye6lrm-PressableButton-StyledPressable-StyledPressable e1ff4m3w2" type="button">
-                        <div aria-hidden="true" data-uia="icon-button+icon-wrapper" class="default-ltr-cache-mzvhg6 e18xltav1">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" role="img" viewBox="0 0 24 24" width="24" height="24" data-icon="PlayStandard" aria-hidden="true">
-                            <path d="M5 2.69127C5 1.93067 5.81547 1.44851 6.48192 1.81506L23.4069 11.1238C24.0977 11.5037 24.0977 12.4963 23.4069 12.8762L6.48192 22.1849C5.81546 22.5515 5 22.0693 5 21.3087V2.69127Z" fill="currentColor"></path>
-                          </svg>
-                        </div>
-                      </button>
-                    </span>
-                    <span class="default-ltr-cache-2rfcwr e18zrrfs0 nfp">
-                      <button role="button" data-uia="icon-button" title="Bỏ tắt tiếng" class=" e18xltav0 ew97par0 default-ltr-cache-ye6lrm-PressableButton-StyledPressable-StyledPressable e1ff4m3w2" type="button">
-                        <div aria-hidden="true" data-uia="icon-button+icon-wrapper" class="default-ltr-cache-mzvhg6 e18xltav1">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" role="img" viewBox="0 0 24 24" width="24" height="24" data-icon="VolumeMediumStandard" aria-hidden="true">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11 4.00003C11 3.59557 10.7564 3.23093 10.3827 3.07615C10.009 2.92137 9.57889 3.00692 9.29289 3.29292L4.58579 8.00003H1C0.447715 8.00003 0 8.44774 0 9.00003V15C0 15.5523 0.447715 16 1 16H4.58579L9.29289 20.7071C9.57889 20.9931 10.009 21.0787 10.3827 20.9239C10.7564 20.7691 11 20.4045 11 20V4.00003ZM5.70711 9.70714L9 6.41424V17.5858L5.70711 14.2929L5.41421 14H5H2V10H5H5.41421L5.70711 9.70714ZM17.0709 4.92897C18.9462 6.80433 19.9998 9.34787 19.9998 12C19.9998 14.6522 18.9462 17.1957 17.0709 19.0711L15.6567 17.6569C17.157 16.1566 17.9998 14.1218 17.9998 12C17.9998 9.87831 17.157 7.84347 15.6567 6.34318L17.0709 4.92897ZM14.2428 7.7574C15.368 8.88262 16.0001 10.4087 16.0001 12C16.0001 13.5913 15.368 15.1175 14.2428 16.2427L12.8285 14.8285C13.5787 14.0783 14.0001 13.0609 14.0001 12C14.0001 10.9392 13.5787 9.92176 12.8285 9.17161L14.2428 7.7574Z" fill="currentColor"></path>
-                          </svg>
-                        </div>
-                        <div class="touchable popup-content-wrapper active popup-content-wrapper--centered-content">
-                          <div class="popup-content volume-controller">
-                            <div class="slider-container">
-                              <div class="slider-bar-container">
-                                <div class="slider-bar-percentage" style="height: 0%;"></div>
-                                <div class="scrubber-target" style="bottom: 0%;">
-                                  <div class="scrubber-head" tabindex="0" aria-label="Âm lượng" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="%"></div>
-                                </div>
-                              </div>
+<div id="player-container-id" class="player-container sticky-player" playable="true">
+  <img src="assets/image/backgroud_video.png" width="100%" height="100%" id="player-thumbnail-overlay" fetchpriority="high" alt="player-thumbnail-overlay">
+  <div id="player-cinematics-container" class="player-cinematics"></div>
+  <div id="player-control-container" playable="true" hidden="true"></div>
+  <div id="player-endscreen-container" hidden="true"></div>
+  <div id="player-shorts-container" playable="true">
+    <shorts-page>
+      <shorts-carousel class="YtShortsCarouselHost">
+        <div class="YtShortsCarouselCarouselWrapper" style="height: 858px;">
+          <div class="YtShortsCarouselCarouselItems" style="transform: translate(0px, 0px); transition-duration: 0s;">
+            <div class="YtShortsCarouselCarouselItem carousel-item" aria-hidden="false" style="height: 858px;">
+              <shorts-video>
+                <div class="video-wrapper">
+                  <div class="layer video-playback">
+                    <player-component>
+                      <div class="background-style-black" style="height: 100%; background-size: cover; background-position: center center; background-image: url(&quot;https://i.ytimg.com/vi/5Hmg9zaGMBE/hq720_2.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAAlAADIQj0AgKJD8AEB-AHOBYACgAqKAgwIABABGBMgYCh_MA8=&amp;rs=AOn4CLCyJCN40bTCWKlKB6v6sKQbR3m9lA&quot;); background-repeat: no-repeat;">
+                        <div id="player" class="player-api player-size" playable="true" loading="false">
+                          <div class="html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-cairo-refresh ytp-livebadge-color-control ytp-cairo-refresh-signature-moments ytp-fit-cover-video ytp-hide-info-bar ytp-small-mode ytp-autohide playing-mode" tabindex="" id="movie_player" aria-label="Trình phát video YouTube">
+                            <div class="html5-video-container" data-layer="0">
+                              <video tabindex="-1" class="video-stream html5-main-video" webkit-playsinline="" playsinline="" x-webkit-airplay="allow" title="Truco para tus fotos y videos..📸 #6  #photography #flypツ #flyp #photoshoot" controlslist="nodownload" style="width: 487px; height: 858px; left: -43.5625px; top: 0px;" loop="" src="https://cdn.pixabay.com/video/2023/07/28/173531-849610811_tiny.mp4"></video>
                             </div>
+                            <button class="ytp-unmute ytp-popup ytp-button ytp-unmute-animated ytp-unmute-shrink" data-layer="2">
+                              <div class="ytp-unmute-inner">
+                                <div class="ytp-unmute-icon">
+                                  <svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">
+                                    <use class="ytp-svg-shadow" xlink:href="#ytp-id-1"></use>
+                                    <path class="ytp-svg-fill" d="m 21.48,17.98 c 0,-1.77 -1.02,-3.29 -2.5,-4.03 v 2.21 l 2.45,2.45 c .03,-0.2 .05,-0.41 .05,-0.63 z m 2.5,0 c 0,.94 -0.2,1.82 -0.54,2.64 l 1.51,1.51 c .66,-1.24 1.03,-2.65 1.03,-4.15 0,-4.28 -2.99,-7.86 -7,-8.76 v 2.05 c 2.89,.86 5,3.54 5,6.71 z M 9.25,8.98 l -1.27,1.26 4.72,4.73 H 7.98 v 6 H 11.98 l 5,5 v -6.73 l 4.25,4.25 c -0.67,.52 -1.42,.93 -2.25,1.18 v 2.06 c 1.38,-0.31 2.63,-0.95 3.69,-1.81 l 2.04,2.05 1.27,-1.27 -9,-9 -7.72,-7.72 z m 7.72,.99 -2.09,2.08 2.09,2.09 V 9.98 z" id="ytp-id-1"></path>
+                                  </svg>
+                                </div>
+                                <div class="ytp-unmute-text">Nhấn để bật tiếng</div>
+                                <div class="ytp-unmute-box"></div>
+                              </div>
+                            </button>
+                            <div class="ytp-cued-thumbnail-overlay" data-layer="4" style="display: none;">
+                              <div class="ytp-cued-thumbnail-overlay-image"></div>
+                              <button class="ytp-large-play-button ytp-button" aria-label="Phát" title="Phát">
+                                <svg height="100%" version="1.1" viewBox="0 0 68 48" width="100%">
+                                  <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f00"></path>
+                                  <path d="M 45,24 27,14 27,34" fill="#fff"></path>
+                                </svg>
+                              </button>
+                            </div>
+                            <div class="ytp-caption-window-container" id="ytp-caption-window-container" data-layer="4"></div>
                           </div>
                         </div>
-                      </button>
-                    </span>
+                      </div>
+                    </player-component>
                   </div>
-                  <div class="default-ltr-cache-2rfcwr e18zrrfs1">
-                    <span class="default-ltr-cache-2rfcwr e18zrrfs0">
-                      <button role="button" data-uia="icon-button" title="Mở rộng" class=" e18xltav0 ew97par0 default-ltr-cache-ye6lrm-PressableButton-StyledPressable-StyledPressable e1ff4m3w2" type="button">
-                        <div aria-hidden="true" data-uia="icon-button+icon-wrapper" class="default-ltr-cache-mzvhg6 e18xltav1">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" role="img" viewBox="0 0 24 24" width="24" height="24" data-icon="FullscreenEnterStandard" aria-hidden="true">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5C0 3.89543 0.895431 3 2 3H9V5H2V9H0V5ZM22 5H15V3H22C23.1046 3 24 3.89543 24 5V9H22V5ZM2 15V19H9V21H2C0.895431 21 0 20.1046 0 19V15H2ZM22 19V15H24V19C24 20.1046 23.1046 21 22 21H15V19H22Z" fill="currentColor"></path>
-                          </svg>
+                  <div class="layer touch-controls">
+                    <ytm-reel-player-overlay-renderer nt="true">
+                      <div class="reel-player-overlay-main-content" nt="true">
+                        <div class="reel-player-overlay-metadata enable-shorts-overlay-update" nt="true">
+                          <yt-reel-metapanel-view-model class="YtReelMetapanelViewModelHost">
+                            <div class="YtReelMetapanelViewModelMetapanelItem">
+                              <yt-reel-channel-bar-view-model class="YtReelChannelBarViewModelHost">
+                                <yt-decorated-avatar-view-model class="yt-decorated-avatar-view-model-wiz" nt="true">
+                                  <yt-avatar-shape>
+                                    <div class="yt-spec-avatar-shape yt-spec-avatar-shape__button yt-spec-avatar-shape__button--button-small yt-spec-avatar-shape__button--tappable" aria-label="Truy cập kênh" role="button" tabindex="0">
+                                      <div class="yt-spec-avatar-shape--cairo-refresh">
+                                        <div class="yt-spec-avatar-shape--avatar-size-small">
+                                          <img alt="" class="yt-core-image yt-spec-avatar-shape__image yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-to-fill yt-core-image--loaded" src="https://yt3.ggpht.com/LA3fKZ__PHmWBwkYKUXgtpu0jYyUu2ZRK8G-dsCv_kRr4I14turaTQC5UKFkat60QgMGDXJIDHo=s48-c-k-c0x00ffffff-no-rj">
+                                          <div class="yt-spec-avatar-shape__image-overlays yt-spec-avatar-shape__image"></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </yt-avatar-shape>
+                                </yt-decorated-avatar-view-model>
+                                <span class="yt-core-attributed-string YtReelChannelBarViewModelChannelName yt-core-attributed-string--white-space-pre-wrap yt-core-attributed-string--link-inherit-color" dir="auto"><a class="yt-core-attributed-string__link yt-core-attributed-string__link--call-to-action-color yt-core-attributed-string--link-inherit-color" tabindex="0" href="/@FotograpyGt" target="" force-new-state="true">@FotograpyGt</a></span>
+                                <div class="YtReelChannelBarViewModelReelSubscribeButton">
+                                  <yt-subscribe-button-view-model class="yt-subscribe-button-view-model-wiz">
+                                    <yt-animated-action class="animated-action__container yt-subscribe-button-view-model-wiz__animated-action-wrapper yt-subscribe-button-view-model-wiz__static-width">
+                                      <div class="animated-action__content-with-background">
+                                        <div class="yt-subscribe-button-view-model-wiz__container">
+                                          <button class="yt-spec-button-shape-next yt-spec-button-shape-next--filled yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-s yt-spec-button-shape-next--disable-text-ellipsis yt-spec-button-shape-next--enable-backdrop-filter-experiment" aria-label="Đăng ký @FotograpyGt." title="Đăng ký">
+                                            <div class="yt-spec-button-shape-next__button-text-content">Đăng ký</div>
+                                            <yt-touch-feedback-shape style="border-radius: inherit;">
+                                              <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response-inverse">
+                                                <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                                                <div class="yt-spec-touch-feedback-shape__fill"></div>
+                                              </div>
+                                            </yt-touch-feedback-shape>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </yt-animated-action>
+                                    <div class="yt-subscribe-button-view-model-wiz__invisible"></div>
+                                  </yt-subscribe-button-view-model>
+                                </div>
+                                <div class="YtReelChannelBarViewModelReelSponsorButton"></div>
+                              </yt-reel-channel-bar-view-model>
+                            </div>
+                            <div class="YtReelMetapanelViewModelMetapanelItem">
+                              <yt-shorts-video-title-view-model class="YtShortsVideoTitleViewModelHost YtShortsVideoTitleViewModelHostClickable">
+                                <h2 class="YtShortsVideoTitleViewModelShortsVideoTitle">
+                                  <span class="yt-core-attributed-string yt-core-attributed-string--white-space-pre-wrap yt-core-attributed-string--link-inherit-color" dir="auto">Truco para tus fotos y videos..📸 #6
+                                    <span class="yt-core-attributed-string--link-inherit-color" dir="auto" style="font-weight: 700; color: rgb(255, 255, 255);"><a class="yt-core-attributed-string__link yt-core-attributed-string__link--call-to-action-color yt-core-attributed-string--link-inherit-color" tabindex="0" href="/hashtag/photography/shorts" target="" force-new-state="true">#photography</a></span>
+                                    <span class="yt-core-attributed-string--link-inherit-color" dir="auto" style="font-weight: 700; color: rgb(255, 255, 255);"><a class="yt-core-attributed-string__link yt-core-attributed-string__link--call-to-action-color yt-core-attributed-string--link-inherit-color" tabindex="0" href="/hashtag/flyp%E3%83%84/shorts" target="" force-new-state="true">#flypツ</a></span>
+                                    <span class="yt-core-attributed-string--link-inherit-color" dir="auto" style="font-weight: 700; color: rgb(255, 255, 255);"><a class="yt-core-attributed-string__link yt-core-attributed-string__link--call-to-action-color yt-core-attributed-string--link-inherit-color" tabindex="0" href="/hashtag/flyp/shorts" target="" force-new-state="true">#flyp</a></span>
+                                    <span class="yt-core-attributed-string--link-inherit-color" dir="auto" style="font-weight: 700; color: rgb(255, 255, 255);"><a class="yt-core-attributed-string__link yt-core-attributed-string__link--call-to-action-color yt-core-attributed-string--link-inherit-color" tabindex="0" href="/hashtag/photoshoot/shorts" target="" force-new-state="true">#photoshoot</a></span>
+                                  </span>
+                                </h2>
+                              </yt-shorts-video-title-view-model>
+                            </div>
+                            <div class="YtReelMetapanelViewModelMetapanelItem">
+                              <reel-sound-metadata-view-model class="YtReelSoundMetadataViewModelHost" tabindex="0" role="button">
+                                <div class="YtReelSoundMetadataViewModelMetadataContainer">
+                                  <c3-icon class="YtReelSoundMetadataViewModelIcon" role="img" aria-label="music icon">
+                                    <span class="yt-icon-shape yt-spec-icon-shape">
+                                      <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                          <path d="M19 2.11 9 8.22v8.54c-.53-.47-1.24-.76-2-.76-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3v-7.21l8-4.89v6.86c-.53-.47-1.24-.76-2-.76-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V2.11zM7 21c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm2.98-10.39V8.78l8-4.89v1.83l-8 4.89zM16 18c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path>
+                                        </svg>
+                                      </div>
+                                    </span>
+                                  </c3-icon>
+                                  <div class="YtReelSoundMetadataViewModelMarqueeContainer">
+                                    <marquee-scroll class="YtMarqueeScrollHost">
+                                      <div id="marquee-scroll-inner-container" class="YtMarqueeScrollInnerContainer YtMarqueeScrollAnimationEnabled" style="gap: 16px; animation-duration: 16s; animation-delay: 3s; --marquee-translate: -424.6875px;">
+                                        <span dir="auto">
+                                          <span class="yt-core-attributed-string YtMarqueeScrollPrimaryString yt-core-attributed-string--white-space-no-wrap" role="text">
+                                            <span class="yt-core-attributed-string--link-inherit-color" style="color: rgb(255, 255, 255);">Love Me Like You Do (From "Fifty Shades Of Grey") · Ellie Goulding</span>
+                                          </span>
+                                        </span>
+                                        <span aria-hidden="true" dir="auto">
+                                          <span class="yt-core-attributed-string YtMarqueeScrollDuplicateString yt-core-attributed-string--white-space-no-wrap" role="text">
+                                            <span class="yt-core-attributed-string--link-inherit-color" style="color: rgb(255, 255, 255);">Love Me Like You Do (From "Fifty Shades Of Grey") · Ellie Goulding</span>
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </marquee-scroll>
+                                  </div>
+                                </div>
+                              </reel-sound-metadata-view-model>
+                            </div>
+                          </yt-reel-metapanel-view-model>
                         </div>
-                      </button>
-                    </span>
-                    <span class="default-ltr-cache-2rfcwr e18zrrfs0">
-                      <button role="button" data-uia="icon-button" title="Phụ đề" class=" e18xltav0 ew97par0 default-ltr-cache-ye6lrm-PressableButton-StyledPressable-StyledPressable e1ff4m3w2" type="button">
-                        <div aria-hidden="true" data-uia="icon-button+icon-wrapper" class="default-ltr-cache-mzvhg6 e18xltav1">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" role="img" viewBox="0 0 24 24" width="24" height="24" data-icon="SubtitlesStandard" aria-hidden="true">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M1 3C1 2.44772 1.44772 2 2 2H22C22.5523 2 23 2.44772 23 3V17C23 17.5523 22.5523 18 22 18H19V21C19 21.3688 18.797 21.7077 18.4719 21.8817C18.1467 22.0557 17.7522 22.0366 17.4453 21.8321L11.6972 18H2C1.44772 18 1 17.5523 1 17V3ZM3 4V16H12H12.3028L12.5547 16.1679L17 19.1315V17V16H18H21V4H3ZM10 9L5 9V7L10 7V9ZM19 11H14V13H19V11ZM12 13L5 13V11L12 11V13ZM19 7H12V9H19V7Z" fill="currentColor"></path>
-                          </svg>
+                        <div class="reel-player-overlay-actions" nt="true">
+                          <ytm-like-button-renderer nt="true">
+                            <ytm-toggle-button-renderer class="" nt="true">
+                              <yt-button-shape class="yt-spec-button-shape-next__button-shape-wiz-class" nt="true">
+                                <label class="yt-spec-button-shape-with-label yt-spec-button-shape-with-label--is-overlay" nt="true">
+                                  <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-pressed="false" aria-label="và 2,2 triệu người khác thích video này" aria-disabled="false" nt="true">
+                                    <div class="yt-spec-button-shape-next__icon" aria-hidden="true" nt="true">
+                                      <c3-icon>
+                                        <span class="yt-icon-shape yt-spec-icon-shape">
+                                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                            <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.7183 11.9977C26.3259 11.9977 26.9005 12.2739 27.28 12.7484L27.9877 13.633C28.51 14.2858 28.5711 15.1945 28.141 15.9114L26.9248 17.9383L27.6157 19.6654C28.0045 20.6375 27.8584 21.742 27.2303 22.5796L26.3333 23.7755V25.9977C26.3333 27.1023 25.4379 27.9977 24.3333 27.9977H11.6666C10.5621 27.9977 9.66663 27.1023 9.66663 25.9977V12.8266C9.66663 11.9929 9.92713 11.18 10.4117 10.5016L15.6633 3.14937C15.7999 2.95816 16.0512 2.88785 16.2671 2.98041L16.3383 3.01091C18.1725 3.797 19.1467 5.81473 18.6217 7.73996L17.4605 11.9977H25.7183ZM5 13.3285C3.89543 13.3285 3 14.224 3 15.3285V25.9952C3 27.0998 3.89543 27.9952 5 27.9952H7.66667V13.3285H5Z"></path>
+                                            </svg>
+                                          </div>
+                                        </span>
+                                      </c3-icon>
+                                    </div>
+                                    <yt-touch-feedback-shape style="border-radius: inherit;">
+                                      <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response-inverse">
+                                        <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                                        <div class="yt-spec-touch-feedback-shape__fill"></div>
+                                      </div>
+                                    </yt-touch-feedback-shape>
+                                  </button>
+                                  <div class="yt-spec-button-shape-with-label__label" aria-hidden="true" nt="true">
+                                    <span class="yt-core-attributed-string yt-core-attributed-string--white-space-pre-wrap yt-core-attributed-string--text-alignment-center yt-core-attributed-string--word-wrapping" role="text">2,2&nbsp;Tr</span>
+                                  </div>
+                                </label>
+                              </yt-button-shape>
+                            </ytm-toggle-button-renderer>
+                            <ytm-toggle-button-renderer class="" nt="true">
+                              <yt-button-shape class="yt-spec-button-shape-next__button-shape-wiz-class" nt="true">
+                                <label class="yt-spec-button-shape-with-label yt-spec-button-shape-with-label--is-overlay" nt="true">
+                                  <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-pressed="false" aria-label="Không thích video này" aria-disabled="false" nt="true">
+                                    <div class="yt-spec-button-shape-next__icon" aria-hidden="true" nt="true">
+                                      <c3-icon>
+                                        <span class="yt-icon-shape yt-spec-icon-shape">
+                                          <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                            <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M5.28167 20.0001C4.6741 20.0001 4.09947 19.7239 3.71993 19.2495L3.01222 18.3648C2.48998 17.712 2.42886 16.8033 2.85897 16.0864L4.07513 14.0595L3.38429 12.3324C2.99545 11.3603 3.14153 10.2558 3.76972 9.41822L4.66667 8.22228L4.66667 6.00006C4.66667 4.89549 5.5621 4.00006 6.66667 4.00006L19.3333 4.00006C20.4379 4.00006 21.3333 4.89549 21.3333 6.00006L21.3333 19.1712C21.3333 20.0049 21.0728 20.8178 20.5883 21.4962L15.3367 28.8484C15.2001 29.0396 14.9488 29.1099 14.7328 29.0174L14.6617 28.9869C12.8275 28.2008 11.8532 26.1831 12.3783 24.2578L13.5395 20.0001L5.28167 20.0001ZM26 18.6693C27.1046 18.6693 28 17.7738 28 16.6693L28 6.0026C28 4.89803 27.1046 4.0026 26 4.0026L23.3333 4.0026L23.3333 18.6693L26 18.6693Z"></path>
+                                            </svg>
+                                          </div>
+                                        </span>
+                                      </c3-icon>
+                                    </div>
+                                    <yt-touch-feedback-shape style="border-radius: inherit;">
+                                      <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response-inverse">
+                                        <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                                        <div class="yt-spec-touch-feedback-shape__fill"></div>
+                                      </div>
+                                    </yt-touch-feedback-shape>
+                                  </button>
+                                  <div class="yt-spec-button-shape-with-label__label" aria-hidden="true" nt="true">
+                                    <span class="yt-core-attributed-string yt-core-attributed-string--white-space-pre-wrap yt-core-attributed-string--text-alignment-center yt-core-attributed-string--word-wrapping" role="text">Không thích</span>
+                                  </div>
+                                </label>
+                              </yt-button-shape>
+                            </ytm-toggle-button-renderer>
+                          </ytm-like-button-renderer>
+                          <ytm-button-renderer class="icon-shorts_comment" nt="true">
+                            <yt-button-shape class="yt-spec-button-shape-next__button-shape-wiz-class" nt="true">
+                              <label class="yt-spec-button-shape-with-label yt-spec-button-shape-with-label--is-overlay" nt="true">
+                                <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-label="Xem 3.575 bình luận" aria-disabled="false" nt="true">
+                                  <div class="yt-spec-button-shape-next__icon" aria-hidden="true" nt="true">
+                                    <c3-icon>
+                                      <span class="yt-icon-shape yt-spec-icon-shape">
+                                        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                            <path clip-rule="evenodd" d="M21 5c0-1.105-.895-2-2-2H5c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12l3.146 3.146c.315.315.854.092.854-.353V5ZM7 9c0-.552.448-1 1-1h8c.552 0 1 .448 1 1s-.448 1-1 1H8c-.552 0-1-.448-1-1Zm1 3c-.552 0-1 .448-1 1s.448 1 1 1h5c.552 0 1-.448 1-1s-.448-1-1-1H8Z" fill-rule="evenodd"></path>
+                                          </svg>
+                                        </div>
+                                      </span>
+                                    </c3-icon>
+                                  </div>
+                                  <yt-touch-feedback-shape style="border-radius: inherit;">
+                                    <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response-inverse">
+                                      <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                                      <div class="yt-spec-touch-feedback-shape__fill"></div>
+                                    </div>
+                                  </yt-touch-feedback-shape>
+                                </button>
+                                <div class="yt-spec-button-shape-with-label__label" aria-hidden="true" nt="true">
+                                  <span class="yt-core-attributed-string yt-core-attributed-string--white-space-pre-wrap yt-core-attributed-string--text-alignment-center yt-core-attributed-string--word-wrapping" role="text">3.575</span>
+                                </div>
+                              </label>
+                            </yt-button-shape>
+                          </ytm-button-renderer>
+                          <ytm-button-renderer class="icon-shorts_share" nt="true">
+                            <yt-button-shape class="yt-spec-button-shape-next__button-shape-wiz-class" nt="true">
+                              <label class="yt-spec-button-shape-with-label yt-spec-button-shape-with-label--is-overlay" nt="true">
+                                <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-label="Chia sẻ video này" aria-disabled="false" nt="true">
+                                  <div class="yt-spec-button-shape-next__icon" aria-hidden="true" nt="true">
+                                    <c3-icon>
+                                      <span class="yt-icon-shape yt-spec-icon-shape">
+                                        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                            <path d="m13.202 3.368 9.438 7.865c.48.4.48 1.137 0 1.537l-9.438 7.865c-.652.543-1.64.08-1.64-.768V16H9.957c-2.778 0-5.406 1.263-7.141 3.432-.304.38-.912.086-.803-.388l1.118-4.843C3.968 10.572 7.2 8 10.926 8h.636V4.137c0-.848.989-1.311 1.64-.769Z"></path>
+                                          </svg>
+                                        </div>
+                                      </span>
+                                    </c3-icon>
+                                  </div>
+                                  <yt-touch-feedback-shape style="border-radius: inherit;">
+                                    <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response-inverse">
+                                      <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                                      <div class="yt-spec-touch-feedback-shape__fill"></div>
+                                    </div>
+                                  </yt-touch-feedback-shape>
+                                </button>
+                                <div class="yt-spec-button-shape-with-label__label" aria-hidden="true" nt="true">
+                                  <span class="yt-core-attributed-string yt-core-attributed-string--white-space-pre-wrap yt-core-attributed-string--text-alignment-center yt-core-attributed-string--word-wrapping" role="text">Chia sẻ</span>
+                                </div>
+                              </label>
+                            </yt-button-shape>
+                          </ytm-button-renderer>
+                          <ytm-bottom-sheet-renderer>
+                            <yt-button-shape class="yt-spec-button-shape-next__button-shape-wiz-class" nt="true">
+                              <label class="yt-spec-button-shape-with-label yt-spec-button-shape-with-label--is-overlay" nt="true">
+                                <button class="yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay-dark yt-spec-button-shape-next--size-l yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment" title="" aria-label="Thao tác khác" nt="true">
+                                  <div class="yt-spec-button-shape-next__icon" aria-hidden="true" nt="true">
+                                    <c3-icon>
+                                      <span class="yt-icon-shape yt-spec-icon-shape">
+                                        <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                            <path d="M7.5 12c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm4.5-1.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm6 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"></path>
+                                          </svg>
+                                        </div>
+                                      </span>
+                                    </c3-icon>
+                                  </div>
+                                  <yt-touch-feedback-shape style="border-radius: inherit;">
+                                    <div aria-hidden="true" class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--overlay-touch-response-inverse">
+                                      <div class="yt-spec-touch-feedback-shape__stroke"></div>
+                                      <div class="yt-spec-touch-feedback-shape__fill"></div>
+                                    </div>
+                                  </yt-touch-feedback-shape>
+                                </button>
+                                <div class="yt-spec-button-shape-with-label__label" aria-hidden="true" nt="true"></div>
+                              </label>
+                            </yt-button-shape>
+                          </ytm-bottom-sheet-renderer>
+                          <pivot-button-view-model class="YtwPivotButtonViewModelHost" nt="true">
+                            <a aria-label="Xem thêm các video dùng bản âm thanh này" nt="true" href="/source/6eW99oNNRvI/shorts?bp=8gVMCkASMQoLNmVXOTlvTk5SdkkSCzZlVzk5b05OUnZJGgs1SG1nOXphR01CRSIICJDCBBICCDEaCzVIbWc5emFHTUJFKKfssZyBsrPGDA%253D%253D">
+                              <img alt="" class="yt-core-image YtwPivotButtonViewModelHostImage yt-core-image--fill-parent-height yt-core-image--fill-parent-width yt-core-image--content-mode-scale-to-fill yt-core-image--loaded" src="https://lh3.googleusercontent.com/3RCDbhJsO0mTsAT7tKq7g3vuV5pzGN6lCLpO-vRTUWrYMxewvkRkkm7HmAOoAuE2nzPZa_ZeJQ7hZcI">
+                            </a>
+                          </pivot-button-view-model>
                         </div>
-                      </button>
-                    </span>
+                      </div>
+                      <div class="reel-player-overlay-info-panel" nt="true"></div>
+                    </ytm-reel-player-overlay-renderer>
+                    <yt-mweb-shorts-player-controls>
+                      <div class="YtMwebShortsPlayerControlsHost">
+                        <yt-progress-bar class="YtPlayerProgressBarHost YtPlayerProgressBarHostReadOnly YtPlayerProgressBarHostCustom">
+                          <div role="slider" tabindex="0" aria-label="Thanh tua" class="YtPlayerProgressBarDragContainer" aria-valuenow="48" aria-valuetext="48%">
+                            <div class="YtPlayerProgressBarProgressBar">
+                              <yt-progress-bar-heatseeker class="YtHeatSeekerHost" style="height: 320px; display: none;"></yt-progress-bar-heatseeker>
+                              <yt-progress-bar-line class="YtProgressBarLineHost">
+                                <div class="YtProgressBarLineProgressBarLine">
+                                  <div class="YtProgressBarLineProgressBarBackground"></div>
+                                  <div class="YtProgressBarLineProgressBarLoaded" style="width: 0%;"></div>
+                                  <div class="YtProgressBarLineProgressBarHovered" style="width: 0%;"></div>
+                                  <div class="YtProgressBarLineProgressBarPlayed YtProgressBarLineProgressBarPlayedRefresh" style="width: 48.3539%;"></div>
+                                </div>
+                              </yt-progress-bar-line>
+                              <yt-progress-bar-playhead class="YtProgressBarPlayheadHost" style="margin-left: 48.3539%; transform: translateX(-5.80247px);">
+                                <div class="YtProgressBarPlayheadProgressBarPlayheadDot YtProgressBarPlayheadProgressBarPlayheadDotHide" style="transform-origin: 5.80247px center;"></div>
+                              </yt-progress-bar-playhead>
+                            </div>
+                          </div>
+                          <yt-player-storyboard></yt-player-storyboard>
+                        </yt-progress-bar>
+                      </div>
+                    </yt-mweb-shorts-player-controls>
                   </div>
                 </div>
-              </div>
+              </shorts-video>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </shorts-carousel>
+    </shorts-page>
   </div>
 </div>
 
