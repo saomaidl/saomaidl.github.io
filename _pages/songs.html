@@ -374,29 +374,48 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
 </panel-container>
 
 <script>
-$(document).ready(function () {
-  function adjustVideoHeightAndPosition() {
-    const windowWidth = $(window).width();
-    const windowHeight = $(window).height();
-    const maxHeight = 1024 * 9 / 16;
-    let newHeight;
-    let bottomValue;
-    if (windowWidth >= 1024) {
-      newHeight = maxHeight;
-    } else {
-      newHeight = windowHeight * 9 / 16;
+  $(document).ready(function () {
+    function adjustVideoHeightAndPosition() {
+      const windowWidth = $(window).width();
+      const windowHeight = $(window).height();
+      const maxHeight = (1024 * 9) / 16;
+      let newHeight, bottomValue;
+
+      if (windowWidth >= 1024) {
+        const containerWidth = 1024;
+        const videoHeight = 576;
+        const leftOffset = (windowWidth - containerWidth) / 2;
+
+        newHeight = maxHeight;
+        $("#player").css({
+          width: `${containerWidth}px`,
+          height: `${videoHeight}px`,
+          left: `${leftOffset}px`,
+          top: "0px",
+        });
+      } else {
+        const containerWidth = $("#player-container-id").width();
+        const videoHeight = (containerWidth * 9) / 16;
+
+        newHeight = videoHeight;
+        $("#player").css({
+          width: `${containerWidth}px`,
+          height: `${videoHeight}px`,
+          left: "0px",
+          top: "0px",
+        });
+      }
+      bottomValue = windowHeight - newHeight;
+      $('.YtShortsCarouselCarouselWrapper, .YtShortsCarouselCarouselItem').css('height', `${newHeight}px`);
+      $('#player-cinematics-container').css('bottom', `${bottomValue}px`);
+      $('ytm-engagement-panel').css('top', `${newHeight}px`);
+      $('ytw-scrim').css('top', `${newHeight}px`);
     }
-    bottomValue = windowHeight - newHeight;
-    $('.YtShortsCarouselCarouselWrapper, .YtShortsCarouselCarouselItem').css('height', `${newHeight}px`);
-    $('#player-cinematics-container').css('bottom', `${bottomValue}px`);
-    $('ytm-engagement-panel').css('top', `${newHeight}px`);
-    $('ytw-scrim').css('top', `${newHeight}px`);
-  }
-  adjustVideoHeightAndPosition();
-  $(window).resize(function () {
     adjustVideoHeightAndPosition();
+    $(window).resize(function () {
+      adjustVideoHeightAndPosition();
+    });
   });
-});
 </script>
 
 {% include navbar.html %}
