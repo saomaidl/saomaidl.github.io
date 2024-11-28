@@ -405,7 +405,13 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
   $(document).ready(function () {
     function adjustVideoHeight() {
       const windowWidth = $(window).width();
-      const newHeight = windowWidth * 9 / 16;
+      const maxHeight = 1024 * 9 / 16;
+      let newHeight;
+      if (windowWidth >= 1024) {
+        newHeight = maxHeight;
+      } else {
+        newHeight = windowWidth * 9 / 16;
+      }
       $('.YtShortsCarouselCarouselWrapper, .YtShortsCarouselCarouselItem').css('height', `${newHeight}px`);
     }
     adjustVideoHeight();
