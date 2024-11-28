@@ -402,23 +402,27 @@ description: "Hiển thị các bài hát karaoke đã chọn. Dễ dàng truy c
 </panel-container>
 
 <script>
-  $(document).ready(function () {
-    function adjustVideoHeight() {
-      const windowWidth = $(window).width();
-      const maxHeight = 1024 * 9 / 16;
-      let newHeight;
-      if (windowWidth >= 1024) {
-        newHeight = maxHeight;
-      } else {
-        newHeight = windowWidth * 9 / 16;
-      }
-      $('.YtShortsCarouselCarouselWrapper, .YtShortsCarouselCarouselItem').css('height', `${newHeight}px`);
+$(document).ready(function () {
+  function adjustVideoHeightAndPosition() {
+    const windowWidth = $(window).width();
+    const windowHeight = $(window).height();
+    const maxHeight = 1024 * 9 / 16;
+    let newHeight;
+    let bottomValue;
+    if (windowWidth >= 1024) {
+      newHeight = maxHeight;
+    } else {
+      newHeight = windowWidth * 9 / 16;
     }
-    adjustVideoHeight();
-    $(window).resize(function () {
-      adjustVideoHeight();
-    });
+    bottomValue = windowHeight - newHeight;
+    $('.YtShortsCarouselCarouselWrapper, .YtShortsCarouselCarouselItem').css('height', `${newHeight}px`);
+    $('#player-cinematics-container').css('bottom', `${bottomValue}px`);
+  }
+  adjustVideoHeightAndPosition();
+  $(window).resize(function () {
+    adjustVideoHeightAndPosition();
   });
+});
 </script>
 
 {% include navbar.html %}
