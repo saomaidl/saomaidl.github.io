@@ -1052,10 +1052,12 @@ c3-icon svg {
 .yt-spec-button-shape-next--overlay-dark.yt-spec-button-shape-next--tonal {
   color: #fff;
   background: rgba(0, 0, 0, 0.3);
+  background: transparent;
 }
 .yt-spec-button-shape-next--overlay-dark.yt-spec-button-shape-next--tonal.yt-spec-button-shape-next--enable-backdrop-filter-experiment {
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+  backdrop-filter: none;
 }
 .yt-spec-button-shape-next__icon {
   line-height: 0;
@@ -1077,7 +1079,7 @@ shorts-video
   color: #0f0f0f;
   font-size: 14px;
   line-height: 20px;
-  font-weight: 400;
+  font-weight: 700;
   overflow: hidden;
   display: block;
   max-height: 20px;
